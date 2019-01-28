@@ -1,4 +1,4 @@
-# cs408-team20
+# Totem
 
-We gonna do stuff.
+1v1 picture battle webapp.
 
