@@ -4,8 +4,9 @@
   "description": "The Totem server.",
   "main": "index.js",
   "scripts": {
-    "init-db": "rm -rf db/ && mkdir db && node tools/db_init.js dev",
-    "dev": "nodemon index.js",
+    "init-db-dev": "mkdir -p db && rm -f db/dev* && node tools/db_init.js dev",
+    "init-db-prod": "mkdir -p db && node tools/db_init.js prod",
+    "dev": "npm run init-db-dev && nodemon index.js",
     "start": "node index.js"
   },
   "author": "Todd Griffin",

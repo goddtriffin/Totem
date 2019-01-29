@@ -1,5 +1,3 @@
-// const sqlite3 = require('sqlite3').verbose();
-
 // handle program usage
 if (process.argv.length != 3) {
     console.error('Usage: node db_setup.js <database-name>');
@@ -20,24 +18,27 @@ const db = require('knex')({
     asyncStackTraces: true
 });
 
-async function init_db() {
-    await create_users_table();
-}
-
 async function create_users_table() {
-    await db.schema.createTable('users', table => {
-        table.increments('id');
+    await db.schema.hasTable('users').then(exists => {
+        if (!exists) {
+            return db.schema.createTable('users', table => {
+                table.increments('id');
 	
-        table.string('email').unique();
-        table.string('username').unique();
-        table.string('display_name');
+                table.string('email').unique();
+                table.string('username').unique();
+                table.string('display_name');
 
-		table.string("hash");
-	});
+                table.string("hash");
+            });
+        }
+    });
 }
 
-init_db().then(() => {
+(async () => {
+    await create_users_table();
+})().then(() => {
     process.exit(0);
 }).catch(e => {
-    console.error("error", e);
-})
+    console.error('error', e);
+    process.exit(1);
+});
