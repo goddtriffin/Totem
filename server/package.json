@@ -4,6 +4,7 @@
   "description": "The Totem server.",
   "main": "index.js",
   "scripts": {
+    "init-db": "rm -rf db/ && mkdir db && node dev/db_setup.js dev",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
