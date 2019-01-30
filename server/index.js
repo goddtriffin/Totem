@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 // get a list of all users
 app.get('/api/users', async (req, res) => {
     const result = await db
-        .select('id', 'email', 'username', 'display_name', 'hash')
+        .select('email', 'username', 'display_name', 'hash')
         .table('users');
 
     res.status(200).send(result);
