@@ -7,7 +7,7 @@
     "init-db-dev": "mkdir -p db && rm -f db/dev* && node tools/db_init.js dev",
     "init-db-prod": "mkdir -p db && node tools/db_init.js prod",
     "dev": "npm run init-db-dev && nodemon index.js",
-    "start": "node index.js"
+    "start": "NODE_ENV=production node index.js"
   },
   "author": "Todd Griffin",
   "license": "ISC",
