@@ -42,7 +42,6 @@ app.get('/api/signup', async (req, res) => {
     const result = await db
         .insert(requirements)
         .into('users')
-        .returning('id')
         .catch(e => {
             res.status(400).send(e);
             return;
