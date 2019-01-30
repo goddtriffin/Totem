@@ -35,7 +35,7 @@ app.get('/api/signup', async (req, res) => {
     };
 
     if (!validateObject(requirements, ['email', 'username', 'display_name', 'hash'])) {
-        res.status(400).send('400: malformed parameters; /api/?email=&username=&display_name=&password=');
+        res.status(400).send('400: malformed parameters; /api/signup?email=&username=&display_name=&password=');
         return;
     }
 
