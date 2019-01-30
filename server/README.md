@@ -1,7 +1,5 @@
 # Totem Server
 
-The Totem server.
-
 ## Requirements
 
 * NPM
@@ -20,13 +18,13 @@ The Totem server.
 ### Endpoints
 
 * `/`
- * default endpoint
+  * default endpoint
 * `/api/signup?email=&username=&display_name=&password=`
- * signs up a new user account
+  * signs up a new user account
 * `/api/users`
- * returns a list of all user accounts
+  * returns a list of all user accounts
 * `/*`
- * any other endpoint will return a 404
+  * any other endpoint will return a 404
 
 ## Stack
 
@@ -38,11 +36,11 @@ The Totem server.
 ### Scripts
 
 * `npm start`
- * starts up the production server
+  * starts up the production server
 * `npm run dev`
- * starts up the developer server
+  * starts up the developer server
 * `npm run init-db-prod`
- * creates fresh production database
+  * creates fresh production database
 * `npm run init-db-dev`
- * creates fresh development database
+  * creates fresh development database
  
