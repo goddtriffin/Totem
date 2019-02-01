@@ -55,7 +55,7 @@ app.use((req, res, next) => {
     res.status(404).send('404 ;)');
 });
 
-const server = app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 80, () => {
     console.log('Listening on http://localhost:' + server.address().port);
 });
 
