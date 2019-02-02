@@ -88,9 +88,12 @@ async function create_history_table() {
 }
 
 (async () => {
-    await create_users_table();
-    await create_friends_table();
-    await create_polls_table();
+    await Promise.all([
+        create_users_table(),
+        create_friends_table(),
+        create_polls_table(),
+        create_history_table()
+    ]);
 })().then(() => {
     process.exit(0);
 }).catch(e => {
