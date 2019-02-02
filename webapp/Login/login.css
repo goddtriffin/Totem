@@ -1,0 +1,34 @@
+body{
+    background-color:#621ea0 !important;
+    height: 100vh;
+}
+
+.navbar-dark{
+    background-color: #551a8b;
+}
+
+.navbar-brand{
+    font-family: 'Monoton', cursive;
+    color: white !important;
+    font-size: 1.5rem !important;
+}
+
+.btn-outline-primary{
+    color: #294390;
+    border-color: #294390;
+}
+
+.btn-outline-primary:hover{
+    color: white;
+    background-color: #294390;
+    border-color: #294390;
+}
+
+#navNameLI{
+    pointer-events: none;
+    font-weight: bold;
+}
+
+#navName{
+    color: lightgray;
+}
