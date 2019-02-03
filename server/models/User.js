@@ -8,7 +8,10 @@ async function signup(req, res, data) {
         .insert(data)
         .into('users')
         .catch(e => {
-            res.status(400).send(e);
+            res.status(500).send({
+                code: 500,
+                info: e.originalStack
+            });
             return;
         });
     
@@ -17,14 +20,31 @@ async function signup(req, res, data) {
 
 // authenticates user
 async function login(req, res) {
-    // todo
+    const result = await req.app.locals.db
+        .select('email', 'username', 'display_name', 'hash', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+        .table('users')
+        .catch(e => {
+            res.status(500).send({
+                code: 500,
+                info: e.originalStack
+            });
+            return;
+        });
+
+    res.status(200).send(result);
 }
 
 // returns a list of all users
 async function getAll(req, res) {
     const result = await req.app.locals.db
         .select('email', 'username', 'display_name', 'hash', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
-        .table('users');
+        .table('users')
+        .catch(e => {
+            res.status(500).send({
+                code: 500,
+                info: e.originalStack
+            })
+        });
 
     res.status(200).send(result);
 }

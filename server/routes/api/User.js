@@ -18,7 +18,7 @@ router.get('/signup', async (req, res, next) => {
 
     if (!req.app.locals.utils.validateObject(data)) {
         res.status(400).send({
-            code: '400',
+            code: 400,
             info: 'malformed parameters: /api/signup?email=&username=&display_name=&password=&emoji='
         });
         return;
@@ -26,7 +26,7 @@ router.get('/signup', async (req, res, next) => {
 
     if (!emoji.hasEmoji(data.emoji)) {
         res.status(400).send({
-            code: '400',
+            code: 400,
             info: 'unknown emoji: ' + data.emoji
         });
         return;
@@ -42,7 +42,10 @@ router.get('/login', async (req, res, next) => {
     };
 
     if (!req.app.locals.utils.validateObject(data)) {
-        res.status(400).send('400: malformed parameters; /api/login?username=&password=');
+        res.status(400).send({
+            code: 400,
+            info: 'malformed parameters; /api/login?username=&password='
+        });
         return;
     }
 
