@@ -24,7 +24,9 @@ router.get('/signup', async (req, res, next) => {
         return;
     }
 
-    if (!emoji.hasEmoji(data.emoji)) {
+    if (emoji.hasEmoji(data.emoji)) {
+        data.emoji = emoji.find(data.emoji).emoji;
+    } else {
         res.status(400).send({
             code: 400,
             info: 'unknown emoji: ' + data.emoji
