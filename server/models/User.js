@@ -1,12 +1,13 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // creates new user account
 async function signup(req, res, data) {
+    // hash the password before storing for security
     data.hash = bcrypt.hashSync(data.hash, 10);
 
-    const result = await req.app.locals.db
+    await req.app.locals.db('users')
         .insert(data)
-        .into('users')
         .catch(e => {
             res.status(500).send({
                 code: 500,
@@ -15,7 +16,13 @@ async function signup(req, res, data) {
             return;
         });
     
-    res.status(200).send(result);
+    // immediately authenticate on successful signup
+    const payload = {
+        iss: 'Totem',
+        sub: data.username
+    }
+
+    res.status(200).send(jwt.sign(payload, process.env.JWT_SECRET));
 }
 
 // authenticates user
@@ -31,6 +38,7 @@ async function login(req, res, data) {
             return;
         });
     
+    // if no results, then no account exists with that username
     if (result.length !== 1) {
         res.status(400).send({
             code: 400,
@@ -39,6 +47,7 @@ async function login(req, res, data) {
         return;
     }
 
+    // validate password
     if (!bcrypt.compareSync(data.password, result[0].hash)) {
         res.status(401).send({
             code: 401,
@@ -47,7 +56,13 @@ async function login(req, res, data) {
         return;
     }
 
-    res.status(200).send('Authorized!');
+    // authenticate on successful login
+    const payload = {
+        iss: 'Totem',
+        sub: data.username
+    }
+
+    res.status(200).send(jwt.sign(payload, process.env.JWT_SECRET));
 }
 
 // returns a list of all users
