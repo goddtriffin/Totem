@@ -32,3 +32,84 @@ body{
 #navName{
     color: lightgray;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.button-bottom{
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    color: lightgray;
+    background-color: transparent;
+    /*border-radius: 25px;*/
+    border: 2px , lightgray;
+    width: 40%;
+    margin: 1rem;
+    margin-left: 1.5rem;
+}
+
+.button-bottom:hover{
+   background-color: lightgray;
+    color: #621ea0;
+}
+
+
+
+#main{
+     background: #621ea0;
+    display: block; 
+    color: #01CCFE;
+    /*border-radius: 25px;*/
+    height: auto !important;
+    width: 95%;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin: auto;
+}
+
+
+#section{
+    background: #621ea0;
+    display: block; 
+    color: #01CCFE;
+    /*border-radius: 25px;*/
+    height: auto !important;
+    width: 95%;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin: auto;
+}
+
+#title{
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+#message{
+    font-size: 3vw;
+    color: #DCD4D4;
+}
+#message1{
+    font-size: 10vw;
+    color: #DCD4D4;
+}
+
+
+
+
+
+
+
+  
+  
