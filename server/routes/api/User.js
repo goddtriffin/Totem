@@ -7,11 +7,16 @@ router.get('/signup', async (req, res, next) => {
         email: req.query.email,
         username: req.query.username,
         display_name: req.query.display_name,
-        hash: req.query.password
+        hash: req.query.password,
+        emoji: req.query.emoji,
+        friend_challenges: 0,
+        friend_challenges_won: 0,
+        tiki_score: 0,
+        polls_created: 0
     };
 
     if (!req.app.locals.utils.validateObject(data)) {
-        res.status(400).send('400: malformed parameters; /api/signup?email=&username=&display_name=&password=');
+        res.status(400).send('400: malformed parameters; /api/signup?email=&username=&display_name=&password=&emoji=');
         return;
     }
 
@@ -20,14 +25,12 @@ router.get('/signup', async (req, res, next) => {
 
 router.get('/login', async (req, res, next) => {
     const data = {
-        email: req.query.email,
         username: req.query.username,
-        display_name: req.query.display_name,
-        hash: req.query.password
+        password: req.query.password
     };
 
     if (!req.app.locals.utils.validateObject(data)) {
-        res.status(400).send('400: malformed parameters; /api/signup?email=&username=&display_name=&password=');
+        res.status(400).send('400: malformed parameters; /api/login?username=&password=');
         return;
     }
 

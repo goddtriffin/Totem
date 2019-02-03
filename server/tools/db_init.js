@@ -13,7 +13,6 @@ const db = require('knex')({
     connection: {
         filename: databasePath
     },
-    useNullAsDefault: true,
     debug: true,
     asyncStackTraces: true
 });
