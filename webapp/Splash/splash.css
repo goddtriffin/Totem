@@ -34,17 +34,6 @@ body{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 .button-bottom{
     padding: 0.5rem;
     font-size: 1.5rem;
@@ -62,8 +51,6 @@ body{
     color: #621ea0;
 }
 
-
-
 #main{
      background: #621ea0;
     display: block; 
@@ -75,7 +62,6 @@ body{
     margin-bottom: 2rem;
     margin: auto;
 }
-
 
 #section{
     background: #621ea0;
@@ -104,12 +90,3 @@ body{
     font-size: 10vw;
     color: #DCD4D4;
 }
-
-
-
-
-
-
-
-  
-  
