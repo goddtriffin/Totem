@@ -3,13 +3,13 @@ const router = require('express').Router();
 const emoji = require('node-emoji');
 const User = require('../../models/User');
 
-router.get('/signup', async (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
     const data = {
-        email: req.query.email,
-        username: req.query.username,
-        display_name: req.query.display_name,
-        hash: req.query.password,
-        emoji: req.query.emoji,
+        email: req.body.email,
+        username: req.body.username,
+        display_name: req.body.display_name,
+        hash: req.body.password,
+        emoji: req.body.emoji,
         friend_challenges: 0,
         friend_challenges_won: 0,
         tiki_score: 0,
@@ -24,7 +24,9 @@ router.get('/signup', async (req, res, next) => {
         return;
     }
 
+    // validate emoji
     if (emoji.hasEmoji(data.emoji)) {
+        // double check that emoji is not in plaintext form
         data.emoji = emoji.find(data.emoji).emoji;
     } else {
         res.status(400).send({
@@ -37,10 +39,10 @@ router.get('/signup', async (req, res, next) => {
     await User.signup(req, res, data);
 });
 
-router.get('/login', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
     const data = {
-        username: req.query.username,
-        password: req.query.password
+        username: req.body.username,
+        password: req.body.password
     };
 
     if (!req.app.locals.utils.validateObject(data)) {
