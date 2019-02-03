@@ -30,6 +30,14 @@ async function login(req, res, data) {
             });
             return;
         });
+    
+    if (result.length !== 1) {
+        res.status(400).send({
+            code: 400,
+            info: 'no account found with username: ' + data.username
+        });
+        return;
+    }
 
     if (!bcrypt.compareSync(data.password, result[0].hash)) {
         res.status(401).send({
