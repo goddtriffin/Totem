@@ -75,10 +75,35 @@ async function login(req, res, data) {
 
 // returns the entire history of a user
 async function me(req, res) {
-    res.status(501).send({
-        code: 501,
-        info: 'not implemented'
-    });
+    console.log(req.jwt);
+
+    const result = await req.app.locals.db('users')
+        .where('username', req.jwt.sub)
+        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+        .catch(e => {
+            res.status(500).send({
+                code: 500,
+                info: e.originalStack
+            });
+            return;
+        });
+    
+    console.log(result);
+
+    if (res.headersSent) {
+        return;
+    }
+    
+    // if no results, then no account exists with that username
+    if (result.length !== 1) {
+        res.status(400).send({
+            code: 400,
+            info: 'no account found with username: ' + req.jwt.sub
+        });
+        return;
+    }
+
+    res.status(200).send(result);
 }
 
 // returns a list of all users
