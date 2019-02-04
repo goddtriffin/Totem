@@ -57,10 +57,40 @@ router.post('/login', async (req, res, next) => {
     await User.login(req, res, data);
 });
 
-router.get('/users', async (req, res, next) => {
+router.get('/me', async (req, res, next) => {
     if (!auth.validate(req, res)) return;
 
-    await User.getAll(req, res);
+    await User.me(req, res);
+});
+
+router.get('/all', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
+    await User.all(req, res);
+});
+
+router.get('/search', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
+    await User.search(req, res);
+});
+
+router.get('/search/username', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
+    await User.searchByUsername(req, res);
+});
+
+router.put('/update', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
+    await User.update(req, res);
+});
+
+router.get('/history', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
+    await User.history(req, res);
 });
 
 module.exports = router;
