@@ -20,12 +20,12 @@
 
 ### API
 
-| Endpoint | Description | Auth Required | Body |
-| :--- | :--- | :---: | :--- |
-| `/` | default endpoint |  |  |
-| `/api/signup` | signs up a new user account |  | email, username, display_name, password, emoji |
-| `/api/login` | logs a user in |  | username, password |
-| `/api/users` | returns a list of all user accounts | ✔️ |  |
+ | Method | Endpoint | Description | Auth Required | Body |
+ | :---: | :--- | :--- | :---: | :--- |
+ | GET | `/` | default endpoint |  |  |
+ | POST | `/api/signup` | signs up a new user account |  | email, username, display_name, password, emoji |
+ | POST | `/api/login` | logs a user in |  | username, password |
+ | GET | `/api/users` | returns a list of all user accounts | ✔️ |  |
 
 ## Stack
 
