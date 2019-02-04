@@ -16,6 +16,10 @@ async function signup(req, res, data) {
             return;
         });
     
+    if (res.headersSent) {
+        return;
+    }
+    
     // immediately authenticate on successful signup
     const payload = {
         iss: 'Totem',
@@ -37,6 +41,10 @@ async function login(req, res, data) {
             });
             return;
         });
+
+    if (res.headersSent) {
+        return;
+    }
     
     // if no results, then no account exists with that username
     if (result.length !== 1) {
@@ -74,8 +82,13 @@ async function getAll(req, res) {
             res.status(500).send({
                 code: 500,
                 info: e.originalStack
-            })
+            });
+            return;
         });
+
+    if (res.headersSent) {
+        return;
+    }
 
     res.status(200).send(result);
 }

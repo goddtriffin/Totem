@@ -8,14 +8,15 @@
 ## Setup
 
 1. `npm install`
-2. `cp .env.sample .env`
-3. fill out your `.env`
+2. `npm run init-db-prod`
+3. `cp .env.sample .env`
+4. fill out your `.env`
 
 ## Try it out!
 
 1. `npm start`
 2. Open your favourite browser<sub>*coughchromecough*</sub>
-3. Visit `http://localhost:3000`
+3. Visit `http://localhost`
 
 ### Endpoints
 
