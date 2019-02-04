@@ -76,7 +76,7 @@ async function login(req, res, data) {
 // returns a list of all users
 async function getAll(req, res) {
     const result = await req.app.locals.db
-        .select('email', 'username', 'display_name', 'hash', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
         .table('users')
         .catch(e => {
             res.status(500).send({
