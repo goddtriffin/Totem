@@ -1,6 +1,7 @@
 const router = require('express').Router();
-
 const emoji = require('node-emoji');
+
+const auth = require('./auth');
 const User = require('../../models/User');
 
 router.post('/signup', async (req, res, next) => {
@@ -57,6 +58,8 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/users', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
     await User.getAll(req, res);
 });
 
