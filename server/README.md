@@ -7,7 +7,9 @@
 
 ## Setup
 
-`npm install`
+1. `npm install`
+2. `cp .env.sample .env`
+3. fill out your `.env`
 
 ## Try it out!
 
