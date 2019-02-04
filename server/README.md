@@ -18,16 +18,14 @@
 2. Open your favourite browser<sub>*coughchromecough*</sub>
 3. Visit `http://localhost`
 
-### Endpoints
+### API
 
-* `/`
-  * default endpoint
-* `/api/signup?email=&username=&display_name=&password=`
-  * signs up a new user account
-* `/api/users`
-  * returns a list of all user accounts
-* `/*`
-  * any other endpoint will return a 404
+| Endpoint | Description | Auth Required | Body |
+| :--- | :--- | :---: | :--- |
+| `/` | default endpoint |  |  |
+| `/api/signup` | signs up a new user account |  | email, username, display_name, password, emoji |
+| `/api/login` | logs a user in |  | username, password |
+| `/api/users` | returns a list of all user accounts | ✔️ |  |
 
 ## Stack
 
