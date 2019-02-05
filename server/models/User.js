@@ -171,12 +171,30 @@ async function all(req, res) {
 }
 
 // updates user account information
-async function update(req, res) {
-    // display_name, password
+async function update(req, res, data) {
+    if (data.hasOwnProperty('hash')) {
+        // hash the password before storing for security
+        data.hash = bcrypt.hashSync(data.hash, 10);
+    }
 
-    res.status(501).send({
-        code: 501,
-        info: 'not implemented'
+    const result = await req.app.locals.db('users')
+        .where('username', req.jwt.sub)
+        .update(data)
+        .catch(e => {
+            res.status(500).send({
+                code: 500,
+                info: e.originalStack
+            });
+            return;
+        });
+
+    if (res.headersSent) {
+        return;
+    }
+
+    res.status(200).send({
+        code: 200,
+        info: "successful user account update"
     });
 }
 

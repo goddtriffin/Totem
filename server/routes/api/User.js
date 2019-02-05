@@ -63,6 +63,24 @@ router.get('/me', async (req, res, next) => {
     await User.me(req, res);
 });
 
+router.get('/u/:username', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
+    const data = {
+        username: req.params.username
+    };
+
+    if (!req.app.locals.utils.validateObject(data)) {
+        res.status(400).send({
+            code: 400,
+            info: 'malformed query parameters; /api/user/u/<username>'
+        });
+        return;
+    }
+
+    await User.getByUsername(req, res, data);
+});
+
 router.get('/all', async (req, res, next) => {
     if (!auth.validate(req, res)) return;
 
@@ -90,31 +108,47 @@ router.get('/search', async (req, res, next) => {
 router.put('/update', async (req, res, next) => {
     if (!auth.validate(req, res)) return;
 
-    await User.update(req, res);
+    const data = {};
+
+    if (!!req.body.display_name) {
+        data.display_name = req.body.display_name;
+    }
+
+    if (!!req.body.password) {
+        data.hash = req.body.password;
+    }
+
+    if (!!req.body.emoji) {
+        data.emoji = req.body.emoji;
+
+        // validate emoji
+        if (emoji.hasEmoji(data.emoji)) {
+            // double check that emoji is not in plaintext form
+            data.emoji = emoji.find(data.emoji).emoji;
+        } else {
+            res.status(400).send({
+                code: 400,
+                info: 'unknown emoji: ' + data.emoji
+            });
+            return;
+        }
+    }
+
+    if (Object.keys(data).length === 0 || !req.app.locals.utils.validateObject(data)) {
+        res.status(400).send({
+            code: 400,
+            info: 'optional body paramaters allowed: display_name, password, emoji'
+        });
+        return;
+    }
+
+    await User.update(req, res, data);
 });
 
 router.get('/history', async (req, res, next) => {
     if (!auth.validate(req, res)) return;
 
     await User.history(req, res);
-});
-
-router.get('/:username', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
-
-    const data = {
-        username: req.params.username
-    };
-
-    if (!req.app.locals.utils.validateObject(data)) {
-        res.status(400).send({
-            code: 400,
-            info: 'malformed query parameters; /api/user/<username>'
-        });
-        return;
-    }
-
-    await User.getByUsername(req, res, data);
 });
 
 module.exports = router;
