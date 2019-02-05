@@ -20,12 +20,17 @@
 
 ### API
 
- | Method | Endpoint | Description | Auth Required | Body |
- | :---: | :--- | :--- | :---: | :--- |
+ | Method | Endpoint | Description | Auth Required | Body Parameters |
+ | :---: | :--- | :--- | :---: | :---: |
  | GET | `/` | default endpoint |  |  |
- | POST | `/api/signup` | signs up a new user account |  | email, username, display_name, password, emoji |
- | POST | `/api/login` | logs a user in |  | username, password |
- | GET | `/api/users` | returns a list of all user accounts | ✔️ |  |
+ | POST | `/api/user/signup` | signs up a new user account |  | email, username, display_name, password, emoji |
+ | POST | `/api/user/login` | logs a user in |  | username, password |
+ | GET | `/api/user/me` | returns your account information | ✔️ |  |
+ | GET | `/api/user/u/username` | replace username with a real username, returns that user's account information | ✔️ |  |
+ | GET | `/api/user/all` | returns a list of all user accounts | ✔️ |  |
+ | GET | `/api/user/search` | returns a list of all user accounts with names similar to the query | ✔️ | query |
+ | PUT | `/api/user/update` | updates your account | ✔️ | display_name, password, emoji |
+ | GET | `/api/user/history` | not implemented | ✔️ |  |
 
 ## Stack
 
