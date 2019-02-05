@@ -102,9 +102,10 @@ async function me(req, res) {
     res.status(200).send(result);
 }
 
-// returns a list of all users
-async function all(req, res) {
+// returns a single User by username
+async function getByUsername(req, res, data) {
     const result = await req.app.locals.db('users')
+        .where('username', data.username)
         .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
         .catch(e => {
             res.status(500).send({
@@ -115,6 +116,15 @@ async function all(req, res) {
         });
 
     if (res.headersSent) {
+        return;
+    }
+    
+    // if no results, then no account exists with that username
+    if (result.length !== 1) {
+        res.status(400).send({
+            code: 400,
+            info: 'no account found with username: ' + data.username
+        });
         return;
     }
 
@@ -141,12 +151,23 @@ async function search(req, res, data) {
     res.status(200).send(result);
 }
 
-// returns a single User by username
-async function searchByUsername(req, res) {
-    res.status(501).send({
-        code: 501,
-        info: 'not implemented'
-    });
+// returns a list of all users
+async function all(req, res) {
+    const result = await req.app.locals.db('users')
+        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+        .catch(e => {
+            res.status(500).send({
+                code: 500,
+                info: e.originalStack
+            });
+            return;
+        });
+
+    if (res.headersSent) {
+        return;
+    }
+
+    res.status(200).send(result);
 }
 
 // updates user account information
@@ -169,8 +190,8 @@ async function history(req, res) {
 
 module.exports = {
     signup, login,
-    me, all,
-    search, searchByUsername,
+    me, getByUsername,
+    search, all,
     update,
     history
 }

@@ -87,12 +87,6 @@ router.get('/search', async (req, res, next) => {
     await User.search(req, res, data);
 });
 
-router.get('/search/username', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
-
-    await User.searchByUsername(req, res);
-});
-
 router.put('/update', async (req, res, next) => {
     if (!auth.validate(req, res)) return;
 
@@ -103,6 +97,24 @@ router.get('/history', async (req, res, next) => {
     if (!auth.validate(req, res)) return;
 
     await User.history(req, res);
+});
+
+router.get('/:username', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
+    const data = {
+        username: req.params.username
+    };
+
+    if (!req.app.locals.utils.validateObject(data)) {
+        res.status(400).send({
+            code: 400,
+            info: 'malformed query parameters; /api/user/<username>'
+        });
+        return;
+    }
+
+    await User.getByUsername(req, res, data);
 });
 
 module.exports = router;
