@@ -75,8 +75,6 @@ async function login(req, res, data) {
 
 // returns the entire history of a user
 async function me(req, res) {
-    console.log(req.jwt);
-
     const result = await req.app.locals.db('users')
         .where('username', req.jwt.sub)
         .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
@@ -87,8 +85,6 @@ async function me(req, res) {
             });
             return;
         });
-    
-    console.log(result);
 
     if (res.headersSent) {
         return;
@@ -108,9 +104,8 @@ async function me(req, res) {
 
 // returns a list of all users
 async function all(req, res) {
-    const result = await req.app.locals.db
+    const result = await req.app.locals.db('users')
         .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
-        .table('users')
         .catch(e => {
             res.status(500).send({
                 code: 500,
@@ -127,11 +122,23 @@ async function all(req, res) {
 }
 
 // returns a list of users/usernames that match the given query
-async function search(req, res) {
-    res.status(501).send({
-        code: 501,
-        info: 'not implemented'
-    });
+async function search(req, res, data) {
+    const result = await req.app.locals.db('users')
+        .where('username', 'like', '%' + data.query + '%')
+        .select('username', 'display_name', 'emoji')
+        .catch(e => {
+            res.status(500).send({
+                code: 500,
+                info: e.originalStack
+            });
+            return;
+        });
+
+    if (res.headersSent) {
+        return;
+    }
+
+    res.status(200).send(result);
 }
 
 // returns a single User by username

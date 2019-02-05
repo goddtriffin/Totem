@@ -20,7 +20,7 @@ router.post('/signup', async (req, res, next) => {
     if (!req.app.locals.utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
-            info: 'malformed parameters: /api/signup?email=&username=&display_name=&password=&emoji='
+            info: 'malformed body parameters: email, username, display_name, password, emoji'
         });
         return;
     }
@@ -49,7 +49,7 @@ router.post('/login', async (req, res, next) => {
     if (!req.app.locals.utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
-            info: 'malformed parameters; /api/login?username=&password='
+            info: 'malformed body parameters; username, password'
         });
         return;
     }
@@ -72,7 +72,19 @@ router.get('/all', async (req, res, next) => {
 router.get('/search', async (req, res, next) => {
     if (!auth.validate(req, res)) return;
 
-    await User.search(req, res);
+    const data = {
+        query: req.body.query
+    };
+
+    if (!req.app.locals.utils.validateObject(data)) {
+        res.status(400).send({
+            code: 400,
+            info: 'malformed body parameters; query'
+        });
+        return;
+    }
+
+    await User.search(req, res, data);
 });
 
 router.get('/search/username', async (req, res, next) => {
