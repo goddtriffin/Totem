@@ -73,18 +73,12 @@ router.get('/u/:username', async (req, res, next) => {
     if (!req.app.locals.utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
-            info: 'malformed query parameters; /api/user/u/<username>'
+            info: 'malformed query parameters; /api/user/u/username (replace username with a real username)'
         });
         return;
     }
 
     await User.getByUsername(req, res, data);
-});
-
-router.get('/all', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
-
-    await User.all(req, res);
 });
 
 router.get('/search', async (req, res, next) => {
@@ -103,6 +97,12 @@ router.get('/search', async (req, res, next) => {
     }
 
     await User.search(req, res, data);
+});
+
+router.get('/all', async (req, res, next) => {
+    if (!auth.validate(req, res)) return;
+
+    await User.all(req, res);
 });
 
 router.put('/update', async (req, res, next) => {
