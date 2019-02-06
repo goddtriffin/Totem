@@ -33,9 +33,21 @@ body{
     color: lightgray;
 }
 
+#title{
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
 #loginContent{
     text-align: center;
     align-content: center;
+    background: rgba(0, 0, 0, 0.25);
+    border: 2px solid white;
+    border-radius: 25px;
+    margin-top: 1.5rem;
+    padding: 1rem;
 }
 
 #usernameText, #passwordText, #loginButton, #forgotButton{
