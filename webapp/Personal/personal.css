@@ -1,5 +1,6 @@
 body{
-    background-color: whitesmoke !important;
+    background-color: #e9b9f1 !important;
+	height: 100vh;
 }
 
 .navbar-dark{
@@ -30,4 +31,63 @@ body{
 
 #navName{
     color: lightgray;
+}
+
+#personalContent{
+	text-align: center;
+	vertical-align: center;
+    align-content: center;
+    background: rgba(0, 0, 0, 0.15);
+    border: 2px solid white;
+    border-radius: 10px;
+    margin-top: 1.5rem;
+    padding: 1rem;
+}
+
+#emoji{
+	
+	align-content: center;
+	text-align: center;
+	#border: 1px solid white;
+	#border-radius: 25%;
+	#height: 150%;
+	width: 10vw;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+#displayName{
+	text-align: center;
+	align-content: center;
+	font-size: 1.5rem;
+	#font-style: italic;
+	font-weight: bold;
+	margin: 0;
+	color: white;
+}
+
+#username{
+	text-align: center;
+	align-content: center;
+	font-size: 1.5rem;
+	#font-style: italic;
+	margin: 0;
+	color: white;
+}
+
+.row{
+	overflow: hidden;
+	padding: 1rem;
+}
+
+.stats{
+	text-align: center;
+	align-content: center;
+	font-size: 1.2rem;
+	color: white;
+	#border: 1px solid white;
+	margin-top: 10px;
+	border-radius: 20%;
+	background-color: rgba(0, 0, 0, 0.10);
+	padding: 5%;
 }
