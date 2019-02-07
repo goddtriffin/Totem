@@ -1,9 +1,8 @@
-const router = require('express').Router();
+const express = require('express')
+const router = express.Router();
 
-// basic url
-router.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+// frontend routes
+router.use('/', require('./frontend'));
 
 // all API routes
 router.use('/api', require('./api'));

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const emoji = require('node-emoji');
 
-const auth = require('./auth');
+const auth = require('../auth');
 const User = require('../../models/User');
 
 router.post('/signup', async (req, res, next) => {
