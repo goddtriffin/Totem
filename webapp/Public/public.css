@@ -1,5 +1,5 @@
 body{
-    color: lightgray;
+    background-color: #9975b9 !important;
 }
 
 .navbar-dark{
@@ -19,4 +19,25 @@ body{
 
 #navName{
     color: lightgray;
+}
+
+#topBar{
+    background: #7647a2;
+    /* height: 75px; */
+    border-bottom: 2px solid white;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.topButton{
+    width: 100%;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+#searchBar{
+    background: transparent;
+    color: white !important;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
 }
