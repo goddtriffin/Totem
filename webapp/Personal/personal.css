@@ -35,12 +35,21 @@ body{
 
 .personal-opt{
 	color: #551a8b;
-	font-size: 3rem;
+	font-size: 9vh;
 	/* text-align: center */
 	position: relative;
 }
+
+.personal-opt:hover{
+	color: violet;
+	font-size: 11vh;
+}
 .btn-margin{
-	margin-bottom: 30% !important;
+	margin-bottom: 8vw !important;
+}
+
+#no-bottom{
+	margin-bottom: -10vw;
 }
 
 #personal-text{
