@@ -41,3 +41,91 @@ body{
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
 }
+
+.pollCard{
+    background-color: white;
+    height: 75vh;
+    margin-top: 15px;
+    z-index: 0;
+    margin-bottom: 15px;
+    border: 2px solid #551a8b;
+    border-radius: 25px;
+    padding: 0px !important;
+    overflow: hidden;
+}
+
+#cardTitle{
+    width: 100%;
+    background-color: #551a8b;
+    color: white;
+    font-size: 2.5rem;
+    text-align: center;
+    height: 12.5%;
+}
+
+#cardTitle p{
+    margin: 0px;
+}
+
+#cardContent{
+    margin: 0px;
+    padding: 0px;
+    height: 75%;
+    cursor: pointer;
+}
+
+#cardLeft{
+    background: red;
+    margin: 0px;
+    border-right: 2px solid #551a8b;
+}
+
+#cardRight{
+    background-color: blue;
+    margin: 0px;
+    border-left: 2px solid #551a8b;
+}
+
+#cardBottom{
+    background-color: #551a8b;
+    height: 12.5%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    color: white;
+}
+
+#themes{
+    color: lightgray;
+}
+
+.btn-outline-dark{
+    color: #551a8b !important;
+    border-color: #551a8b !important;
+}
+
+.btn-outline-dark:hover{
+    color: white !important;
+    background-color: #551a8b !important;
+}
+
+.scrollArrow{
+    height: 75vh;
+}
+
+.scrollArrow button{
+    position: absolute;
+    /* top: 50%; */
+    z-index: 10;
+    height: 75vh;
+    margin-top: 15px;
+}
+
+#backArrow button{
+    left: 5px;
+}
+
+#nextArrow button{
+    right: 5px;
+}
