@@ -11,6 +11,7 @@
         <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
 
     </head>
+
     <body>
 
         <!-- Nav Bar -->
@@ -37,6 +38,9 @@
         </nav>
 
         <!-- Form -->
+        <!-- <form src="signup.js"> -->
+        <form name="signupform" action="onclick" onsubmit="display()" method="post">
+
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-md-6" id="signupContent">
@@ -46,11 +50,12 @@
                     <input type="email" name="email" placeholder="Email" id="emailText" class="form-control">
                     <input type="password" name="password" placeholder="Password" id="passwordText" class="form-control">
                     <input type="password" name="passwordVerify" placeholder="Password Verification" id="passwordVerifyText" class="form-control">
-                    <button type="button" class="btn btn-outline-light" id="signupButton" class="form-control">Sign Up</button>
+                    <button type="button" class="btn btn-outline-light" id="signupButton" class="form-control" onclick="display()">Sign Up</button>
                 </div>
             </div>
             
         </div>
+    </form>
 
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>
