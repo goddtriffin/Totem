@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Totem - Public</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="public.css">
+        <link href="../bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Nav Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark static-top">
+            <div class="container">
+                <a class="navbar-brand">TOTEM</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" id="navNameLI"><a class="nav-link" id="navName">Hi!</a></li>
+
+                    <li class="nav-item" id="personalNav">
+                        <a class="nav-link" href="../personal">Personal</a>
+                    </li>
+                    <li class="nav-item" id="privateNav">
+                        <a class="nav-link" href="../private">Private</a>
+                    </li>
+                    <li class="nav-item active" id="publicNav">
+                        <a class="nav-link" href="../public">Public
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="tournamentNav"> 
+                        <a class="nav-link" href="../tournament">Tournament</a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+
+        <!-- Top Button Bar -->
+        <div class="fluid-container">
+            <div id="topBar" class="row justify-content-md-center">
+                <div class="col-md-2">
+                    <button class="btn btn-outline-light topButton">Sort</button>
+                </div>
+                <div class="col-md-8">
+                    <input id="searchBar" class="form-control" type="text" placeholder="Search" aria-label="Search">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-outline-light topButton">New Poll</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Poll Card -->
+        <div class="fluid-container">
+            <div class="row justify-content-md-center pollView">
+                <div class="scrollArrow" id="backArrow">
+                    <button class="btn btn-outline-dark"><</button>
+                </div>
+                <div class="col-md-8 pollCard">
+                    <div id="cardTitle" class="col-md-12">
+                        <p>Title</p>
+                    </div>
+                    <div class="row col-md-12" id="cardContent">
+                        <div class="col-md-6" id="cardLeft">
+                            <!-- Contents -->
+                        </div>
+                        <div class="col-md-6" id="cardRight">
+                            <!-- Contents -->
+                        </div>
+                    </div>
+
+                    <div class="row col-md-12" id="cardContentOverlay">
+                        <div class="col-md-6" id="cardLeftOverlay">
+                            <div id="leftBlank"></div>
+                            <div id="leftResults">
+                                <p class="resultText">50%</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="cardRightOverlay">
+                            <div id="rightBlank"></div>
+                            <div id="rightResults">
+                                <p class="resultText">75%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row col-md-12" id="cardBottom">
+                        <div class="col-md-6" id="leftUser">
+                            <p>@username</p>
+                        </div>
+                        <div class="col-md-6" id="rightUser">
+                            <p>@username</p>
+                        </div>
+                        <div class="col-md-12" id="themes">
+                            <p>#theme, #theme, #theme</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="scrollArrow" id="nextArrow">
+                    <button class="btn btn-outline-dark">></button>
+                </div>
+            </div>
+        </div>
+
+        <script src="../jquery-3.2.1.min.js"></script>
+        <script src="../bootstrap.bundle.min.js"></script>
+        <script src="public.js" async defer></script>
+    </body>
+</html>
