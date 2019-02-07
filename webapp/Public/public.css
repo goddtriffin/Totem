@@ -28,6 +28,8 @@ body{
     border-bottom: 2px solid white;
     text-align: center;
     padding: 0.5rem;
+    margin: 0px;
+    width: 100%:
 }
 
 .topButton{
@@ -76,9 +78,10 @@ body{
 }
 
 #cardLeft{
-    background: red;
+    background-color: red;
     margin: 0px;
     border-right: 2px solid #551a8b;
+    /* visibility: hidden; */
 }
 
 #cardRight{
@@ -95,6 +98,52 @@ body{
     padding: 0px;
     text-align: center;
     color: white;
+}
+
+.pollCard{
+    position: relative;
+}
+
+#cardContentOverlay{
+    position: absolute;
+    top: 12.5%;
+    z-index: 100;
+    margin-left: 0px;
+    padding: 0px;
+    height: 75%; 
+}
+
+#cardLeftOverlay{
+    /* background-color: green; */
+}
+
+#cardRightOverlay{
+    /* background-color: orange; */
+}
+
+#leftBlank{
+    /* background: black; */
+    height: 50%;
+}
+
+#rightBlank{
+    /* background: black; */
+    height: 25%;
+}
+
+#leftResults{
+    background: rgba(255, 255, 255, 0.5);
+    height: 50%;
+}
+
+#rightResults{
+    background: rgba(255, 255, 255, 0.5);
+    height: 75%;
+}
+
+#rightResults, #leftResults{
+    color: white;
+    text-align: center;
 }
 
 #themes{
