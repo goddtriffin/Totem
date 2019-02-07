@@ -41,6 +41,73 @@
             </div>
         </nav>
 
+        <!-- Top Button Bar -->
+        <div class="fluid-container">
+            <div id="topBar" class="row justify-content-md-center">
+                <div class="col-md-2">
+                    <button class="btn btn-outline-light topButton">Sort</button>
+                </div>
+                <div class="col-md-8">
+                    <input id="searchBar" class="form-control" type="text" placeholder="Search" aria-label="Search">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-outline-light topButton">New Poll</button>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Poll Card -->
+        <div class="fluid-container">
+            <div class="row justify-content-md-center pollView">
+                <div class="scrollArrow" id="backArrow">
+                    <button class="btn btn-outline-dark"><</button>
+                </div>
+                <div class="col-md-8 pollCard">
+                    <div id="cardTitle" class="col-md-12">
+                        <p>Title</p>
+                    </div>
+                    <div class="row col-md-12" id="cardContent">
+                        <div class="col-md-6" id="cardLeft">
+                            <!-- Contents -->
+                        </div>
+                        <div class="col-md-6" id="cardRight">
+                            <!-- Contents -->
+                        </div>
+                    </div>
+
+                    <div class="row col-md-12" id="cardContentOverlay">
+                        <div class="col-md-6" id="cardLeftOverlay">
+                            <div id="leftBlank"></div>
+                            <div id="leftResults">
+                                <p class="resultText">50%</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="cardRightOverlay">
+                            <div id="rightBlank"></div>
+                            <div id="rightResults">
+                                <p class="resultText">75%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row col-md-12" id="cardBottom">
+                        <div class="col-md-6" id="leftUser">
+                            <p>@username</p>
+                        </div>
+                        <div class="col-md-6" id="rightUser">
+                            <p>@username</p>
+                        </div>
+                        <div class="col-md-12" id="themes">
+                            <p>#theme, #theme, #theme</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="scrollArrow" id="nextArrow">
+                    <button class="btn btn-outline-dark">></button>
+                </div>
+            </div>
+        </div>
+
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>
         <script src="private.js" async defer></script>
