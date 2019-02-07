@@ -41,12 +41,23 @@
             </div>
         </nav>
 		
-		<div class = "container">
-			<!-- Change Password -->
-
-			<!-- Change Display Name -->
-			<div>
-		
+		<div class="container">
+			<div class="row justify-content-md-center">
+				<div class="col-md-6" id="settingsContent">
+					<p id="title">Settings</p><br>
+					<!-- Change Password -->
+					<p id="sub-heading">Change Display Name</p>
+					<input type="text" name="changedisplayname" placeholder="New Display Name" id="displayNameText" class="form-control">
+					<input type="text" name="repeatdisplayname" placeholder="Repeat New Display Name" id="repeatDisplayNameText" class="form-control"><br>
+                    <button type="button" class="btn btn-outline-light" id="submitDisplayButton" class="form-control" onclick="">Submit Changes to Display Name</button><br><br>
+					
+					<!-- Change Display Name -->
+					<p id="sub-heading">Change Password</p>
+					<input type="password" name="changepassword" placeholder="New Password" id="passwordText" class="form-control">
+					<input type="password" name="repeatpassword" placeholder="Repeat New Password" id="repeatPasswordText" class="form-control"><br>
+					<button type="button" class="btn btn-outline-light" id="submitPasswordButton" class="form-control" onclick="">Submit Changes to Password</button>
+					
+				</div>
 			</div>
 		</div>
 	

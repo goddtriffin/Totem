@@ -1,5 +1,5 @@
 body{
-    background-color: #dda0dd !important;
+    background-color: #e9b9f1 !important;
     height: 100vh;
 }
 
@@ -20,4 +20,34 @@ body{
 
 #navName{
     color: lightgray;
+}
+
+#title{
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+#settingsContent{
+    text-align: center;
+    align-content: center;
+    background: rgba(0, 0, 0, 0.25);
+    border: 2px solid white;
+    border-radius: 25px;
+    margin-top: 1.5rem;
+    padding: 1rem;
+}
+
+#sub-heading{
+	text-align: left;
+	align-content: left;
+	font-size: 1.25rem;
+	font-style: italic;
+	margin: 0;
+	color: white;
+}
+
+#displayNameText, #passwordText, #loginButton, #forgotButton, #repeatDisplayNameText, #repeatPasswordText{
+    margin-top: 1rem; 
 }
