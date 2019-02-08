@@ -71,7 +71,7 @@
 					</div>
 					<div class="row" id="no-bottom">
                         <div class="col-md-3">
-                            <a class=personal-opt id=friend-btn href="./Friends/index.html">
+                            <a class=personal-opt id=friend-btn data-toggle="modal" data-target="#friendModal">
                                 <i class="fas fa-user-friends btn-margin">
                                         <p id="personal-text">Friends</p>
                                 </i>
@@ -172,6 +172,78 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Friends Content -->
+                <div id="friendModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Friends</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Sent vs Received -->
+                                    <div class="btn-group btn-group-toggle" id="friendToggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary active">
+                                            <input type="radio" name="options" id="option1" autocomplete="off" checked> My Friends
+                                        </label>
+                                        <label class="btn btn-secondary">
+                                            <input type="radio" name="options" id="option2" autocomplete="off"> Requests
+                                        </label>
+                                        <label class="btn btn-secondary">
+                                            <input type="radio" name="options" id="option3" autocomplete="off"> Find Friends
+                                        </label>
+                                    </div>
+                
+                                    <!-- Requests -->
+                                    <table class="table table-hover table-striped" id="friendTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Username</th>
+                                                <th scope="col">Display Name</th>
+                                                <th scope="col">Tally</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">@username</th>  
+                                                <td>First Last</td>
+                                                <td>1000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                
+                                    <!-- Sent -->
+                                    <table class="table table-hover table-striped" id="friendRequestTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Username</th>
+                                                <th scope="col">Display Name</th>
+                                                <th scope="col">Tally</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">@username</th>  
+                                                <td>First Last</td>
+                                                <td>1000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <!-- Find Friends -->
+                                    <div id="friendSearch">
+                                        <input id="searchBar" class="form-control" type="text" placeholder="Search username" aria-label="Search">
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <!-- Create Button -->
+                                    <!-- <button type="button" class="btn btn-success" data-dismiss="modal">Create</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 			</div>
 		</div>
 

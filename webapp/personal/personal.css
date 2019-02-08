@@ -164,7 +164,7 @@ body{
 	padding: 5%;
 }
 
-#viewToggle{
+#viewToggle, #friendToggle{
     width: 100%;
     margin-bottom: 1.5rem;
 }
@@ -173,17 +173,21 @@ body{
     width: 50%;
 }
 
-#viewToggle label{
+#friendToggle .btn{
+    width: 33%;
+}
+
+.btn-group-toggle label{
     color: white;
     background-color: #7647a2;
     border-color: #551a8b;
 }
 
-#viewToggle label:hover{
+.btn-group-toggle label:hover{
     background-color: purple;
 }
 
-#viewToggle .active{
+#viewToggle .active, #friendToggle .active{
     color: white;
     background-color: #551a8b;
 }
