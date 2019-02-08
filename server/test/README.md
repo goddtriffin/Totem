@@ -5,5 +5,5 @@ To run tests:
 
 Download:
 
-	npm mocha
-	npm chai
+	npm install mocha
+	npm install chai
