@@ -63,3 +63,7 @@ body{
 #displayNameText, #passwordText, #loginButton, #forgotButton, #repeatDisplayNameText, #repeatPasswordText{
     margin-top: 1rem; 
 }
+
+.error{
+    color: red;
+}

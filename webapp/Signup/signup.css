@@ -57,3 +57,7 @@ body{
     padding: 1rem;
     /* width: 50%; */
 }
+
+.error{
+    color: red;
+}
