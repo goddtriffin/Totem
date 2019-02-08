@@ -34,14 +34,14 @@ body{
 }
 
 .personal-opt{
-	color: #551a8b;
+	color: #551a8b !important;
 	font-size: 300%;
 	/* text-align: center */
 	position: relative;
 }
 
 .personal-opt:hover{
-	color: violet;
+	color: violet !important;
 	font-size: 360%;
 }
 .btn-margin{
@@ -82,6 +82,7 @@ body{
 
 #challenge-btn{
 	/* text-align: right; */
+	/* color: #551a8b !important; */
 }
 
 #navNameLI{
