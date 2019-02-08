@@ -7,10 +7,10 @@
 
 ## Setup
 
-1. `npm install`
-2. `npm run init-db-prod`
-3. `cp .env.sample .env`
-4. fill out your `.env`
+1. `git clone https://github.com/MagnusFrater/Totem.git`
+2. `cd Totem/server/`
+3. `npm run init-prod`
+5. fill out your `.env`
 
 ## Try it out!
 
@@ -41,6 +41,8 @@
 
 ### Scripts
 
+* `npm run init-prod`
+  * one line production server setup script
 * `npm start`
   * starts up the production server
 * `npm run dev`
