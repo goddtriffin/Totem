@@ -1,27 +1,33 @@
 /* run : npm test */
+// import jsdom from 'mocha-jsdom';
 
 const login_js = require('../../webapp/Login/login');
 const expect = require('chai').expect;
 
-/*
-describe('#login()', function() {
-    context('Empty Inputs', function() {
+// const dom = new jsdom('<!DOCTYPE html><html><head></head><body></body></html>');
 
-      it('Empty username', function() {
-        expect(login("", "password")).to.equal(0)
-      })
+// global.window = dom.window;
+// global.document = dom.window.document;
 
-      it('Empty password', function() {
-        expect(login("username", "")).to.equal(0)
-      }) 
-    })
 
-  context('Proper Inputs', function() {
+// describe('#login()', function() {
+//     jsdom(); // Emulates the browser environment
+//     context('Empty Inputs', function() {
+//       it('Empty username', function() {
+//         expect(login("", "password")).to.equal(0)
+//       })
 
-      it('Proper username and password', function() {
-        expect(login("username", "password")).to.equal(1)
-      })
-})
+//       it('Empty password', function() {
+//         expect(login("username", "")).to.equal(0)
+//       }) 
+//     })
+
+//   context('Proper Inputs', function() {
+
+//       it('Proper username and password', function() {
+//         expect(login("username", "password")).to.equal(1)
+//       })
+// })
  
   
   // context('Exsiting user', function() {
@@ -40,5 +46,5 @@ describe('#login()', function() {
 
   // })
 
-})
- */
+// })
+ 
