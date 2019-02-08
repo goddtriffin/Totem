@@ -10,11 +10,8 @@ router.get('/', (req, res) => {
 // these routes need auth to work
 const authed_pages = ['/friends', '/personal', '/private', '/public', '/settings', '/tournament'];
 router.use(authed_pages, (req, res, next) => {
-    if (!auth.validate(req, res)) {
-        if (res.headersSent) {
-            return;
-        }
-
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
         res.redirect('/splash');
         return;
     }

@@ -4,7 +4,11 @@ const auth = require('../auth');
 const Sample = require('../../models/Sample');
 
 router.get('/sample', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(401).send(authCheck);
+        return;
+    }
 
     await Sample.routeModel(req, res);
 });

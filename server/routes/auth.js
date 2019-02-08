@@ -2,22 +2,25 @@ const jwt = require('jsonwebtoken');
 
 function validate(req, res) {
     try {
-        if (!req.headers.authorization || req.headers.authorization.split(' ').length !== 2 || req.headers.authorization.split(' ')[0] !== 'Bearer') {
-            res.status(401).send({
+        if (!req.headers.authorization || 
+            req.headers.authorization.split(' ').length !== 2 || 
+            req.headers.authorization.split(' ')[0] !== 'Bearer') {
+            return {
                 code: 401,
                 info: 'invalid auth header; Authorization: Bearer <JWT>'
-            });
-            return false;
+            };
         }
 
         req.jwt = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET);
-        return true;
+        return {
+            code: 200,
+            info: 'success'
+        }
     } catch(e) {
-        res.status(401).send({
+        return {
             code: 401,
             info: 'invalid JWT token'
-        });
-        return false;
+        };
     }
 }
 

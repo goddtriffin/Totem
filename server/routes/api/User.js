@@ -58,13 +58,21 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/me', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(401).send(authCheck);
+        return;
+    }
 
     await User.me(req, res);
 });
 
 router.get('/u/:username', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(401).send(authCheck);
+        return;
+    }
 
     const data = {
         username: req.params.username
@@ -82,7 +90,11 @@ router.get('/u/:username', async (req, res, next) => {
 });
 
 router.get('/search', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(401).send(authCheck);
+        return;
+    }
 
     const data = {
         query: req.body.query
@@ -100,13 +112,21 @@ router.get('/search', async (req, res, next) => {
 });
 
 router.get('/all', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(401).send(authCheck);
+        return;
+    }
 
     await User.all(req, res);
 });
 
 router.put('/update', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(401).send(authCheck);
+        return;
+    }
 
     const data = {};
 
@@ -146,7 +166,11 @@ router.put('/update', async (req, res, next) => {
 });
 
 router.get('/history', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(401).send(authCheck);
+        return;
+    }
 
     await User.history(req, res);
 });
