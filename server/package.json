@@ -4,10 +4,12 @@
   "description": "The Totem server.",
   "main": "index.js",
   "scripts": {
+    "init-prod": "npm install && npm run init-db-prod && cp .env.sample .env",
     "start": "NODE_ENV=production node index.js",
     "dev": "npm run init-db-dev && nodemon index.js",
     "init-db-prod": "mkdir -p db && node tools/db_init.js prod",
-    "init-db-dev": "mkdir -p db && rm -f db/dev* && node tools/db_init.js dev"
+    "init-db-dev": "mkdir -p db && rm -f db/dev* && node tools/db_init.js dev",
+    "test": "mocha"
   },
   "author": "Todd Griffin",
   "license": "ISC",
@@ -18,10 +20,13 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "knex": "^0.16.3",
+    "mocha": "^5.2.0",
     "node-emoji": "^1.8.1",
+    "request": "^2.88.0",
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "nodemon": "^1.18.9"
   }
 }

@@ -54,3 +54,7 @@ body{
     align-content: center;
     /* width: 50%; */
 }
+
+.error{
+    color: red;
+}

@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Totem - Forgot Password</title>
+        <title>Totem - Login</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="forgot_password.css">
+        <link rel="stylesheet" href="login.css">
         <link href="../bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
 
@@ -15,6 +15,7 @@
 
         <!-- Nav Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark static-top">
+             
             <div class="container">
                 <a class="navbar-brand" href="../splash">TOTEM</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,8 +24,9 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
 
-                    <li class="nav-item" id="loginNav">
+                    <li class="nav-item active" id="loginNav">
                         <a class="nav-link" href="../login">Login
+                            <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item" id="signupNav">
@@ -36,23 +38,30 @@
         </nav>
 
         <!-- Form -->
+        <form name="loginform">
         <div class="container">
             <div class="row justify-content-md-center">
-                <div class="col-md-6" id="forgotPasswordContent">
-                    <p id="title">Password Reset</p>
+                <div class="col-md-6" id="loginContent">
+                    <p id="title">Login</p>
                     <input type="text" name="username" placeholder="Username" id="usernameText" class="form-control">
-                    <input type="text" name="email" placeholder="Email" id="emailText" class="form-control">
-                    
-                    <button type="button" onclick="window.location.href = '../login';" class="btn btn-outline-light" id="submitButton" class="form-control">Submit</button>
+                    <p class="error" id="usernameError"></p>
 
+                    <input type="password" name="password" placeholder="Password" id="passwordText" class="form-control">
+                     <p class="error" id="passwordError"></p>
 
+                    <a href="../forgotpassword">
+                        <button type="button" class="btn btn-outline-light" id="forgotButton" class="form-control" >Forgot Password?</button>
+                    </a>
+                    <button type="button" class="btn btn-outline-light" id="loginButton" class="form-control" onclick="login()">Login</button>
                 </div>
             </div>
             
         </div>
+        </form>
+
 
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>
-        <script src="forgot_password.js" async defer></script>
+        <script src="login.js" async defer></script>
     </body>
 </html>
