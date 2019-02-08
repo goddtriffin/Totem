@@ -1,9 +1,6 @@
 
 
-function login(){
-	var username = loginform.username.value;
-	var password = loginform.password.value;
-
+function login(username, password){
 	if(verifyInput(username, password)){
 		// move to next page
 		console.log("move to next page");
