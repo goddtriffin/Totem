@@ -116,6 +116,17 @@ body{
 	margin-bottom: 1rem;
 }
 
+#emoji:hover{
+	align-content: center;
+	text-align: center;
+	#border: 1px solid white;
+	#border-radius: 25%;
+	#height: 155%;
+	width: 115px;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
 #displayName{
 	text-align: center;
 	align-content: center;
