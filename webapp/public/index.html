@@ -130,12 +130,22 @@
                             </div>
                         </div>
 
-                        <!-- Expiration -->
+                        <!-- Duration -->
                         <div class="form-group row">
-                            <label for="expirationInput" class="col-sm-2 col-form-label">Expiration</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="datetime-local" id="expirationInput">
-                            </div>
+                            <label for="expirationInput" class="col-sm-2 col-form-label">Duration</label>
+                                <div class="col-sm-3">
+                                    <select class="custom-select" id="numberInput">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-7">
+                                    <select class="custom-select" id="unitInput">
+                                        <option value="1">Hour(s)</option>
+                                        <option value="2">Day(s)</option>
+                                    </select>
+                                </div>
                         </div>
 
                         <!-- Image Upload -->
