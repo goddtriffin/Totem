@@ -4,6 +4,7 @@
   "description": "The Totem server.",
   "main": "index.js",
   "scripts": {
+    "init-prod": "npm install && npm run init-db-prod && cp .env.sample .env",
     "start": "NODE_ENV=production node index.js",
     "dev": "npm run init-db-dev && nodemon index.js",
     "init-db-prod": "mkdir -p db && node tools/db_init.js prod",
