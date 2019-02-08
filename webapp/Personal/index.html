@@ -9,10 +9,9 @@
         <link rel="stylesheet" href="personal.css">
         <link href="../bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     </head>
     <body>
-
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
         <!-- Nav Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark static-top">
@@ -64,14 +63,42 @@
 							<p class="stats">Win Rate<br>100%</p>
 						</div>
 						<div id="column2" class="col-md-4">
-							<p class="stats">Tiki Score<br>1200</p>
+							<p class="stats">Tiki Tally<br>1200</p>
 						</div>
 						<div id="column3" class="col-md-4">
 							<p class="stats">Polls Created<br>10</p>
 						</div>
 					</div>
-					<div class="row">
-					
+					<div class="row" id="no-bottom">
+                        <div class="col-md-6">
+                            <a class=personal-opt id=friend-btn href="./Friends/index.html">
+                                <i class="fas fa-user-friends btn-margin">
+                                        <p id="personal-text">Friends</p>
+                                </i>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class=personal-opt id=mypoll-btn href="./MyPolls/index.html">
+                                <i class="fas fa-images btn-margin">
+                                        <p id="personal-text">MyPolls</p>
+                                </i>
+                                <!-- <img src="cheese.jpg" alt="" id=cheese> -->
+                            </a>
+                        </div><div class="col-md-6">
+                                <a class=personal-opt id=hist-btn href="./History/index.html">
+                                    <i class="fas fa-scroll btn-margin">
+                                        <p id="personal-text">History</p>
+                                     </i>
+                                </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class=personal-opt id=challenge-btn href="./Challenges/index.html">
+                                <i class="fas fa-trophy btn-margin">
+                                        <p id="personal-text">Challenges</p>
+                                </i>
+                            </a>
+                        </div>
+
 					</div>
 				</div>
 			</div>

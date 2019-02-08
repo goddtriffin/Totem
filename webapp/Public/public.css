@@ -113,14 +113,6 @@ body{
     height: 75%; 
 }
 
-#cardLeftOverlay{
-    /* background-color: green; */
-}
-
-#cardRightOverlay{
-    /* background-color: orange; */
-}
-
 #leftBlank{
     /* background: black; */
     height: 50%;
@@ -178,4 +170,33 @@ body{
 
 #nextArrow button{
     right: 5px;
+}
+
+#personalToggle{
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+#personalToggle .btn{
+    width: 50%;
+}
+
+#privacyToggle{
+    position: absolute;
+    left: 3%;
+}
+
+#newPoll .btn-group-toggle label{
+    color: white;
+    background-color: #7647a2;
+    border-color: #551a8b;
+}
+
+#newPoll .btn-group-toggle label:hover{
+    background-color: purple;
+}
+
+#newPoll .active{
+    color: white;
+    background-color: #551a8b !important;
 }

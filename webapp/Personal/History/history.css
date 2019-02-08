@@ -1,0 +1,22 @@
+body{
+    color: lightgray;
+}
+
+.navbar-dark{
+    background-color: #551a8b;
+}
+
+.navbar-brand{
+    font-family: 'Monoton', cursive;
+    color: white !important;
+    font-size: 1.5rem !important;
+}
+
+#navNameLI{
+    pointer-events: none;
+    font-weight: bold;
+}
+
+#navName{
+    color: lightgray;
+}

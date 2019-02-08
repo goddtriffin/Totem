@@ -46,13 +46,123 @@
         <div class="fluid-container">
             <div id="topBar" class="row justify-content-md-center">
                 <div class="col-md-2">
-                    <button class="btn btn-outline-light topButton">Sort</button>
+                    <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#sortCard">Sort</button>
                 </div>
                 <div class="col-md-8">
                     <input id="searchBar" class="form-control" type="text" placeholder="Search" aria-label="Search">
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-outline-light topButton">New Poll</button>
+                    <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#newPoll">New Poll</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sort Selection -->
+        <div id="sortCard" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Change Sorting</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radioOption" id="sort1" value="option1" checked>
+                                <label class="form-check-label" for="sort1">Newest -> Oldest</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radioOption" id="sort2" value="option2">
+                                <label class="form-check-label" for="sort2">Oldest -> Newest</label>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- Sort Button -->
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Sort</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Poll -->
+        <div id="newPoll" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">New Poll</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <!-- Personal vs Friends -->
+                        <div class="btn-group btn-group-toggle" id="personalToggle" data-toggle="buttons">
+                            <label class="btn btn-secondary active">
+                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Personal
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="options" id="option2" autocomplete="off"> Friend
+                            </label>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="form-group row">
+                            <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="inputTile" placeholder="Poll Title">
+                            </div>
+                        </div>
+
+                        <!-- Themes -->
+                        <div class="form-group row">
+                            <label for="themeInput" class="col-sm-2 col-form-label">Theme</label>
+                            <div class="col-sm-10">
+                                <!-- <input type="email" class="form-control" placeholder="Themes"> -->
+                                <select class="custom-select" id="themeInput">
+                                    <option selected>Select a theme</option>
+                                    <option value="1">Theme1</option>
+                                    <option value="2">Theme2</option>
+                                    <option value="3">Theme3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Expiration -->
+                        <div class="form-group row">
+                            <label for="expirationInput" class="col-sm-2 col-form-label">Expiration</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="datetime-local" id="expirationInput">
+                            </div>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>Upload Image(s):</p>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control-file" id="imageOne">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control-file" id="imageTwo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- Private vs Public -->
+                        <div class="btn-group btn-group-toggle" id="privacyToggle" data-toggle="buttons">
+                            <label class="btn btn-secondary active">
+                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Private
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="options" id="option2" autocomplete="off"> Public
+                            </label>
+                        </div>
+                        <!-- Create Button -->
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Create</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -53,3 +53,7 @@ body{
 #usernameText, #passwordText, #loginButton, #forgotButton{
     margin-top: 2rem; 
 }
+
+.error{
+    color: red;
+}
