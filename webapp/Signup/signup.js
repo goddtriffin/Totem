@@ -1,15 +1,18 @@
 
 
-function CreateUser(username, displayName, email, password, passwordVerify) {
-	// var username = signupform.username.value;
-	// var displayName =  signupform.displayName.value;
-	// var email = signupform.email.value;
-	// var password = signupform.password.value;
-	// var passwordVerify = signupform.passwordVerify.value;
+signup = (username, displayName, email, password, passwordVerify) => {
+	
 	if(verifyInput(username, displayName, email, passwordVerify, password)){
 		// move to next page
+		// Createuser(username, displayName, email, password, passwordVerify);
 		console.log("move to next page");
+		return 1;
 	}
+	return 0;
+}
+
+function Createuser(username, displayName, email, password, passwordVerify){
+
 }
 
 
@@ -86,7 +89,7 @@ function verifyInput(username, displayName, email, passwordVerify, password){
 	if(has_error){
 		return 0;
 	}
-		return 1;
+	return 1;
 
 
 }
