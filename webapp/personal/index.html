@@ -130,6 +130,8 @@
                                             <th scope="col">Theme</th>
                                             <th scope="col">Duration</th>
                                             <th scope="col">Privacy</th>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -139,6 +141,12 @@
                                             <td>Poll Theme</td>
                                             <td>2 Days</td>
                                             <td>Public</td>
+                                            <td>
+                                                <button class="btn btn-success">Accept</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger">Reject</button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -195,13 +203,14 @@
                                         </label>
                                     </div>
                 
-                                    <!-- Requests -->
+                                    <!-- Current Friends -->
                                     <table class="table table-hover table-striped" id="friendTable">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Username</th>
                                                 <th scope="col">Display Name</th>
                                                 <th scope="col">Tally</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -209,17 +218,22 @@
                                                 <th scope="row">@username</th>  
                                                 <td>First Last</td>
                                                 <td>1000</td>
+                                                <td>
+                                                    <button class="btn btn-dark">View Profile</button>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
                 
-                                    <!-- Sent -->
+                                    <!-- Friend Requests -->
                                     <table class="table table-hover table-striped" id="friendRequestTable">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Username</th>
                                                 <th scope="col">Display Name</th>
                                                 <th scope="col">Tally</th>
+                                                <th></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -227,6 +241,12 @@
                                                 <th scope="row">@username</th>  
                                                 <td>First Last</td>
                                                 <td>1000</td>
+                                                <td>
+                                                    <button class="btn btn-success">Accept</button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-danger">Reject</button>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
