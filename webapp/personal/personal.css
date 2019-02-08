@@ -108,9 +108,9 @@ body{
 	
 	align-content: center;
 	text-align: center;
-	#border: 1px solid white;
-	#border-radius: 25%;
-	#height: 150%;
+	/* #border: 1px solid white; */
+	/* #border-radius: 25%; */
+	/* #height: 150%; */
 	width: 100px;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
@@ -119,9 +119,9 @@ body{
 #emoji:hover{
 	align-content: center;
 	text-align: center;
-	#border: 1px solid white;
-	#border-radius: 25%;
-	#height: 155%;
+	/* #border: 1px solid white; */
+	/* #border-radius: 25%; */
+	/* #height: 155%; */
 	width: 115px;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
@@ -131,7 +131,7 @@ body{
 	text-align: center;
 	align-content: center;
 	font-size: 1.5rem;
-	#font-style: italic;
+	/* #font-style: italic; */
 	font-weight: bold;
 	margin: 0;
 	color: white;
@@ -141,7 +141,7 @@ body{
 	text-align: center;
 	align-content: center;
 	font-size: 1.5rem;
-	#font-style: italic;
+	/* #font-style: italic; */
 	margin: 0;
 	color: white;
 }
@@ -156,9 +156,37 @@ body{
 	align-content: center;
 	font-size: 1.2rem;
 	color: white;
-	#border: 1px solid white;
+	/* #border: 1px solid white; */
 	margin-top: 10px;
 	border-radius: 20%;
 	background-color: rgba(0, 0, 0, 0.10);
 	padding: 5%;
+}
+
+#viewToggle{
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+#viewToggle .btn{
+    width: 50%;
+}
+
+#viewToggle label{
+    color: white;
+    background-color: #7647a2;
+    border-color: #551a8b;
+}
+
+#viewToggle label:hover{
+    background-color: purple;
+}
+
+#viewToggle .active{
+    color: white;
+    background-color: #551a8b;
+}
+
+tbody tr{
+    cursor: pointer;
 }

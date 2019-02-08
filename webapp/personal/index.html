@@ -53,7 +53,7 @@
                     </a>
                     
                     <a href="">
-					<img src="loudly_crying.gif" id="emoji" alt="Profile Emoji">
+					    <img src="loudly_crying.gif" id="emoji" alt="Profile Emoji">
                     </a>
                     
 					<p id="displayName">Display Name</p>
@@ -92,7 +92,7 @@
                                 </a>
                         </div>
                         <div class="col-md-3">
-                            <a class=personal-opt id=challenge-btn href="./Challenges/index.html">
+                            <a class=personal-opt id=challenge-btn data-toggle="modal" data-target="#challengeModal">
                                 <i class="fas fa-trophy btn-margin">
                                         <p id="personal-text">Challenges</p>
                                 </i>
@@ -100,7 +100,78 @@
                         </div>
 
 					</div>
-				</div>
+                </div>
+                
+                <!-- Challenge Content -->
+                <div id="challengeModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Challenges</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Sent vs Received -->
+                                <div class="btn-group btn-group-toggle" id="viewToggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary active">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked> Received
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input type="radio" name="options" id="option2" autocomplete="off"> Sent
+                                    </label>
+                                </div>
+            
+                                <!-- Requests -->
+                                <table class="table table-hover table-striped" id="requestTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Theme</th>
+                                            <th scope="col">Duration</th>
+                                            <th scope="col">Privacy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">@username</th>  
+                                            <td>Poll Title</td>
+                                            <td>Poll Theme</td>
+                                            <td>2 Days</td>
+                                            <td>Public</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+            
+                                <!-- Sent -->
+                                <table class="table table-hover table-striped" id="sentTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Theme</th>
+                                            <th scope="col">Duration</th>
+                                            <th scope="col">Privacy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">@username</th>  
+                                            <td>Poll Title</td>
+                                            <td>Poll Theme</td>
+                                            <td>2 Days</td>
+                                            <td>Public</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Create Button -->
+                                <!-- <button type="button" class="btn btn-success" data-dismiss="modal">Create</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 

@@ -39,26 +39,3 @@ body{
     /* width: 50%; */
 }
 
-#viewToggle{
-    width: 100%;
-    margin-bottom: 1.5rem;
-}
-
-#viewToggle .btn{
-    width: 50%;
-}
-
-#viewToggle .btn-group-toggle label{
-    color: white;
-    background-color: #7647a2;
-    border-color: #551a8b;
-}
-
-#viewToggle .btn-group-toggle label:hover{
-    background-color: purple;
-}
-
-#viewToggle .active{
-    color: white;
-    background-color: #551a8b !important;
-}
