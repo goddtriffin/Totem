@@ -1,38 +1,31 @@
 
-
-
-function changeDisplayName(){
-	var displayname = changeSettings.changedisplayname.value;
-	var displaynameverify = changeSettings.repeatdisplayname.value;
-	if(verifychangeDisplayName(displayname, displaynameverify)){
-		// document.getElementById("changedisplayname").innerHTML = '';
-		// document.getElementById("repeatDisplayNameText").innerHTML = '';
+changeDisplayName = (changedisplayname, repeatdisplayname) => {
+	if(verifychangeDisplayName(changedisplayname, repeatdisplayname)){
 		console.log("displayname changed and verified.");
+		return 1;
 	}
-
+	return 0;
 }
 
 
-function changePassword(){
-	var password = changeSettings.changepassword.value;
-	var passwordverify = changeSettings.repeatpassword.value;
-	if(verifychangePassword(password, passwordverify)){
-		// document.getElementById("passwordText").innerHTML = "";
-		// document.getElementById("repeatPasswordText").innerHTML = "";
+changePassword = (changepassword, repeatpassword) => {
+	
+	if(verifychangePassword(changepassword, repeatpassword)){
 		console.log("password changed and verified.");
+		return 1;
 	}
-
+	return 0;
 }
 
-function verifychangeDisplayName(displayname, displaynameverify){
+function verifychangeDisplayName(changedisplayname, repeatdisplayname){
 
 	var has_error = false;
-	//displayname
-	if(!displayname){
+	//changedisplayname
+	if(!changedisplayname){
 		document.getElementById("displaynameError").innerHTML = "Please enter a new Display name";
 		has_error = true;
 	}
-	else if(displayname.length < 5){
+	else if(changedisplayname.length < 5){
 		document.getElementById("displaynameError").innerHTML = "Please enter a new valid Display name";
 		has_error = true;
 	}
@@ -40,12 +33,12 @@ function verifychangeDisplayName(displayname, displaynameverify){
 		document.getElementById("displaynameError").innerHTML = "";
 	}
 
-	//displaynameverify
-	if(!displaynameverify){
+	//repeatdisplayname
+	if(!repeatdisplayname){
 		document.getElementById("displaynameverifyError").innerHTML = "Please verify your new Display name";
 		has_error = true;
 	}
-	else if(displaynameverify != displayname){
+	else if(repeatdisplayname != changedisplayname){
 		document.getElementById("displaynameverifyError").innerHTML = "Display name not verify";
 		has_error = true;
 	}
@@ -60,15 +53,15 @@ function verifychangeDisplayName(displayname, displaynameverify){
 
 }
 
-function verifychangePassword(password, passwordverify){
+function verifychangePassword(changepassword, repeatpassword){
 
 	var has_error = false;
-	//password
-	if(!password){
+	//changepassword
+	if(!changepassword){
 		document.getElementById("passwordError").innerHTML = "Please enter a new password";
 		has_error = true;
 	}
-	else if(password.length < 8){
+	else if(changepassword.length < 8){
 		document.getElementById("passwordError").innerHTML = "Please enter a new valid password";
 		has_error = true;
 	}
@@ -76,12 +69,12 @@ function verifychangePassword(password, passwordverify){
 		document.getElementById("passwordError").innerHTML = "";
 	}
 
-	//passwordverify
-	if(!passwordverify){
+	//repeatpassword
+	if(!repeatpassword){
 		document.getElementById("passwordverifyError").innerHTML = "Please verify your new password";
 		has_error = true;
 	}
-	else if(passwordverify != password){
+	else if(repeatpassword != changepassword){
 		document.getElementById("passwordverifyError").innerHTML = "Password not verify";
 		has_error = true;
 	}
@@ -93,6 +86,5 @@ function verifychangePassword(password, passwordverify){
 		return 0;
 	}
 	return 1;
-
 
 }
