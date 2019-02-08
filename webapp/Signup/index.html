@@ -45,10 +45,15 @@
                 <div class="col-md-6" id="signupContent">
                     <p id="title">Sign Up</p>
                     <input type="text" name="username" placeholder="Username" id="usernameText" class="form-control">
+                    <p class="error" id="usernameError"></p>
                     <input type="text" name="displayName" placeholder="Display Name" id="displayText" class="form-control">
+                    <p class="error" id="displayNameError"></p>
                     <input type="email" name="email" placeholder="Email" id="emailText" class="form-control">
+                    <p class="error" id="emailError"></p>
                     <input type="password" name="password" placeholder="Password" id="passwordText" class="form-control">
+                    <p class="error" id="passwordError"></p>
                     <input type="password" name="passwordVerify" placeholder="Password Verification" id="passwordVerifyText" class="form-control">
+                    <p class="error" id="passwordVerifyError"></p>
                     <button type="button" class="btn btn-outline-light" id="signupButton" class="form-control" onclick="CreateUser()">Sign Up</button>
                 </div>
             </div>
