@@ -36,20 +36,23 @@
         </nav>
 
         <!-- Form -->
+         <form name="forgotpasswordform">
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-md-6" id="forgotPasswordContent">
                     <p id="title">Password Reset</p>
                     <input type="text" name="username" placeholder="Username" id="usernameText" class="form-control">
+                    <p class="error" id="usernameError"></p>
                     <input type="text" name="email" placeholder="Email" id="emailText" class="form-control">
-                    
-                    <button type="button" onclick="window.location.href = '../login';" class="btn btn-outline-light" id="submitButton" class="form-control">Submit</button>
+                    <p class="error" id="emailError"></p>
+                    <button type="button" onclick="forgotPassword(); window.location.href = '../login';"  class="btn btn-outline-light" id="submitButton" class="form-control">Submit</button>
 
 
                 </div>
             </div>
             
         </div>
+    </form>
 
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>
