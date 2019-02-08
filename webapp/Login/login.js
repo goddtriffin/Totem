@@ -4,6 +4,10 @@ function login(username, password){
 	if(verifyInput(username, password)){
 		// move to next page
 		console.log("move to next page");
+		return 1;
+	}
+	else{
+		return 0;
 	}
 
 }
