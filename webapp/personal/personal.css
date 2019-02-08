@@ -35,14 +35,14 @@ body{
 
 .personal-opt{
 	color: #551a8b;
-	font-size: 9vh;
+	font-size: 300%;
 	/* text-align: center */
 	position: relative;
 }
 
 .personal-opt:hover{
 	color: violet;
-	font-size: 11vh;
+	font-size: 360%;
 }
 .btn-margin{
 	margin-bottom: 8vw !important;
@@ -53,7 +53,7 @@ body{
 }
 
 #personal-text{
-	font-size: 1.5rem;
+	font-size: 1rem;
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	/* color: #e9b9f1;  */
 	color: white;

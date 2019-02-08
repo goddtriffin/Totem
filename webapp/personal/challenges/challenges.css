@@ -1,5 +1,5 @@
 body{
-    color: lightgray;
+    background-color: #9975b9 !important;
 }
 
 .navbar-dark{
@@ -19,4 +19,46 @@ body{
 
 #navName{
     color: lightgray;
+}
+
+#title{
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+#challengeSection{
+    background: rgba(0, 0, 0, 0.25);
+    border: 2px solid white;
+    border-radius: 25px;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    text-align: center;
+    align-content: center;
+    /* width: 50%; */
+}
+
+#viewToggle{
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+#viewToggle .btn{
+    width: 50%;
+}
+
+#viewToggle .btn-group-toggle label{
+    color: white;
+    background-color: #7647a2;
+    border-color: #551a8b;
+}
+
+#viewToggle .btn-group-toggle label:hover{
+    background-color: purple;
+}
+
+#viewToggle .active{
+    color: white;
+    background-color: #551a8b !important;
 }
