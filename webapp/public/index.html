@@ -86,6 +86,7 @@
         </div>
 
         <!-- New Poll -->
+        <form id="newPollForm">
         <div id="newPoll" class="modal fade" role="dialog">
             <div class="modal-dialog">
             
@@ -161,11 +162,12 @@
                             </label>
                         </div>
                         <!-- Create Button -->
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Create</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="createPoll(newPollForm.inputTile.value, newPollForm.themeInput.value, newPollForm.expirationInput.value, newPollForm.imageOne, newPollForm.imageTwo, newPollForm.option1.value, newPollForm.option2.value)">Create</button>
                     </div>
                 </div>
             </div>
         </div>
+    </form>
 
         <!-- Poll Card -->
         <div class="fluid-container">
