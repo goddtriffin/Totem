@@ -6,6 +6,20 @@ signup = (username, displayName, email, password, passwordVerify) => {
 		// move to next page
 		// Createuser(username, displayName, email, password, passwordVerify);
 		console.log("move to next page");
+
+
+
+		const Http = new XMLHttpRequest();
+		const url='http://68.183.110.202/';
+		Http.open("GET", url);
+		Http.send();
+		Http.onreadystatechange=(e)=>{
+			console.log(Http.responseText)
+		}
+
+
+
+
 		return 1;
 	}
 	return 0;
