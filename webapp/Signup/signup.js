@@ -1,21 +1,16 @@
 
-	
 
-function CreateUser() {
-	var username = signupform.username.value;
-	var displayName =  signupform.displayName.value;
-	var email = signupform.email.value;
-	var password = signupform.password.value;
-	var passwordVerify = signupform.passwordVerify.value;
+function CreateUser(username, displayName, email, password, passwordVerify) {
+	// var username = signupform.username.value;
+	// var displayName =  signupform.displayName.value;
+	// var email = signupform.email.value;
+	// var password = signupform.password.value;
+	// var passwordVerify = signupform.passwordVerify.value;
 	if(verifyInput(username, displayName, email, passwordVerify, password)){
 		// move to next page
 		console.log("move to next page");
 	}
-
-
 }
-
-
 
 
 function verifyInput(username, displayName, email, passwordVerify, password){
