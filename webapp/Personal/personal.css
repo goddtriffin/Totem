@@ -32,6 +32,58 @@ body{
 	/* right: 37%; */
 	right: 5%;
 }
+
+.personal-opt{
+	color: #551a8b;
+	font-size: 9vh;
+	/* text-align: center */
+	position: relative;
+}
+
+.personal-opt:hover{
+	color: violet;
+	font-size: 11vh;
+}
+.btn-margin{
+	margin-bottom: 8vw !important;
+}
+
+#no-bottom{
+	margin-bottom: -10vw;
+}
+
+#personal-text{
+	font-size: 1.5rem;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	/* color: #e9b9f1;  */
+	color: white;
+}
+
+#friend-btn{
+	/* text-align: left; */
+
+	/* font-size: 5rem; */
+	
+}
+
+#hist-btn{
+	/* text-align: right; */
+	/* color: green */
+	position: relative;
+	/* font-size: 1.5rem; */
+
+}
+
+#mypoll-btn{
+	/* text-align: right; */
+	
+	margin-bottom: 1000px !important;
+}
+
+#challenge-btn{
+	/* text-align: right; */
+}
+
 #navNameLI{
     pointer-events: none;
     font-weight: bold;
