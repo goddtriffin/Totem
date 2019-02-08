@@ -7,19 +7,6 @@ signup = (username, displayName, email, password, passwordVerify) => {
 		// Createuser(username, displayName, email, password, passwordVerify);
 		console.log("move to next page");
 
-
-
-		const Http = new XMLHttpRequest();
-		const url='http://68.183.110.202/';
-		Http.open("GET", url);
-		Http.send();
-		Http.onreadystatechange=(e)=>{
-			console.log(Http.responseText)
-		}
-
-
-
-
 		return 1;
 	}
 	return 0;
@@ -42,7 +29,6 @@ function verifyInput(username, displayName, email, passwordVerify, password){
 	else if(username.length < 6){
 		document.getElementById("usernameError").innerHTML = "Please enter a valid Username";
 		has_error = true;
-
 	}
 	else{
 		document.getElementById("usernameError").innerHTML = "";
@@ -97,7 +83,6 @@ function verifyInput(username, displayName, email, passwordVerify, password){
 	}
 	else{
 		document.getElementById("passwordVerifyError").innerHTML = "";
-
 	}
 
 	if(has_error){
