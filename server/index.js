@@ -43,5 +43,6 @@ app.use(bodyParser.json());
 app.use(require('./routes'));  // all endpoints
 
 const server = app.listen(process.env.PORT || 80, () => {
-    console.log('Listening on http://localhost:' + server.address().port);
+    const port = server.address().port;
+    console.log('Listening on http://localhost' + ((port === 80)? '' : ':' + port));
 });
