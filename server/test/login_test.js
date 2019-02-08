@@ -6,40 +6,33 @@ var expect = require('chai').expect;
 describe('#login()', function() {
 
 
-  context('empty inputs', function() {
+  context('Empty Inputs', function() {
 
-    it('empty username', function() {
+    it('Empty username', function() {
       expect(0).to.equal(0)
     })
 
-	
-    it('empty password', function() {
+    it('Empty password', function() {
       expect(0).to.equal(0)
-    })
-
-    
+    }) 
 
   })
   
   
-  context('exsiting user', function() {
+  context('Exsiting user', function() {
    
-   it('a user with that username does not exist', function() {
+   it('A user with that username does not exist', function() {
       expect(0).to.equal(0)
     })
 
-	
-
   })
 
-  context('login failed', function() {
+  context('Login failed', function() {
    
-   it('wrong password', function() {
+   it('Wrong password', function() {
       expect(0).to.equal(0)
     })
 
   })
-  
-
 
 })
