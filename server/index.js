@@ -25,17 +25,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // connect to the database (knex => SQLite3 => SQLite)
-app.locals.db = require('knex')({
-    client: "sqlite3",
-    connection: {
-        filename: "./db/" + ((process.env.NODE_ENV === 'production')? 'prod' : 'dev') + ".db"
-    },
-    useNullAsDefault: true,
-    debug: !process.env.NODE_ENV,
-    asyncStackTraces: true
-});
-
-app.locals.utils = require('./tools/utils');  // helper methods
+const databasePath =  './db/' + ((process.env.NODE_ENV === 'production')? 'prod' : 'dev') + '.db';
+app.locals.db = require('./tools/db').create(databasePath,  true, !process.env.NODE_ENV, true);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

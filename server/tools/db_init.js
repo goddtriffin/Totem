@@ -8,14 +8,7 @@ if (process.argv.length != 3) {
 const databasePath = "./db/" + process.argv[2] + ".db";
 
 // connect to knex => sqlite3 => database
-const db = require('knex')({
-    client: "sqlite3",
-    connection: {
-        filename: databasePath
-    },
-    debug: true,
-    asyncStackTraces: true
-});
+const db = require('./db').create(databasePath, true, true, true);
 
 async function create_users_table() {
     await db.schema.hasTable('users').then(exists => {
