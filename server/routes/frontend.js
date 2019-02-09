@@ -10,14 +10,14 @@ router.get('/', (req, res) => {
 // these routes need auth to work
 const authed_pages = ['/friends', '/personal', '/private', '/public', '/settings', '/tournament'];
 router.use(authed_pages, (req, res, next) => {
-    if (!auth.validate(req, res)) {
-        if (res.headersSent) {
-            return;
-        }
+    // if (!auth.validate(req, res)) {
+    //     if (res.headersSent) {
+    //         return;
+    //     }
 
-        res.redirect('/splash');
-        return;
-    }
+    //     res.redirect('/splash');
+    //     return;
+    // }
 
     next();
 }); 
