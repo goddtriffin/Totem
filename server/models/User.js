@@ -2,213 +2,212 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // creates new user account
-async function signup(req, res, data) {
+async function signup(db, email, username, display_name, hash, emoji, friend_challenges, friend_challenges_won, tiki_tally, polls_created) {
     // hash the password before storing for security
-    data.hash = bcrypt.hashSync(data.hash, 10);
+    hash = bcrypt.hashSync(hash, 10);
 
-    await req.app.locals.db('users')
-        .insert(data)
+    const result = await db('users')
+        .insert({
+            email, username, display_name, emoji, hash,
+            friend_challenges, friend_challenges_won,
+            tiki_tally, polls_created
+        })
         .catch(e => {
-            res.status(500).send({
+            return {
                 code: 500,
-                info: e.originalStack
-            });
-            return;
+                data: e.originalStack
+            };
         });
-    
-    if (res.headersSent) {
-        return;
+
+    if (!!result.code) {
+        if (result.data.includes('UNIQUE constraint failed: users.username')) {
+            return {
+                code: 409,
+                data: 'username already exists'
+            }
+        }
+
+        return result;
     }
     
     // immediately authenticate on successful signup
     const payload = {
         iss: 'Totem',
-        sub: data.username
+        sub: username
     }
 
-    res.status(200).send(jwt.sign(payload, process.env.JWT_SECRET));
+    return {
+        code: 200,
+        data: jwt.sign(payload, process.env.JWT_SECRET)
+    };
 }
 
 // authenticates user
-async function login(req, res, data) {
-    const result = await req.app.locals.db('users')
-        .where('username', data.username)
+async function login(db, username, password) {
+    const result = await db('users')
+        .where('username', username)
         .select('hash')
         .catch(e => {
-            res.status(500).send({
+            return {
                 code: 500,
-                info: e.originalStack
-            });
-            return;
+                data: e.originalStack
+            };
         });
-
-    if (res.headersSent) {
-        return;
+    
+    if (!!result.code) {
+        return result;
     }
     
     // if no results, then no account exists with that username
     if (result.length !== 1) {
-        res.status(400).send({
+        return {
             code: 400,
-            info: 'no account found with username: ' + data.username
-        });
-        return;
+            data: 'no account found with username: ' + username
+        };
     }
 
     // validate password
-    if (!bcrypt.compareSync(data.password, result[0].hash)) {
-        res.status(401).send({
+    if (!bcrypt.compareSync(password, result[0].hash)) {
+        return {
             code: 401,
-            info: 'wrong password'
-        });
-        return;
+            data: 'wrong password'
+        };
     }
 
     // authenticate on successful login
     const payload = {
         iss: 'Totem',
-        sub: data.username
+        sub: username
     }
 
-    res.status(200).send(jwt.sign(payload, process.env.JWT_SECRET));
+    return {
+        code: 200,
+        data: jwt.sign(payload, process.env.JWT_SECRET)
+    };
 }
 
-// returns the entire history of a user
-async function me(req, res) {
-    const result = await req.app.locals.db('users')
-        .where('username', req.jwt.sub)
-        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+// returns a single user's data by username
+async function getByUsername(db, username) {
+    const result = await db('users')
+        .where('username', username)
+        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {
-            res.status(500).send({
+            return {
                 code: 500,
-                info: e.originalStack
-            });
-            return;
+                data: e.originalStack
+            };
         });
 
-    if (res.headersSent) {
-        return;
+    if (!!result.code) {
+        return result;
     }
     
     // if no results, then no account exists with that username
     if (result.length !== 1) {
-        res.status(400).send({
+        return {
             code: 400,
-            info: 'no account found with username: ' + req.jwt.sub
-        });
-        return;
+            data: 'no account found with username: ' + username
+        };
     }
 
-    res.status(200).send(result);
+    return {
+        code: 200,
+        data: result[0]
+    }
 }
 
-// returns a single User by username
-async function getByUsername(req, res, data) {
-    const result = await req.app.locals.db('users')
-        .where('username', data.username)
-        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+// returns a list of users' data that match the given query
+async function search(db, query) {
+    const result = await db('users')
+        .where('username', 'like', '%' + query + '%')
+        .select('username', 'display_name', 'emoji', 'tiki_tally')
         .catch(e => {
-            res.status(500).send({
+            return {
                 code: 500,
-                info: e.originalStack
-            });
-            return;
+                data: e.originalStack
+            };
         });
 
-    if (res.headersSent) {
-        return;
-    }
-    
-    // if no results, then no account exists with that username
-    if (result.length !== 1) {
-        res.status(400).send({
-            code: 400,
-            info: 'no account found with username: ' + data.username
-        });
-        return;
+    if (!!result.code) {
+        return result;
     }
 
-    res.status(200).send(result);
-}
-
-// returns a list of users/usernames that match the given query
-async function search(req, res, data) {
-    const result = await req.app.locals.db('users')
-        .where('username', 'like', '%' + data.query + '%')
-        .select('username', 'display_name', 'emoji')
-        .catch(e => {
-            res.status(500).send({
-                code: 500,
-                info: e.originalStack
-            });
-            return;
-        });
-
-    if (res.headersSent) {
-        return;
+    return {
+        code: 200,
+        data: result
     }
-
-    res.status(200).send(result);
 }
 
 // returns a list of all users
-async function all(req, res) {
-    const result = await req.app.locals.db('users')
-        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+async function all(db) {
+    const result = await db('users')
+        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {
-            res.status(500).send({
+            return {
                 code: 500,
-                info: e.originalStack
-            });
-            return;
+                data: e.originalStack
+            };
         });
 
-    if (res.headersSent) {
-        return;
+    if (!!result.code) {
+        return result;
     }
 
-    res.status(200).send(result);
+    return {
+        code: 200,
+        data: result
+    }
 }
 
 // updates user account information
-async function update(req, res, data) {
-    if (data.hasOwnProperty('hash')) {
-        // hash the password before storing for security
-        data.hash = bcrypt.hashSync(data.hash, 10);
+async function update(db, username, display_name, password, emoji) {
+    // put the rows to be updated in here
+    const data = {};
+
+    if (!!display_name) {
+        data.display_name = display_name;
     }
 
-    const result = await req.app.locals.db('users')
-        .where('username', req.jwt.sub)
+    if (!!hash) {
+        // hash the password before storing for security
+        data.hash = bcrypt.hashSync(password, 10);
+    }
+
+    if (!!emoji) {
+        data.emoji = emoji;
+    }
+
+    const result = await db('users')
+        .where('username', username)
         .update(data)
         .catch(e => {
-            res.status(500).send({
+            return {
                 code: 500,
-                info: e.originalStack
-            });
-            return;
+                data: e.originalStack
+            };
         });
 
-    if (res.headersSent) {
-        return;
+    if (!!result.code) {
+        return result;
     }
 
-    res.status(200).send({
+    return {
         code: 200,
-        info: "successful user account update"
-    });
+        info: "success"
+    };
 }
 
 // returns the entire history of a user
-async function history(req, res) {
-    res.status(501).send({
+async function history(db) {
+    return {
         code: 501,
-        info: 'not implemented'
-    });
+        data: 'not implemented'
+    };
 }
 
 module.exports = {
     signup, login,
-    me, getByUsername,
+    getByUsername,
     search, all,
     update,
     history

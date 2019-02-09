@@ -3,12 +3,6 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
-// make sure PORT environment variable is set
-if (isNaN(process.env.PORT)) {
-    console.log('Error: must copy .env.sample => .env and then fill it out (PORT: number)');
-    process.exit(1);
-}
-
 // make sure JWT_SECRET environment variable is set
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'YOUR_JWT_SECRET') {
     console.log('Error: must copy .env.sample => .env and then fill it out (JWT_SECRET: string)');
@@ -49,5 +43,6 @@ app.use(bodyParser.json());
 app.use(require('./routes'));  // all endpoints
 
 const server = app.listen(process.env.PORT || 80, () => {
-    console.log('Listening on http://localhost:' + server.address().port);
+    const port = server.address().port;
+    console.log('Listening on http://localhost' + ((port === 80)? '' : ':' + port));
 });

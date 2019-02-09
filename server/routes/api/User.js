@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const emoji = require('node-emoji');
 
+const utils = require('../../tools/utils');
 const auth = require('../auth');
 const User = require('../../models/User');
 
@@ -13,11 +14,11 @@ router.post('/signup', async (req, res, next) => {
         emoji: req.body.emoji,
         friend_challenges: 0,
         friend_challenges_won: 0,
-        tiki_score: 0,
+        tiki_tally: 0,
         polls_created: 0
     };
 
-    if (!req.app.locals.utils.validateObject(data)) {
+    if (!utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
             info: 'malformed body parameters: email, username, display_name, password, emoji'
@@ -37,7 +38,15 @@ router.post('/signup', async (req, res, next) => {
         return;
     }
 
-    await User.signup(req, res, data);
+    const result = await User.signup(
+        req.app.locals.db,
+        data.email, data.username, data.display_name,
+        data.hash, data.emoji,
+        data.friend_challenges, data.friend_challenges_won,
+        data.tiki_tally, data.polls_created
+    );
+
+    res.status(result.code).send(result);
 });
 
 router.post('/login', async (req, res, next) => {
@@ -46,7 +55,7 @@ router.post('/login', async (req, res, next) => {
         password: req.body.password
     };
 
-    if (!req.app.locals.utils.validateObject(data)) {
+    if (!utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
             info: 'malformed body parameters; username, password'
@@ -54,41 +63,66 @@ router.post('/login', async (req, res, next) => {
         return;
     }
 
-    await User.login(req, res, data);
+    const result = await User.login(
+        req.app.locals.db,
+        data.username, data.password
+    );
+
+    res.status(result.code).send(result);
 });
 
 router.get('/me', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(authCheck.code).send(authCheck);
+        return;
+    }
 
-    await User.me(req, res);
+    const result = await User.getByUsername(
+        req.app.locals.db, req.jwt.sub
+    );
+
+    res.status(result.code).send(result);
 });
 
-router.get('/u/:username', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+router.get('/profile', async (req, res, next) => {
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(authCheck.code).send(authCheck);
+        return;
+    }
 
     const data = {
-        username: req.params.username
+        username: req.body.username
     };
 
-    if (!req.app.locals.utils.validateObject(data)) {
+    if (!utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
-            info: 'malformed query parameters; /api/user/u/username (replace username with a real username)'
+            info: 'malformed body parameters; username'
         });
         return;
     }
 
-    await User.getByUsername(req, res, data);
+    const result = await User.getByUsername(
+        req.app.locals.db, data.username
+    );
+
+    res.status(result.code).send(result);
 });
 
 router.get('/search', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(authCheck.code).send(authCheck);
+        return;
+    }
 
     const data = {
         query: req.body.query
     };
 
-    if (!req.app.locals.utils.validateObject(data)) {
+    if (!utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
             info: 'malformed body parameters; query'
@@ -96,17 +130,33 @@ router.get('/search', async (req, res, next) => {
         return;
     }
 
-    await User.search(req, res, data);
+    const result = await User.search(
+        req.app.locals.db, data.query
+    );
+
+    res.status(result.code).send(result);
 });
 
 router.get('/all', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(authCheck.code).send(authCheck);
+        return;
+    }
 
-    await User.all(req, res);
+    const result = await User.all(
+        req.app.locals.db
+    );
+
+    res.status(result.code).send(result);
 });
 
 router.put('/update', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(authCheck.code).send(authCheck);
+        return;
+    }
 
     const data = {};
 
@@ -115,7 +165,7 @@ router.put('/update', async (req, res, next) => {
     }
 
     if (!!req.body.password) {
-        data.hash = req.body.password;
+        data.password = req.body.password;
     }
 
     if (!!req.body.emoji) {
@@ -134,7 +184,7 @@ router.put('/update', async (req, res, next) => {
         }
     }
 
-    if (Object.keys(data).length === 0 || !req.app.locals.utils.validateObject(data)) {
+    if (Object.keys(data).length === 0 || !utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
             info: 'optional body paramaters allowed: display_name, password, emoji'
@@ -142,13 +192,27 @@ router.put('/update', async (req, res, next) => {
         return;
     }
 
-    await User.update(req, res, data);
+    const result = await User.update(
+        req.app.locals.db, 
+        req.jwt.sub,
+        data.display_name, data.password, data.emoji
+    );
+
+    res.status(result.code).send(result);
 });
 
 router.get('/history', async (req, res, next) => {
-    if (!auth.validate(req, res)) return;
+    const authCheck = auth.validate(req, res);
+    if (authCheck.code !== 200) {
+        res.status(authCheck.code).send(authCheck);
+        return;
+    }
 
-    await User.history(req, res);
+    const result = await User.history(
+        req.app.locals.db
+    );
+
+    res.status(result.code).send(result);
 });
 
 module.exports = router;
