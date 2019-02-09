@@ -112,7 +112,7 @@ async function me(db, username) {
 
     return {
         code: 200,
-        data: result
+        data: result[0]
     };
 }
 
@@ -142,7 +142,7 @@ async function getByUsername(db, username) {
 
     return {
         code: 200,
-        data: result
+        data: result[0]
     }
 }
 
@@ -190,7 +190,7 @@ async function all(db) {
 }
 
 // updates user account information
-async function update(db, username, display_name, hash) {
+async function update(db, username, display_name, hash, emoji) {
     // put the rows to be updated in here
     const data = {};
 

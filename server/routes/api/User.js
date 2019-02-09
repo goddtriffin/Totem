@@ -204,13 +204,15 @@ router.put('/update', async (req, res, next) => {
 router.get('/history', async (req, res, next) => {
     const authCheck = auth.validate(req, res);
     if (authCheck.code !== 200) {
-        res.status(authCheck).send(authCheck);
+        res.status(authCheck.code).send(authCheck);
         return;
     }
 
     const result = await User.history(
         req.app.locals.db
     );
+
+    console.log('history', result);
 
     res.status(result.code).send(result);
 });
