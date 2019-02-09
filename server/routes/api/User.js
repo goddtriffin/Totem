@@ -212,8 +212,6 @@ router.get('/history', async (req, res, next) => {
         req.app.locals.db
     );
 
-    console.log('history', result);
-
     res.status(result.code).send(result);
 });
 
