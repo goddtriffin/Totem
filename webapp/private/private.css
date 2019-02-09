@@ -33,6 +33,11 @@ body{
     margin-top: 60px;
 }
 
+#themeDiv {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
 .topButton{
     width: 100%;
     margin-top: 0.25rem;

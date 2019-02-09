@@ -39,11 +39,9 @@ body{
     margin-bottom: 0.25rem;
 }
 
-#searchBar{
-    background: transparent;
-    color: white !important;
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
+#themeDiv {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 .pollCard{
