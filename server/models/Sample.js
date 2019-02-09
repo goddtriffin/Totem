@@ -1,9 +1,9 @@
 // info
-async function routeModel(req, res) {
-    res.status(501).send({
+async function routeModel(db) {
+    return {
         code: 501,
-        info: 'not implemented'
-    });
+        data: 'not implemented'
+    };
 }
 
 module.exports = {
