@@ -9,7 +9,7 @@
     "dev": "npm run init-db-dev && nodemon index.js",
     "init-db-prod": "mkdir -p db && node tools/db_init.js prod",
     "init-db-dev": "mkdir -p db && rm -f db/dev* && node tools/db_init.js dev",
-    "test": "mocha"
+    "test": ""
   },
   "author": "Todd Griffin",
   "license": "ISC",
