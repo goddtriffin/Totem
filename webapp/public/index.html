@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="public.css">
         <link href="../bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
         <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
     </head>
     <body>
@@ -49,8 +50,12 @@
                 <div class="col-md-2">
                     <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#sortCard">Sort</button>
                 </div>
-                <div class="col-md-8">
-                    <input id="searchBar" class="form-control" type="text" placeholder="Search" aria-label="Search">
+                <div class="col-md-8" id="themeDiv">
+                    <select class="selectpicker form-control" id="themePicker" data-live-search="true" title="Filter by Theme" multiple>
+                        <option>Theme One</option>
+                        <option>Theme Two</option>
+                        <option>Theme Three</option>
+                    </select>  
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#newPoll">New Poll</button>
@@ -232,5 +237,6 @@
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>
         <script src="public.js" async defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
     </body>
 </html>
