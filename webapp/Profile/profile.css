@@ -196,3 +196,12 @@ body{
 tbody tr{
     cursor: pointer;
 }
+
+#emojiTable{
+	text-align: center;
+	overflow: scroll;
+}
+
+.emoji{
+	font-size: 2.5rem;
+}
