@@ -10,9 +10,6 @@ createPoll = (title, theme, experiation, imageOne, imageTwo, privacy1, privacy2)
 		console.log("public");
 
 	}
-
-
-
 }
 
 
@@ -24,7 +21,13 @@ function verifyCreatepollInput(title, theme, experiation, imageOne, imageTwo, pr
 		return 0;
 	}
 	return 1;
+}
 
-
-
+function switchPollType(){
+	if(document.getElementById("personalButton").checked === true){
+		console.log("Personal Selected");
+	}	
+	else{
+		console.log("Challenge Selected");
+	}
 }

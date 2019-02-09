@@ -104,13 +104,13 @@
                     </div>
                     <div class="modal-body">
                         
-                        <!-- Personal vs Friends -->
-                        <div class="btn-group btn-group-toggle" id="personalToggle" data-toggle="buttons">
+                        <!-- Personal vs Challenge -->
+                        <div class="btn-group btn-group-toggle" id="personalToggle" data-toggle="buttons" onclick="switchPollType(event)">
                             <label class="btn btn-secondary active">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Personal
+                                <input type="radio" name="personal" id="personalButton" autocomplete="off"> Personal
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option2" autocomplete="off"> Challenge
+                            <label class="btn btn-secondary" >
+                                <input type="radio" name="challenge" id="challengeButton" autocomplete="off"> Challenge
                             </label>
                         </div>
 
