@@ -78,7 +78,7 @@ router.get('/me', async (req, res, next) => {
         return;
     }
 
-    const result = await User.me(
+    const result = await User.getByUsername(
         req.app.locals.db, req.jwt.sub
     );
 

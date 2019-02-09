@@ -86,37 +86,7 @@ async function login(db, username, password) {
     };
 }
 
-// returns the entire history of a user
-async function me(db, username) {
-    const result = await db('users')
-        .where('username', username)
-        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
-        .catch(e => {
-            return {
-                code: 500,
-                data: e.originalStack
-            };
-        });
-    
-    if (!!result.code) {
-        return result;
-    }
-    
-    // if no results, then no account exists with that username
-    if (result.length !== 1) {
-        return {
-            code: 400,
-            data: 'no account found with username: ' + username
-        };
-    }
-
-    return {
-        code: 200,
-        data: result[0]
-    };
-}
-
-// returns a single User by username
+// returns a single user's data by username
 async function getByUsername(db, username) {
     const result = await db('users')
         .where('username', username)
@@ -146,7 +116,7 @@ async function getByUsername(db, username) {
     }
 }
 
-// returns a list of users/usernames that match the given query
+// returns a list of users' data that match the given query
 async function search(db, query) {
     const result = await db('users')
         .where('username', 'like', '%' + query + '%')
@@ -237,7 +207,7 @@ async function history(db) {
 
 module.exports = {
     signup, login,
-    me, getByUsername,
+    getByUsername,
     search, all,
     update,
     history
