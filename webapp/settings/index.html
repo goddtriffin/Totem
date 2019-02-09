@@ -12,54 +12,58 @@
     </head>
     <body>
 		<!-- Nav Bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark static-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand">TOTEM</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item" id="navNameLI"><a class="nav-link" id="navName">Hi!</a></li>
-
-                    <li class="nav-item" id="personalNav">
-                        <a class="nav-link" href="../personal">Personal</a>
-                    </li>
-                    <li class="nav-item" id="privateNav">
-                        <a class="nav-link" href="../private">Private</a>
-                    </li>
-                    <li class="nav-item" id="publicNav">
-                        <a class="nav-link" href="../public">Public
-                            <!--<span class="sr-only">(current)</span>-->
-                        </a>
-                    </li>
-                    <li class="nav-item" id="tournamentNav"> 
-                        <a class="nav-link" href="../tournament">Tournament</a>
-                    </li>
-                </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item" id="publicNav">
+                            <a class="nav-link" href="../public">Public</a>
+                        </li>
+                        <li class="nav-item" id="privateNav">
+                            <a class="nav-link" href="../private">Private</a>
+                        </li>
+                        <li class="nav-item" id="tournamentNav"> 
+                            <a class="nav-link" href="../tournament">Tournament</a>
+                        </li>
+                        <li class="nav-item" id="personalNav">
+                            <a class="nav-link" href="../profile">Profile</a>
+                        </li>
+                        <li class="nav-item" id="logout">
+                            <button class="btn btn-outline-light">Logout</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
-		
+		<form id="c">
 		<div class="container">
 			<div class="row justify-content-md-center">
 				<div class="col-md-6" id="settingsContent">
 					<p id="title">Settings</p><br>
-					<!-- Change Password -->
+					<!-- Change Display Name -->
 					<p id="sub-heading">Change Display Name</p>
 					<input type="text" name="changedisplayname" placeholder="New Display Name" id="displayNameText" class="form-control">
-					<input type="text" name="repeatdisplayname" placeholder="Repeat New Display Name" id="repeatDisplayNameText" class="form-control"><br>
-                    <button type="button" class="btn btn-outline-light" id="submitDisplayButton" class="form-control" onclick="">Submit Changes to Display Name</button><br><br>
+                    <p class="error" id="displaynameError"></p>
+					<input type="text" name="repeatdisplayname" placeholder="Repeat New Display Name" id="repeatDisplayNameText" class="form-control"> <!-- <br> -->
+                    <p class="error" id="displaynameverifyError"></p> 
+                    <button type="button" class="btn btn-outline-light" id="submitDisplayButton" class="form-control" onclick="changeDisplayName(changeSettings.changedisplayname, changeSettings.repeatdisplayname)">Submit Changes to Display Name</button><br><br>
 					
-					<!-- Change Display Name -->
+                    <!-- Change Password -->
 					<p id="sub-heading">Change Password</p>
 					<input type="password" name="changepassword" placeholder="New Password" id="passwordText" class="form-control">
-					<input type="password" name="repeatpassword" placeholder="Repeat New Password" id="repeatPasswordText" class="form-control"><br>
-					<button type="button" class="btn btn-outline-light" id="submitPasswordButton" class="form-control" onclick="">Submit Changes to Password</button>
+                    <p class="error" id="passwordError"></p> 
+					<input type="password" name="repeatpassword" placeholder="Repeat New Password" id="repeatPasswordText" class="form-control"><!-- <br> -->
+                    <p class="error" id="passwordverifyError"></p> 
+					<button type="button" class="btn btn-outline-light" id="submitPasswordButton" class="form-control" onclick="changePassword(changeSettings.changepassword, changeSettings.repeatpassword)">Submit Changes to Password</button>
 					
 				</div>
 			</div>
 		</div>
+    </form>
 	
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>

@@ -4,7 +4,7 @@ body{
 }
 
 .navbar-dark{
-    background-color: #551a8b;
+	background-color: #551a8b;
 }
 
 .navbar-brand{
@@ -34,15 +34,15 @@ body{
 }
 
 .personal-opt{
-	color: #551a8b;
-	font-size: 9vh;
+	color: #551a8b !important;
+	font-size: 300%;
 	/* text-align: center */
 	position: relative;
 }
 
 .personal-opt:hover{
-	color: violet;
-	font-size: 11vh;
+	color: violet !important;
+	font-size: 360%;
 }
 .btn-margin{
 	margin-bottom: 8vw !important;
@@ -53,7 +53,7 @@ body{
 }
 
 #personal-text{
-	font-size: 1.5rem;
+	font-size: 1rem;
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	/* color: #e9b9f1;  */
 	color: white;
@@ -82,6 +82,7 @@ body{
 
 #challenge-btn{
 	/* text-align: right; */
+	/* color: #551a8b !important; */
 }
 
 #navNameLI{
@@ -101,16 +102,17 @@ body{
     border: 2px solid white;
     border-radius: 10px;
     margin-top: 1.5rem;
-    padding: 1rem;
+	padding: 1rem;
+	margin-top: 60px;
 }
 
 #emoji{
 	
 	align-content: center;
 	text-align: center;
-	#border: 1px solid white;
-	#border-radius: 25%;
-	#height: 150%;
+	/* #border: 1px solid white; */
+	/* #border-radius: 25%; */
+	/* #height: 150%; */
 	width: 100px;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
@@ -119,9 +121,9 @@ body{
 #emoji:hover{
 	align-content: center;
 	text-align: center;
-	#border: 1px solid white;
-	#border-radius: 25%;
-	#height: 155%;
+	/* #border: 1px solid white; */
+	/* #border-radius: 25%; */
+	/* #height: 155%; */
 	width: 115px;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
@@ -131,7 +133,7 @@ body{
 	text-align: center;
 	align-content: center;
 	font-size: 1.5rem;
-	#font-style: italic;
+	/* #font-style: italic; */
 	font-weight: bold;
 	margin: 0;
 	color: white;
@@ -141,7 +143,7 @@ body{
 	text-align: center;
 	align-content: center;
 	font-size: 1.5rem;
-	#font-style: italic;
+	/* #font-style: italic; */
 	margin: 0;
 	color: white;
 }
@@ -156,9 +158,50 @@ body{
 	align-content: center;
 	font-size: 1.2rem;
 	color: white;
-	#border: 1px solid white;
+	/* #border: 1px solid white; */
 	margin-top: 10px;
 	border-radius: 20%;
 	background-color: rgba(0, 0, 0, 0.10);
 	padding: 5%;
+}
+
+#viewToggle, #friendToggle{
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+#viewToggle .btn{
+    width: 50%;
+}
+
+#friendToggle .btn{
+    width: 33%;
+}
+
+.btn-group-toggle label{
+    color: white;
+    background-color: #7647a2;
+    border-color: #551a8b;
+}
+
+.btn-group-toggle label:hover{
+    background-color: purple;
+}
+
+#viewToggle .active, #friendToggle .active{
+    color: white;
+    background-color: #551a8b;
+}
+
+tbody tr{
+    cursor: pointer;
+}
+
+#emojiTable{
+	text-align: center;
+	overflow: scroll;
+}
+
+.emoji{
+	font-size: 2.5rem;
 }

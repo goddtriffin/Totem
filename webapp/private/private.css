@@ -29,7 +29,13 @@ body{
     text-align: center;
     padding: 0.5rem;
     margin: 0px;
-    width: 100%:
+    width: 100%;
+    margin-top: 60px;
+}
+
+#themeDiv {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 .topButton{

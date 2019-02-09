@@ -8,35 +8,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="private.css">
         <link href="../bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
         <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
     </head>
     <body>
         <!-- Nav Bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark static-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand">TOTEM</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item" id="navNameLI"><a class="nav-link" id="navName">Hi!</a></li>
-
-                    <li class="nav-item" id="personalNav">
-                        <a class="nav-link" href="../personal">Personal</a>
-                    </li>
-                    <li class="nav-item active" id="privateNav">
-                        <a class="nav-link" href="../private">Private
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" id="publicNav">
-                        <a class="nav-link" href="../public">Public</a>
-                    </li>
-                    <li class="nav-item" id="tournamentNav"> 
-                        <a class="nav-link" href="../tournament">Tournament</a>
-                    </li>
-                </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item" id="publicNav">
+                            <a class="nav-link" href="../public">Public</a>
+                        </li>
+                        <li class="nav-item" id="privateNav">
+                            <a class="nav-link active" href="../private">Private
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="tournamentNav"> 
+                            <a class="nav-link" href="../tournament">Tournament</a>
+                        </li>
+                        <li class="nav-item" id="personalNav">
+                            <a class="nav-link" href="../profile">Profile</a>
+                        </li>
+                        <li class="nav-item" id="logout">
+                            <button class="btn btn-outline-light">Logout</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -45,13 +47,20 @@
         <div class="fluid-container">
             <div id="topBar" class="row justify-content-md-center">
                 <div class="col-md-2">
-                    <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#sortCard">Sort</button>
-                </div>
-                <div class="col-md-8">
-                    <input id="searchBar" class="form-control" type="text" placeholder="Search" aria-label="Search">
-                </div>
-                <div class="col-md-2">
                     <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#newPoll">New Poll</button>
+                </div>
+                <div class="col-md-8" id="themeDiv">
+                    <select class="selectpicker form-control" id="themePicker" data-live-search="true" title="Filter" multiple>
+                        <option>Theme One</option>
+                        <option>Theme Two</option>
+                        <option>Theme Three</option>
+                    </select>  
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-outline-light topButton">Search</button>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#sortCard">Sort</button>
                 </div>
             </div>
         </div>
@@ -128,12 +137,18 @@
                             </div>
                         </div>
 
-                        <!-- Expiration -->
+                        <!-- Duration -->
                         <div class="form-group row">
-                            <label for="expirationInput" class="col-sm-2 col-form-label">Expiration</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="datetime-local" id="expirationInput">
-                            </div>
+                            <label for="expirationInput" class="col-sm-2 col-form-label">Duration</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" min="0" placeholder="Days">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" min="0" placeholder="Hours">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" min="0" placeholder="Mins">
+                                </div>
                         </div>
 
                         <!-- Image Upload -->
@@ -221,5 +236,6 @@
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>
         <script src="private.js" async defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
     </body>
 </html>

@@ -35,9 +35,9 @@ body{
 
 #title{
     font-size: 2.5rem;
-    #font-weight: bold;
     margin: 0;
     color: white;
+    font-weight: bold;
 }
 
 #loginContent{
@@ -48,6 +48,7 @@ body{
     border-radius: 25px;
     margin-top: 1.5rem;
     padding: 1rem;
+    margin-top: 100px;
 }
 
 #usernameText, #passwordText, #loginButton, #forgotButton{
