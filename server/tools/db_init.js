@@ -26,11 +26,11 @@ async function create_users_table() {
                 table.string('display_name');
                 table.string('hash');
 
-                table.string('emoji');  // make this a char?
+                table.string('emoji', 1);
                 
                 table.integer('friend_challenges');
                 table.integer('friend_challenges_won');
-                table.integer('tiki_score');  // 2x tikis on votes to your picture, 1x tikis on votes to the opponents pictures
+                table.integer('tiki_tally');  // 2x tikis on votes to your picture, 1x tikis on votes to the opponents pictures
                 table.integer('polls_created');
             });
         }

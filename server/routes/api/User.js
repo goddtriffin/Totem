@@ -14,7 +14,7 @@ router.post('/signup', async (req, res, next) => {
         emoji: req.body.emoji,
         friend_challenges: 0,
         friend_challenges_won: 0,
-        tiki_score: 0,
+        tiki_tally: 0,
         polls_created: 0
     };
 
@@ -43,7 +43,7 @@ router.post('/signup', async (req, res, next) => {
         data.email, data.username, data.display_name,
         data.hash, data.emoji,
         data.friend_challenges, data.friend_challenges_won,
-        data.tiki_score, data.polls_created
+        data.tiki_tally, data.polls_created
     );
 
     res.status(result.code).send(result);
@@ -165,7 +165,7 @@ router.put('/update', async (req, res, next) => {
     }
 
     if (!!req.body.password) {
-        data.hash = req.body.password;
+        data.password = req.body.password;
     }
 
     if (!!req.body.emoji) {
@@ -195,7 +195,7 @@ router.put('/update', async (req, res, next) => {
     const result = await User.update(
         req.app.locals.db, 
         req.jwt.sub,
-        data.display_name, data.hash, data.emoji
+        data.display_name, data.password, data.emoji
     );
 
     res.status(result.code).send(result);

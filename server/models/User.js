@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // creates new user account
-async function signup(db, email, username, display_name, hash, emoji, friend_challenges, friend_challenges_won, tiki_score, polls_created) {
+async function signup(db, email, username, display_name, hash, emoji, friend_challenges, friend_challenges_won, tiki_tally, polls_created) {
     // hash the password before storing for security
     hash = bcrypt.hashSync(hash, 10);
 
@@ -10,7 +10,7 @@ async function signup(db, email, username, display_name, hash, emoji, friend_cha
         .insert({
             email, username, display_name, emoji, hash,
             friend_challenges, friend_challenges_won,
-            tiki_score, polls_created
+            tiki_tally, polls_created
         })
         .catch(e => {
             return {
@@ -90,7 +90,7 @@ async function login(db, username, password) {
 async function getByUsername(db, username) {
     const result = await db('users')
         .where('username', username)
-        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {
             return {
                 code: 500,
@@ -120,7 +120,7 @@ async function getByUsername(db, username) {
 async function search(db, query) {
     const result = await db('users')
         .where('username', 'like', '%' + query + '%')
-        .select('username', 'display_name', 'emoji')
+        .select('username', 'display_name', 'emoji', 'tiki_tally')
         .catch(e => {
             return {
                 code: 500,
@@ -141,7 +141,7 @@ async function search(db, query) {
 // returns a list of all users
 async function all(db) {
     const result = await db('users')
-        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_score', 'polls_created')
+        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {
             return {
                 code: 500,
@@ -160,7 +160,7 @@ async function all(db) {
 }
 
 // updates user account information
-async function update(db, username, display_name, hash, emoji) {
+async function update(db, username, display_name, password, emoji) {
     // put the rows to be updated in here
     const data = {};
 
@@ -170,7 +170,7 @@ async function update(db, username, display_name, hash, emoji) {
 
     if (!!hash) {
         // hash the password before storing for security
-        data.hash = bcrypt.hashSync(hash, 10);
+        data.hash = bcrypt.hashSync(password, 10);
     }
 
     if (!!emoji) {
