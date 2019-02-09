@@ -66,7 +66,7 @@ async function create_polls_table() {
 
                 table.string('state');  // pending, ready, active, expired
                 table.string('type');  // private, public
-                table.integer('duration');
+                table.integer('duration');  // TODO change this from 'integer' to 'string'
                 table.timestamp('start_time').nullable();  // created when state changes from 'ready' to 'active'
                 table.timestamp('end_time').nullable();  // created when state changes from 'ready' to 'active'
             });
