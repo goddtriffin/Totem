@@ -4,5 +4,6 @@ const router = require('express').Router();
 // router.use('/sample', require('./Sample'));
 
 router.use('/user', require('./User'));
+router.use('/poll', require('./Poll'));
 
 module.exports = router;
