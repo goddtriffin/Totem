@@ -85,7 +85,7 @@ router.get('/me', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/profile/:username', async (req, res, next) => {
+router.get('/profile', async (req, res, next) => {
     const authCheck = auth.validate(req, res);
     if (authCheck.code !== 200) {
         res.status(authCheck.code).send(authCheck);
@@ -93,13 +93,13 @@ router.get('/profile/:username', async (req, res, next) => {
     }
 
     const data = {
-        username: req.params.username
+        username: req.body.username
     };
 
     if (!utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
-            info: 'malformed query parameters; /api/user/profile/username (replace username with a real username)'
+            info: 'malformed body parameters; username'
         });
         return;
     }
