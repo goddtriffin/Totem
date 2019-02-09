@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
     }
 }
 
-// connect to the database (knex => SQLite3 => SQLite)
+// connect to the database
 const databasePath =  './db/' + ((process.env.NODE_ENV === 'production')? 'prod' : 'dev') + '.db';
 app.locals.db = require('./tools/db').create(databasePath,  true, !process.env.NODE_ENV, true);
 

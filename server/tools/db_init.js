@@ -6,8 +6,6 @@ if (process.argv.length != 3) {
 
 // set which database to use
 const databasePath = "./db/" + process.argv[2] + ".db";
-
-// connect to knex => sqlite3 => database
 const db = require('./db').create(databasePath, true, true, true);
 
 async function create_users_table() {
