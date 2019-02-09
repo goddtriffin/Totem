@@ -24,6 +24,12 @@ function verifyCreatepollInput(title, theme, experiation, imageOne, imageTwo, pr
 }
 
 function switchPollType(){
+	var ele = document.querySelectorAll(".btn-group > button.btn");
+	for(var i=0; i<ele.length; i++){
+		if(ele[i].checked){
+			console.log(ele[i].value);
+		}
+	}
 	if(document.getElementById("personalButton").checked === true){
 		console.log("Personal Selected");
 	}	
