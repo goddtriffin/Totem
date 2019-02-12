@@ -244,6 +244,13 @@ async function search(db, username_query) {
 
 // returns a list of all users
 async function all(db) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
     const result = await db('users')
         .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {

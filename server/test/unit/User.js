@@ -197,6 +197,13 @@ describe('User', () => {
 			const result = await User.all(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await User.all(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
+		});
 	});
 
 	describe('update', () => {
