@@ -236,6 +236,33 @@ describe('User', () => {
 			const result = await User.update(db, 'todd');
 			assert.strictEqual(result.code, 400, result.data);
 		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await User.update(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
+
+			it('invalid username', async () => {
+				const result = await User.update(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
+
+			it('invalid display_name', async () => {
+				const result = await User.update(db, 'todd', {});
+				assert.strictEqual(result.code, 400, result.data);
+			});
+
+			it('invalid password', async () => {
+				const result = await User.update(db, 'todd', 'toddgriffin', {});
+				assert.strictEqual(result.code, 400, result.data);
+			});
+
+			it('invalid emoji', async () => {
+				const result = await User.update(db, 'todd', 'toddgriffin', '123456789', {});
+				assert.strictEqual(result.code, 400, result.data);
+			});
+		});
 	});
 
 	describe('history', () => {

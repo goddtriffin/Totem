@@ -272,27 +272,67 @@ async function all(db) {
 
 // updates user account information
 async function update(db, username, display_name, password, emoji) {
-    // put the rows to be updated in here
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
+    // put the row's columns to be updated in here
     const data = {};
 
+    // check if display_name was set to be updated, then validate
     if (!!display_name) {
+        if (!regex.validateDisplayName(display_name)) {
+            return {
+                code: 400,
+                data: 'invalid display_name: ' + display_name
+            };
+        }
+
         data.display_name = display_name;
     }
 
+    // check if password was set to be updated, then validate
     if (!!password) {
+        if (!regex.validatePassword(password)) {
+            return {
+                code: 400,
+                data: 'invalid password: ' + password
+            };
+        }
+
         // hash the password before storing for security
         data.hash = bcrypt.hashSync(password, 10);
     }
 
+    // check if emoji was set to be updated, then validate, then convert
     if (!!emoji) {
-        data.emoji = emoji;
+        if (!utils.validateEmoji(emoji)) {
+            return {
+                code: 400,
+                data: 'invalid emoji: ' + emoji
+            };
+        }
+
+        // convert emoji into correct form
+        data.emoji = emoji_tool.find(emoji).emoji;
     }
 
+    // check if no optional update parameters were chosen
     const numUpdates = Object.keys(data).length;
     if (numUpdates < 1 || numUpdates > 3) {
         return {
             code: 400,
-            data: 'must pick at least one column to update: display_name, password, emoji'
+            data: 'must set, at a minimum, one of the following optional parameters to update: display_name, password, emoji'
         }
     }
 
