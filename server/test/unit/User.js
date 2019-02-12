@@ -140,4 +140,20 @@ describe('User', () => {
 			assert.equal(result.code, 400);
 		});
 	});
+
+	describe('history', () => {
+		before(async () => {
+			db = await db_tool.create(':memory:', true, false, true);
+		});
+
+		after(async () => {
+			await db.destroy();
+			db = null;
+		});
+
+		it.skip('success', async () => {
+			const result = await User.history(db);
+			assert.equal(result.code, 200);
+		});
+	});
 });
