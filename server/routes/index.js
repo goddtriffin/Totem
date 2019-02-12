@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 
 // frontend routes
-router.use('/', require('./frontend'));
+router.use('/', require('./Webapp'));
 
 // all API routes
 router.use('/api', require('./api'));
