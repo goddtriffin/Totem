@@ -76,4 +76,20 @@ describe('User', () => {
 			assert.equal(result.code, 400);
 		});
 	});
+
+	describe('search', () => {
+		before(async () => {
+			db = await db_tool.create(':memory:', true, false, true);
+		});
+
+		after(async () => {
+			await db.destroy();
+			db = null;
+		});
+
+		it('success', async () => {
+			const result = await User.search(db, 'anything');
+			assert.equal(result.code, 200);
+		});
+	});
 });
