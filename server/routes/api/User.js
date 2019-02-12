@@ -16,7 +16,7 @@ router.post('/signup', async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            info: 'mandatory body parameters: email, username, display_name, password, emoji'
+            data: 'mandatory body parameters: email, username, display_name, password, emoji'
         };
         res.status(result.code).send(result);
         return;
@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            info: 'mandatory body parameters; username, password'
+            data: 'mandatory body parameters; username, password'
         };
         res.status(result.code).send(result);
         return;
@@ -55,8 +55,21 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/me', auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'invalid JWT'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
     const result = await User.getByUsername(
-        req.app.locals.db, req.jwt.sub
+        req.app.locals.db, data.username
     );
 
     res.status(result.code).send(result);
@@ -70,7 +83,7 @@ router.get('/profile', auth.validate, async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            info: 'malformed body parameters; username'
+            data: 'mandatory URL parameters; username'
         };
         res.status(result.code).send(result);
         return;
@@ -91,7 +104,7 @@ router.get('/search', auth.validate, async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            info: 'malformed body parameters; query'
+            data: 'mandatory body parameters; query'
         };
         res.status(result.code).send(result);
         return;
@@ -133,7 +146,7 @@ router.put('/update', auth.validate, async (req, res) => {
         } else {
             const result = {
                 code: 400,
-                info: 'unknown emoji: ' + data.emoji
+                data: 'unknown emoji: ' + data.emoji
             };
             res.status(result.code).send(result);
             return;
@@ -143,7 +156,7 @@ router.put('/update', auth.validate, async (req, res) => {
     if (Object.keys(data).length === 0 || !utils.validateObject(data)) {
         const result = {
             code: 400,
-            info: 'optional body paramaters allowed: display_name, password, emoji'
+            data: 'optional body paramaters allowed: display_name, password, emoji'
         };
         res.status(result.code).send(result);
         return;
