@@ -206,10 +206,24 @@ async function getByUsername(db, username) {
     }
 }
 
-// returns a list of users' data that match the given query
-async function search(db, query) {
+// returns a list of users' data that match the given username query
+async function search(db, username_query) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateUsernameQuery(username_query)) {
+        return {
+            code: 400,
+            data: 'invalid username_query: ' + username_query
+        };
+    }
+
     const result = await db('users')
-        .where('username', 'like', '%' + query + '%')
+        .where('username', 'like', '%' + username_query + '%')
         .select('username', 'display_name', 'emoji', 'tiki_tally')
         .catch(e => {
             return {

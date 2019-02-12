@@ -98,20 +98,20 @@ router.get('/profile', auth.validate, async (req, res) => {
 
 router.get('/search', auth.validate, async (req, res) => {
     const data = {
-        query: req.body.query
+        username_query: req.body.username_query
     };
 
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory body parameters; query'
+            data: 'mandatory body parameters; username_query'
         };
         res.status(result.code).send(result);
         return;
     }
 
     const result = await User.search(
-        req.app.locals.db, data.query
+        req.app.locals.db, data.username_query
     );
 
     res.status(result.code).send(result);

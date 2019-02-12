@@ -103,7 +103,7 @@ describe('regex', () => {
 		});
 
 		it('too long', () => {
-			assert(!regex.validateDisplayName('toddtoddtoddtoddtoddtoddtoddtoddt'));
+			assert(!regex.validateDisplayName('toddtoddtoddtoddtoddtoddtoddtod'));
 		});
 
 		describe('not a string', () => {
@@ -169,6 +169,46 @@ describe('regex', () => {
 
 			it('object', () => {
 				assert(!regex.validatePassword({}));
+			});
+		});
+	});
+
+	describe('username_query', () => {
+		it('success', () => {
+			assert(regex.validateUsernameQuery('todd'));
+		});
+
+		it('too short', () => {
+			assert(!regex.validateUsernameQuery(''));
+		});
+
+		it('too long', () => {
+			assert(!regex.validateUsernameQuery('toddtoddtoddtoddtoddt'));
+		});
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateUsernameQuery());
+			});
+
+			it('number', () => {
+				assert(!regex.validateUsernameQuery(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateUsernameQuery(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateUsernameQuery(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateUsernameQuery([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateUsernameQuery({}));
 			});
 		});
 	});

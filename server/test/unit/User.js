@@ -27,7 +27,7 @@ describe('User', () => {
 			assert.strictEqual(result.code, 409, result.data);
 		});
 
-		describe('validate params', () => {
+		describe('validate parameters', () => {
 			it('invalid database', async () => {
 				const result = await User.signup(null, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
 				assert.strictEqual(result.code, 500, result.data);
@@ -86,7 +86,7 @@ describe('User', () => {
 			assert.strictEqual(result.code, 401, result.data);
 		});
 
-		describe('validate params', () => {
+		describe('validate parameters', () => {
 			it('invalid database', async () => {
 				const result = await User.login(null, 'todd', '12345678');
 				assert.strictEqual(result.code, 500, result.data);
@@ -125,7 +125,7 @@ describe('User', () => {
 			assert.strictEqual(result.code, 400, result.data);
 		});
 
-		describe('validate params', () => {
+		describe('validate parameters', () => {
 			it('invalid database', async () => {
 				const result = await User.getByUsername(null, 'todd');
 				assert.strictEqual(result.code, 500, result.data);
@@ -148,9 +148,38 @@ describe('User', () => {
 			db = null;
 		});
 
-		it('success', async () => {
-			const result = await User.search(db, 'anything');
+		it('success with zero results', async () => {
+			const result = await User.search(db, 'zero');
 			assert.strictEqual(result.code, 200, result.data);
+			assert.strictEqual(result.data.length, 0, result.data);
+		});
+
+		it('success with one result', async () => {
+			await User.signup(db, 'one@one.one', 'one', 'number-one', '11111111', 'eggplant');
+
+			const result = await User.search(db, 'o');
+			assert.strictEqual(result.code, 200, result.data);
+			assert.strictEqual(result.data.length, 1, result.data);
+		});
+
+		it('success with multiple results', async () => {
+			await User.signup(db, 'two@two.two', 'two', 'number-two', '22222222', 'eggplant');
+
+			const result = await User.search(db, 'o');
+			assert.strictEqual(result.code, 200, result.data);
+			assert.strictEqual(result.data.length, 2, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await User.search(null, 'anything');
+				assert.strictEqual(result.code, 500, result.data);
+			});
+
+			it('invalid username_query', async () => {
+				const result = await User.search(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
 		});
 	});
 
