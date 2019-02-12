@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // connect to the database
 const databasePath =  './db/' + ((process.env.NODE_ENV === 'production')? 'prod' : 'dev') + '.db';
-app.locals.db = require('./tools/db').create(databasePath,  true, !process.env.NODE_ENV, true);
+app.locals.db = require('./tools/db').get(databasePath,  true, (process.env.NODE_ENV !== 'production'), true);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -37,3 +37,21 @@ const server = app.listen(process.env.PORT || 80, () => {
     const port = server.address().port;
     console.log('Listening on http://localhost' + ((port === 80)? '' : ':' + port));
 });
+
+// handle closing the server 
+function cleanup () {
+    server.close(() => {
+        // close database connection
+        app.locals.db.destroy().then(() => {
+            process.exit(0);
+        });
+    });
+
+    setTimeout(() => {
+        console.error('Could not close connections in time, forcing shut down');
+        process.exit(1);
+    }, 30*1000);
+}
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
