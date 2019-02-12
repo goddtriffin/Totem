@@ -92,4 +92,44 @@ describe('regex', () => {
 			});
 		});
 	});
+
+	describe('display_name', () => {
+		it('success', () => {
+			assert(regex.validateDisplayName('todd'));
+		});
+
+		it('too short', () => {
+			assert(!regex.validateDisplayName(''));
+		});
+
+		it('too long', () => {
+			assert(!regex.validateDisplayName('toddtoddtoddtoddtoddtoddtoddtoddt'));
+		});
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateDisplayName());
+			});
+
+			it('number', () => {
+				assert(!regex.validateDisplayName(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateDisplayName(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateDisplayName(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateDisplayName([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateDisplayName({}));
+			});
+		});
+	});
 });

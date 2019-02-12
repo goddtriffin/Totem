@@ -5,7 +5,7 @@ function validateEmail(email) {
     }
 
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+    return re.test(email.toLowerCase());
 }
 
 function validateUsername(username) {
@@ -14,10 +14,20 @@ function validateUsername(username) {
     }
 
     const re = /^(\S){3,20}$/;
-    return re.test(String(username));
+    return re.test(username);
+}
+
+function validateDisplayName(display_name) {
+    if (typeof display_name !== 'string') {
+        return false;
+    }
+
+    const re = /^(\S){1,30}$/;
+    return re.test(display_name);
 }
 
 module.exports = {
     validateEmail,
-    validateUsername
+    validateUsername,
+    validateDisplayName
 }
