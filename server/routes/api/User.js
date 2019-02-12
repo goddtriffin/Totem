@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const emoji = require('node-emoji');
 
 const auth = require('../auth');
 const utils = require('../../tools/utils');
@@ -10,30 +9,14 @@ router.post('/signup', async (req, res) => {
         email: req.body.email,
         username: req.body.username,
         display_name: req.body.display_name,
-        hash: req.body.password,
-        emoji: req.body.emoji,
-        friend_challenges: 0,
-        friend_challenges_won: 0,
-        tiki_tally: 0,
-        polls_created: 0
+        password: req.body.password,
+        emoji: req.body.emoji
     };
 
     if (!utils.validateObject(data)) {
         res.status(400).send({
             code: 400,
-            info: 'malformed body parameters: email, username, display_name, password, emoji'
-        });
-        return;
-    }
-
-    // validate emoji
-    if (emoji.hasEmoji(data.emoji)) {
-        // double check that emoji is not in plaintext form
-        data.emoji = emoji.find(data.emoji).emoji;
-    } else {
-        res.status(400).send({
-            code: 400,
-            info: 'unknown emoji: ' + data.emoji
+            info: 'mandatory body parameters: email, username, display_name, password, emoji'
         });
         return;
     }
@@ -41,9 +24,7 @@ router.post('/signup', async (req, res) => {
     const result = await User.signup(
         req.app.locals.db,
         data.email, data.username, data.display_name,
-        data.hash, data.emoji,
-        data.friend_challenges, data.friend_challenges_won,
-        data.tiki_tally, data.polls_created
+        data.password, data.emoji
     );
 
     res.status(result.code).send(result);

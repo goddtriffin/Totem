@@ -1,10 +1,65 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const emoji_tool = require('node-emoji');
+
+const regex = require('../../shared/regex');
+const utils = require('../tools/utils');
 
 // creates new user account
-async function signup(db, email, username, display_name, hash, emoji, friend_challenges, friend_challenges_won, tiki_tally, polls_created) {
+async function signup(db, email, username, display_name, password, emoji) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateEmail(email)) {
+        return {
+            code: 400,
+            data: 'invalid email: ' + email
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
+    if (!regex.validateDisplayName(display_name)) {
+        return {
+            code: 400,
+            data: 'invalid display_name: ' + display_name
+        };
+    }
+
+    if (!regex.validatePassword(password)) {
+        return {
+            code: 400,
+            data: 'invalid password: ' + password
+        };
+    }
+
+    if (!utils.validateEmoji(emoji)) {
+        return {
+            code: 400,
+            data: 'invalid emoji: ' + emoji
+        };
+    }
+
+    // convert emoji into correct form
+    emoji = emoji_tool.find(emoji).emoji;
+    
     // hash the password before storing for security
-    hash = bcrypt.hashSync(hash, 10);
+    const hash = bcrypt.hashSync(password, 10);
+
+    // generatre all others mandatory columns
+    const friend_challenges = 0;
+    const friend_challenges_won = 0;
+    const tiki_tally = 0;
+    const polls_created = 0;
 
     const result = await db('users')
         .insert({
@@ -181,7 +236,7 @@ async function update(db, username, display_name, password, emoji) {
     if (numUpdates < 1 || numUpdates > 3) {
         return {
             code: 400,
-            info: 'must pick at least one column to update: display_name, password, emoji'
+            data: 'must pick at least one column to update: display_name, password, emoji'
         }
     }
 
@@ -201,7 +256,7 @@ async function update(db, username, display_name, password, emoji) {
 
     return {
         code: 200,
-        info: "success"
+        data: "success"
     };
 }
 
