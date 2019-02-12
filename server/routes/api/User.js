@@ -1,65 +1,48 @@
 const router = require('express').Router();
-const emoji = require('node-emoji');
 
+const Auth = require('../Auth');
 const utils = require('../../tools/utils');
-const auth = require('../auth');
 const User = require('../../models/User');
 
-router.post('/signup', async (req, res, next) => {
+router.post('/signup', async (req, res) => {
     const data = {
         email: req.body.email,
         username: req.body.username,
         display_name: req.body.display_name,
-        hash: req.body.password,
-        emoji: req.body.emoji,
-        friend_challenges: 0,
-        friend_challenges_won: 0,
-        tiki_tally: 0,
-        polls_created: 0
+        password: req.body.password,
+        emoji: req.body.emoji
     };
 
     if (!utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
-            info: 'malformed body parameters: email, username, display_name, password, emoji'
-        });
-        return;
-    }
-
-    // validate emoji
-    if (emoji.hasEmoji(data.emoji)) {
-        // double check that emoji is not in plaintext form
-        data.emoji = emoji.find(data.emoji).emoji;
-    } else {
-        res.status(400).send({
-            code: 400,
-            info: 'unknown emoji: ' + data.emoji
-        });
+            data: 'mandatory body parameters: email, username, display_name, password, emoji'
+        };
+        res.status(result.code).send(result);
         return;
     }
 
     const result = await User.signup(
         req.app.locals.db,
         data.email, data.username, data.display_name,
-        data.hash, data.emoji,
-        data.friend_challenges, data.friend_challenges_won,
-        data.tiki_tally, data.polls_created
+        data.password, data.emoji
     );
 
     res.status(result.code).send(result);
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', async (req, res) => {
     const data = {
         username: req.body.username,
         password: req.body.password
     };
 
     if (!utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
-            info: 'malformed body parameters; username, password'
-        });
+            data: 'mandatory body parameters; username, password'
+        };
+        res.status(result.code).send(result);
         return;
     }
 
@@ -71,36 +54,17 @@ router.post('/login', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/me', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
-    const result = await User.getByUsername(
-        req.app.locals.db, req.jwt.sub
-    );
-
-    res.status(result.code).send(result);
-});
-
-router.get('/profile', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/me', Auth.validate, async (req, res) => {
     const data = {
-        username: req.body.username
+        username: req.jwt.sub
     };
 
     if (!utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
-            info: 'malformed body parameters; username'
-        });
+            data: 'invalid JWT'
+        };
+        res.status(result.code).send(result);
         return;
     }
 
@@ -111,39 +75,49 @@ router.get('/profile', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/search', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/profile', Auth.validate, async (req, res) => {
     const data = {
-        query: req.body.query
+        username: req.body.username
     };
 
     if (!utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
-            info: 'malformed body parameters; query'
-        });
+            data: 'mandatory URL parameters; username'
+        };
+        res.status(result.code).send(result);
         return;
     }
 
-    const result = await User.search(
-        req.app.locals.db, data.query
+    const result = await User.getByUsername(
+        req.app.locals.db, data.username
     );
 
     res.status(result.code).send(result);
 });
 
-router.get('/all', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
+router.get('/search', Auth.validate, async (req, res) => {
+    const data = {
+        username_query: req.body.username_query
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'mandatory body parameters; username_query'
+        };
+        res.status(result.code).send(result);
         return;
     }
 
+    const result = await User.search(
+        req.app.locals.db, data.username_query
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.get('/all', Auth.validate, async (req, res) => {
     const result = await User.all(
         req.app.locals.db
     );
@@ -151,63 +125,56 @@ router.get('/all', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.put('/update', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.put('/update', Auth.validate, async (req, res) => {
+    // store which optional parameter updates are chosen
     const data = {};
 
+    // check if optional display_name update parameter is set
     if (!!req.body.display_name) {
         data.display_name = req.body.display_name;
     }
 
+    // check if optional password update parameter is set
     if (!!req.body.password) {
         data.password = req.body.password;
     }
 
+    // check if optional emoji update parameter is set
     if (!!req.body.emoji) {
         data.emoji = req.body.emoji;
-
-        // validate emoji
-        if (emoji.hasEmoji(data.emoji)) {
-            // double check that emoji is not in plaintext form
-            data.emoji = emoji.find(data.emoji).emoji;
-        } else {
-            res.status(400).send({
-                code: 400,
-                info: 'unknown emoji: ' + data.emoji
-            });
-            return;
-        }
     }
 
-    if (Object.keys(data).length === 0 || !utils.validateObject(data)) {
-        res.status(400).send({
+    // validate the optional parameters that were set
+    if (!utils.validateObject(data)) {
+        const result = {
             code: 400,
-            info: 'optional body paramaters allowed: display_name, password, emoji'
-        });
+            data: 'optional body parameters allowed; display_name, password, emoji'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
+    // now validate the JWT header along with the rest
+    data.username = req.jwt.sub;
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'invalid JWT'
+        };
+        res.status(result.code).send(result);
         return;
     }
 
     const result = await User.update(
         req.app.locals.db, 
-        req.jwt.sub,
-        data.display_name, data.password, data.emoji
+        data.username, data.display_name,
+        data.password, data.emoji
     );
 
     res.status(result.code).send(result);
 });
 
-router.get('/history', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/history', Auth.validate, async (req, res) => {
     const result = await User.history(
         req.app.locals.db
     );

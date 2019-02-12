@@ -18,7 +18,14 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.createPersonal(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Poll.createPersonal(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -34,7 +41,14 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.createChallenge(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Poll.createChallenge(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -50,7 +64,14 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.respondToChallengeRequest(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Poll.respondToChallengeRequest(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -66,7 +87,14 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.getChallengeRequests(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Poll.getChallengeRequests(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -82,7 +110,14 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.search(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Poll.search(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -98,7 +133,14 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.vote(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Poll.vote(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
 	});
 });

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('./auth');
+const Auth = require('./Auth');
 
 // home route should always link to splash/
 router.get('/', (req, res) => {

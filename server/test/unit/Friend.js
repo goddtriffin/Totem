@@ -18,7 +18,14 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.add(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.add(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -34,7 +41,14 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.remove(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.remove(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -50,7 +64,14 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.get(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.get(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -66,7 +87,14 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.requests(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.requests(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -82,7 +110,14 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.respond(db);
-			assert.equal(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.respond(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
 });

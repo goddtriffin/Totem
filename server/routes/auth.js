@@ -1,27 +1,31 @@
-const jwt = require('jsonwebtoken');
+const Auth = require('../models/Auth');
 
-function validate(req, res) {
-    try {
-        if (!req.headers.authorization || 
-            req.headers.authorization.split(' ').length !== 2 || 
-            req.headers.authorization.split(' ')[0] !== 'Bearer') {
-            return {
-                code: 401,
-                info: 'invalid auth header; Authorization: Bearer <JWT>'
-            };
-        }
-
-        req.jwt = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET);
-        return {
-            code: 200,
-            info: 'success'
-        }
-    } catch(e) {
-        return {
+function validate(req, res, next) {
+    // check if JWT is (correctly) set in the request headers
+    if (!req.headers.authorization || 
+        req.headers.authorization.split(' ').length !== 2 || 
+        req.headers.authorization.split(' ')[0] !== 'Bearer') {
+        const result =  {
             code: 401,
-            info: 'invalid JWT token'
+            info: 'invalid auth header; Authorization: Bearer <JWT>'
         };
+        res.status(result.code).send(result);
+        return;
     }
+
+    // retrieve the token, validate it
+    const token = req.headers.authorization.split(' ')[1];
+    const result = Auth.validate(token);
+
+    // if not correct, ...
+    if (result.code !== 200) {
+        res.status(result.code).send(result);
+        return;
+    }
+
+    // good, store the decoded JWT for later use
+    req.jwt = result.data;
+    next();
 }
 
 module.exports = {

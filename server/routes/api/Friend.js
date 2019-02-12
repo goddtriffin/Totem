@@ -1,15 +1,9 @@
 const router = require('express').Router();
 
-const auth = require('../auth');
+const Auth = require('../Auth');
 const Friend = require('../../models/Friend');
 
-router.post('/add', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.post('/add', Auth.validate, async (req, res) => {
     const result = await Friend.add(
         req.app.locals.db
     );
@@ -17,13 +11,7 @@ router.post('/add', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.delete('/remove', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.delete('/remove', Auth.validate, async (req, res) => {
     const result = await Friend.remove(
         req.app.locals.db
     );
@@ -31,13 +19,7 @@ router.delete('/remove', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/get', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/get', Auth.validate, async (req, res) => {
     const result = await Friend.get(
         req.app.locals.db
     );
@@ -45,13 +27,7 @@ router.get('/get', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/requests', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/requests', Auth.validate, async (req, res) => {
     const result = await Friend.requests(
         req.app.locals.db
     );
@@ -59,13 +35,7 @@ router.get('/requests', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.put('/respond', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.put('/respond', Auth.validate, async (req, res) => {
     const result = await Friend.respond(
         req.app.locals.db
     );

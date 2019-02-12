@@ -1,10 +1,65 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const emoji_tool = require('node-emoji');
+
+const regex = require('../../shared/regex');
+const utils = require('../tools/utils');
 
 // creates new user account
-async function signup(db, email, username, display_name, hash, emoji, friend_challenges, friend_challenges_won, tiki_tally, polls_created) {
+async function signup(db, email, username, display_name, password, emoji) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateEmail(email)) {
+        return {
+            code: 400,
+            data: 'invalid email: ' + email
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
+    if (!regex.validateDisplayName(display_name)) {
+        return {
+            code: 400,
+            data: 'invalid display_name: ' + display_name
+        };
+    }
+
+    if (!regex.validatePassword(password)) {
+        return {
+            code: 400,
+            data: 'invalid password: ' + password
+        };
+    }
+
+    if (!utils.validateEmoji(emoji)) {
+        return {
+            code: 400,
+            data: 'invalid emoji: ' + emoji
+        };
+    }
+
+    // convert emoji into correct form
+    emoji = emoji_tool.find(emoji).emoji;
+    
     // hash the password before storing for security
-    hash = bcrypt.hashSync(hash, 10);
+    const hash = bcrypt.hashSync(password, 10);
+
+    // generatre all others mandatory columns
+    const friend_challenges = 0;
+    const friend_challenges_won = 0;
+    const tiki_tally = 0;
+    const polls_created = 0;
 
     const result = await db('users')
         .insert({
@@ -44,6 +99,27 @@ async function signup(db, email, username, display_name, hash, emoji, friend_cha
 
 // authenticates user
 async function login(db, username, password) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
+    if (!regex.validatePassword(password)) {
+        return {
+            code: 400,
+            data: 'invalid password: ' + password
+        };
+    }
+
     const result = await db('users')
         .where('username', username)
         .select('hash')
@@ -88,6 +164,20 @@ async function login(db, username, password) {
 
 // returns a single user's data by username
 async function getByUsername(db, username) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
     const result = await db('users')
         .where('username', username)
         .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
@@ -116,10 +206,24 @@ async function getByUsername(db, username) {
     }
 }
 
-// returns a list of users' data that match the given query
-async function search(db, query) {
+// returns a list of users' data that match the given username query
+async function search(db, username_query) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateUsernameQuery(username_query)) {
+        return {
+            code: 400,
+            data: 'invalid username_query: ' + username_query
+        };
+    }
+
     const result = await db('users')
-        .where('username', 'like', '%' + query + '%')
+        .where('username', 'like', '%' + username_query + '%')
         .select('username', 'display_name', 'emoji', 'tiki_tally')
         .catch(e => {
             return {
@@ -140,6 +244,13 @@ async function search(db, query) {
 
 // returns a list of all users
 async function all(db) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
     const result = await db('users')
         .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {
@@ -161,27 +272,120 @@ async function all(db) {
 
 // updates user account information
 async function update(db, username, display_name, password, emoji) {
-    // put the rows to be updated in here
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
+    // grab user profile info to check if the parameters
+    // chosen are identical to the values already set
+    let user = await db('users')
+        .where('username', username)
+        .select('display_name', 'hash', 'emoji')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!user.code) {
+        return result;
+    }
+
+    // if no results, then no account exists with that username
+    if (user.length !== 1) {
+        return {
+            code: 400,
+            data: 'no account found with username: ' + username
+        };
+    } else {
+        user = user[0];
+    }
+
+    // put the row's columns to be updated in here
     const data = {};
 
+    // check if display_name was set to be updated, then validate
     if (!!display_name) {
+        if (!regex.validateDisplayName(display_name)) {
+            return {
+                code: 400,
+                data: 'invalid display_name: ' + display_name
+            };
+        }
+
+        // only update display_name if it is different than what is already set
+        if (display_name === user.display_name) {
+            return {
+                code: 400,
+                data: 'must choose different display_name, user display_name already is: ' + display_name
+            };
+        }
+
         data.display_name = display_name;
     }
 
+    // check if password was set to be updated, then validate
     if (!!password) {
+        if (!regex.validatePassword(password)) {
+            return {
+                code: 400,
+                data: 'invalid password: ' + password
+            };
+        }
+
+        // only update password if it is different than what is already set
+        if (bcrypt.compareSync(password, user.hash)) {
+            return {
+                code: 400,
+                data: 'must choose different password, user password already is: ' + password
+            };
+        }
+
         // hash the password before storing for security
         data.hash = bcrypt.hashSync(password, 10);
     }
 
+    // check if emoji was set to be updated, then validate, then convert
     if (!!emoji) {
+        if (!utils.validateEmoji(emoji)) {
+            return {
+                code: 400,
+                data: 'invalid emoji: ' + emoji
+            };
+        }
+
+        // convert emoji parameter into emoji form (single char / graphic)
+        emoji = emoji_tool.find(emoji).emoji;
+
+        // only update emoji if it is different than what is already set
+        if (emoji === user.emoji) {
+            return {
+                code: 400,
+                data: 'must choose different emoji, user emoji already is: ' + emoji
+            };
+        }
+
+        // convert emoji into correct form
         data.emoji = emoji;
     }
 
+    // check if no optional update parameters were chosen
     const numUpdates = Object.keys(data).length;
     if (numUpdates < 1 || numUpdates > 3) {
         return {
             code: 400,
-            info: 'must pick at least one column to update: display_name, password, emoji'
+            data: 'must set, at a minimum, one of the following optional parameters to update: display_name, password, emoji'
         }
     }
 
@@ -201,12 +405,19 @@ async function update(db, username, display_name, password, emoji) {
 
     return {
         code: 200,
-        info: "success"
+        data: "success"
     };
 }
 
 // returns the entire history of a user
 async function history(db) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
     return {
         code: 501,
         data: 'not implemented'
