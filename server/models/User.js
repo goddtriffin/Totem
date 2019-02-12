@@ -168,13 +168,21 @@ async function update(db, username, display_name, password, emoji) {
         data.display_name = display_name;
     }
 
-    if (!!hash) {
+    if (!!password) {
         // hash the password before storing for security
         data.hash = bcrypt.hashSync(password, 10);
     }
 
     if (!!emoji) {
         data.emoji = emoji;
+    }
+
+    const numUpdates = Object.keys(data).length;
+    if (numUpdates < 1 || numUpdates > 3) {
+        return {
+            code: 400,
+            info: 'must pick at least one column to update: display_name, password, emoji'
+        }
     }
 
     const result = await db('users')

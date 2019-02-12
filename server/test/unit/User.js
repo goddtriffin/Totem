@@ -108,4 +108,36 @@ describe('User', () => {
 			assert.equal(result.code, 200);
 		});
 	});
+
+	describe('update', () => {
+		before(async () => {
+			db = await db_tool.create(':memory:', true, false, true);
+			await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '123', 'eggplant', 0, 0, 0, 0);
+		});
+
+		after(async () => {
+			await db.destroy();
+			db = null;
+		});
+
+		it('success with 1 column', async () => {
+			const result = await User.update(db, 'todd', 'toddgriffin');
+			assert.equal(result.code, 200);
+		});
+
+		it('success with 2 columns', async () => {
+			const result = await User.update(db, 'todd', null, '1234', 'a');
+			assert.equal(result.code, 200);
+		});
+
+		it('success with 3 columns', async () => {
+			const result = await User.update(db, 'todd', 'goddtriffin', '123', 'eggplant');
+			assert.equal(result.code, 200);
+		});
+
+		it('must pick at least one column to update', async () => {
+			const result = await User.update(db, 'todd');
+			assert.equal(result.code, 400);
+		});
+	});
 });
