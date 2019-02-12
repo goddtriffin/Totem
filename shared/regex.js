@@ -26,8 +26,18 @@ function validateDisplayName(display_name) {
     return re.test(display_name);
 }
 
+function validatePassword(password) {
+    if (typeof password !== 'string') {
+        return false;
+    }
+
+    const re = /^(\S){8,30}$/;
+    return re.test(password);
+}
+
 module.exports = {
     validateEmail,
     validateUsername,
-    validateDisplayName
+    validateDisplayName,
+    validatePassword
 }

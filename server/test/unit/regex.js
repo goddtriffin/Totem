@@ -132,4 +132,44 @@ describe('regex', () => {
 			});
 		});
 	});
+
+	describe('password', () => {
+		it('success', () => {
+			assert(regex.validatePassword('1234567890'));
+		});
+
+		it('too short', () => {
+			assert(!regex.validatePassword('1234567'));
+		});
+
+		it('too long', () => {
+			assert(!regex.validatePassword('1234567890123456789012345678901'));
+		});
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validatePassword());
+			});
+
+			it('number', () => {
+				assert(!regex.validatePassword(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validatePassword(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validatePassword(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validatePassword([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validatePassword({}));
+			});
+		});
+	});
 });
