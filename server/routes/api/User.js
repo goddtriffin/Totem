@@ -14,10 +14,11 @@ router.post('/signup', async (req, res) => {
     };
 
     if (!utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
             info: 'mandatory body parameters: email, username, display_name, password, emoji'
-        });
+        };
+        res.status(result.code).send(result);
         return;
     }
 
@@ -37,10 +38,11 @@ router.post('/login', async (req, res) => {
     };
 
     if (!utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
-            info: 'malformed body parameters; username, password'
-        });
+            info: 'mandatory body parameters; username, password'
+        };
+        res.status(result.code).send(result);
         return;
     }
 
@@ -66,10 +68,11 @@ router.get('/profile', auth.validate, async (req, res) => {
     };
 
     if (!utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
             info: 'malformed body parameters; username'
-        });
+        };
+        res.status(result.code).send(result);
         return;
     }
 
@@ -86,10 +89,11 @@ router.get('/search', auth.validate, async (req, res) => {
     };
 
     if (!utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
             info: 'malformed body parameters; query'
-        });
+        };
+        res.status(result.code).send(result);
         return;
     }
 
@@ -127,19 +131,21 @@ router.put('/update', auth.validate, async (req, res) => {
             // double check that emoji is not in plaintext form
             data.emoji = emoji.find(data.emoji).emoji;
         } else {
-            res.status(400).send({
+            const result = {
                 code: 400,
                 info: 'unknown emoji: ' + data.emoji
-            });
+            };
+            res.status(result.code).send(result);
             return;
         }
     }
 
     if (Object.keys(data).length === 0 || !utils.validateObject(data)) {
-        res.status(400).send({
+        const result = {
             code: 400,
             info: 'optional body paramaters allowed: display_name, password, emoji'
-        });
+        };
+        res.status(result.code).send(result);
         return;
     }
 

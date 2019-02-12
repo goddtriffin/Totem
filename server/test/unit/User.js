@@ -85,6 +85,23 @@ describe('User', () => {
 			const result = await User.login(db, 'todd', '123456789');
 			assert.strictEqual(result.code, 401, result.data);
 		});
+
+		describe('validate params', () => {
+			it('invalid database', async () => {
+				const result = await User.login(null, 'todd', '12345678');
+				assert.strictEqual(result.code, 500, result.data);
+			});
+
+			it('invalid username', async () => {
+				const result = await User.login(db, null, '12345678');
+				assert.strictEqual(result.code, 400, result.data);
+			});
+
+			it('invalid password', async () => {
+				const result = await User.login(db, 'todd', null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
+		});
 	});
 
 	describe('getByUsername', () => {

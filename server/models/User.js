@@ -99,6 +99,27 @@ async function signup(db, email, username, display_name, password, emoji) {
 
 // authenticates user
 async function login(db, username, password) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
+    if (!regex.validatePassword(password)) {
+        return {
+            code: 400,
+            data: 'invalid password: ' + password
+        };
+    }
+
     const result = await db('users')
         .where('username', username)
         .select('hash')
