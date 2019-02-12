@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const emoji = require('node-emoji');
 
-const utils = require('../../tools/utils');
 const auth = require('../auth');
+const utils = require('../../tools/utils');
 const User = require('../../models/User');
 
-router.post('/signup', async (req, res, next) => {
+router.post('/signup', async (req, res) => {
     const data = {
         email: req.body.email,
         username: req.body.username,
@@ -49,7 +49,7 @@ router.post('/signup', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', async (req, res) => {
     const data = {
         username: req.body.username,
         password: req.body.password
@@ -71,13 +71,7 @@ router.post('/login', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/me', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/me', auth.validate, async (req, res) => {
     const result = await User.getByUsername(
         req.app.locals.db, req.jwt.sub
     );
@@ -85,13 +79,7 @@ router.get('/me', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/profile', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/profile', auth.validate, async (req, res) => {
     const data = {
         username: req.body.username
     };
@@ -111,13 +99,7 @@ router.get('/profile', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/search', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/search', auth.validate, async (req, res) => {
     const data = {
         query: req.body.query
     };
@@ -137,13 +119,7 @@ router.get('/search', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/all', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/all', auth.validate, async (req, res) => {
     const result = await User.all(
         req.app.locals.db
     );
@@ -151,13 +127,7 @@ router.get('/all', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.put('/update', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.put('/update', auth.validate, async (req, res) => {
     const data = {};
 
     if (!!req.body.display_name) {
@@ -201,13 +171,7 @@ router.put('/update', async (req, res, next) => {
     res.status(result.code).send(result);
 });
 
-router.get('/history', async (req, res, next) => {
-    const authCheck = auth.validate(req, res);
-    if (authCheck.code !== 200) {
-        res.status(authCheck.code).send(authCheck);
-        return;
-    }
-
+router.get('/history', auth.validate, async (req, res) => {
     const result = await User.history(
         req.app.locals.db
     );
