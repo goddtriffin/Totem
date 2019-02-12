@@ -51,5 +51,45 @@ describe('regex', () => {
 				assert(!regex.validateEmail({}));
 			});
 		});
-    });
+	});
+
+	describe('username', () => {
+		it('success', () => {
+			assert(regex.validateUsername('todd'));
+		});
+
+		it('too short', () => {
+			assert(!regex.validateUsername('to'));
+		});
+
+		it('too long', () => {
+			assert(!regex.validateUsername('toddtoddtoddtoddtoddt'));
+		});
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateUsername());
+			});
+
+			it('number', () => {
+				assert(!regex.validateUsername(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateUsername(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateUsername(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateUsername([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateUsername({}));
+			});
+		});
+	});
 });
