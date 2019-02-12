@@ -286,6 +286,32 @@ async function update(db, username, display_name, password, emoji) {
         };
     }
 
+    // grab user profile info to check if the parameters
+    // chosen are identical to the values already set
+    let user = await db('users')
+        .where('username', username)
+        .select('display_name', 'hash', 'emoji')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!user.code) {
+        return result;
+    }
+
+    // if no results, then no account exists with that username
+    if (user.length !== 1) {
+        return {
+            code: 400,
+            data: 'no account found with username: ' + username
+        };
+    } else {
+        user = user[0];
+    }
+
     // put the row's columns to be updated in here
     const data = {};
 
@@ -298,6 +324,14 @@ async function update(db, username, display_name, password, emoji) {
             };
         }
 
+        // only update display_name if it is different than what is already set
+        if (display_name === user.display_name) {
+            return {
+                code: 400,
+                data: 'must choose different display_name, user display_name already is: ' + display_name
+            };
+        }
+
         data.display_name = display_name;
     }
 
@@ -307,6 +341,14 @@ async function update(db, username, display_name, password, emoji) {
             return {
                 code: 400,
                 data: 'invalid password: ' + password
+            };
+        }
+
+        // only update password if it is different than what is already set
+        if (bcrypt.compareSync(password, user.hash)) {
+            return {
+                code: 400,
+                data: 'must choose different password, user password already is: ' + password
             };
         }
 
@@ -323,8 +365,19 @@ async function update(db, username, display_name, password, emoji) {
             };
         }
 
+        // convert emoji parameter into emoji form (single char / graphic)
+        emoji = emoji_tool.find(emoji).emoji;
+
+        // only update emoji if it is different than what is already set
+        if (emoji === user.emoji) {
+            return {
+                code: 400,
+                data: 'must choose different emoji, user emoji already is: ' + emoji
+            };
+        }
+
         // convert emoji into correct form
-        data.emoji = emoji_tool.find(emoji).emoji;
+        data.emoji = emoji;
     }
 
     // check if no optional update parameters were chosen

@@ -209,7 +209,7 @@ describe('User', () => {
 	describe('update', () => {
 		before(async () => {
 			db = await db_tool.create(':memory:', true, false, true);
-			await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '123', 'eggplant');
+			await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
 		});
 
 		after(async () => {
@@ -235,6 +235,23 @@ describe('User', () => {
 		it('must pick at least one column to update', async () => {
 			const result = await User.update(db, 'todd');
 			assert.strictEqual(result.code, 400, result.data);
+		});
+
+		describe('variables chosen to update in user profile must be different than what is already set', () => {
+			it('must pick new display_name', async () => {
+				const result = await User.update(db, 'todd', 'goddtriffin', null, null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
+
+			it('must pick new password', async () => {
+				const result = await User.update(db, 'todd', null, '12345678', null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
+
+			it('must pick new emoji', async () => {
+				const result = await User.update(db, 'todd', null, null, 'eggplant');
+				assert.strictEqual(result.code, 400, result.data);
+			});
 		});
 
 		describe('validate parameters', () => {
