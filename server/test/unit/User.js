@@ -296,5 +296,12 @@ describe('User', () => {
 			const result = await User.history(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await User.history(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
+		});
 	});
 });

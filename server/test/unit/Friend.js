@@ -20,6 +20,13 @@ describe('Friend', () => {
 			const result = await Friend.add(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.add(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
+		});
     });
     
     describe('remove', () => {
@@ -35,6 +42,13 @@ describe('Friend', () => {
 		it.skip('success', async () => {
 			const result = await Friend.remove(db);
 			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.remove(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
     
@@ -52,6 +66,13 @@ describe('Friend', () => {
 			const result = await Friend.get(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.get(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
+		});
     });
     
     describe('requests', () => {
@@ -68,6 +89,13 @@ describe('Friend', () => {
 			const result = await Friend.requests(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.requests(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
+		});
     });
     
     describe('respond', () => {
@@ -83,6 +111,13 @@ describe('Friend', () => {
 		it.skip('success', async () => {
 			const result = await Friend.respond(db);
 			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.respond(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
 		});
     });
 });

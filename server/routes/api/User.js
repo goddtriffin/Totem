@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const auth = require('../auth');
+const Auth = require('../Auth');
 const utils = require('../../tools/utils');
 const User = require('../../models/User');
 
@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/me', auth.validate, async (req, res) => {
+router.get('/me', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub
     };
@@ -75,7 +75,7 @@ router.get('/me', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/profile', auth.validate, async (req, res) => {
+router.get('/profile', Auth.validate, async (req, res) => {
     const data = {
         username: req.body.username
     };
@@ -96,7 +96,7 @@ router.get('/profile', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/search', auth.validate, async (req, res) => {
+router.get('/search', Auth.validate, async (req, res) => {
     const data = {
         username_query: req.body.username_query
     };
@@ -117,7 +117,7 @@ router.get('/search', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/all', auth.validate, async (req, res) => {
+router.get('/all', Auth.validate, async (req, res) => {
     const result = await User.all(
         req.app.locals.db
     );
@@ -125,7 +125,7 @@ router.get('/all', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.put('/update', auth.validate, async (req, res) => {
+router.put('/update', Auth.validate, async (req, res) => {
     // store which optional parameter updates are chosen
     const data = {};
 
@@ -174,7 +174,7 @@ router.put('/update', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/history', auth.validate, async (req, res) => {
+router.get('/history', Auth.validate, async (req, res) => {
     const result = await User.history(
         req.app.locals.db
     );

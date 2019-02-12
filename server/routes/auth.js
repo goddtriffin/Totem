@@ -1,4 +1,4 @@
-const auth = require('../models/auth');
+const Auth = require('../models/Auth');
 
 function validate(req, res, next) {
     // check if JWT is (correctly) set in the request headers
@@ -15,7 +15,7 @@ function validate(req, res, next) {
 
     // retrieve the token, validate it
     const token = req.headers.authorization.split(' ')[1];
-    const result = auth.validate(token);
+    const result = Auth.validate(token);
 
     // if not correct, ...
     if (result.code !== 200) {

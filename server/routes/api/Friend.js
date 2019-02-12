@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
-const auth = require('../auth');
+const Auth = require('../Auth');
 const Friend = require('../../models/Friend');
 
-router.post('/add', auth.validate, async (req, res) => {
+router.post('/add', Auth.validate, async (req, res) => {
     const result = await Friend.add(
         req.app.locals.db
     );
@@ -11,7 +11,7 @@ router.post('/add', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.delete('/remove', auth.validate, async (req, res) => {
+router.delete('/remove', Auth.validate, async (req, res) => {
     const result = await Friend.remove(
         req.app.locals.db
     );
@@ -19,7 +19,7 @@ router.delete('/remove', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/get', auth.validate, async (req, res) => {
+router.get('/get', Auth.validate, async (req, res) => {
     const result = await Friend.get(
         req.app.locals.db
     );
@@ -27,7 +27,7 @@ router.get('/get', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/requests', auth.validate, async (req, res) => {
+router.get('/requests', Auth.validate, async (req, res) => {
     const result = await Friend.requests(
         req.app.locals.db
     );
@@ -35,7 +35,7 @@ router.get('/requests', auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.put('/respond', auth.validate, async (req, res) => {
+router.put('/respond', Auth.validate, async (req, res) => {
     const result = await Friend.respond(
         req.app.locals.db
     );
