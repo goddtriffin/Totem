@@ -164,6 +164,20 @@ async function login(db, username, password) {
 
 // returns a single user's data by username
 async function getByUsername(db, username) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: 'invalid database'
+        }
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
     const result = await db('users')
         .where('username', username)
         .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')

@@ -124,6 +124,18 @@ describe('User', () => {
 			const result = await User.getByUsername(db, 'nonexistent');
 			assert.strictEqual(result.code, 400, result.data);
 		});
+
+		describe('validate params', () => {
+			it('invalid database', async () => {
+				const result = await User.getByUsername(null, 'todd');
+				assert.strictEqual(result.code, 500, result.data);
+			});
+
+			it('invalid username', async () => {
+				const result = await User.getByUsername(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
+		});
 	});
 
 	describe('search', () => {
