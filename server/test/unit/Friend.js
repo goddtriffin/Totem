@@ -18,7 +18,7 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.add(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -34,7 +34,7 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.remove(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -50,7 +50,7 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.get(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -66,7 +66,7 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.requests(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -82,7 +82,7 @@ describe('Friend', () => {
 
 		it.skip('success', async () => {
 			const result = await Friend.respond(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
 });

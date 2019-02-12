@@ -73,17 +73,17 @@ describe('User', () => {
 
 		it('success', async () => {
 			const result = await User.login(db, 'todd', '12345678');
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		it('no account found with username', async () => {
 			const result = await User.login(db, 'nonexistent', '12345678');
-			assert.strictEqual(result.code, 400);
+			assert.strictEqual(result.code, 400, result.data);
 		});
 
 		it('wrong password', async () => {
 			const result = await User.login(db, 'todd', '123456789');
-			assert.strictEqual(result.code, 401);
+			assert.strictEqual(result.code, 401, result.data);
 		});
 	});
 
@@ -100,12 +100,12 @@ describe('User', () => {
 
 		it('success', async () => {
 			const result = await User.getByUsername(db, 'todd');
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		it('no account found with username', async () => {
 			const result = await User.getByUsername(db, 'nonexistent');
-			assert.strictEqual(result.code, 400);
+			assert.strictEqual(result.code, 400, result.data);
 		});
 	});
 
@@ -121,7 +121,7 @@ describe('User', () => {
 
 		it('success', async () => {
 			const result = await User.search(db, 'anything');
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 	});
 
@@ -137,7 +137,7 @@ describe('User', () => {
 
 		it('success', async () => {
 			const result = await User.all(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 	});
 
@@ -154,22 +154,22 @@ describe('User', () => {
 
 		it('success with 1 column', async () => {
 			const result = await User.update(db, 'todd', 'toddgriffin');
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		it('success with 2 columns', async () => {
 			const result = await User.update(db, 'todd', null, '123456789', 'a');
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		it('success with 3 columns', async () => {
 			const result = await User.update(db, 'todd', 'goddtriffin', '12345678', 'eggplant');
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		it('must pick at least one column to update', async () => {
 			const result = await User.update(db, 'todd');
-			assert.strictEqual(result.code, 400);
+			assert.strictEqual(result.code, 400, result.data);
 		});
 	});
 
@@ -185,7 +185,7 @@ describe('User', () => {
 
 		it.skip('success', async () => {
 			const result = await User.history(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 	});
 });

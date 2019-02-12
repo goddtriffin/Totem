@@ -18,7 +18,7 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.createPersonal(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -34,7 +34,7 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.createChallenge(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -50,7 +50,7 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.respondToChallengeRequest(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -66,7 +66,7 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.getChallengeRequests(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -82,7 +82,7 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.search(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
     });
     
@@ -98,7 +98,7 @@ describe('Poll', () => {
 
 		it.skip('success', async () => {
 			const result = await Poll.vote(db);
-			assert.strictEqual(result.code, 200);
+			assert.strictEqual(result.code, 200, result.data);
 		});
 	});
 });
