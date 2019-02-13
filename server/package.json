@@ -9,7 +9,8 @@
     "dev": "./scripts/start_development_server.sh",
     "init-db-prod": "./scripts/initialize_production_database.sh",
     "init-db-dev": "./scripts/initialize_development_database.sh",
-    "unit-tests": "./scripts/run_unit_tests.sh"
+    "unit-tests": "./scripts/run_unit_tests.sh",
+    "line-count": "./scripts/print_all_files_line_count.sh"
   },
   "author": "Todd Griffin",
   "license": "ISC",
