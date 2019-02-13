@@ -57,12 +57,9 @@ async function createFriendsTable(db) {
     await db.schema.hasTable('friends').then(exists => {
         if (!exists) {
             return db.schema.createTable('friends', table => {
-                table.string('username_1').notNullable();
-                table.string('username_2').notNullable();
+                table.string('username_1').notNullable().references('users.username');
+                table.string('username_2').notNullable().references('users.username');
                 table.string('state').notNullable().defaultTo('pending');  // pending , accepted
-
-                table.foreign('username_1').references('users.username');
-                table.foreign('username_2').references('users.username');
             });
         }
     });
@@ -72,12 +69,12 @@ async function createPollsTable(db) {
     await db.schema.hasTable('polls').then(exists => {
         if (!exists) {
             return db.schema.createTable('polls', table => {
-                table.increments('id').unique();
+                table.increments('id').unique().primary();
                 table.string('display_name').notNullable();
                 table.string('theme').notNullable();
 
-                table.string('creator').notNullable();
-                table.string('opponent').nullable();
+                table.string('creator').notNullable().references('users.username');
+                table.string('opponent').nullable().references('users.username');
                 table.string('image_1').notNullable();  // filepath
                 table.string('image_2').nullable();;  // filepath
                 table.integer('votes_1').notNullable().defaultTo(0);
@@ -88,9 +85,6 @@ async function createPollsTable(db) {
                 table.string('duration').notNullable();
                 table.timestamp('start_time').nullable();  // created when state changes from 'ready' to 'active'
                 table.timestamp('end_time').nullable();  // created when state changes from 'ready' to 'active'
-
-                table.foreign('creator').references('users.username');
-                table.foreign('opponent').references('users.username');
             });
         }
     });
@@ -100,9 +94,9 @@ async function createHistoryTable(db) {
     await db.schema.hasTable('history').then(exists => {
         if (!exists) {
             return db.schema.createTable('history', table => {
-                table.string('username');
-                table.integer('post');
-                table.integer('vote');  // 1=creator , 2=opponent
+                table.string('username').notNullable().references('users.username');
+                table.integer('post').notNullable().references('polls.id');
+                table.integer('vote').notNullable();  // 1=creator , 2=opponent
             });
         }
     });
