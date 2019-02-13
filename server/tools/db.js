@@ -73,21 +73,24 @@ async function createPollsTable(db) {
         if (!exists) {
             return db.schema.createTable('polls', table => {
                 table.increments('id').unique();
-                table.string('display_name');
-                table.string('theme');
+                table.string('display_name').notNullable();
+                table.string('theme').notNullable();
 
-                table.string('creator');  // user table 'username'
-                table.string('opponent').nullable();  // user table 'username'
-                table.string('image_1');  // filepath
+                table.string('creator').notNullable();
+                table.string('opponent').nullable();
+                table.string('image_1').notNullable();  // filepath
                 table.string('image_2').nullable();;  // filepath
-                table.integer('votes_1');
-                table.integer('votes_2');
+                table.integer('votes_1').notNullable().defaultTo(0);
+                table.integer('votes_2').notNullable().defaultTo(0);
 
-                table.string('state');  // pending, ready, active, expired
-                table.string('type');  // private, public
-                table.string('duration');
+                table.string('state').notNullable().defaultTo('pending');  // pending, ready, active, expired
+                table.string('type').notNullable();  // private, public
+                table.string('duration').notNullable();
                 table.timestamp('start_time').nullable();  // created when state changes from 'ready' to 'active'
                 table.timestamp('end_time').nullable();  // created when state changes from 'ready' to 'active'
+
+                table.foreign('creator').references('users.username');
+                table.foreign('opponent').references('users.username');
             });
         }
     });
