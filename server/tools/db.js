@@ -38,16 +38,16 @@ async function createUsersTable(db) {
         if (!exists) {
             return db.schema.createTable('users', table => {
                 table.string('email').unique();
-                table.string('username').unique();
-                table.string('display_name');
-                table.string('hash');
+                table.string('username').unique().primary();
+                table.string('display_name').notNullable();
+                table.string('hash').notNullable();
 
-                table.string('emoji', 1);
+                table.string('emoji', 1).notNullable();
                 
-                table.integer('friend_challenges');
-                table.integer('friend_challenges_won');
-                table.integer('tiki_tally');  // 2x tikis on votes to your picture, 1x tikis on votes to the opponents pictures
-                table.integer('polls_created');
+                table.integer('friend_challenges').notNullable().defaultTo(0);
+                table.integer('friend_challenges_won').notNullable().defaultTo(0);
+                table.integer('tiki_tally').notNullable().defaultTo(0);  // 2x tikis on votes to your picture, 1x tikis on votes to the opponents pictures
+                table.integer('polls_created').notNullable().defaultTo(0);
             });
         }
     });
