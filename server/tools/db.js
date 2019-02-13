@@ -57,9 +57,12 @@ async function createFriendsTable(db) {
     await db.schema.hasTable('friends').then(exists => {
         if (!exists) {
             return db.schema.createTable('friends', table => {
-                table.string('username_1');
-                table.string('username_2');
-                table.string('state');  // pending , accepted
+                table.string('username_1').notNullable();
+                table.string('username_2').notNullable();
+                table.string('state').notNullable().defaultTo('pending');  // pending , accepted
+
+                table.foreign('username_1').references('users.username');
+                table.foreign('username_2').references('users.username');
             });
         }
     });
