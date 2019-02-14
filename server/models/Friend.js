@@ -46,7 +46,7 @@ async function add(db, username_1, username_2) {
 }
 
 // removes a friend
-async function remove(db) {
+async function remove(db, username_1, username_2) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -54,9 +54,39 @@ async function remove(db) {
         }
     }
 
+    if (!regex.validateUsername(username_1)) {
+        return {
+            code: 400,
+            data: 'invalid username_1: ' + username_1
+        };
+    }
+
+    if (!regex.validateUsername(username_2)) {
+        return {
+            code: 400,
+            data: 'invalid username_2: ' + username_2
+        };
+    }
+
+    const result = await db('friends')
+        .where({
+            username_1, username_2
+        })
+        .del()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result.code) {
+        return result;
+    }
+
     return {
-        code: 501,
-        data: 'not implemented'
+        code: 200,
+        data: "success"
     };
 }
 
