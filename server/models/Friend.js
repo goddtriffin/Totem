@@ -197,6 +197,10 @@ async function accept(db, username_1, username_2) {
         .where({
             username_1, username_2
         })
+        .orWhere({
+            username_1: username_2,
+            username_2: username_1
+        })
         .update('state', 'accepted')
         .catch(e => {
             return {

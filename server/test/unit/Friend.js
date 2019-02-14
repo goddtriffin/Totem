@@ -177,11 +177,14 @@ describe('Friend', () => {
             
             await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
             await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
-            await User.signup(db, 'test1@test1.test1', 'test', 'test_one', '12345678', 'a');
-            await User.signup(db, 'test2@test2.test2', 'test2', 'test_two', '87654321', 'a');
+            await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one');
+            await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two');
 
             await Friend.add(db, 'todd', 'kelp');
-            await Friend.add(db, 'todd', 'test');
+            await Friend.add(db, 'todd', 'one');
+
+            await Friend.accept(db, 'kelp', 'todd');
+            await Friend.accept(db, 'one', 'todd');
 		});
 
 		after(async () => {
@@ -190,7 +193,7 @@ describe('Friend', () => {
 		});
 
 		it('success with zero friends', async () => {
-            const result = await Friend.get(db, 'test2');
+            const result = await Friend.get(db, 'two');
             
             assert.strictEqual(result.code, 200, result.data);
             assert.strictEqual(result.data.length, 0, result.data);
