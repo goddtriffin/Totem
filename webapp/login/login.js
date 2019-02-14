@@ -1,15 +1,46 @@
 
-
-
 login = (username, password) => {
 	if(verifyInput(username, password)){
 		// move to next page
 		console.log("move to next page");
+		loginUser(username, password);
 		return 1;
 	}
 	else{
 		return 0;
 	}
+}
+
+function loginUser(username, password){
+
+var url = "http://localhost:3000/api/user/login";
+
+	var data = {};
+	data.username = username;
+	data.password = password;
+
+	var json = JSON.stringify(data);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.table(users);
+			document.getElementById("GeneralError").innerHTML = "";
+			window.location.href = '../public';
+		} 
+		else if(xhr.status == "400"){
+			document.getElementById("GeneralError").innerHTML = "Please correct info!";
+
+		}
+			else {
+			console.error(users);
+		}
+	}
+	
+	xhr.send(json);
 
 }
 

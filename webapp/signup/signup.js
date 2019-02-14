@@ -34,7 +34,7 @@ function Createuser(username, displayName, email, password, passwordVerify){
 	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
-		if (xhr.readyState == 4 && xhr.status == "201") {
+		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.table(users);
 			document.getElementById("GeneralError").innerHTML = "";
 			window.location.href = '../login';
