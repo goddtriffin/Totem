@@ -80,6 +80,81 @@ describe('Friend', () => {
             });
 		});
     });
+
+    describe('requests', () => {
+		before(async () => {
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
+            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
+            await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one');
+            await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two');
+
+            await Friend.add(db, 'todd', 'kelp');
+            await Friend.add(db, 'todd', 'one');
+		});
+
+		after(async () => {
+			await db.destroy();
+			db = null;
+		});
+
+		it('success with zero friend requests', async () => {
+            const result = await Friend.requests(db, 'two');
+
+            assert.strictEqual(result.code, 200, result.data);
+            assert.strictEqual(result.data.length, 0, result.data);
+        });
+        
+        it('success with one friend request', async () => {
+            const result = await Friend.requests(db, 'kelp');
+
+            assert.strictEqual(result.code, 200, result.data);
+            assert.strictEqual(result.data.length, 1, result.data);
+        });
+        
+        it('success with two friend requests', async () => {
+            const result = await Friend.requests(db, 'todd');
+
+            assert.strictEqual(result.code, 200, result.data);
+            assert.strictEqual(result.data.length, 2, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.requests(null);
+				assert.strictEqual(result.code, 500, result.data);
+            });
+            
+            it('invalid username', async () => {
+				const result = await Friend.requests(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
+		});
+    });
+
+    describe('respond', () => {
+		before(async () => {
+			db = await db_tool.create(':memory:', true, false, true);
+		});
+
+		after(async () => {
+			await db.destroy();
+			db = null;
+		});
+
+		it.skip('success', async () => {
+			const result = await Friend.respond(db);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Friend.respond(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
+		});
+    });
     
     describe('get', () => {
 		before(async () => {
@@ -101,21 +176,21 @@ describe('Friend', () => {
 
 		it('success with zero friends', async () => {
             const result = await Friend.get(db, 'test2');
-            console.log(result);
+            
             assert.strictEqual(result.code, 200, result.data);
             assert.strictEqual(result.data.length, 0, result.data);
         });
         
         it('success with one friend', async () => {
             const result = await Friend.get(db, 'kelp');
-            console.log(result);
+            
             assert.strictEqual(result.code, 200, result.data);
             assert.strictEqual(result.data.length, 1, result.data);
         });
         
         it('success with two friends', async () => {
             const result = await Friend.get(db, 'todd');
-            console.log(result);
+            
             assert.strictEqual(result.code, 200, result.data);
             assert.strictEqual(result.data.length, 2, result.data);
 		});
@@ -127,54 +202,8 @@ describe('Friend', () => {
             });
             
             it('invalid username', async () => {
-				const result = await Friend.remove(db, null);
+				const result = await Friend.get(db, null);
 				assert.strictEqual(result.code, 400, result.data);
-			});
-		});
-    });
-    
-    describe('requests', () => {
-		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
-		});
-
-		after(async () => {
-			await db.destroy();
-			db = null;
-		});
-
-		it.skip('success', async () => {
-			const result = await Friend.requests(db);
-			assert.strictEqual(result.code, 200, result.data);
-		});
-
-		describe('validate parameters', () => {
-			it('invalid database', async () => {
-				const result = await Friend.requests(null);
-				assert.strictEqual(result.code, 500, result.data);
-			});
-		});
-    });
-    
-    describe('respond', () => {
-		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
-		});
-
-		after(async () => {
-			await db.destroy();
-			db = null;
-		});
-
-		it.skip('success', async () => {
-			const result = await Friend.respond(db);
-			assert.strictEqual(result.code, 200, result.data);
-		});
-
-		describe('validate parameters', () => {
-			it('invalid database', async () => {
-				const result = await Friend.respond(null);
-				assert.strictEqual(result.code, 500, result.data);
 			});
 		});
     });
