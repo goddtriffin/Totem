@@ -10,6 +10,7 @@ describe('Friend', () => {
 	describe('add', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
+
             await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
             await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
 		});
@@ -45,6 +46,7 @@ describe('Friend', () => {
     describe('remove', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
+
             await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
             await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
 		});
@@ -81,7 +83,15 @@ describe('Friend', () => {
     
     describe('get', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
+            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
+            await User.signup(db, 'test1@test1.test1', 'test', 'test_one', '12345678', 'a');
+            await User.signup(db, 'test2@test2.test2', 'test2', 'test_two', '87654321', 'a');
+
+            await Friend.add(db, 'todd', 'kelp');
+            await Friend.add(db, 'todd', 'test');
 		});
 
 		after(async () => {
@@ -89,15 +99,36 @@ describe('Friend', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
-			const result = await Friend.get(db);
-			assert.strictEqual(result.code, 200, result.data);
+		it('success with zero friends', async () => {
+            const result = await Friend.get(db, 'test2');
+            console.log(result);
+            assert.strictEqual(result.code, 200, result.data);
+            assert.strictEqual(result.data.length, 0, result.data);
+        });
+        
+        it('success with one friend', async () => {
+            const result = await Friend.get(db, 'kelp');
+            console.log(result);
+            assert.strictEqual(result.code, 200, result.data);
+            assert.strictEqual(result.data.length, 1, result.data);
+        });
+        
+        it('success with two friends', async () => {
+            const result = await Friend.get(db, 'todd');
+            console.log(result);
+            assert.strictEqual(result.code, 200, result.data);
+            assert.strictEqual(result.data.length, 2, result.data);
 		});
 
 		describe('validate parameters', () => {
 			it('invalid database', async () => {
 				const result = await Friend.get(null);
 				assert.strictEqual(result.code, 500, result.data);
+            });
+            
+            it('invalid username', async () => {
+				const result = await Friend.remove(db, null);
+				assert.strictEqual(result.code, 400, result.data);
 			});
 		});
     });

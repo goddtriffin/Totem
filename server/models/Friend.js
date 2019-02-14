@@ -91,7 +91,7 @@ async function remove(db, username_1, username_2) {
 }
 
 // returns a list of your friends
-async function get(db) {
+async function get(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -99,9 +99,50 @@ async function get(db) {
         }
     }
 
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: 'invalid username: ' + username
+        };
+    }
+
+    const result1 = await db('friends')
+        .where({
+            username_1: username,
+            state: 'accepted'
+        })
+        .select('username_2')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result1.code) {
+        return result1;
+    }
+
+    const result2 = await db('friends')
+        .where({
+            username_2: username,
+            state: 'accepted'
+        })
+        .select('username_1')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result2.code) {
+        return result2;
+    }
+
     return {
-        code: 501,
-        data: 'not implemented'
+        code: 200,
+        data: result1.concat(result2)
     };
 }
 
