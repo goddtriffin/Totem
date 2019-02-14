@@ -1,3 +1,4 @@
+const regex = require('../../shared/regex');
 const utils = require('../tools/utils');
 
 // adds a friend
@@ -25,8 +26,7 @@ async function add(db, username_1, username_2) {
 
     const result = await db('friends')
         .insert({
-            username_1, username_2,
-            state: 'pending'
+            username_1, username_2
         })
         .catch(e => {
             return {

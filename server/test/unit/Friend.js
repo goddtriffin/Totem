@@ -3,12 +3,15 @@ const assert = require('assert');
 const db_tool = require('../../tools/db');
 let db;
 
+const User = require('../../models/User');
 const Friend = require('../../models/Friend');
 
 describe('Friend', () => {
 	describe('add', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
+            db = await db_tool.create(':memory:', true, false, true);
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
+            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
 		});
 
 		after(async () => {
@@ -16,8 +19,8 @@ describe('Friend', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
-			const result = await Friend.add(db);
+		it('success', async () => {
+			const result = await Friend.add(db, 'todd', 'kelp');
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
@@ -26,6 +29,16 @@ describe('Friend', () => {
 				const result = await Friend.add(null);
 				assert.strictEqual(result.code, 500, result.data);
 			});
+
+			it('invalid username_1', async () => {
+				const result = await Friend.add(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
+
+			it('invalid username_2', async () => {
+				const result = await Friend.add(db, 'null', null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
 		});
     });
     
