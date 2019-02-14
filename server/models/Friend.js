@@ -170,8 +170,8 @@ async function requests(db, username) {
     };
 }
 
-// accepts or rejects a friend request
-async function respond(db) {
+// accepts a friend request
+async function accept(db, username_1, username_2) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -179,9 +179,39 @@ async function respond(db) {
         }
     }
 
+    if (!regex.validateUsername(username_1)) {
+        return {
+            code: 400,
+            data: 'invalid username_1: ' + username_1
+        };
+    }
+
+    if (!regex.validateUsername(username_2)) {
+        return {
+            code: 400,
+            data: 'invalid username_2: ' + username_2
+        };
+    }
+
+    const result = await db('friends')
+        .where({
+            username_1, username_2
+        })
+        .update('state', 'accepted')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
     return {
-        code: 501,
-        data: 'not implemented'
+        code: 200,
+        data: 'success'
     };
 }
 
@@ -267,6 +297,6 @@ async function get(db, username) {
 
 module.exports = {
     add, remove,
-    requests, respond,
+    requests, accept,
     get
 }
