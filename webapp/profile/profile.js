@@ -43,13 +43,12 @@ xhr.onload = function () {
 xhr.send(null);
 
 
-		
-
-
-
-
-
-
-
 }
 
+
+
+
+function logout(){
+	localStorage.removeItem(token);
+	window.location.href = '../splash';
+}

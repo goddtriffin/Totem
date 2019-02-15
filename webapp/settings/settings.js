@@ -1,10 +1,53 @@
 
 changeDisplayName = (changedisplayname, repeatdisplayname) => {
-	if(verifychangeDisplayName(changedisplayname, repeatdisplayname)){
+	// if(verifychangeDisplayName(changedisplayname, repeatdisplayname)){
 		console.log("displayname changed and verified.");
+		changingDisplayName(changedisplayname, repeatdisplayname);
 		return 1;
+	// }
+	// return 0;
+}
+function changingDisplayName(changedisplayname, repeatdisplayname){
+
+/*
+var url = "http://localhost:3000/api/user/update";
+var url1 = "http://localhost:3000/";
+
+	
+
+	var xhr = new XMLHttpRequest();
+
+	xhr.open('GET', url, true)
+
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr.open("PUT", url, true);
+	var data = {};
+	data.displayname = changedisplayname;
+
+	var json = JSON.stringify(data);
+	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.log(users.data);
+			// document.getElementById("GeneralError").innerHTML = "";
+
+			// window.location.href = '../profile';
+		} 
+		else if(xhr.status == "400"){
+			// document.getElementById("GeneralError").innerHTML = "Please correct info!";
+
+		}
+			else {
+			console.error(users);
+		}
 	}
-	return 0;
+	
+	xhr.send(json);
+*/
+
+
 }
 
 
