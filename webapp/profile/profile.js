@@ -48,6 +48,8 @@ xhr.send(null);
 
 
 function logout(){
-	localStorage.removeItem(token);
-	window.location.href = '../splash';
+	console.log("logout");
+	localStorage.removeItem(localStorage.token);
+	window.location.href = "../splash";
+
 }
