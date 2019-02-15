@@ -56,8 +56,8 @@
                         <option>Theme Three</option>
                     </select>  
                 </div>
-                <div class="col-md-1">
-                    <button class="btn btn-outline-light topButton">Search</button>
+                <div class="col-md-1" onclick="search()">
+                    <button class="btn btn-outline-light topButton" >Search</button>
                 </div>
                 <div class="col-md-1">
                     <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#sortCard">Sort</button>
@@ -76,24 +76,25 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                            <div class="form-check">
+                            <div class="form-check" onclick="updateSort('Newest')">
                                 <input class="form-check-input" type="radio" name="radioOption" id="sort1" value="option1" checked>
                                 <label class="form-check-label" for="sort1">Newest -> Oldest</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check" onclick="updateSort('Oldest')">
                                 <input class="form-check-input" type="radio" name="radioOption" id="sort2" value="option2">
                                 <label class="form-check-label" for="sort2">Oldest -> Newest</label>
                             </div>
                     </div>
                     <div class="modal-footer">
                         <!-- Sort Button -->
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Sort</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="changeSort()">Sort</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- New Poll -->
+        <form id="newPollForm">
         <div id="newPoll" class="modal fade" role="dialog">
             <div class="modal-dialog">
             
@@ -105,13 +106,13 @@
                     </div>
                     <div class="modal-body">
                         
-                        <!-- Personal vs Friends -->
+                        <!-- Personal vs Challenge -->
                         <div class="btn-group btn-group-toggle" id="personalToggle" data-toggle="buttons">
-                            <label class="btn btn-secondary active">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Personal
+                            <label class="btn btn-secondary active" id="personalButton" onclick="switchPollType('Personal')">
+                                <input type="radio" name="personal" autocomplete="off"> Personal
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option2" autocomplete="off"> Friend
+                            <label class="btn btn-secondary" id="challengeButton" onclick="switchPollType('Challenge')">
+                                <input type="radio" name="challenge" autocomplete="off"> Challenge
                             </label>
                         </div>
 
@@ -119,7 +120,7 @@
                         <div class="form-group row">
                             <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" id="inputTile" placeholder="Poll Title">
+                                <input type="email" class="form-control" id="titleInput" placeholder="Poll Title">
                             </div>
                         </div>
 
@@ -141,13 +142,13 @@
                         <div class="form-group row">
                             <label for="expirationInput" class="col-sm-2 col-form-label">Duration</label>
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="number" min="0" placeholder="Days">
+                                    <input class="form-control" type="number" min="0" placeholder="Days" id="durationDay">
                                 </div>
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="number" min="0" placeholder="Hours">
+                                    <input class="form-control" type="number" min="0" placeholder="Hours" id="durationHour">
                                 </div>
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="number" min="0" placeholder="Mins">
+                                    <input class="form-control" type="number" min="0" placeholder="Mins" id="durationMin">
                                 </div>
                         </div>
 
@@ -167,24 +168,25 @@
                     <div class="modal-footer">
                         <!-- Private vs Public -->
                         <div class="btn-group btn-group-toggle" id="privacyToggle" data-toggle="buttons">
-                            <label class="btn btn-secondary active">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Private
+                            <label class="btn btn-secondary active" id="privateButton">
+                                <input type="radio" name="options" autocomplete="off" checked> Private
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option2" autocomplete="off"> Public
+                            <label class="btn btn-secondary" id="publicButton">
+                                <input type="radio" name="options" autocomplete="off"> Public
                             </label>
                         </div>
                         <!-- Create Button -->
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Create</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="createPoll()">Create</button>
                     </div>
                 </div>
             </div>
         </div>
-    
+    </form>
+
         <!-- Poll Card -->
         <div class="fluid-container">
             <div class="row justify-content-md-center pollView">
-                <div class="scrollArrow" id="backArrow">
+                <div class="scrollArrow" id="backArrow" onclick="movePoll(-1)">
                     <button class="btn btn-outline-dark"><</button>
                 </div>
                 <div class="col-md-8 pollCard">
@@ -192,15 +194,16 @@
                         <p>Title</p>
                     </div>
                     <div class="row col-md-12" id="cardContent">
-                        <div class="col-md-6" id="cardLeft">
+                        <div class="col-md-6" id="cardLeft" onclick="vote('Left')">
                             <!-- Contents -->
                         </div>
-                        <div class="col-md-6" id="cardRight">
+                        <div class="col-md-6" id="cardRight" onclick="vote('Right')">
                             <!-- Contents -->
                         </div>
                     </div>
 
-                    <div class="row col-md-12" id="cardContentOverlay">
+                    <!-- Results overlay -->
+                    <div class="row col-md-12 invisible" id="cardContentOverlay">
                         <div class="col-md-6" id="cardLeftOverlay">
                             <div id="leftBlank"></div>
                             <div id="leftResults">
@@ -228,7 +231,7 @@
                     </div>
                 </div>
                 <div class="scrollArrow" id="nextArrow">
-                    <button class="btn btn-outline-dark">></button>
+                    <button class="btn btn-outline-dark" onclick="movePoll(1)">></button>
                 </div>
             </div>
         </div>
