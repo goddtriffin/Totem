@@ -107,26 +107,18 @@ body{
 }
 
 #emoji{
-	
 	align-content: center;
 	text-align: center;
-	/* #border: 1px solid white; */
-	/* #border-radius: 25%; */
-	/* #height: 150%; */
-	width: 100px;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	font-size: 5rem;
+	margin: 0px;
 }
 
 #emoji:hover{
 	align-content: center;
 	text-align: center;
-	/* #border: 1px solid white; */
-	/* #border-radius: 25%; */
-	/* #height: 155%; */
-	width: 115px;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	font-size: 5.5rem;
+	cursor: pointer;
+	margin: 0px;
 }
 
 #displayName{
