@@ -47,6 +47,8 @@ xhr.send(null);
 
 
 
+
+
 function logout(){
 	console.log("logout");
 	localStorage.removeItem(localStorage.token);

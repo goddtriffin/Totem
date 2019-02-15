@@ -151,3 +151,13 @@ function verifychangePassword(changepassword, repeatpassword){
 	return 1;
 
 }
+
+
+
+
+function logout(){
+	console.log("logout");
+	localStorage.removeItem(localStorage.token);
+	window.location.href = "../splash";
+
+}
