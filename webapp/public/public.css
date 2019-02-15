@@ -3,6 +3,10 @@ body{
     position: relative;
 }
 
+.invisible{
+    visibility: hidden;
+}
+
 .navbar-dark{
     background-color: #551a8b;
 }
