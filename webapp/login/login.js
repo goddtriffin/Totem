@@ -27,9 +27,11 @@ var url = "http://localhost:3000/api/user/login";
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.table(users);
+			console.log(users.data);
 			document.getElementById("GeneralError").innerHTML = "";
-			window.location.href = '../public';
+			localStorage.token = users.data;
+
+			window.location.href = '../profile';
 		} 
 		else if(xhr.status == "400"){
 			document.getElementById("GeneralError").innerHTML = "Please correct info!";
