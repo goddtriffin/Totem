@@ -76,3 +76,10 @@ function vote(side){
 	}
 	document.getElementById("cardContentOverlay").classList.remove("invisible");
 }
+
+function logout(){
+	console.log("logout");
+	localStorage.removeItem(localStorage.token);
+	window.location.href = "../splash";
+
+}
