@@ -6,6 +6,7 @@ window.onload = function() {
 	console.log("onload worked");
   fillUserInfo();
 
+  //Populate Emoji table
   loadEmojis();
 
 };

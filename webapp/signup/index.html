@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Totem< - Signup</title>
+        <title>Totem - Signup</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="signup.css">
@@ -12,7 +12,7 @@
 
     </head>
 
-    <body>
+    <body onload="onLoad()">
 
         <!-- Nav Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -44,6 +44,9 @@
             <div class="row justify-content-md-center">
                 <div class="col-md-6" id="signupContent">
                     <p id="title">Sign Up</p>
+                    <a id="emojiBox" data-toggle="modal" data-target="#emojiModal">
+                        <p class="emoji" id="emoji">😁</p>
+                    </a>
                     <input type="text" name="username" placeholder="Username" id="usernameText" class="form-control">
                     <p class="error" id="usernameError"></p>
                     <input type="text" name="displayName" placeholder="Display Name" id="displayText" class="form-control">
@@ -60,7 +63,57 @@
             </div>
             
         </div>
-    </form>
+        </form>
+
+        <!-- Emoji Content -->
+        <div id="emojiModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Change Emoji</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="emojiBody">
+                        <table class="table table-striped" id="emojiTable">
+                            <tbody>
+                                <tr>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                </tr>
+                                <tr>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                </tr>
+                                <tr>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                </tr>
+                                <tr>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>

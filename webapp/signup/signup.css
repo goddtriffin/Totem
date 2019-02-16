@@ -59,3 +59,37 @@ body{
 .error{
     color: red;
 }
+
+#emojiTable{
+	text-align: center;
+	overflow: scroll;
+}
+
+#emojiBody{
+	height: 400px;
+	overflow: scroll;
+}
+
+.emoji{
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.emoji:hover{
+	font-size: 2.75rem;
+}
+
+#emoji{
+	align-content: center;
+	text-align: center;
+	font-size: 5rem;
+	margin: 0px;
+}
+
+#emoji:hover{
+	align-content: center;
+	text-align: center;
+	font-size: 5.5rem;
+	cursor: pointer;
+	margin: 0px;
+}
