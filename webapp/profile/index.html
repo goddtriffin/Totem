@@ -193,13 +193,13 @@
                             <div class="modal-body">
                                 <!-- Sent vs Received -->
                                 <div class="btn-group btn-group-toggle" id="friendToggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary active">
+                                    <label class="btn btn-secondary active" onclick='friendView("friends")'>
                                         <input type="radio" name="options" id="option1" autocomplete="off" checked> My Friends
                                     </label>
-                                    <label class="btn btn-secondary">
+                                    <label class="btn btn-secondary" onclick='friendView("requests")'>
                                         <input type="radio" name="options" id="option2" autocomplete="off"> Requests
                                     </label>
-                                    <label class="btn btn-secondary">
+                                    <label class="btn btn-secondary" onclick='friendView("search")'>
                                         <input type="radio" name="options" id="option3" autocomplete="off"> Find Friends
                                     </label>
                                 </div>
@@ -227,7 +227,7 @@
                                 </table>
             
                                 <!-- Friend Requests -->
-                                <table class="table table-hover table-striped" id="friendRequestTable">
+                                <table class="table table-hover table-striped invisible" id="friendRequestTable">
                                     <thead>
                                         <tr>
                                             <th scope="col">Username</th>
@@ -253,7 +253,7 @@
                                 </table>
 
                                 <!-- Find Friends -->
-                                <div id="friendSearch">
+                                <div id="friendSearch" class="invisible">
                                     <input id="searchBar" class="form-control" type="text" placeholder="Search username" aria-label="Search">
                                 </div>
                             </div>

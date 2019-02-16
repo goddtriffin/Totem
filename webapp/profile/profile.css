@@ -3,6 +3,10 @@ body{
 	height: 100vh;
 }
 
+.invisible{
+	display: none;
+}
+
 .navbar-dark{
 	background-color: #551a8b;
 }

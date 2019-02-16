@@ -76,3 +76,25 @@ function changeEmoji(index){
 	console.log("New Emoji: " + emojis[index]);
 	document.getElementById("emoji").innerHTML = emojis[index];
 }
+
+function friendView(page){
+	let friends = document.getElementById("friendTable");
+	let requests = document.getElementById("friendRequestTable");
+	let search = document.getElementById("friendSearch");
+
+	if(page === "friends"){
+		friends.classList.remove("invisible");
+		requests.classList.add("invisible");
+		search.classList.add("invisible");
+	}
+	else if(page === "requests"){
+		requests.classList.remove("invisible");
+		friends.classList.add("invisible");
+		search.classList.add("invisible");
+	}
+	else{
+		search.classList.remove("invisible");
+		requests.classList.add("invisible");
+		friends.classList.add("invisible");
+	}
+}
