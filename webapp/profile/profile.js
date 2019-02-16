@@ -98,3 +98,16 @@ function friendView(page){
 		friends.classList.add("invisible");
 	}
 }
+
+function challengeView(page){
+	let received = document.getElementById("requestTable");
+	let sent = document.getElementById("sentTable");
+	if(page === "received"){
+		received.classList.remove("invisible");
+		sent.classList.add("invisible");
+	}
+	else{
+		sent.classList.remove("invisible");
+		received.classList.add("invisible");
+	}
+}

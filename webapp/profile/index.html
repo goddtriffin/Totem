@@ -114,10 +114,10 @@
                             <div class="modal-body">
                                 <!-- Sent vs Received -->
                                 <div class="btn-group btn-group-toggle" id="viewToggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary active">
+                                    <label class="btn btn-secondary active" onclick="challengeView('received')">
                                         <input type="radio" name="options" id="option1" autocomplete="off" checked> Received
                                     </label>
-                                    <label class="btn btn-secondary">
+                                    <label class="btn btn-secondary" onclick="challengeView('sent')">
                                         <input type="radio" name="options" id="option2" autocomplete="off"> Sent
                                     </label>
                                 </div>
@@ -153,7 +153,7 @@
                                 </table>
             
                                 <!-- Sent -->
-                                <table class="table table-hover table-striped" id="sentTable">
+                                <table class="table table-hover table-striped invisible" id="sentTable">
                                     <thead>
                                         <tr>
                                             <th scope="col">User</th>
