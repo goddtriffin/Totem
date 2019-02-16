@@ -194,6 +194,15 @@ tbody tr{
 	overflow: scroll;
 }
 
+#emojiBody{
+	height: 400px;
+	overflow: scroll;
+}
+
 .emoji{
 	font-size: 2.5rem;
+}
+
+.emoji:hover{
+	font-size: 2.75rem;
 }
