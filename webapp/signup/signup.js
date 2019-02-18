@@ -4,6 +4,7 @@ function onLoad(){
 
 	//Populate Emoji table
 	loadEmojis();
+	localStorage.emoji = emojis[2];
 }
 
 signup = (username, displayName, email, password, passwordVerify) => {
@@ -11,7 +12,6 @@ signup = (username, displayName, email, password, passwordVerify) => {
 	if(verifyInput(username, displayName, email, passwordVerify, password)){
 		// move to next page
 		console.log("move to next page");
-
 		Createuser(username, displayName, email, password, passwordVerify);
 		
 
@@ -21,7 +21,7 @@ signup = (username, displayName, email, password, passwordVerify) => {
 	return 0;
 }
 
-function Createuser(username, displayName, email, password, passwordVerify){
+function Createuser(username, displayName, email, password, passwordVerify, emoji){
 
 
 	var url = "http://localhost:3000/api/user/signup";
@@ -31,7 +31,7 @@ function Createuser(username, displayName, email, password, passwordVerify){
 	data.username = username;
 	data.display_name = displayName;
 	data.password = password;
-	data.emoji = "apple";
+	data.emoji = localStorage.emoji;
 
 	var json = JSON.stringify(data);
 
@@ -44,6 +44,7 @@ function Createuser(username, displayName, email, password, passwordVerify){
 			console.table(users);
 			document.getElementById("GeneralError").innerHTML = "";
 			window.location.href = '../login';
+			localStorage.removeItem(localStorage.emoji);
 
 		} 
 		else if(xhr.status == "409"){
@@ -141,5 +142,6 @@ function changeEmoji(index){
 	console.log("Change Emoji: " + index);
 	console.log("New Emoji: " + emojis[index]);
 	document.getElementById("emoji").innerHTML = emojis[index];
+	localStorage.emoji = emojis[index]
 }
 
