@@ -55,17 +55,9 @@ async function signup(db, email, username, display_name, password, emoji) {
     // hash the password before storing for security
     const hash = bcrypt.hashSync(password, 10);
 
-    // generatre all others mandatory columns
-    const friend_challenges = 0;
-    const friend_challenges_won = 0;
-    const tiki_tally = 0;
-    const polls_created = 0;
-
     const result = await db('users')
         .insert({
-            email, username, display_name, emoji, hash,
-            friend_challenges, friend_challenges_won,
-            tiki_tally, polls_created
+            email, username, display_name, emoji, hash
         })
         .catch(e => {
             return {
