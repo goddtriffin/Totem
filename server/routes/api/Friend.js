@@ -95,7 +95,7 @@ router.put('/accept', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/get', Auth.validate, async (req, res) => {
+router.get('/', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub
     };
