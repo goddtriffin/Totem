@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory body parameters; username, password'
+            data: 'mandatory body parameters: username, password'
         };
         res.status(result.code).send(result);
         return;
@@ -75,15 +75,15 @@ router.get('/me', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/profile', Auth.validate, async (req, res) => {
+router.get('/profile/:username', Auth.validate, async (req, res) => {
     const data = {
-        username: req.body.username
+        username: req.params.username
     };
 
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory URL parameters; username'
+            data: 'mandatory URL endpoint: username'
         };
         res.status(result.code).send(result);
         return;
@@ -98,13 +98,13 @@ router.get('/profile', Auth.validate, async (req, res) => {
 
 router.get('/search', Auth.validate, async (req, res) => {
     const data = {
-        username_query: req.body.username_query
+        username_query: req.query.username
     };
 
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory body parameters; username_query'
+            data: 'mandatory URL query parameters: username'
         };
         res.status(result.code).send(result);
         return;
@@ -148,7 +148,7 @@ router.put('/update', Auth.validate, async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'optional body parameters allowed; display_name, password, emoji'
+            data: 'optional body parameters allowed: display_name, password, emoji'
         };
         res.status(result.code).send(result);
         return;
