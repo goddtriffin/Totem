@@ -24,7 +24,7 @@ signup = (username, displayName, email, password, passwordVerify) => {
 function Createuser(username, displayName, email, password, passwordVerify, emoji){
 
 
-	var url = "http://localhost:3000/api/user/signup";
+	var url = "/api/user/signup";
 
 	var data = {};
 	data.email= email;
@@ -43,7 +43,7 @@ function Createuser(username, displayName, email, password, passwordVerify, emoj
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.table(users);
 			document.getElementById("GeneralError").innerHTML = "";
-			window.location.href = '../login';
+			window.location.href = '/login';
 			localStorage.removeItem(localStorage.emoji);
 
 		} 

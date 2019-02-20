@@ -30,8 +30,8 @@ async function createChallenge(db) {
     };
 }
 
-// accepts or rejects a friend poll request
-async function respondToChallengeRequest(db) {
+// returns all of your challenge requests
+async function getChallengeRequests(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -45,8 +45,8 @@ async function respondToChallengeRequest(db) {
     };
 }
 
-// returns all of your challenge requests
-async function getChallengeRequests(db) {
+// accepts a challenge request
+async function acceptChallengeRequest(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -92,7 +92,7 @@ async function vote(db) {
 
 module.exports = {
     createPersonal, createChallenge,
-    respondToChallengeRequest,
-    getChallengeRequests, search,
+    getChallengeRequests,
+    acceptChallengeRequest, search,
     vote
 }

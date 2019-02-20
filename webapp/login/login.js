@@ -13,7 +13,7 @@ login = (username, password) => {
 
 function loginUser(username, password){
 
-var url = "http://localhost:3000/api/user/login";
+var url = "/api/user/login";
 
 	var data = {};
 	data.username = username;
@@ -31,7 +31,7 @@ var url = "http://localhost:3000/api/user/login";
 			document.getElementById("GeneralError").innerHTML = "";
 			localStorage.token = users.data;
 
-			window.location.href = '../profile';
+			window.location.href = '/profile';
 		} 
 		else if(xhr.status == "400"){
 			document.getElementById("GeneralError").innerHTML = "Please correct info!";
