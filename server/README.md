@@ -47,14 +47,14 @@ Header Value: `Bearer JWT`
 
 | Method | Endpoint | Description | Body Parameters |
 | :---: | :--- | :--- | :---: |
-| POST | `/api/user/signup` | signs up a new user account | email, username, display_name, password, emoji |
-| POST | `/api/user/login` | logs a user in | username, password |
+| POST | `/api/user/signup` * | signs up a new user account | email, username, display_name, password, emoji |
+| POST | `/api/user/login` * | logs a user in | username, password |
 | GET | `/api/user/me` | returns your account information |  |
 | GET | `/api/user/profile/username` | replace username with a real username, returns that user's account information |  |
 | GET | `/api/user/search?username=<username>` | replace `<username>` with a real username, returns a list of all user accounts with similar usernames |  |
 | GET | `/api/user/all` | returns a list of all user accounts |  |
 | PUT | `/api/user/update` | updates your account, must pick at least one optional Body Parameter to update | display_name, password, emoji |
-| GET | `/api/user/history` | not implemented |  |
+| GET | `/api/user/history` | (unimplemented) returns your vote history |  |
 
 #### Friend
 
@@ -70,21 +70,19 @@ Header Value: `Bearer JWT`
 
 | Method | Endpoint | Description | Body Parameters |
 | :---: | :--- | :--- | :---: |
-| POST | `/api/poll/personal` | unimplemented |  |
-| POST | `/api/poll/challenge` | unimplemented |  |
-| PUT | `/api/poll/challenge` | unimplemented |  |
-| GET | `/api/poll/challenge` | unimplemented |  |
-| GET | `/api/poll/search` | unimplemented |  |
-| PUT | `/api/poll/vote` | unimplemented |  |
+| POST | `/api/poll/personal` | (unimplemented) creates a personal poll |  |
+| POST | `/api/poll/challenge` | (unimplemented) creates a challenge request |  |
+| GET | `/api/poll/challenge/requests` | (unimplemented) returns a list of all your challenge requests |  |
+| PUT | `/api/poll/challenge` | (unimplemented) accepts a challenge request |  |
+| GET | `/api/poll/search` | (unimplemented) returns a list of polls |  |
+| PUT | `/api/poll/vote` | (unimplemented) sets a vote on a poll |  |
 
 ## Stack
 
 * Framework: Node/Express
 * Database: Sqlite
 
-## Developers
-
-### Scripts
+## Scripts
 
 * `npm run init-prod`
   * one line production server setup script
@@ -99,5 +97,5 @@ Header Value: `Bearer JWT`
 * `npm run unit tests`
   * runs all unit tests
 * `npm run line-count`
-  * prints every file's line count and the sum of all line counts for every file created by me, both with and without counting newlines
+  * prints every file's line count and the sum of all line counts for every file created by me (both with and without counting newlines)
  
