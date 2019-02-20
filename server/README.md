@@ -2,8 +2,8 @@
 
 ## Requirements
 
-* NPM
-* Node
+* [NPM](https://www.npmjs.com/ "Social media website that rates memes.")
+* [Node](https://nodejs.org/)
 
 ## Setup
 
@@ -18,19 +18,64 @@
 2. Open your favourite browser<sub>*coughchromecough*</sub>
 3. Visit `http://localhost`
 
-### API
+### Routes
 
- | Method | Endpoint | Description | Auth Required | Body Parameters |
- | :---: | :--- | :--- | :---: | :---: |
- | GET | `/` | default endpoint |  |  |
- | POST | `/api/user/signup` | signs up a new user account |  | email, username, display_name, password, emoji |
- | POST | `/api/user/login` | logs a user in |  | username, password |
- | GET | `/api/user/me` | returns your account information | ✔️ |  |
- | GET | `/api/user/u/username` | replace username with a real username, returns that user's account information | ✔️ |  |
- | GET | `/api/user/all` | returns a list of all user accounts | ✔️ |  |
- | GET | `/api/user/search` | returns a list of all user accounts with names similar to the query | ✔️ | query |
- | PUT | `/api/user/update` | updates your account | ✔️ | display_name, password, emoji |
- | GET | `/api/user/history` | not implemented | ✔️ |  |
+#### Authentication
+
+Header Key: `Authorization`
+
+Header Value: `Bearer JWT`
+
+*replace JWT with the one you recieve from a successful signup/login*
+
+#### Webapp
+
+| Endpoint | Description |
+| :--- | :--- |
+| `/` | default endpoint, forwards to `/splash` |
+| `/splash` | landing page |
+| `/signup` | signup page |
+| `/login` | login page |
+| `/forgotpassword` | forgotten password page |
+| `/public` | global feed |
+| `/private` | friend feed |
+| `/tournament` | tournament feed |
+| `/profile` | profile page |
+| `/settings` | settings page |
+
+#### User
+
+| Method | Endpoint | Description | Body Parameters |
+| :---: | :--- | :--- | :---: |
+| POST | `/api/user/signup` | signs up a new user account | email, username, display_name, password, emoji |
+| POST | `/api/user/login` | logs a user in | username, password |
+| GET | `/api/user/me` | returns your account information |  |
+| GET | `/api/user/profile/username` | replace username with a real username, returns that user's account information |  |
+| GET | `/api/user/search?username=<username>` | replace `<username>` with a real username, returns a list of all user accounts with similar usernames |  |
+| GET | `/api/user/all` | returns a list of all user accounts |  |
+| PUT | `/api/user/update` | updates your account, must pick at least one optional Body Parameter to update | display_name, password, emoji |
+| GET | `/api/user/history` | not implemented |  |
+
+#### Friend
+
+| Method | Endpoint | Description | Body Parameters |
+| :---: | :--- | :--- | :---: |
+| POST | `/api/user/friend` | creates friend request |  |
+| GET | `/api/user/friend/requests` | returns a list of all friend requests |  |
+| PUT | `/api/user/friend` | accepts a friend request |  |
+| GET | `/api/user/friend` | returns a list of all your friends |  |
+| DELETE | `/api/user/friend` | deletes friend / friend request |  |
+
+#### Poll
+
+| Method | Endpoint | Description | Body Parameters |
+| :---: | :--- | :--- | :---: |
+| POST | `/api/poll/personal` | unimplemented |  |
+| POST | `/api/poll/challenge` | unimplemented |  |
+| PUT | `/api/poll/challenge` | unimplemented |  |
+| GET | `/api/poll/challenge` | unimplemented |  |
+| GET | `/api/poll/search` | unimplemented |  |
+| PUT | `/api/poll/vote` | unimplemented |  |
 
 ## Stack
 
@@ -51,4 +96,8 @@
   * creates fresh production database
 * `npm run init-db-dev`
   * creates fresh development database
+* `npm run unit tests`
+  * runs all unit tests
+* `npm run line-count`
+  * prints every file's line count and the sum of all line counts for every file created by me, both with and without counting newlines
  
