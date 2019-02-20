@@ -26,13 +26,7 @@ function fillUserInfo(){
 			console.log(users);
 			document.getElementById("displayName").innerHTML = users.data.display_name;
 			document.getElementById("username").innerHTML = users.data.username;
-			
-			//TODO: @CameronGlass 
-			// fix the positioning of the emoji at the top of the pagew
 			document.getElementById("emoji").innerHTML = users.data.emoji;
-			
-			//Move data to HTML --> you need to create the place and give it the ids listed below. These will 
-			//return the numbers automatically when the page is loaded. 
 			
 			document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ users.data.friend_challenges_won/users.data.friend_challenges;
 			document.getElementById("TikiTally").innerHTML = `Tiki Tally<br>`+ users.data.tiki_tally;
@@ -75,7 +69,43 @@ function changeEmoji(index){
 	console.log("Change Emoji: " + index);
 	console.log("New Emoji: " + emojis[index]);
 	document.getElementById("emoji").innerHTML = emojis[index];
+
+
+	var url = "/api/user/update";
+
+	var data = {};
+	data.emoji = emojis[index];
+	var json = JSON.stringify(data);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("PUT", url, true);
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			// document.getElementById("displayNameText").value = "";
+			// document.getElementById("repeatDisplayNameText").value = "";
+			// document.getElementById("GeneralDSError").innerHTML = " ";
+
+		} else if(xhr.status == "400"){ 
+			// document.getElementById("GeneralDSError").innerHTML = "Please enter a NEW Display name";
+
+			GeneralDSError
+		}
+		else {
+			console.error(users);
+		}
+	}
+	xhr.send(json);
+
+
+
+
+
+
 }
+
 
 function friendView(page){
 	let friends = document.getElementById("friendTable");
