@@ -69,8 +69,7 @@ function changeEmoji(index){
 	console.log("Change Emoji: " + index);
 	console.log("New Emoji: " + emojis[index]);
 	document.getElementById("emoji").innerHTML = emojis[index];
-
-
+	
 	var url = "/api/user/update";
 
 	var data = {};
@@ -84,26 +83,13 @@ function changeEmoji(index){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			// document.getElementById("displayNameText").value = "";
-			// document.getElementById("repeatDisplayNameText").value = "";
-			// document.getElementById("GeneralDSError").innerHTML = " ";
-
 		} else if(xhr.status == "400"){ 
-			// document.getElementById("GeneralDSError").innerHTML = "Please enter a NEW Display name";
-
-			GeneralDSError
 		}
 		else {
 			console.error(users);
 		}
 	}
 	xhr.send(json);
-
-
-
-
-
-
 }
 
 
