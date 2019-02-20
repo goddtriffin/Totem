@@ -20,6 +20,8 @@
 
 ### Routes
 
+$ - *unauthenticated routes*
+
 #### Authentication
 
 Header Key: `Authorization`
@@ -47,8 +49,8 @@ Header Value: `Bearer JWT`
 
 | Method | Endpoint | Description | Body Parameters |
 | :---: | :--- | :--- | :---: |
-| POST | `/api/user/signup` * | signs up a new user account | email, username, display_name, password, emoji |
-| POST | `/api/user/login` * | logs a user in | username, password |
+| POST | $ `/api/user/signup` | signs up a new user account | email, username, display_name, password, emoji |
+| POST | $ `/api/user/login` | logs a user in | username, password |
 | GET | `/api/user/me` | returns your account information |  |
 | GET | `/api/user/profile/username` | replace username with a real username, returns that user's account information |  |
 | GET | `/api/user/search?username=<username>` | replace `<username>` with a real username, returns a list of all user accounts with similar usernames |  |
@@ -97,5 +99,4 @@ Header Value: `Bearer JWT`
 * `npm run unit tests`
   * runs all unit tests
 * `npm run line-count`
-  * prints every file's line count and the sum of all line counts for every file created by me (both with and without counting newlines)
- 
+  * prints every file's line count and the sum of all line counts for every file created by me (both including, and not including, newlines)
