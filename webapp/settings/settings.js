@@ -10,7 +10,7 @@ changeDisplayName = (changedisplayname, repeatdisplayname) => {
 
 function changingDisplayName(changedisplayname, repeatdisplayname){
 
-	var url = "http://localhost:3000/api/user/update";
+	var url = "/api/user/update";
 
 	var data = {};
 	data.display_name = changedisplayname;
@@ -54,7 +54,7 @@ changePassword = (changepassword, repeatpassword) => {
 
 function changingPassword(changepassword, repeatpassword){
 
-	var url = "http://localhost:3000/api/user/update";
+	var url = "/api/user/update";
 
 	var data = {};
 	data.password = changepassword;
@@ -158,6 +158,6 @@ function verifychangePassword(changepassword, repeatpassword){
 function logout(){
 	console.log("logout");
 	localStorage.removeItem(localStorage.token);
-	window.location.href = "../splash";
+	window.location.href = "/splash";
 
 }

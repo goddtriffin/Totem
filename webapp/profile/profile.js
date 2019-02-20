@@ -13,7 +13,7 @@ window.onload = function() {
 
 
 function fillUserInfo(){
-	var url  = "http://localhost:3000/api/user/me";
+	var url  = "/api/user/me";
 	var xhr  = new XMLHttpRequest()
 
 	xhr.open('GET', url, true)
@@ -49,7 +49,7 @@ function fillUserInfo(){
 function logout(){
 	console.log("logout");
 	localStorage.removeItem(localStorage.token);
-	window.location.href = "../splash";
+	window.location.href = "/splash";
 
 }
 
