@@ -60,11 +60,11 @@ Header Value: `Bearer JWT`
 
 | Method | Endpoint | Description | Body Parameters |
 | :---: | :--- | :--- | :---: |
-| POST | `/api/user/friend` | creates friend request |  |
+| POST | `/api/user/friend` | creates friend request | friend_username |
 | GET | `/api/user/friend/requests` | returns a list of all friend requests |  |
-| PUT | `/api/user/friend` | accepts a friend request |  |
+| PUT | `/api/user/friend` | accepts a friend request | friend_username |
 | GET | `/api/user/friend` | returns a list of all your friends |  |
-| DELETE | `/api/user/friend` | deletes friend / friend request |  |
+| DELETE | `/api/user/friend` | deletes friend / friend request | friend_username |
 
 #### Poll
 
