@@ -51,30 +51,7 @@ describe('Poll', () => {
 			});
 		});
     });
-    
-    describe('respondToChallengeRequest', () => {
-		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
-		});
 
-		after(async () => {
-			await db.destroy();
-			db = null;
-		});
-
-		it.skip('success', async () => {
-			const result = await Poll.respondToChallengeRequest(db);
-			assert.strictEqual(result.code, 200, result.data);
-		});
-
-		describe('validate parameters', () => {
-			it('invalid database', async () => {
-				const result = await Poll.respondToChallengeRequest(null);
-				assert.strictEqual(result.code, 500, result.data);
-			});
-		});
-    });
-    
     describe('getChallengeRequests', () => {
 		before(async () => {
 			db = await db_tool.create(':memory:', true, false, true);
@@ -93,6 +70,29 @@ describe('Poll', () => {
 		describe('validate parameters', () => {
 			it('invalid database', async () => {
 				const result = await Poll.getChallengeRequests(null);
+				assert.strictEqual(result.code, 500, result.data);
+			});
+		});
+    });
+    
+    describe('acceptChallengeRequest', () => {
+		before(async () => {
+			db = await db_tool.create(':memory:', true, false, true);
+		});
+
+		after(async () => {
+			await db.destroy();
+			db = null;
+		});
+
+		it.skip('success', async () => {
+			const result = await Poll.acceptChallengeRequest(db);
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Poll.acceptChallengeRequest(null);
 				assert.strictEqual(result.code, 500, result.data);
 			});
 		});
