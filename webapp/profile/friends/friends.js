@@ -29,7 +29,10 @@ function getFriends(){
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].tiki_tally}</td>
 						<td>
-							<button class="btn btn-dark">View Profile</button>
+							<button class="btn btn-success" onclick="acceptFriend(friend_request_username)">Accept</button>
+						</td>
+						<td>
+							<button class="btn btn-danger">Reject</button>
 						</td>
 					</tr>`;
 			}
