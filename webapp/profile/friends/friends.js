@@ -1,3 +1,6 @@
+let friendRequest = [];
+
+
 function loadFriends(){
 		// acceptFriend("cameron")
 	getFriends();
@@ -56,18 +59,22 @@ function getFriendRequests(){
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			//Populate HTML
-			console.table(users)
+			console.table(users);
+
+			//Set global 
+			friendRequests = users.data;
+
 			let runningTable = ``;
 			let tableBody = document.getElementById("friendRequestTableBody");
 			for(let i = 0; i < users.data.length; i++){
 				console.log()
 				runningTable += `
 					<tr>
-						<th scope="row">${users.data[i].username}</th>  
+						<th scope="row" id="friend_request_username-${i}">${users.data[i].username}</th>  
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].tiki_tally}</td>
 						<td>
-							<button class="btn btn-success" onclick="acceptFriend(friend_request_username)">Accept</button>
+							<button class="btn btn-success" onclick="acceptFriend(${i})">Accept</button>
 						</td>
 						<td>
 							<button class="btn btn-danger">Reject</button>
@@ -114,11 +121,13 @@ function requestFriend(friend_username){
 
 }
 
-function acceptFriend(friend_request_username){
+function acceptFriend(index){
 	var url = "/api/user/friend";
+	console.log(index);
+	let usernameSearch = friendRequests[index].username;
 
 	var data = {};
-	data.friend_username = friend_request_username;
+	data.friend_username = usernameSearch;
 	var json = JSON.stringify(data);
 
 	var xhr = new XMLHttpRequest();
