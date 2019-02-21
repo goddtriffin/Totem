@@ -29,8 +29,6 @@ function changingDisplayName(changedisplayname, repeatdisplayname){
 
 		} else if(xhr.status == "400"){ 
 			document.getElementById("GeneralDSError").innerHTML = "Please enter a NEW Display name";
-
-			GeneralDSError
 		}
 		else {
 			console.error(users);
