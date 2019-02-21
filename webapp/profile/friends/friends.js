@@ -1,4 +1,6 @@
 function loadFriends(){
+		// acceptFriend("cameron")
+
 	getFriends();
 }
 
@@ -20,12 +22,12 @@ function getFriends(){
 			//Populate HTML
 			let runningTable = ``;
 			let tableBody = document.getElementById("friendTableBody");
-			for(let i = 0; i < users.length; i++){
+			for(let i = 0; i < users.data.length; i++){
 				runningTable += `
 					<tr>
-						<th scope="row">${users[i].username}</th>  
-						<td>${users[i].display_name}</td>
-						<td>${users[i].tiki_tally}</td>
+						<th scope="row">${users.data[i].username}</th>  
+						<td>${users.data[i].display_name}</td>
+						<td>${users.data[i].tiki_tally}</td>
 						<td>
 							<button class="btn btn-dark">View Profile</button>
 						</td>
@@ -54,14 +56,16 @@ function getFriendRequests(){
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			//Populate HTML
+			console.table(users)
 			let runningTable = ``;
 			let tableBody = document.getElementById("friendRequestTableBody");
-			for(let i = 0; i < users.length; i++){
+			for(let i = 0; i < users.data.length; i++){
+				console.log()
 				runningTable += `
 					<tr>
-						<th scope="row">${users[i].username}</th>  
-						<td>${users[i].display_name}</td>
-						<td>${users[i].tiki_tally}</td>
+						<th scope="row">${users.data[i].username}</th>  
+						<td>${users.data[i].display_name}</td>
+						<td>${users.data[i].tiki_tally}</td>
 						<td>
 							<button class="btn btn-dark">View Profile</button>
 						</td>
