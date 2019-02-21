@@ -1,7 +1,7 @@
 function loadFriends(){
 		// acceptFriend("cameron")
-
 	getFriends();
+
 }
 
 function loadFriendRequest(){
@@ -156,4 +156,30 @@ function deleteFriend(friend_username){
 		}
 	}
 	xhr.send(json);
+}
+
+
+
+function searchfriends(usernameSearch){
+	var url  = "/api/user/search?username=";
+	var xhr  = new XMLHttpRequest()
+
+	xhr.open('GET', url+usernameSearch, true)
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr.onload = function () {
+		console.log(xhr.responseText);
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.log(users)
+			//Populate HTML
+			
+		} else {
+			console.error(users);
+		}
+	}	
+	xhr.send(null);
+
+
+
 }
