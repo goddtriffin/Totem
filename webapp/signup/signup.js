@@ -41,7 +41,7 @@ function Createuser(username, displayName, email, password, passwordVerify, emoj
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.table(users);
+			console.log(users);
 			document.getElementById("GeneralError").innerHTML = "";
 			window.location.href = '/login';
 			localStorage.removeItem(localStorage.emoji);

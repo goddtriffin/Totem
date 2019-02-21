@@ -1,6 +1,16 @@
 //GLOBALS
 let sorting = "Newest";
 
+window.onload = function() {
+	if (localStorage.getItem("token") === null) {
+  		window.location.replace("/splash");
+	}
+	else{
+		
+	}
+
+};
+
 function createPoll(){
 
 	let personal = document.getElementById("personalButton").classList.contains("active");
@@ -79,7 +89,7 @@ function vote(side){
 
 function logout(){
 	console.log("logout");
-	localStorage.removeItem(localStorage.token);
+	localStorage.removeItem("token");
 	window.location.href = "/splash";
 
 }

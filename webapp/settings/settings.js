@@ -1,3 +1,14 @@
+window.onload = function() {
+	if (localStorage.getItem("token") === null) {
+  		window.location.replace("/splash");
+	}
+	else{
+	
+	}
+
+};
+
+
 
 changeDisplayName = (changedisplayname, repeatdisplayname) => {
 	if(verifychangeDisplayName(changedisplayname, repeatdisplayname)){
@@ -151,11 +162,9 @@ function verifychangePassword(changepassword, repeatpassword){
 }
 
 
-
-
 function logout(){
 	console.log("logout");
-	localStorage.removeItem(localStorage.token);
+	localStorage.removeItem("token");
 	window.location.href = "/splash";
 
 }

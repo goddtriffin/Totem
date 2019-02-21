@@ -3,11 +3,14 @@ let emojis = ["😂","😝","😁","😱","👉","🙌","🍻","🔥","🌈","�
 // require("/Friends/friends.js")();
 
 window.onload = function() {
-	console.log("onload worked");
-  fillUserInfo();
-
-  //Populate Emoji table
-  loadEmojis();
+	if (localStorage.getItem("token") === null) {
+  		window.location.replace("/splash");
+	}
+	else{
+	  	fillUserInfo();
+		//Populate Emoji table
+		loadEmojis();
+	}
 
 };
 
@@ -43,7 +46,7 @@ function fillUserInfo(){
 
 function logout(){
 	console.log("logout");
-	localStorage.removeItem(localStorage.token);
+	localStorage.removeItem("token");
 	window.location.href = "/splash";
 
 }
