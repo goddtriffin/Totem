@@ -1,4 +1,7 @@
+<script src="Friends/friends.js" type="text/javascript"></script>
+
 <!DOCTYPE html>
+
 <html class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
@@ -72,9 +75,9 @@
 					</div>
 					<div class="row" id="no-bottom">
                         <div class="col-md-3">
-                            <a class=personal-opt id=friend-btn data-toggle="modal" data-target="#friendModal">
+                            <a class=personal-opt id=friend-btn data-toggle="modal" data-target="#friendModal" onclick="loadFriends()">
                                 <i class="fas fa-user-friends btn-margin">
-                                        <p id="personal-text">Friends</p>
+                                        <p id="personal-text" >Friends</p>
                                 </i>
                             </a>
                         </div>
@@ -193,10 +196,10 @@
                             <div class="modal-body">
                                 <!-- Sent vs Received -->
                                 <div class="btn-group btn-group-toggle" id="friendToggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary active" onclick='friendView("friends")'>
+                                    <label class="btn btn-secondary active" onclick='friendView("friends"), loadFriends()'>
                                         <input type="radio" name="options" id="option1" autocomplete="off" checked> My Friends
                                     </label>
-                                    <label class="btn btn-secondary" onclick='friendView("requests")'>
+                                    <label class="btn btn-secondary" onclick='friendView("requests"), loadFriendRequest()'>
                                         <input type="radio" name="options" id="option2" autocomplete="off"> Requests
                                     </label>
                                     <label class="btn btn-secondary" onclick='friendView("search")'>
@@ -239,11 +242,11 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row">@username</th>  
+                                            <th id="friend_request_username" scope="row">@username</th>  
                                             <td>First Last</td>
                                             <td>1000</td>
                                             <td>
-                                                <button class="btn btn-success">Accept</button>
+                                                <button class="btn btn-success" onclick="acceptFriend(friend_request_username)">Accept</button>
                                             </td>
                                             <td>
                                                 <button class="btn btn-danger">Reject</button>
