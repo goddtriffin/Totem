@@ -29,10 +29,7 @@ function getFriends(){
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].tiki_tally}</td>
 						<td>
-							<button class="btn btn-success" onclick="acceptFriend(friend_request_username)">Accept</button>
-						</td>
-						<td>
-							<button class="btn btn-danger">Reject</button>
+							<button class="btn btn-dark">View Profile</button>
 						</td>
 					</tr>`;
 			}
@@ -70,7 +67,10 @@ function getFriendRequests(){
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].tiki_tally}</td>
 						<td>
-							<button class="btn btn-dark">View Profile</button>
+							<button class="btn btn-success" onclick="acceptFriend(friend_request_username)">Accept</button>
+						</td>
+						<td>
+							<button class="btn btn-danger">Reject</button>
 						</td>
 					</tr>`;
 			}
@@ -163,9 +163,11 @@ function deleteFriend(friend_username){
 
 
 
-function searchfriends(usernameSearch){
+function searchfriends(){
 	var url  = "/api/user/search?username=";
 	var xhr  = new XMLHttpRequest()
+
+	let usernameSearch = document.getElementById("searchBar").value;
 
 	xhr.open('GET', url+usernameSearch, true)
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
@@ -176,9 +178,26 @@ function searchfriends(usernameSearch){
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(users)
 			//Populate HTML
+			let runningTable = ``;
+			let tableBody = document.getElementById("searchTable");
+			for(let i = 0; i < users.data.length; i++){
+				console.log()
+				runningTable += `
+					<tr>
+						<th scope="row">${users.data[i].username}</th>  
+						<td>${users.data[i].display_name}</td>
+						<td>${users.data[i].tiki_tally}</td>
+						<td>
+							<button class="btn btn-success" onclick="acceptFriend(friend_request_username)">Add Friend</button>
+						</td>
+					</tr>`;
+			}
+			tableBody.innerHTML = runningTable;
 			
 		} else {
 			console.error(users);
+			let tableBody = document.getElementById("searchTable");
+			tableBody.innerHTML = `<h4 id="noResults">No results found</h4>`;
 		}
 	}	
 	xhr.send(null);

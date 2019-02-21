@@ -20,3 +20,7 @@ body{
 #navName{
     color: lightgray;
 }
+
+#noResults{
+    text-align: center;
+}

@@ -257,7 +257,15 @@
 
                                 <!-- Find Friends -->
                                 <div id="friendSearch" class="invisible">
-                                    <input id="searchBar" class="form-control" type="text" placeholder="Search username" aria-label="Search">
+                                    <input id="searchBar" class="form-control" type="text" placeholder="Search username" aria-label="Search" onkeypress="searchfriends()">
+                                    <div id="searchContent">
+                                        <h4 id="noResults">No results found</h4>
+                                        <table>
+                                            <tbody id="searchTable">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
