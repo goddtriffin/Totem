@@ -196,8 +196,8 @@ function searchfriends(){
 			
 		} else {
 			console.error(users);
-			let tableBody = document.getElementById("searchTable");
-			tableBody.innerHTML = `<h4 id="noResults">No results found</h4>`;
+			// let tableBody = document.getElementById("searchTable");
+			// tableBody.innerHTML = `<h4 id="noResults">No results found</h4>`;
 		}
 	}	
 	xhr.send(null);
