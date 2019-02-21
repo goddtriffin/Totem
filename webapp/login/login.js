@@ -1,3 +1,11 @@
+window.onload = function() {
+	if (localStorage.getItem("token") === null) {		
+	}
+	else{
+	  	window.location.replace("/public");
+	}
+};
+
 
 login = (username, password) => {
 	if(verifyInput(username, password)){

@@ -1,3 +1,13 @@
+
+    window.onload = function() {
+    if (localStorage.getItem("token") === null) {   
+    }
+    else{
+        window.location.replace("/public");
+    }
+}
+
+
 particlesJS("particles-js", {
     "particles": {
         "number": {
