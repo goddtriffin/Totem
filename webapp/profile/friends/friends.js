@@ -17,7 +17,22 @@ function getFriends(){
 		console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			//Populate HTML
+			let runningTable = ``;
+			let tableBody = document.getElementById("friendTableBody");
+			for(let i = 0; i < users.length; i++){
+				runningTable += `
+					<tr>
+						<th scope="row">${users[i].username}</th>  
+						<td>${users[i].display_name}</td>
+						<td>${users[i].tiki_tally}</td>
+						<td>
+							<button class="btn btn-dark">View Profile</button>
+						</td>
+					</tr>`;
+			}
+			tableBody.innerHTML = runningTable;
+
 		} else {
 			console.error(users);
 		}
@@ -38,7 +53,22 @@ function getFriendRequests(){
 		console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);	
+			//Populate HTML
+			let runningTable = ``;
+			let tableBody = document.getElementById("friendRequestTableBody");
+			for(let i = 0; i < users.length; i++){
+				runningTable += `
+					<tr>
+						<th scope="row">${users[i].username}</th>  
+						<td>${users[i].display_name}</td>
+						<td>${users[i].tiki_tally}</td>
+						<td>
+							<button class="btn btn-dark">View Profile</button>
+						</td>
+					</tr>`;
+			}
+			tableBody.innerHTML = runningTable;
+			
 		} else {
 			console.error(users);
 		}
