@@ -1,8 +1,22 @@
 let friendRequest = [];
+let searchResults = [];
+let friends = [];
+var username_to_request = 0;
+var user_request = "";
+
+function load() {
+	if (localStorage.getItem("token") === null) {
+  		window.location.replace("/splash");
+	}
+	else{
+	  	loadFriends();
+	  	loadFriendRequest();
+	}
+
+};
 
 
 function loadFriends(){
-		// acceptFriend("cameron")
 	getFriends();
 
 }
@@ -22,6 +36,8 @@ function getFriends(){
 		console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
+			friends = users.data;
+			console
 			//Populate HTML
 			let runningTable = ``;
 			let tableBody = document.getElementById("friendTableBody");
@@ -32,7 +48,7 @@ function getFriends(){
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].tiki_tally}</td>
 						<td>
-							<button class="btn btn-dark">View Profile</button>
+							<button class="btn btn-dark" onclick="viewFriendProfile(${i})">View Profile</button>
 						</td>
 					</tr>`;
 			}
@@ -67,6 +83,7 @@ function getFriendRequests(){
 			let runningTable = ``;
 			let tableBody = document.getElementById("friendRequestTableBody");
 			for(let i = 0; i < users.data.length; i++){
+				user_request = users.data[i].username;
 				console.log()
 				runningTable += `
 					<tr>
@@ -77,7 +94,7 @@ function getFriendRequests(){
 							<button class="btn btn-success" onclick="acceptFriend(${i})">Accept</button>
 						</td>
 						<td>
-							<button class="btn btn-danger">Reject</button>
+							<button class="btn btn-danger" onclick="deleteFriend(${i})">Reject</button>
 						</td>
 					</tr>`;
 			}
@@ -91,13 +108,15 @@ function getFriendRequests(){
 
 }
 
-function requestFriend(friend_username){
-
+function requestFriend(index){
+	console.log("requesting friend");
 
 	var url = "/api/user/friend";
 
+	// console.log(request_user)
+
 	var data = {};
-	data.friend_username= friend_username;
+	data.friend_username= searchResults[index].username;
 
 	var json = JSON.stringify(data);
 
@@ -109,6 +128,8 @@ function requestFriend(friend_username){
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(users);
+			loadFriends();
+	  		loadFriendRequest();
 		} 
 		else if(xhr.status == "409"){
 		}
@@ -124,10 +145,10 @@ function requestFriend(friend_username){
 function acceptFriend(index){
 	var url = "/api/user/friend";
 	console.log(index);
-	let usernameSearch = friendRequests[index].username;
+	let friend_username = friendRequests[index].username;
 
 	var data = {};
-	data.friend_username = usernameSearch;
+	data.friend_username = friend_username;
 	var json = JSON.stringify(data);
 
 	var xhr = new XMLHttpRequest();
@@ -138,8 +159,10 @@ function acceptFriend(index){
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(users);
+			loadFriends();
+	  		loadFriendRequest();
 		} else if(xhr.status == "400"){ 
-
+			
 		}
 		else {
 			console.error(users);
@@ -148,8 +171,10 @@ function acceptFriend(index){
 	xhr.send(json);
 }
 
-function deleteFriend(friend_username){
+function deleteFriend(index){
 	var url = "/api/user/friend";
+
+	let friend_username = friendRequests[index].username;
 
 	var data = {};
 	data.friend_username= friend_username;
@@ -163,11 +188,14 @@ function deleteFriend(friend_username){
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(users);
+			loadFriends();
+	  		loadFriendRequest();
 		} else {
 			console.error(users);
 		}
 	}
 	xhr.send(json);
+
 }
 
 
@@ -185,24 +213,46 @@ function searchfriends(){
 		console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
+			searchResults = users.data;
+
 			console.log(users)
 			//Populate HTML
 			let runningTable = ``;
 			let tableBody = document.getElementById("searchTable");
 			for(let i = 0; i < users.data.length; i++){
-				console.log()
 				runningTable += `
 					<tr>
 						<th scope="row">${users.data[i].username}</th>  
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].tiki_tally}</td>
-						<td>
-							<button class="btn btn-success" onclick="acceptFriend(friend_request_username)">Add Friend</button>
-						</td>
+						<td><button class="btn btn-success" onclick="requestFriend(${i})">Add Friend</button> </td>
 					</tr>`;
 			}
 			tableBody.innerHTML = runningTable;
+
 			
+		} else {
+			console.error(users);
+		}
+	}	
+	xhr.send(null);
+
+}
+
+function viewFriendProfile(index){
+
+	var url  = "/api/user/profile/";
+	var xhr  = new XMLHttpRequest();
+	let friend_username = friends[index].username;
+
+	xhr.open('GET', url+friend_username, true)
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			searchResults = users.data;
+			console.log(users)
 		} else {
 			console.error(users);
 		}
