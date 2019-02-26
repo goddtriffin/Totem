@@ -185,56 +185,58 @@
 
         <!-- Poll Card -->
         <div class="fluid-container">
-            <div class="row justify-content-md-center pollView">
-                <div class="scrollArrow" id="backArrow" onclick="movePoll(-1)">
-                    <button class="btn btn-outline-dark"><</button>
-                </div>
-                <div class="col-md-8 pollCard">
-                    <div id="cardTitle" class="col-md-12">
-                        <p>Title</p>
+                <div class="row justify-content-md-center pollView">
+                    <div class="scrollArrow" id="backArrow" onclick="movePoll(-1)">
+                        <button class="btn btn-outline-dark"><</button>
                     </div>
-                    <div class="row col-md-12" id="cardContent">
-                        <div class="col-md-6" id="cardLeft" onclick="vote('Left')">
-                            <!-- Contents -->
-                        </div>
-                        <div class="col-md-6" id="cardRight" onclick="vote('Right')">
-                            <!-- Contents -->
-                        </div>
-                    </div>
-
-                    <!-- Results overlay -->
-                    <div class="row col-md-12 invisible" id="cardContentOverlay">
-                        <div class="col-md-6" id="cardLeftOverlay">
-                            <div id="leftBlank"></div>
-                            <div id="leftResults">
-                                <p class="resultText">50%</p>
+                    <div class="col-md-8 pollCard">
+                        <div id="cardTitle" class="col-md-12">
+                            <p id="titleP">This is the Title</p>
+                            <div class="col-md-12" id="themes">
+                                <p>#theme</p>
                             </div>
                         </div>
-                        <div class="col-md-6" id="cardRightOverlay">
-                            <div id="rightBlank"></div>
-                            <div id="rightResults">
-                                <p class="resultText">75%</p>
+                        <div class="row col-md-12" id="cardContent">
+                            <div class="col-6" id="cardLeft" onclick="vote('Left')">
+                                <!-- Contents -->
+                            </div>
+                            <div class="col-6" id="cardRight" onclick="vote('Right')">
+                                <!-- Contents -->
+                            </div>
+                        </div>
+    
+                        <!-- Results overlay -->
+                        <div class="row col-md-12 invisible" id="cardContentOverlay">
+                            <div class="col-6" id="cardLeftOverlay">
+                                <div id="leftBlank"></div>
+                                <div id="leftResults">
+                                    <p class="resultText">50%</p>
+                                </div>
+                            </div>
+                            <div class="col-6" id="cardRightOverlay">
+                                <div id="rightBlank"></div>
+                                <div id="rightResults">
+                                    <p class="resultText">75%</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row col-md-12" id="cardBottom">
+                            <div class="col-6" id="leftUser">
+                                <p id="leftDisplayName" class="displayName">Display Name</p>
+                                <p id="leftUsername">@username</p>
+                            </div>
+                            <div class="col-6" id="rightUser">
+                                <p id="rightDisplayName" class="displayName">Display Name</p>
+                                <p id="rightUsername">@username</p>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row col-md-12" id="cardBottom">
-                        <div class="col-md-6" id="leftUser">
-                            <p>@username</p>
-                        </div>
-                        <div class="col-md-6" id="rightUser">
-                            <p>@username</p>
-                        </div>
-                        <div class="col-md-12" id="themes">
-                            <p>#theme, #theme, #theme</p>
-                        </div>
+                    <div class="scrollArrow" id="nextArrow">
+                        <button class="btn btn-outline-dark" onclick="movePoll(1)">></button>
                     </div>
-                </div>
-                <div class="scrollArrow" id="nextArrow">
-                    <button class="btn btn-outline-dark" onclick="movePoll(1)">></button>
                 </div>
             </div>
-        </div>
 
         <script src="../jquery-3.2.1.min.js"></script>
         <script src="../bootstrap.bundle.min.js"></script>
