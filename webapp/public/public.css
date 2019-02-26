@@ -65,13 +65,15 @@ body{
     width: 100%;
     background-color: #551a8b;
     color: white;
-    font-size: 2.5rem;
+    /* font-size: 2.5rem; */
     text-align: center;
     height: 12.5%;
 }
 
-#cardTitle p{
+#cardTitle #titleP{
     margin: 0px;
+    font-size: 1.5rem;
+    height: 50%;
 }
 
 #cardContent{
@@ -203,4 +205,9 @@ body{
 #newPoll .active{
     color: white;
     background-color: #551a8b !important;
+}
+
+.displayName{
+    margin: 0px;
+    font-size: 1.5rem;
 }

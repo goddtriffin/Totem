@@ -192,26 +192,29 @@
                 </div>
                 <div class="col-md-8 pollCard">
                     <div id="cardTitle" class="col-md-12">
-                        <p>Title</p>
+                        <p id="titleP">This is the Title</p>
+                        <div class="col-md-12" id="themes">
+                            <p>#theme</p>
+                        </div>
                     </div>
                     <div class="row col-md-12" id="cardContent">
-                        <div class="col-md-6" id="cardLeft" onclick="vote('Left')">
+                        <div class="col-6" id="cardLeft" onclick="vote('Left')">
                             <!-- Contents -->
                         </div>
-                        <div class="col-md-6" id="cardRight" onclick="vote('Right')">
+                        <div class="col-6" id="cardRight" onclick="vote('Right')">
                             <!-- Contents -->
                         </div>
                     </div>
 
                     <!-- Results overlay -->
                     <div class="row col-md-12 invisible" id="cardContentOverlay">
-                        <div class="col-md-6" id="cardLeftOverlay">
+                        <div class="col-6" id="cardLeftOverlay">
                             <div id="leftBlank"></div>
                             <div id="leftResults">
                                 <p class="resultText">50%</p>
                             </div>
                         </div>
-                        <div class="col-md-6" id="cardRightOverlay">
+                        <div class="col-6" id="cardRightOverlay">
                             <div id="rightBlank"></div>
                             <div id="rightResults">
                                 <p class="resultText">75%</p>
@@ -220,14 +223,13 @@
                     </div>
                     
                     <div class="row col-md-12" id="cardBottom">
-                        <div class="col-md-6" id="leftUser">
+                        <div class="col-6" id="leftUser">
+                            <p class="displayName">Display Name</p>
                             <p>@username</p>
                         </div>
-                        <div class="col-md-6" id="rightUser">
+                        <div class="col-6" id="rightUser">
+                            <p class="displayName">Display Name</p>
                             <p>@username</p>
-                        </div>
-                        <div class="col-md-12" id="themes">
-                            <p>#theme, #theme, #theme</p>
                         </div>
                     </div>
                 </div>
