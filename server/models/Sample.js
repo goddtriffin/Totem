@@ -5,7 +5,7 @@ async function routeModel(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 

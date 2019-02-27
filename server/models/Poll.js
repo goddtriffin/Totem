@@ -1,11 +1,11 @@
 const utils = require('../tools/utils');
 
 // creates a new personal poll
-async function createPersonal(db) {
+async function createPersonal(db, display_name, theme, creator, image_1, image_2, duration) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
@@ -15,12 +15,12 @@ async function createPersonal(db) {
     };
 }
 
-// creates a new friend poll
-async function createChallenge(db) {
+// creates a new challenge poll
+async function createChallenge(db, display_name, theme, creator, opponent, image_1, duration) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
@@ -35,7 +35,7 @@ async function getChallengeRequests(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
@@ -50,7 +50,7 @@ async function acceptChallengeRequest(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
@@ -65,7 +65,7 @@ async function search(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
@@ -80,7 +80,7 @@ async function vote(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 

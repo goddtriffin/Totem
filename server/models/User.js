@@ -10,42 +10,42 @@ async function signup(db, email, username, display_name, password, emoji) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
     if (!regex.validateEmail(email)) {
         return {
             code: 400,
-            data: 'invalid email: ' + email
+            data: regex.getInvalidEmailResponse(email)
         };
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
     if (!regex.validateDisplayName(display_name)) {
         return {
             code: 400,
-            data: 'invalid display_name: ' + display_name
+            data: regex.getInvalidDisplayNameResponse(display_name)
         };
     }
 
     if (!regex.validatePassword(password)) {
         return {
             code: 400,
-            data: 'invalid password: ' + password
+            data: regex.getInvalidPasswordResponse(password)
         };
     }
 
     if (!utils.validateEmoji(emoji)) {
         return {
             code: 400,
-            data: 'invalid emoji: ' + emoji
+            data: utils.getInvalidEmojiResponse(emoji)
         };
     }
 
@@ -94,21 +94,21 @@ async function login(db, username, password) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
     if (!regex.validatePassword(password)) {
         return {
             code: 400,
-            data: 'invalid password: ' + password
+            data: regex.getInvalidPasswordResponse(password)
         };
     }
 
@@ -159,14 +159,14 @@ async function getByUsername(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -203,14 +203,14 @@ async function search(db, username_query) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
     if (!regex.validateUsernameQuery(username_query)) {
         return {
             code: 400,
-            data: 'invalid username_query: ' + username_query
+            data: regex.getInvalidUsernameQueryResponse(username_query)
         };
     }
 
@@ -239,7 +239,7 @@ async function all(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
@@ -267,14 +267,14 @@ async function update(db, username, display_name, password, emoji) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -312,7 +312,7 @@ async function update(db, username, display_name, password, emoji) {
         if (!regex.validateDisplayName(display_name)) {
             return {
                 code: 400,
-                data: 'invalid display_name: ' + display_name
+                data: regex.getInvalidDisplayNameResponse(display_name)
             };
         }
 
@@ -332,7 +332,7 @@ async function update(db, username, display_name, password, emoji) {
         if (!regex.validatePassword(password)) {
             return {
                 code: 400,
-                data: 'invalid password: ' + password
+                data: regex.getInvalidPasswordResponse(password)
             };
         }
 
@@ -353,7 +353,7 @@ async function update(db, username, display_name, password, emoji) {
         if (!utils.validateEmoji(emoji)) {
             return {
                 code: 400,
-                data: 'invalid emoji: ' + emoji
+                data: utils.getInvalidEmojiResponse(emoji)
             };
         }
 
@@ -406,7 +406,7 @@ async function history(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
+            data: utils.getInvalidDatabaseResponse(db)
         }
     }
 

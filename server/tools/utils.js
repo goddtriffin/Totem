@@ -12,10 +12,17 @@ function validateObject(object) {
     });
 }
 
+// returns true if db is valid, false otherwise
 function validateDatabase(db) {
     return !!db;
 }
 
+// returns a String dictating what a valid db should look like
+function getInvalidDatabaseResponse(db) {
+    return 'Invalid database.';
+}
+
+// returns true if emoji is valid, false otherwise
 function validateEmoji(emoji) {
     if (typeof emoji !== 'string') {
         return false;
@@ -24,8 +31,13 @@ function validateEmoji(emoji) {
     return emoji_tool.hasEmoji(emoji);
 }
 
+// returns a String dictating what a valid emoji should look like
+function getInvalidEmojiResponse(emoji) {
+    return 'Invalid emoji: ' + emoji + '. Should match: https://www.npmjs.com/package/node-emoji';
+}
+
 module.exports = {
     validateObject,
-    validateDatabase,
-    validateEmoji
+    validateDatabase, getInvalidDatabaseResponse,
+    validateEmoji, getInvalidEmojiResponse
 }
