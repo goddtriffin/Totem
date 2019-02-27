@@ -20,7 +20,7 @@
 
 ### Routes
 
-$ - *unauthenticated routes*
+`$` = *unauthenticated routes*
 
 #### Authentication
 
@@ -29,6 +29,12 @@ Header Key: `Authorization`
 Header Value: `Bearer JWT`
 
 *replace JWT with the one you recieve from a successful signup/login*
+
+#### Body Encoding
+
+Any route that requires an image file to be uploaded: `multipart/form-data`
+
+All other routes: `application/x-www-form-urlencoded`
 
 #### Webapp
 
@@ -41,9 +47,7 @@ Header Value: `Bearer JWT`
 | `/forgotpassword` | forgotten password page |
 | `/public` | global feed |
 | `/private` | friend feed |
-| `/tournament` | tournament feed |
 | `/profile` | profile page |
-| `/settings` | settings page |
 
 #### User
 
@@ -52,11 +56,11 @@ Header Value: `Bearer JWT`
 | POST | $ `/api/user/signup` | signs up a new user account | email, username, display_name, password, emoji |
 | POST | $ `/api/user/login` | logs a user in | username, password |
 | GET | `/api/user/me` | returns your account information |  |
-| GET | `/api/user/profile/username` | replace username with a real username, returns that user's account information |  |
+| GET | `/api/user/profile/:username` | replace `:username` with a real username, returns that user's account information |  |
 | GET | `/api/user/search?username=<username>` | replace `<username>` with a real username, returns a list of all user accounts with similar usernames |  |
 | GET | `/api/user/all` | returns a list of all user accounts |  |
-| PUT | `/api/user/update` | updates your account, must pick at least one optional Body Parameter to update | display_name, password, emoji |
-| GET | `/api/user/history` | (unimplemented) returns your vote history |  |
+| PUT | `/api/user/update` | updates your account, must pick at least one optional Body parameter to update | display_name, password, emoji |
+| GET | `/api/user/history` | returns your poll vote history |  |
 
 #### Friend
 
@@ -72,12 +76,20 @@ Header Value: `Bearer JWT`
 
 | Method | Endpoint | Description | Body Parameters |
 | :---: | :--- | :--- | :---: |
-| POST | `/api/poll/personal` | (unimplemented) creates a personal poll |  |
-| POST | `/api/poll/challenge` | (unimplemented) creates a challenge request |  |
-| GET | `/api/poll/challenge/requests` | (unimplemented) returns a list of all your challenge requests |  |
-| PUT | `/api/poll/challenge` | (unimplemented) accepts a challenge request |  |
+| POST | `/api/poll/personal` | creates a personal poll | display_name, theme, creator, duration, image_1, image_2 |
+| POST | `/api/poll/challenge` | creates a challenge request | display_name, theme, creator, opponent, duration, image |
+| GET | `/api/poll/challenge/requests` | returns a list of all your challenge requests |  |
+| PUT | `/api/poll/challenge/:id` | replace `:id` with a real poll id, accepts a challenge request | image |
+| GET | `/api/poll/:id` | replace `:id` with a real poll id, returns that poll's information |  |
 | GET | `/api/poll/search` | (unimplemented) returns a list of polls |  |
-| PUT | `/api/poll/vote` | (unimplemented) sets a vote on a poll |  |
+| PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll |  |
+
+#### Feed
+
+| Method | Endpoint | Description | Body Parameters |
+| :---: | :--- | :--- | :---: |
+| GET | `/api/feed/public` | returns a user's public feed |  |
+| GET | `/api/feed/private` | returns a user's private feed |  |
 
 ## Stack
 
