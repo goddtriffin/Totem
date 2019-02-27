@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router();
 
+// serve up static resources
+router.use('/static', express.static('public'));
+
 // frontend routes
 router.use('/', require('./Webapp'));
 

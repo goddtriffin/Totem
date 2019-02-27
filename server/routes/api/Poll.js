@@ -1,9 +1,13 @@
 const router = require('express').Router();
 
-var multer  = require('multer');
-var upload = multer({
-    dest: 'uploads/'
+const multer  = require('multer');
+const storage = multer.diskStorage({
+    destination: 'public/uploads/polls/',
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1]);
+    }
 });
+const upload = multer({ storage });
 
 const Auth = require('../Auth');
 const Poll = require('../../models/Poll');
