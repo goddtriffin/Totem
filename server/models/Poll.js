@@ -229,8 +229,8 @@ async function acceptChallengeRequest(db, id, username, image) {
     };
 }
 
-// returns a single poll's data by id
-async function getById(db, id) {
+// returns a list of polls
+async function search(db, display_name_query) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -238,16 +238,17 @@ async function getById(db, id) {
         };
     }
 
-    if (!regex.validatePollId(id)) {
+    if (!regex.validatePollDisplayNameQuery(display_name_query)) {
         return {
             code: 400,
-            data: regex.getInvalidPollIdResponse(id)
+            data: regex.getInvalidPollDisplayNameQueryResponse(display_name_query)
         };
     }
 
     const result = await db('polls')
-        .where('id', id)
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'start_time', 'end_time')
+        .where('state', 'active')
+        .andWhere('display_name', 'like', '%' + display_name_query + '%')
+        .select('display_name', 'theme', 'creator', 'opponent', 'type')
         .catch(e => {
             return {
                 code: 500,
@@ -258,33 +259,10 @@ async function getById(db, id) {
     if (!!result.code) {
         return result;
     }
-    
-    // if no results, then no poll exists with that id
-    if (result.length !== 1) {
-        return {
-            code: 400,
-            data: 'no poll found with id: ' + id
-        };
-    }
 
     return {
         code: 200,
-        data: result[0]
-    };
-}
-
-// returns a list of polls
-async function search(db) {
-    if (!utils.validateDatabase(db)) {
-        return {
-            code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
-        };
-    }
-
-    return {
-        code: 501,
-        data: 'not implemented'
+        data: result
     };
 }
 
@@ -386,10 +364,53 @@ async function vote(db, id, username, vote) {
     };
 }
 
+// returns a single poll's data by id
+async function getById(db, id) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: utils.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validatePollId(id)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPollIdResponse(id)
+        };
+    }
+
+    const result = await db('polls')
+        .where('id', id)
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'start_time', 'end_time')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+    
+    // if no results, then no poll exists with that id
+    if (result.length !== 1) {
+        return {
+            code: 400,
+            data: 'no poll found with id: ' + id
+        };
+    }
+
+    return {
+        code: 200,
+        data: result[0]
+    };
+}
+
 module.exports = {
     createPersonal, createChallenge,
     getChallengeRequests,
     acceptChallengeRequest,
-    getById, search,
-    vote
+    search, vote, getById
 }

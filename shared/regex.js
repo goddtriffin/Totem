@@ -149,6 +149,24 @@ function getInvalidPollVoteResponse(vote) {
     return 'Invalid vote: ' + vote + '. Should match one: ' + votes + ' (1=creator 2=opponent) (typeof number)';
 }
 
+// returns true if a poll display_name_query is valid, false otherwise
+function validatePollDisplayNameQuery(display_name_query) {
+    if (typeof display_name_query !== 'string') {
+        return false;
+    }
+
+    // min length: 1
+    // max length: 30
+    // no whitespace
+    const regexDisplayNameQuery = /^(\S){1,30}$/;
+    return regexDisplayNameQuery.test(display_name_query);
+}
+
+// returns a String dictating what a valid poll display_name_query should look like
+function getInvalidPollDisplayNameQueryResponse(display_name_query) {
+    return 'Invalid display_name_query: ' + display_name_query + '. Should match: min-length=1 max-length=30 no-whitespace';
+}
+
 module.exports = {
     validateEmail, getInvalidEmailResponse,
     validateUsername, getInvalidUsernameResponse,
@@ -158,5 +176,6 @@ module.exports = {
     validateTheme, getInvalidThemeResponse,
     validateDuration, getInvalidDurationResponse,
     validatePollId, getInvalidPollIdResponse,
-    validatePollVote, getInvalidPollVoteResponse
+    validatePollVote, getInvalidPollVoteResponse,
+    validatePollDisplayNameQuery, getInvalidPollDisplayNameQueryResponse
 }

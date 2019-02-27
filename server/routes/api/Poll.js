@@ -147,30 +147,23 @@ router.put('/challenge/:id', Auth.validate, uploadAcceptChallenge, async (req, r
     res.status(result.code).send(result);
 });
 
-router.get('/:id', Auth.validate, async (req, res) => {
+router.get('/search', Auth.validate, async (req, res) => {
     const data = {
-        id: req.params.id
+        display_name_query: req.query.display_name
     };
 
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory URL endpoint parameter: id'
+            data: 'mandatory URL query parameters: display_name'
         };
         res.status(result.code).send(result);
         return;
     }
 
-    const result = await Poll.getById(
-        req.app.locals.db, data.id
-    );
-
-    res.status(result.code).send(result);
-});
-
-router.get('/search', Auth.validate, async (req, res) => {
     const result = await Poll.search(
-        req.app.locals.db
+        req.app.locals.db,
+        data.display_name_query
     );
 
     res.status(result.code).send(result);
@@ -195,6 +188,27 @@ router.put('/vote/:id', Auth.validate, async (req, res) => {
     const result = await Poll.vote(
         req.app.locals.db,
         data.id, data.username, data.vote
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.get('/:id', Auth.validate, async (req, res) => {
+    const data = {
+        id: req.params.id
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'mandatory URL endpoint parameter: id'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
+    const result = await Poll.getById(
+        req.app.locals.db, data.id
     );
 
     res.status(result.code).send(result);
