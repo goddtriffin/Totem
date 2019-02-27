@@ -13,11 +13,17 @@ const Auth = require('../Auth');
 const utils = require('../../tools/utils');
 const Poll = require('../../models/Poll');
 
-const uploadPersonal = upload.fields([
-    { name: 'image_1', maxCount: 1 }, 
-    { name: 'image_2', maxCount: 1 }
-]);
+const uploadPersonal = upload.fields([{ name: 'image_1', maxCount: 1 }, { name: 'image_2', maxCount: 1 }]);
 router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
+    if (Object.keys(req.files).length !== 2) {
+        const result = {
+            code: 400,
+            data: 'must upload 2 images'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
     const data = {
         display_name: req.body.display_name,
         theme: req.body.theme,
@@ -30,7 +36,7 @@ router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory multipart/form-data parameters: display_name, theme, creator, image_1, image_2, duration'
+            data: 'mandatory multipart/form-data parameters: display_name, theme, creator, duration, image_1, image_2'
         };
         res.status(result.code).send(result);
         return;
@@ -46,9 +52,40 @@ router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.post('/challenge', Auth.validate, async (req, res) => {
+const uploadChallenge = upload.fields([{ name: 'image_1', maxCount: 1 }]);
+router.post('/challenge', Auth.validate, uploadChallenge, async (req, res) => {
+    if (Object.keys(req.files).length !== 1) {
+        const result = {
+            code: 400,
+            data: 'must upload 1 image'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
+    const data = {
+        display_name: req.body.display_name,
+        theme: req.body.theme,
+        creator: req.jwt.sub,
+        opponent: req.body.opponent,
+        duration: req.body.duration,
+        image_1: '/' + req.files.image_1[0].path
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'mandatory multipart/form-data parameters: display_name, theme, creator, opponent, duration, image_1'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
     const result = await Poll.createChallenge(
-        req.app.locals.db
+        req.app.locals.db,
+        data.display_name, data.theme,
+        data.creator, data.opponent,
+        data.duration, data.image_1
     );
 
     res.status(result.code).send(result);

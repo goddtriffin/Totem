@@ -67,7 +67,7 @@ async function createPersonal(db, display_name, theme, creator, duration, image_
 }
 
 // creates a new challenge poll
-async function createChallenge(db, display_name, theme, creator, opponent, image_1, duration) {
+async function createChallenge(db, display_name, theme, creator, opponent, duration, image_1) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -75,9 +75,63 @@ async function createChallenge(db, display_name, theme, creator, opponent, image
         }
     }
 
+    if (!regex.validateDisplayName(display_name)) {
+        return {
+            code: 400,
+            data: regex.getInvalidDisplayNameResponse(display_name)
+        };
+    }
+
+    if (!regex.validateTheme(theme)) {
+        return {
+            code: 400,
+            data: regex.getInvalidThemeResponse(theme)
+        };
+    }
+
+    if (!regex.validateUsername(creator)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(creator)
+        };
+    }
+
+    if (!regex.validateUsername(opponent)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(opponent)
+        };
+    }
+
+    if (!regex.validateDuration(duration)) {
+        return {
+            code: 400,
+            data: regex.getInvalidDurationResponse(duration)
+        };
+    }
+
+    const result = await db('polls')
+        .returning('id')
+        .insert({
+            display_name, theme,
+            creator, opponent,
+            duration, image_1,
+            type: 'challenge'
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result.code) {
+        return result;
+    }
+
     return {
-        code: 501,
-        data: 'not implemented'
+        code: 200,
+        data: result[0]
     };
 }
 
