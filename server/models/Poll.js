@@ -158,7 +158,7 @@ async function getChallengeRequests(db, username) {
             state: 'pending',
             type: 'challenge'
         })
-        .select('id', 'display_name', 'theme', 'creator')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent')
         .catch(e => {
             return {
                 code: 500,
@@ -218,6 +218,46 @@ async function acceptChallengeRequest(db, id, username, image) {
         code: 200,
         data: 'success'
     };
+}
+
+// returns all of your accepted challenges
+async function getAcceptedChallenges(db, username) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: utils.getInvalidDatabaseResponse(db)
+        }
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    const result = await db('polls')
+        .where({
+            creator: username,
+            state: 'accepted',
+            type: 'challenge'
+        })
+        .select('id', 'display_name', 'theme', 'creator', 'opponent')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: result
+    }
 }
 
 // returns a single poll's data by id
@@ -291,6 +331,7 @@ module.exports = {
     createPersonal, createChallenge,
     getChallengeRequests,
     acceptChallengeRequest,
+    getAcceptedChallenges,
     getById, search,
     vote
 }

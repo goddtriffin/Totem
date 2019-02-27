@@ -147,6 +147,28 @@ router.put('/challenge', Auth.validate, uploadAcceptChallenge, async (req, res) 
     res.status(result.code).send(result);
 });
 
+router.get('/challenge/accepted', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'invalid JWT'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
+    const result = await Poll.getAcceptedChallenges(
+        req.app.locals.db,
+        data.username
+    );
+
+    res.status(result.code).send(result);
+});
+
 router.get('/:id', Auth.validate, async (req, res) => {
     const data = {
         id: req.params.id
