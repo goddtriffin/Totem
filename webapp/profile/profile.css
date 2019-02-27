@@ -342,3 +342,13 @@ tbody tr{
 	height: 80vh;
 	overflow: scroll;
 }
+
+#settingsContent{
+    text-align: center;
+	vertical-align: center;
+    align-content: center;
+}
+
+.error{
+    color: red;
+}
