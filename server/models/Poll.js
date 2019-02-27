@@ -67,7 +67,7 @@ async function createPersonal(db, display_name, theme, creator, duration, image_
 }
 
 // creates a new challenge poll
-async function createChallenge(db, display_name, theme, creator, opponent, duration, image_1) {
+async function createChallenge(db, display_name, theme, creator, opponent, duration, image) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -115,7 +115,8 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         .insert({
             display_name, theme,
             creator, opponent,
-            duration, image_1,
+            duration,
+            image_1: image,
             type: 'challenge'
         })
         .catch(e => {
@@ -144,6 +145,13 @@ async function getChallengeRequests(db, username) {
         }
     }
 
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
     const result = await db('polls')
         .where({
             opponent: username,
@@ -169,7 +177,7 @@ async function getChallengeRequests(db, username) {
 }
 
 // accepts a challenge request
-async function acceptChallengeRequest(db) {
+async function acceptChallengeRequest(db, id, username, image) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -177,9 +185,38 @@ async function acceptChallengeRequest(db) {
         }
     }
 
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    const result = await db('polls')
+        .where({
+            id,
+            opponent: username,
+            state: 'pending',
+            type: 'challenge'
+        })
+        .update({
+            'image_2': image,
+            state: 'accepted'
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
     return {
-        code: 501,
-        data: 'not implemented'
+        code: 200,
+        data: 'success'
     };
 }
 

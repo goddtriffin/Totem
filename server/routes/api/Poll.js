@@ -15,10 +15,10 @@ const Poll = require('../../models/Poll');
 
 const uploadPersonal = upload.fields([{ name: 'image_1', maxCount: 1 }, { name: 'image_2', maxCount: 1 }]);
 router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
-    if (Object.keys(req.files).length !== 2) {
+    if (!req.files || Object.keys(req.files).length !== 1) {
         const result = {
             code: 400,
-            data: 'must upload 2 images'
+            data: 'request must be multipart/form-data and must include 2 images'
         };
         res.status(result.code).send(result);
         return;
@@ -36,7 +36,7 @@ router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory multipart/form-data parameters: display_name, theme, creator, duration, image_1, image_2'
+            data: 'mandatory multipart/form-data parameters: display_name, theme, duration, image_1, image_2'
         };
         res.status(result.code).send(result);
         return;
@@ -52,12 +52,12 @@ router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-const uploadChallenge = upload.fields([{ name: 'image_1', maxCount: 1 }]);
+const uploadChallenge = upload.fields([{ name: 'image', maxCount: 1 }]);
 router.post('/challenge', Auth.validate, uploadChallenge, async (req, res) => {
-    if (Object.keys(req.files).length !== 1) {
+    if (!req.files || Object.keys(req.files).length !== 1) {
         const result = {
             code: 400,
-            data: 'must upload 1 image'
+            data: 'request must be multipart/form-data and must include 1 image'
         };
         res.status(result.code).send(result);
         return;
@@ -69,13 +69,13 @@ router.post('/challenge', Auth.validate, uploadChallenge, async (req, res) => {
         creator: req.jwt.sub,
         opponent: req.body.opponent,
         duration: req.body.duration,
-        image_1: '/' + req.files.image_1[0].path
+        image: '/' + req.files.image[0].path
     };
 
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory multipart/form-data parameters: display_name, theme, creator, opponent, duration, image_1'
+            data: 'mandatory multipart/form-data parameters: display_name, theme, opponent, duration, image'
         };
         res.status(result.code).send(result);
         return;
@@ -85,7 +85,7 @@ router.post('/challenge', Auth.validate, uploadChallenge, async (req, res) => {
         req.app.locals.db,
         data.display_name, data.theme,
         data.creator, data.opponent,
-        data.duration, data.image_1
+        data.duration, data.image
     );
 
     res.status(result.code).send(result);
@@ -113,9 +113,35 @@ router.get('/challenge/requests', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.put('/challenge', Auth.validate, async (req, res) => {
-    const result = await Poll.AcceptChallengeRequest(
-        req.app.locals.db
+const uploadAcceptChallenge = upload.fields([{ name: 'image', maxCount: 1 }]);
+router.put('/challenge', Auth.validate, uploadAcceptChallenge, async (req, res) => {
+    if (!req.files || Object.keys(req.files).length !== 1) {
+        const result = {
+            code: 400,
+            data: 'request must be multipart/form-data and must include 1 image'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
+    const data = {
+        id: req.body.id,
+        username: req.jwt.sub,
+        image: '/' + req.files.image[0].path
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'mandatory multipart/form-data parameters: id, image'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
+    const result = await Poll.acceptChallengeRequest(
+        req.app.locals.db,
+        data.id, data.username, data.image
     );
 
     res.status(result.code).send(result);
