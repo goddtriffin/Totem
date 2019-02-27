@@ -1,3 +1,4 @@
+const regex = require('../../shared/regex');
 const utils = require('../tools/utils');
 
 // info

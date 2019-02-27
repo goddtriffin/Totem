@@ -11,13 +11,13 @@ function createPersonalPoll() {
 
     xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
-        console.log(response);
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
-            console.log('success');
+            sessionStorage.setItem('pollId', response.data);
+            window.location.href = '/test2';
 		} else {
             // handle error
-            console.log('error');
+            console.log(response);
 		}
 	}
 

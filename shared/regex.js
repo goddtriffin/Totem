@@ -1,3 +1,8 @@
+const themes = [
+    'meme',
+    'fashion'
+];
+
 // returns true if email is valid, false otherwise
 function validateEmail(email) {
     if (typeof email !== 'string') {
@@ -60,8 +65,8 @@ function validatePassword(password) {
     // min length: 8
     // max length: 30
     // no whitespace
-    const re = /^(\S){8,30}$/;
-    return re.test(password);
+    const regexPassword = /^(\S){8,30}$/;
+    return regexPassword.test(password);
 }
 
 // returns a String dictating what a valid password should look like
@@ -78,8 +83,8 @@ function validateUsernameQuery(username_query) {
     // min length: 1
     // max length: 20
     // no whitespace
-    const re = /^(\S){1,20}$/;
-    return re.test(username_query);
+    const regexUsernameQuery = /^(\S){1,20}$/;
+    return regexUsernameQuery.test(username_query);
 }
 
 // returns a String dictating what a valid username_query should look like
@@ -87,10 +92,40 @@ function getInvalidUsernameQueryResponse(username_query) {
     return 'Invalid username_query: ' + username_query + '. Should match: min-length=1 max-length=20 no-whitespace';
 }
 
+// returns true if theme is valid, false otherwise
+function validateTheme(theme) {
+    if (typeof theme !== 'string') {
+        return false;
+    }
+    
+    return themes.includes(theme);
+}
+
+// returns a String dictating what a valid theme should look like
+function getInvalidThemeResponse(theme) {
+    return 'Invalid theme: ' + theme + '. Should match one: ' + themes;
+}
+
+// returns true if duration is valid, false otherwise
+function validateDuration(duration) {
+    if (typeof duration !== 'string') {
+        return false;
+    }
+
+    return true;
+}
+
+// returns a String dictating what a valid duration should look like
+function getInvalidDurationResponse(duration) {
+    return 'Invalid duration: ' + duration + '. Should match: idk';
+}
+
 module.exports = {
     validateEmail, getInvalidEmailResponse,
     validateUsername, getInvalidUsernameResponse,
     validateDisplayName, getInvalidDisplayNameResponse,
     validatePassword, getInvalidPasswordResponse,
-    validateUsernameQuery, getInvalidUsernameQueryResponse
+    validateUsernameQuery, getInvalidUsernameQueryResponse,
+    validateTheme, getInvalidThemeResponse,
+    validateDuration, getInvalidDurationResponse
 }
