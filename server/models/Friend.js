@@ -6,21 +6,21 @@ async function add(db, username_1, username_2) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsername(username_1)) {
         return {
             code: 400,
-            data: 'invalid username_1: ' + username_1
+            data: regex.getInvalidUsernameResponse(username_1)
         };
     }
 
     if (!regex.validateUsername(username_2)) {
         return {
             code: 400,
-            data: 'invalid username_2: ' + username_2
+            data: regex.getInvalidUsernameResponse(username_2)
         };
     }
 
@@ -50,14 +50,14 @@ async function requests(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -130,21 +130,21 @@ async function accept(db, username_1, username_2) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsername(username_1)) {
         return {
             code: 400,
-            data: 'invalid username_1: ' + username_1
+            data: regex.getInvalidUsernameResponse(username_1)
         };
     }
 
     if (!regex.validateUsername(username_2)) {
         return {
             code: 400,
-            data: 'invalid username_2: ' + username_2
+            data: regex.getInvalidUsernameResponse(username_2)
         };
     }
 
@@ -179,14 +179,14 @@ async function get(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -259,21 +259,21 @@ async function remove(db, username_1, username_2) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsername(username_1)) {
         return {
             code: 400,
-            data: 'invalid username_1: ' + username_1
+            data: regex.getInvalidUsernameResponse(username_1)
         };
     }
 
     if (!regex.validateUsername(username_2)) {
         return {
             code: 400,
-            data: 'invalid username_2: ' + username_2
+            data: regex.getInvalidUsernameResponse(username_2)
         };
     }
 

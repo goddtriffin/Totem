@@ -74,14 +74,14 @@ async function createPollsTable(db) {
                 table.string('theme').notNullable();
 
                 table.string('creator').notNullable().references('users.username');
-                table.string('opponent').nullable().references('users.username');
+                table.string('opponent').nullable().references('users.username');  // challenge only
                 table.string('image_1').notNullable();  // filepath
-                table.string('image_2').nullable();;  // filepath
+                table.string('image_2').nullable();  // filepath
                 table.integer('votes_1').notNullable().defaultTo(0);
                 table.integer('votes_2').notNullable().defaultTo(0);
 
-                table.string('state').notNullable().defaultTo('pending');  // pending, ready, active, expired
-                table.string('type').notNullable();  // private, public
+                table.string('state').notNullable().defaultTo('pending');  // (challenge only: pending,) active, expired
+                table.string('type').notNullable();  // personal, challenge
                 table.string('duration').notNullable();
                 table.timestamp('start_time').nullable();  // created when state changes from 'ready' to 'active'
                 table.timestamp('end_time').nullable();  // created when state changes from 'ready' to 'active'
@@ -95,7 +95,7 @@ async function createHistoryTable(db) {
         if (!exists) {
             return db.schema.createTable('history', table => {
                 table.string('username').notNullable().references('users.username');
-                table.integer('post').notNullable().references('polls.id');
+                table.integer('poll').notNullable().references('polls.id');
                 table.integer('vote').notNullable();  // 1=creator , 2=opponent
             });
         }
