@@ -136,7 +136,7 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
 }
 
 // returns all of your challenge requests
-async function getChallengeRequests(db) {
+async function getChallengeRequests(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -144,10 +144,28 @@ async function getChallengeRequests(db) {
         }
     }
 
+    const result = await db('polls')
+        .where({
+            opponent: username,
+            state: 'pending',
+            type: 'challenge'
+        })
+        .select('id', 'display_name', 'theme', 'creator')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
     return {
-        code: 501,
-        data: 'not implemented'
-    };
+        code: 200,
+        data: result
+    }
 }
 
 // accepts a challenge request
