@@ -337,3 +337,8 @@ tbody tr{
 	height: 80vh;
 	overflow: scroll;
 }
+
+#historyModal .modal-body{
+	height: 80vh;
+	overflow: scroll;
+}
