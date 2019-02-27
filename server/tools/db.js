@@ -95,7 +95,7 @@ async function createHistoryTable(db) {
         if (!exists) {
             return db.schema.createTable('history', table => {
                 table.string('username').notNullable().references('users.username');
-                table.integer('post').notNullable().references('polls.id');
+                table.integer('poll').notNullable().references('polls.id');
                 table.integer('vote').notNullable();  // 1=creator , 2=opponent
             });
         }

@@ -155,7 +155,7 @@ router.get('/:id', Auth.validate, async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory URL endpoint: id'
+            data: 'mandatory URL endpoint parameter: id'
         };
         res.status(result.code).send(result);
         return;
@@ -176,9 +176,25 @@ router.get('/search', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.put('/vote', Auth.validate, async (req, res) => {
+router.put('/vote/:id', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub,
+        id: req.params.id,
+        vote: req.body.vote
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'mandatory URL endpoint parameter: id; mandatory body parameters: vote'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
     const result = await Poll.vote(
-        req.app.locals.db
+        req.app.locals.db,
+        data.id, data.username, data.vote
     );
 
     res.status(result.code).send(result);

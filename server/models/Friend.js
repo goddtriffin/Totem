@@ -7,7 +7,7 @@ async function add(db, username_1, username_2) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username_1)) {
@@ -51,7 +51,7 @@ async function requests(db, username) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username)) {
@@ -131,7 +131,7 @@ async function accept(db, username_1, username_2) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username_1)) {
@@ -180,7 +180,7 @@ async function get(db, username) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username)) {
@@ -260,7 +260,7 @@ async function remove(db, username_1, username_2) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username_1)) {

@@ -7,7 +7,7 @@ function validate(token) {
         return {
             code: 200,
             data: decoded
-        }
+        };
     } catch(e) {
         return {
             code: 401,

@@ -7,7 +7,7 @@ async function createPersonal(db, display_name, theme, creator, duration, image_
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateDisplayName(display_name)) {
@@ -72,7 +72,7 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateDisplayName(display_name)) {
@@ -142,7 +142,7 @@ async function getChallengeRequests(db, username) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username)) {
@@ -173,7 +173,7 @@ async function getChallengeRequests(db, username) {
     return {
         code: 200,
         data: result
-    }
+    };
 }
 
 // accepts a challenge request
@@ -182,7 +182,14 @@ async function acceptChallengeRequest(db, id, username, image) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
+    }
+
+    if (!regex.validatePollId(id)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPollIdResponse(id)
+        };
     }
 
     if (!regex.validateUsername(username)) {
@@ -228,7 +235,14 @@ async function getById(db, id) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
+    }
+
+    if (!regex.validatePollId(id)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPollIdResponse(id)
+        };
     }
 
     const result = await db('polls')
@@ -256,7 +270,7 @@ async function getById(db, id) {
     return {
         code: 200,
         data: result[0]
-    }
+    };
 }
 
 // returns a list of polls
@@ -265,7 +279,7 @@ async function search(db) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     return {
@@ -275,17 +289,59 @@ async function search(db) {
 }
 
 // adds vote to poll choice
-async function vote(db) {
+async function vote(db, id, username, vote) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
+    }
+
+    if (!regex.validatePollId(id)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPollIdResponse(id)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    vote = parseInt(vote);
+    if (!regex.validatePollVote(vote)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPollVoteResponse(vote)
+        };
+    }
+
+    const result = await db('polls')
+        .where({
+            id,
+            state: 'active'
+        })
+        .increment({
+            votes_1: ((vote === 1)? 1 : 0),
+            votes_2: ((vote === 2)? 1 : 0)
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
     }
 
     return {
-        code: 501,
-        data: 'not implemented'
+        code: 200,
+        data: 'success'
     };
 }
 

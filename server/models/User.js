@@ -11,7 +11,7 @@ async function signup(db, email, username, display_name, password, emoji) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateEmail(email)) {
@@ -71,7 +71,7 @@ async function signup(db, email, username, display_name, password, emoji) {
             return {
                 code: 409,
                 data: 'username already exists'
-            }
+            };
         }
 
         return result;
@@ -95,7 +95,7 @@ async function login(db, username, password) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username)) {
@@ -160,7 +160,7 @@ async function getByUsername(db, username) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username)) {
@@ -195,7 +195,7 @@ async function getByUsername(db, username) {
     return {
         code: 200,
         data: result[0]
-    }
+    };
 }
 
 // returns a list of users' data that match the given username query
@@ -204,7 +204,7 @@ async function search(db, username_query) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsernameQuery(username_query)) {
@@ -231,7 +231,7 @@ async function search(db, username_query) {
     return {
         code: 200,
         data: result
-    }
+    };
 }
 
 // returns a list of all users
@@ -240,7 +240,7 @@ async function all(db) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     const result = await db('users')
@@ -259,7 +259,7 @@ async function all(db) {
     return {
         code: 200,
         data: result
-    }
+    };
 }
 
 // updates user account information
@@ -268,7 +268,7 @@ async function update(db, username, display_name, password, emoji) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     if (!regex.validateUsername(username)) {
@@ -378,7 +378,7 @@ async function update(db, username, display_name, password, emoji) {
         return {
             code: 400,
             data: 'must set, at a minimum, one of the following optional parameters to update: display_name, password, emoji'
-        }
+        };
     }
 
     const result = await db('users')
@@ -407,7 +407,7 @@ async function history(db) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     return {

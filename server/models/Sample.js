@@ -7,7 +7,7 @@ async function routeModel(db) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
-        }
+        };
     }
 
     return {

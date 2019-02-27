@@ -1,7 +1,6 @@
-const themes = [
-    'meme',
-    'fashion'
-];
+const themes = ['meme', 'fashion'];
+
+const votes = [1,2];
 
 // returns true if email is valid, false otherwise
 function validateEmail(email) {
@@ -117,7 +116,37 @@ function validateDuration(duration) {
 
 // returns a String dictating what a valid duration should look like
 function getInvalidDurationResponse(duration) {
-    return 'Invalid duration: ' + duration + '. Should match: idk';
+    return 'Invalid duration: ' + duration + '. Should match: typeof string';
+}
+
+// returns true if poll id is valid, false otherwise
+function validatePollId(id) {
+    if (typeof id !== 'string') {
+        return false;
+    }
+
+    return true;
+}
+
+// returns a String dictating what a valid poll id should look like
+function getInvalidPollIdResponse(id) {
+    return 'Invalid poll id: ' + id + '. Should match: typeof string';
+}
+
+// returns true if vote is valid, false otherwise
+function validatePollVote(vote) {
+    console.log(typeof vote);
+    console.log(vote);
+    if (typeof vote !== 'number') {
+        return false;
+    }
+
+    return votes.includes(vote);
+}
+
+// returns a String dictating what a valid vote should look like
+function getInvalidPollVoteResponse(vote) {
+    return 'Invalid vote: ' + vote + '. Should match one: ' + votes + ' (1=creator 2=opponent) (typeof number)';
 }
 
 module.exports = {
@@ -127,5 +156,7 @@ module.exports = {
     validatePassword, getInvalidPasswordResponse,
     validateUsernameQuery, getInvalidUsernameQueryResponse,
     validateTheme, getInvalidThemeResponse,
-    validateDuration, getInvalidDurationResponse
+    validateDuration, getInvalidDurationResponse,
+    validatePollId, getInvalidPollIdResponse,
+    validatePollVote, getInvalidPollVoteResponse
 }
