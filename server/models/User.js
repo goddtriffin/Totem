@@ -74,6 +74,13 @@ async function signup(db, email, username, display_name, password, emoji) {
             };
         }
 
+        if (result.data.includes('UNIQUE constraint failed: users.email')) {
+            return {
+                code: 409,
+                data: 'email already exists'
+            };
+        }
+
         return result;
     }
     
