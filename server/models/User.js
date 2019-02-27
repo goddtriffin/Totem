@@ -402,7 +402,7 @@ async function update(db, username, display_name, password, emoji) {
 }
 
 // returns the entire history of a user
-async function history(db) {
+async function history(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -410,9 +410,30 @@ async function history(db) {
         };
     }
 
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    const result = await db('history')
+        .where('username', username)
+        .select('poll', 'vote')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
     return {
-        code: 501,
-        data: 'not implemented'
+        code: 200,
+        data: result
     };
 }
 
