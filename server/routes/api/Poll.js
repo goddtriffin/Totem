@@ -1,9 +1,18 @@
 const router = require('express').Router();
 
+var multer  = require('multer');
+var upload = multer({
+    dest: 'uploads/'
+});
+
 const Auth = require('../Auth');
 const Poll = require('../../models/Poll');
 
-router.post('/personal', Auth.validate, async (req, res) => {
+const uploadPersonal = upload.fields([{ name: 'image_1', maxCount: 1 }, { name: 'image_2', maxCount: 1 }])
+router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
+    console.log(req.files);
+    console.log(req.body);
+
     const result = await Poll.createPersonal(
         req.app.locals.db
     );
