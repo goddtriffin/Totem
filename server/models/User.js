@@ -10,42 +10,42 @@ async function signup(db, email, username, display_name, password, emoji) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateEmail(email)) {
         return {
             code: 400,
-            data: 'invalid email: ' + email
+            data: regex.getInvalidEmailResponse(email)
         };
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
     if (!regex.validateDisplayName(display_name)) {
         return {
             code: 400,
-            data: 'invalid display_name: ' + display_name
+            data: regex.getInvalidDisplayNameResponse(display_name)
         };
     }
 
     if (!regex.validatePassword(password)) {
         return {
             code: 400,
-            data: 'invalid password: ' + password
+            data: regex.getInvalidPasswordResponse(password)
         };
     }
 
     if (!utils.validateEmoji(emoji)) {
         return {
             code: 400,
-            data: 'invalid emoji: ' + emoji
+            data: utils.getInvalidEmojiResponse(emoji)
         };
     }
 
@@ -71,7 +71,7 @@ async function signup(db, email, username, display_name, password, emoji) {
             return {
                 code: 409,
                 data: 'username already exists'
-            }
+            };
         }
 
         return result;
@@ -94,21 +94,21 @@ async function login(db, username, password) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
     if (!regex.validatePassword(password)) {
         return {
             code: 400,
-            data: 'invalid password: ' + password
+            data: regex.getInvalidPasswordResponse(password)
         };
     }
 
@@ -159,14 +159,14 @@ async function getByUsername(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -195,7 +195,7 @@ async function getByUsername(db, username) {
     return {
         code: 200,
         data: result[0]
-    }
+    };
 }
 
 // returns a list of users' data that match the given username query
@@ -203,14 +203,14 @@ async function search(db, username_query) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsernameQuery(username_query)) {
         return {
             code: 400,
-            data: 'invalid username_query: ' + username_query
+            data: regex.getInvalidUsernameQueryResponse(username_query)
         };
     }
 
@@ -231,7 +231,7 @@ async function search(db, username_query) {
     return {
         code: 200,
         data: result
-    }
+    };
 }
 
 // returns a list of all users
@@ -239,8 +239,8 @@ async function all(db) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     const result = await db('users')
@@ -259,7 +259,7 @@ async function all(db) {
     return {
         code: 200,
         data: result
-    }
+    };
 }
 
 // updates user account information
@@ -267,14 +267,14 @@ async function update(db, username, display_name, password, emoji) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
     }
 
     if (!regex.validateUsername(username)) {
         return {
             code: 400,
-            data: 'invalid username: ' + username
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -312,7 +312,7 @@ async function update(db, username, display_name, password, emoji) {
         if (!regex.validateDisplayName(display_name)) {
             return {
                 code: 400,
-                data: 'invalid display_name: ' + display_name
+                data: regex.getInvalidDisplayNameResponse(display_name)
             };
         }
 
@@ -332,7 +332,7 @@ async function update(db, username, display_name, password, emoji) {
         if (!regex.validatePassword(password)) {
             return {
                 code: 400,
-                data: 'invalid password: ' + password
+                data: regex.getInvalidPasswordResponse(password)
             };
         }
 
@@ -353,7 +353,7 @@ async function update(db, username, display_name, password, emoji) {
         if (!utils.validateEmoji(emoji)) {
             return {
                 code: 400,
-                data: 'invalid emoji: ' + emoji
+                data: utils.getInvalidEmojiResponse(emoji)
             };
         }
 
@@ -378,7 +378,7 @@ async function update(db, username, display_name, password, emoji) {
         return {
             code: 400,
             data: 'must set, at a minimum, one of the following optional parameters to update: display_name, password, emoji'
-        }
+        };
     }
 
     const result = await db('users')
@@ -402,17 +402,38 @@ async function update(db, username, display_name, password, emoji) {
 }
 
 // returns the entire history of a user
-async function history(db) {
+async function history(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
-            data: 'invalid database'
-        }
+            data: utils.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    const result = await db('history')
+        .where('username', username)
+        .select('poll', 'vote')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
     }
 
     return {
-        code: 501,
-        data: 'not implemented'
+        code: 200,
+        data: result
     };
 }
 

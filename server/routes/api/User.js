@@ -175,8 +175,22 @@ router.put('/update', Auth.validate, async (req, res) => {
 });
 
 router.get('/history', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'invalid JWT'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
     const result = await User.history(
-        req.app.locals.db
+        req.app.locals.db,
+        data.username
     );
 
     res.status(result.code).send(result);
