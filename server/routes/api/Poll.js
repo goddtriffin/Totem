@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const multer  = require('multer');
 const storage = multer.diskStorage({
-    destination: 'public/uploads/polls/',
+    destination: 'static/uploads/polls/',
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1]);
     }
@@ -18,16 +18,13 @@ const uploadPersonal = upload.fields([
     { name: 'image_2', maxCount: 1 }
 ]);
 router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
-    const image_1_path = req.files.image_1[0].path;
-    const image_2_path = req.files.image_2[0].path;
-
     const data = {
         display_name: req.body.display_name,
         theme: req.body.theme,
         creator: req.jwt.sub,
         duration: req.body.duration,
-        image_1: image_1_path.substring(image_1_path.indexOf('/') + 1),
-        image_2: image_2_path.substring(image_2_path.indexOf('/') + 1)
+        image_1: '/' + req.files.image_1[0].path,
+        image_2: '/' + req.files.image_2[0].path
     };
 
     if (!utils.validateObject(data)) {

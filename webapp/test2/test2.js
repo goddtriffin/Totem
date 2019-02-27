@@ -13,8 +13,10 @@ function load() {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
-            document.getElementById('image1').src = '/static/' + response.data.image_1;
-            document.getElementById('image2').src = '/static/' + response.data.image_2;
+            console.log(response);
+
+            document.getElementById('image1').src = response.data.image_1;
+            document.getElementById('image2').src = response.data.image_2;
 		} else {
             // handle error
             console.log(response);
