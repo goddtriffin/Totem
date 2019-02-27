@@ -216,3 +216,124 @@ tbody tr{
 .emoji:hover{
 	font-size: 2.75rem;
 }
+
+#themeDiv {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+
+.pollCard{
+    background-color: white;
+    height: 75vh;
+    margin-top: 15px;
+    z-index: 0;
+    margin-bottom: 15px;
+    border: 2px solid #551a8b;
+    border-radius: 25px;
+    padding: 0px !important;
+	overflow: hidden;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#cardTitle{
+    width: 100%;
+    background-color: #551a8b;
+    color: white;
+    /* font-size: 2.5rem; */
+    text-align: center;
+    height: 12.5%;
+}
+
+#cardTitle #titleP{
+    margin: 0px;
+    font-size: 1.5rem;
+    height: 50%;
+}
+
+#cardContent{
+    margin: 0px;
+    padding: 0px;
+    height: 75%;
+    cursor: pointer;
+}
+
+#cardLeft{
+    background-color: red;
+    margin: 0px;
+    border-right: 2px solid #551a8b;
+    /* visibility: hidden; */
+}
+
+#cardRight{
+    background-color: blue;
+    margin: 0px;
+    border-left: 2px solid #551a8b;
+}
+
+#cardBottom{
+    background-color: #551a8b;
+    height: 12.5%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    color: white;
+}
+
+.pollCard{
+    position: relative;
+}
+
+#cardContentOverlay{
+    position: absolute;
+    top: 12.5%;
+    z-index: 100;
+    margin-left: 0px;
+    padding: 0px;
+    height: 75%; 
+}
+
+#leftBlank{
+    /* background: black; */
+    height: 50%;
+}
+
+#rightBlank{
+    /* background: black; */
+    height: 25%;
+}
+
+#leftResults{
+    background: rgba(255, 255, 255, 0.5);
+    height: 50%;
+}
+
+#rightResults{
+    background: rgba(255, 255, 255, 0.5);
+    height: 75%;
+}
+
+#rightResults, #leftResults{
+    color: white;
+    text-align: center;
+}
+
+#themes{
+    color: lightgray;
+}
+
+.displayName{
+    margin: 0px;
+    /* font-size: 1.5rem; */
+}
+
+.pollView{
+	padding: 0px;
+}
+
+#myPollsModal .modal-body{
+	height: 80vh;
+	overflow: scroll;
+}
