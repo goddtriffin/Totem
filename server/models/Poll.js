@@ -319,7 +319,32 @@ async function vote(db, id, username, vote) {
         };
     }
 
-    const result = await db('polls')
+    const result1 = await db('history')
+        .where({
+            username,
+            poll: id
+        })
+        .select('vote')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result1.code) {
+        return result1;
+    }
+    
+    // if results exist, then this user has already voted on this poll
+    if (result1.length > 0) {
+        return {
+            code: 400,
+            data: 'already voted on poll: ' + id
+        };
+    }
+
+    const result2 = await db('polls')
         .where({
             id,
             state: 'active'
@@ -335,8 +360,24 @@ async function vote(db, id, username, vote) {
             };
         });
 
-    if (!!result.code) {
-        return result;
+    if (!!result2.code) {
+        return result2;
+    }
+
+    const result3 = await db('history')
+        .insert({
+            username, vote,
+            poll: id
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result3.code) {
+        return result3;
     }
 
     return {
