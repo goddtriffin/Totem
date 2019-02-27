@@ -15,7 +15,7 @@ const Poll = require('../../models/Poll');
 
 const uploadPersonal = upload.fields([{ name: 'image_1', maxCount: 1 }, { name: 'image_2', maxCount: 1 }]);
 router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
-    if (!req.files || Object.keys(req.files).length !== 1) {
+    if (!req.files || Object.keys(req.files).length !== 2) {
         const result = {
             code: 400,
             data: 'request must be multipart/form-data and must include 2 images'
@@ -114,7 +114,7 @@ router.get('/challenge/requests', Auth.validate, async (req, res) => {
 });
 
 const uploadAcceptChallenge = upload.fields([{ name: 'image', maxCount: 1 }]);
-router.put('/challenge', Auth.validate, uploadAcceptChallenge, async (req, res) => {
+router.put('/challenge/:id', Auth.validate, uploadAcceptChallenge, async (req, res) => {
     if (!req.files || Object.keys(req.files).length !== 1) {
         const result = {
             code: 400,
@@ -125,7 +125,7 @@ router.put('/challenge', Auth.validate, uploadAcceptChallenge, async (req, res) 
     }
 
     const data = {
-        id: req.body.id,
+        id: req.params.id,
         username: req.jwt.sub,
         image: '/' + req.files.image[0].path
     };
@@ -142,28 +142,6 @@ router.put('/challenge', Auth.validate, uploadAcceptChallenge, async (req, res) 
     const result = await Poll.acceptChallengeRequest(
         req.app.locals.db,
         data.id, data.username, data.image
-    );
-
-    res.status(result.code).send(result);
-});
-
-router.get('/challenge/accepted', Auth.validate, async (req, res) => {
-    const data = {
-        username: req.jwt.sub
-    };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
-    const result = await Poll.getAcceptedChallenges(
-        req.app.locals.db,
-        data.username
     );
 
     res.status(result.code).send(result);
