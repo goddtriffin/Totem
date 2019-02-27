@@ -44,8 +44,8 @@ async function createUsersTable(db) {
 
                 table.string('emoji', 1).notNullable();
                 
-                table.integer('friend_challenges').notNullable().defaultTo(0);
-                table.integer('friend_challenges_won').notNullable().defaultTo(0);
+                table.integer('challenges_played').notNullable().defaultTo(0);
+                table.integer('challenges_won').notNullable().defaultTo(0);
                 table.integer('tiki_tally').notNullable().defaultTo(0);  // 2x tikis on votes to your picture, 1x tikis on votes to the opponents pictures
                 table.integer('polls_created').notNullable().defaultTo(0);
             });

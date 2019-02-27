@@ -179,7 +179,7 @@ async function getByUsername(db, username) {
 
     const result = await db('users')
         .where('username', username)
-        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
+        .select('email', 'username', 'display_name', 'emoji', 'challenges_played', 'challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {
             return {
                 code: 500,
@@ -199,9 +199,14 @@ async function getByUsername(db, username) {
         };
     }
 
+    const data = result[0];
+    data['win_rate'] = (data['challenges_played'] === 0)? 0 : data['challenges_won'] / data['challenges_played'];
+    delete data['challenges_won'];
+    delete data['challenges_played'];
+
     return {
         code: 200,
-        data: result[0]
+        data
     };
 }
 
@@ -251,7 +256,7 @@ async function all(db) {
     }
 
     const result = await db('users')
-        .select('email', 'username', 'display_name', 'emoji', 'friend_challenges', 'friend_challenges_won', 'tiki_tally', 'polls_created')
+        .select('email', 'username', 'display_name', 'emoji', 'challenges_played', 'challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {
             return {
                 code: 500,
