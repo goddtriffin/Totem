@@ -44,12 +44,10 @@ function getFriends(){
 			for(let i = 0; i < users.data.length; i++){
 				runningTable += `
 					<tr>
+						<td>${users.data[i].emoji}</td>
 						<th scope="row">${users.data[i].username}</th>  
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].tiki_tally}</td>
-						<td>
-							<button class="btn btn-dark" onclick="viewFriendProfile(${i})">View Profile</button>
-						</td>
 					</tr>`;
 			}
 			tableBody.innerHTML = runningTable;
@@ -63,7 +61,6 @@ function getFriends(){
 }
 
 function getFriendRequests(){
-
 	var url  = "/api/user/friend/requests";
 	var xhr  = new XMLHttpRequest();
 
@@ -198,8 +195,6 @@ function deleteFriend(index){
 
 }
 
-
-
 function searchfriends(){
 	var url  = "/api/user/search?username=";
 	var xhr  = new XMLHttpRequest()
@@ -239,6 +234,7 @@ function searchfriends(){
 
 }
 
+// Dont think we need this anymore
 function viewFriendProfile(index){
 
 	var url  = "/api/user/profile/";
@@ -258,7 +254,4 @@ function viewFriendProfile(index){
 		}
 	}	
 	xhr.send(null);
-
-
-
 }
