@@ -11,6 +11,7 @@ function load() {
 	else{
 	  	loadFriends();
 	  	loadFriendRequest();
+	  	// addFriend();
 	}
 
 };
@@ -254,4 +255,36 @@ function viewFriendProfile(index){
 		}
 	}	
 	xhr.send(null);
+}
+
+
+function addFriend(){
+var url = "/api/user/friend";
+	// console.log(index);
+	let friend_username = "cameron";
+
+	var data = {};
+	data.friend_username = friend_username;
+	var json = JSON.stringify(data);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("PUT", url, true);
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.log(users);
+			loadFriends();
+	  		loadFriendRequest();
+		} else if(xhr.status == "400"){ 
+			
+		}
+		else {
+			console.error(users);
+		}
+	}
+	xhr.send(json);
+
+
 }

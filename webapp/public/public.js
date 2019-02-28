@@ -207,6 +207,7 @@ function createPersonalPoll(){
             console.log(response);
 		}
 	}
+	document.getElementById("imageOne").setAttribute("name", "image_1");
 	console.log(new FormData(document.getElementById('newPollForm')))
     xhr.send(new FormData(document.getElementById('newPollForm')));
 
@@ -307,10 +308,10 @@ function createChallengeRequest(){
 
     xhr.onload = function () {
       console.log(xhr.responseText);
-		var users = JSON.parse(xhr.responseText);
+		var response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
-            sessionStorage.setItem('pollId', xhr.responseText.data);
+            sessionStorage.setItem('pollId', response.data);
             console.log("worked")
             // showCurrentPollPersonal();
 		} else {
@@ -319,7 +320,8 @@ function createChallengeRequest(){
             console.log(response);
 		}
 	}
-	// console.log(new FormData(document.getElementById('newPollForm')));
+	document.getElementById("imageOne").setAttribute("name", "image");
+	console.log(new FormData(document.getElementById('newPollForm')));
     xhr.send(new FormData(document.getElementById('newPollForm')));
 
 
