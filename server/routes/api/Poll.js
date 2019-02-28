@@ -150,7 +150,7 @@ router.put('/challenge/request/:id', Auth.validate, uploadAcceptChallengeRequest
     res.status(result.code).send(result);
 });
 
-router.get('/challenge/request/accepted', Auth.validate, async (req, res) => {
+router.get('/challenge/requests/accepted', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub
     };
