@@ -4,13 +4,13 @@
   "description": "The Totem server.",
   "main": "index.js",
   "scripts": {
-    "init-prod": "./scripts/initialize_production_server.sh",
-    "start": "./scripts/start_production_server.sh",
-    "dev": "./scripts/start_development_server.sh",
-    "init-db-prod": "./scripts/initialize_production_database.sh",
-    "init-db-dev": "./scripts/initialize_development_database.sh",
-    "unit-tests": "./scripts/run_unit_tests.sh",
-    "line-count": "./scripts/print_all_files_line_count.sh"
+    "init-prod": "bash ./scripts/initialize_production_server.sh",
+    "start": "bash ./scripts/start_production_server.sh",
+    "dev": "bash ./scripts/start_development_server.sh",
+    "init-db-prod": "bash ./scripts/initialize_production_database.sh",
+    "init-db-dev": "bash ./scripts/initialize_development_database.sh",
+    "unit-tests": "bash ./scripts/run_unit_tests.sh",
+    "line-count": "bash ./scripts/print_all_files_line_count.sh"
   },
   "author": "Todd Griffin",
   "license": "ISC",
