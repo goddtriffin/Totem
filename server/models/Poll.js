@@ -124,6 +124,13 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         };
     }
 
+    if (creator === opponent) {
+        return {
+            code: 400,
+            data: 'You cannot challenge yourself.'
+        };
+    }
+
     const result = await db('polls')
         .returning('id')
         .insert({
