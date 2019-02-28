@@ -85,6 +85,8 @@ async function requests(db, username) {
         return result1;
     }
 
+    const friend_requests_sent = result1.map(friend => friend.username_2);
+
     const result2 = await db('friends')
         .where({
             username_2: username,
@@ -102,18 +104,10 @@ async function requests(db, username) {
         return result2;
     }
 
-    const friend_request_usernames = result1
-        .concat(result2)
-        .map(object => {
-            if (object.hasOwnProperty('username_1')) {
-                return object.username_1;
-            }
-
-            return object.username_2;
-        });
+    const friend_requests_received = result2.map(friend => friend.username_1);
 
     const result3 = await db('users')
-        .whereIn('username', friend_request_usernames)
+        .whereIn('username', friend_requests_sent)
         .select('username', 'display_name', 'emoji', 'tiki_tally')
         .catch(e => {
             return {
@@ -126,9 +120,26 @@ async function requests(db, username) {
         return result3;
     }
 
+    const result4 = await db('users')
+        .whereIn('username', friend_requests_received)
+        .select('username', 'display_name', 'emoji', 'tiki_tally')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result4.code) {
+        return result4;
+    }
+
     return {
         code: 200,
-        data: result3
+        data: {
+            sent: result3,
+            received: result4
+        }
     };
 }
 
