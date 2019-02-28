@@ -12,10 +12,7 @@ window.onload = function() {
 		//Populate Emoji table
 		loadEmojis();
 	}
-
 };
-
-
 
 function fillUserInfo(){
 	var url  = "/api/user/me";
@@ -33,7 +30,7 @@ function fillUserInfo(){
 			document.getElementById("username").innerHTML = users.data.username;
 			document.getElementById("emoji").innerHTML = users.data.emoji;
 			
-			document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ users.data.friend_challenges_won/users.data.friend_challenges;
+			// document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ users.data.friend_challenges_won/users.data.friend_challenges;
 			document.getElementById("TikiTally").innerHTML = `Tiki Tally<br>`+ users.data.tiki_tally;
 			document.getElementById("PollsCreated").innerHTML = `Polls Created<br>`+ users.data.polls_created;
 
@@ -43,7 +40,6 @@ function fillUserInfo(){
 	}	
 	xhr.send(null);
 }
-
 
 function logout(){
 	console.log("logout");
@@ -56,7 +52,6 @@ function logout(){
 	localStorage.removeItem("PollsCreated");
 
 	window.location.href = "/splash";
-
 }
 
 function loadEmojis(){
@@ -74,7 +69,6 @@ function loadEmojis(){
 		tableContents += tr;
 	}
 	table.getElementsByTagName("tbody")[0].innerHTML = tableContents;
-
 }
 
 function changeEmoji(index){
@@ -176,8 +170,6 @@ function changingDisplayName(changedisplayname, repeatdisplayname){
 		}
 	}
 	xhr.send(json);
-
-
 }
 
 changePassword = (changepassword, repeatpassword) => {
@@ -219,8 +211,6 @@ function changingPassword(changepassword, repeatpassword){
 		}
 	}
 	xhr.send(json);
-
-
 }
 
 function verifychangeDisplayName(changedisplayname, repeatdisplayname){
@@ -252,7 +242,6 @@ function verifychangeDisplayName(changedisplayname, repeatdisplayname){
 		return 0;
 	}
 	return 1;
-
 }
 
 function verifychangePassword(changepassword, repeatpassword){
@@ -284,5 +273,5 @@ function verifychangePassword(changepassword, repeatpassword){
 		return 0;
 	}
 	return 1;
-
 }
+

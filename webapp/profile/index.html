@@ -1,4 +1,5 @@
 <script src="Friends/friends.js" type="text/javascript"></script>
+<script src="Challenges/challenges.js" type="text/javascript"></script>
 
 <!DOCTYPE html>
 
@@ -93,7 +94,7 @@
                                 </a>
                         </div>
                         <div class="col-md-3">
-                            <a class=personal-opt id=challenge-btn data-toggle="modal" data-target="#challengeModal">
+                            <a class=personal-opt id=challenge-btn data-toggle="modal" data-target="#challengeModal" onclick="loadchallenges()">
                                 <i class="fas fa-trophy btn-margin">
                                         <p id="personal-text">Challenges</p>
                                 </i>
@@ -114,7 +115,7 @@
                             <div class="modal-body">
                                 <!-- Sent vs Received -->
                                 <div class="btn-group btn-group-toggle" id="viewToggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary active" onclick="challengeView('received')">
+                                    <label class="btn btn-secondary active" onclick="challengeView('received'), loadChallengesRecieved()">
                                         <input type="radio" name="options" id="option1" autocomplete="off" checked> Received
                                     </label>
                                     <label class="btn btn-secondary" onclick="challengeView('sent')">
@@ -135,8 +136,8 @@
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
+                                    <tbody id="challengesRequests">
+                                        <!-- <tr>
                                             <th scope="row">@username</th>  
                                             <td>Poll Title</td>
                                             <td>Poll Theme</td>
@@ -148,7 +149,7 @@
                                             <td>
                                                 <button class="btn btn-danger">Reject</button>
                                             </td>
-                                        </tr>
+                                        </tr> --> 
                                     </tbody>
                                 </table>
             
