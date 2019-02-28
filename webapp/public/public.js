@@ -45,11 +45,13 @@ function verifyCreatepollInput(title, theme, experiation, imageOne, imageTwo, pr
 function switchPollType(input){
 	if(input === "Personal"){
 		document.getElementById("imageTwo").classList.remove("invisible");
+		document.getElementById("selectChallenge").classList.add("invisible");
 		console.log("Personal");
 	}
 	else{
 		console.log("Challenge")
 		document.getElementById("imageTwo").classList.add("invisible");
+		document.getElementById("selectChallenge").classList.remove("invisible");
 	}
 }
 
