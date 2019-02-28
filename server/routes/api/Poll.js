@@ -136,7 +136,7 @@ router.put('/challenge/request/:id', Auth.validate, uploadAcceptChallengeRequest
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory multipart/form-data parameters: id, image'
+            data: 'mandatory URL query parameter: id; mandatory multipart/form-data parameter: image'
         };
         res.status(result.code).send(result);
         return;
@@ -145,6 +145,51 @@ router.put('/challenge/request/:id', Auth.validate, uploadAcceptChallengeRequest
     const result = await Poll.acceptChallengeRequest(
         req.app.locals.db,
         data.id, data.username, data.image
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.get('/challenge/request/accepted', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'invalid JWT'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
+    const result = await Poll.getAcceptedChallengeRequests(
+        req.app.locals.db,
+        data.username
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.put('/challenge/request/accepted/:id', Auth.validate, async (req, res) => {
+    const data = {
+        id: req.params.id,
+        username: req.jwt.sub
+    };
+
+    if (!utils.validateObject(data)) {
+        const result = {
+            code: 400,
+            data: 'mandatory URL query parameter: id; mandatory body parameter: username'
+        };
+        res.status(result.code).send(result);
+        return;
+    }
+
+    const result = await Poll.startChallenge(
+        req.app.locals.db,
+        data.id, data.username
     );
 
     res.status(result.code).send(result);
