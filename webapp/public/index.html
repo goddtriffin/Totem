@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
         <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
     </head>
+    
     <body>
         <!-- Nav Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -121,6 +122,13 @@
                                 <input type="textg" class="form-control" name="display_name" id="titleInput" placeholder="Poll Title">
                             </div>
                         </div>
+                         <!-- opponent -->
+                       <!--  <div class="form-group row">
+                            <label for="inputTitle" class="col-sm-2 col-form-label">opponent</label>
+                            <div class="col-sm-10">
+                                <input type="textg" class="form-control" name="opponent" id="titleInput" placeholder="Poll Title">
+                            </div>
+                        </div> -->
 
                         <!-- Themes -->
                         <div class="form-group row">
@@ -179,10 +187,10 @@
                         <!-- Private vs Public -->
                         <div class="btn-group btn-group-toggle" id="privacyToggle" data-toggle="buttons">
                             <label class="btn btn-secondary active" id="privateButton">
-                                <input type="radio" name="options" autocomplete="off" checked> Private
+                                <input type="radio" id="option" value="private" name="scope" autocomplete="off" checked> Private
                             </label>
                             <label class="btn btn-secondary" id="publicButton">
-                                <input type="radio" name="options" autocomplete="off"> Public
+                                <input type="radio" id="option" value="public" name="scope" autocomplete="off"> Public
                             </label>
                         </div>
                         <!-- Create Button -->
@@ -208,10 +216,12 @@
                     </div>
                     <div class="row col-md-12" id="cardContent">
                         <div class="col-6" id="cardLeft" onclick="vote('Left')">
+                            <img id="leftImg" class="pollImage" width="100%">
                             <!-- Contents -->
                         </div>
                         <div class="col-6" id="cardRight" onclick="vote('Right')">
                             <!-- Contents -->
+                            <img id="rightImg" class="pollImage" width="100%">
                         </div>
                     </div>
 
