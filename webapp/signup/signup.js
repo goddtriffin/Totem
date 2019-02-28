@@ -51,22 +51,22 @@ function Createuser(username, displayName, email, password, passwordVerify, emoj
 			localStorage.removeItem(localStorage.emoji);
 
 		} 
-		else if(xhr.status == "409"){
-			document.getElementById("GeneralError").innerHTML = "Please use DIFF info!";
-
-		}
+		/*else if(xhr.status == "409"){
+			
+			document.getElementById("GeneralError").innerHTML = users.data;
+		}*/
 
 		else {
-			if(users.data.indexOf("Invalid username") > -1) {
+			if(users.data.indexOf("username") > -1) {
 				document.getElementById("usernameError").innerHTML = users.data;
 			}
-			else if(users.data.indexOf("Invalid display_name") > -1) {
+			else if(users.data.indexOf("display_name") > -1) {
 				document.getElementById("displayNameError").innerHTML = users.data;
 			}
-			else if(users.data.indexOf("Invalid password") > -1) {
+			else if(users.data.indexOf("password") > -1) {
 				document.getElementById("passwordError").innerHTML = users.data;
 			}
-			else if(users.data.indexOf("Invalid email") > -1) {
+			else if(users.data.indexOf("email") > -1) {
 				document.getElementById("emailError").innerHTML = users.data;
 			}
 			else {

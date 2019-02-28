@@ -75,18 +75,18 @@ function getFriendRequests(){
 			console.table(users);
 
 			//Set global 
-			friendRequests = users.data;
+			friendRequests = users.data.received;
 
 			let runningTable = ``;
 			let tableBody = document.getElementById("friendRequestTableBody");
-			for(let i = 0; i < users.data.length; i++){
-				user_request = users.data[i].username;
+			for(let i = 0; i < users.data.received.length; i++){
+				user_request = users.data.received[i].username;
 				console.log()
 				runningTable += `
 					<tr>
-						<th scope="row" id="friend_request_username-${i}">${users.data[i].username}</th>  
-						<td>${users.data[i].display_name}</td>
-						<td>${users.data[i].tiki_tally}</td>
+						<th scope="row" id="friend_request_username-${i}">${users.data.received[i].username}</th>  
+						<td>${users.data.received[i].display_name}</td>
+						<td>${users.data.received[i].tiki_tally}</td>
 						<td>
 							<button class="btn btn-success" onclick="acceptFriend(${i})">Accept</button>
 						</td>
