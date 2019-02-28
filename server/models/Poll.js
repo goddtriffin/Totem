@@ -2,7 +2,7 @@ const regex = require('../../shared/regex');
 const utils = require('../tools/utils');
 
 // creates a new personal poll
-async function createPersonal(db, display_name, theme, creator, duration, image_1, image_2) {
+async function createPersonal(db, display_name, theme, creator, duration, scope, image_1, image_2) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -38,11 +38,18 @@ async function createPersonal(db, display_name, theme, creator, duration, image_
         };
     }
 
+    if (!regex.validateScope(scope)) {
+        return {
+            code: 400,
+            data: regex.getInvalidScopeResponse(scope)
+        };
+    }
+
     const result = await db('polls')
         .returning('id')
         .insert({
             display_name, theme,
-            creator, duration,
+            creator, duration, scope,
             image_1, image_2,
             state: 'active',
             type: 'personal',
@@ -67,7 +74,7 @@ async function createPersonal(db, display_name, theme, creator, duration, image_
 }
 
 // creates a new challenge poll
-async function createChallenge(db, display_name, theme, creator, opponent, duration, image) {
+async function createChallenge(db, display_name, theme, creator, opponent, duration, scope, image) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -110,12 +117,19 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         };
     }
 
+    if (!regex.validateScope(scope)) {
+        return {
+            code: 400,
+            data: regex.getInvalidScopeResponse(scope)
+        };
+    }
+
     const result = await db('polls')
         .returning('id')
         .insert({
             display_name, theme,
             creator, opponent,
-            duration,
+            duration, scope,
             image_1: image,
             type: 'challenge'
         })
@@ -158,7 +172,7 @@ async function getChallengeRequests(db, username) {
             state: 'pending',
             type: 'challenge'
         })
-        .select('id', 'display_name', 'theme', 'creator', 'opponent')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope')
         .catch(e => {
             return {
                 code: 500,
@@ -246,9 +260,12 @@ async function search(db, display_name_query) {
     }
 
     const result = await db('polls')
-        .where('state', 'active')
+        .where({
+            state: 'active',
+            scope: 'public'
+        })
         .andWhere('display_name', 'like', '%' + display_name_query + '%')
-        .select('display_name', 'theme', 'creator', 'opponent', 'type')
+        .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope')
         .catch(e => {
             return {
                 code: 500,
@@ -382,7 +399,7 @@ async function getById(db, id) {
 
     const result = await db('polls')
         .where('id', id)
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'start_time', 'end_time')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
                 code: 500,

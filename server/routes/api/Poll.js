@@ -29,6 +29,7 @@ router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
         theme: req.body.theme,
         creator: req.jwt.sub,
         duration: req.body.duration,
+        scope: req.body.scope,
         image_1: '/' + req.files.image_1[0].path,
         image_2: '/' + req.files.image_2[0].path
     };
@@ -36,7 +37,7 @@ router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory multipart/form-data parameters: display_name, theme, duration, image_1, image_2'
+            data: 'mandatory multipart/form-data parameters: display_name, theme, duration, scope, image_1, image_2'
         };
         res.status(result.code).send(result);
         return;
@@ -45,7 +46,7 @@ router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
     const result = await Poll.createPersonal(
         req.app.locals.db,
         data.display_name, data.theme,
-        data.creator, data.duration,
+        data.creator, data.duration, data.scope,
         data.image_1, data.image_2
     );
 
@@ -69,13 +70,14 @@ router.post('/challenge', Auth.validate, uploadChallenge, async (req, res) => {
         creator: req.jwt.sub,
         opponent: req.body.opponent,
         duration: req.body.duration,
+        scope: req.body.scope,
         image: '/' + req.files.image[0].path
     };
 
     if (!utils.validateObject(data)) {
         const result = {
             code: 400,
-            data: 'mandatory multipart/form-data parameters: display_name, theme, opponent, duration, image'
+            data: 'mandatory multipart/form-data parameters: display_name, theme, opponent, duration, scope, image'
         };
         res.status(result.code).send(result);
         return;
@@ -85,7 +87,8 @@ router.post('/challenge', Auth.validate, uploadChallenge, async (req, res) => {
         req.app.locals.db,
         data.display_name, data.theme,
         data.creator, data.opponent,
-        data.duration, data.image
+        data.duration, data.scope,
+        data.image
     );
 
     res.status(result.code).send(result);
@@ -113,8 +116,8 @@ router.get('/challenge/requests', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-const uploadAcceptChallenge = upload.fields([{ name: 'image', maxCount: 1 }]);
-router.put('/challenge/:id', Auth.validate, uploadAcceptChallenge, async (req, res) => {
+const uploadAcceptChallengeRequest = upload.fields([{ name: 'image', maxCount: 1 }]);
+router.put('/challenge/request/:id', Auth.validate, uploadAcceptChallengeRequest, async (req, res) => {
     if (!req.files || Object.keys(req.files).length !== 1) {
         const result = {
             code: 400,
