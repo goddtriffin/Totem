@@ -167,7 +167,7 @@ function getInvalidPollDisplayNameQueryResponse(display_name_query) {
 
 // returns true if scope is valid, false otherwise
 function validateScope(scope) {
-    if (typeof scope !== 'number') {
+    if (typeof scope !== 'string') {
         return false;
     }
 

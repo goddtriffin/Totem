@@ -13,7 +13,10 @@ async function getPublic(db) {
     }
 
     const result = await db('polls')
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'start_time', 'end_time')
+        .where({
+            scope: 'public'
+        })
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
                 code: 500,
@@ -54,7 +57,7 @@ async function getPrivate(db, username) {
     const result = await db('polls')
         .whereIn('creator', friendUsernames)
         .orWhereIn('opponent', friendUsernames)
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'start_time', 'end_time')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
                 code: 500,
