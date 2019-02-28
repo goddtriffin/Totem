@@ -80,6 +80,9 @@ function movePoll(direction){
 		else{
 			place_holder = place_holder-1;
 			showPoll(place_holder)
+			document.getElementById("cardContentOverlay").classList.add("invisible");
+			document.getElementById("leftImg").classList.remove("opacity");
+			document.getElementById("rightImg").classList.remove("opacity");
 		}
 
 	}
@@ -91,6 +94,9 @@ function movePoll(direction){
 		else{
 			place_holder = place_holder+1;
 			showPoll(place_holder)
+			document.getElementById("cardContentOverlay").classList.add("invisible");
+			document.getElementById("leftImg").classList.remove("opacity");
+			document.getElementById("rightImg").classList.remove("opacity");
 		}
 	}
 }
@@ -140,6 +146,8 @@ function vote(side){
 		console.log("Voted Right");
 	}
 	document.getElementById("cardContentOverlay").classList.remove("invisible");
+	document.getElementById("leftImg").classList.add("opacity");
+	document.getElementById("rightImg").classList.add("opacity");
 }
 
 function logout(){
