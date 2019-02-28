@@ -90,13 +90,15 @@ function vote(side){
 function logout(){
 	console.log("logout");
 	localStorage.removeItem("token");
-	window.location.href = "/splash";
+	localStorage.removeItem("displayName");
+	localStorage.removeItem("username");
+	localStorage.removeItem("emoji");
+	localStorage.removeItem("WinRate");
+	localStorage.removeItem("TikiTally");
+	localStorage.removeItem("PollsCreated");
+		window.location.href = "/splash";
 
 }
-
-
-	// xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
-
 
 
 function createPersonalPoll(){
@@ -141,21 +143,18 @@ function showCurrentPoll(){
             // handle success
             console.log("pull worked")
             console.log(response);
-             var img = new Image();
-			 img.src = response.data.image_1;
-			  document.getElementById("cardLeft").appendChild(img);
+            var img = new Image();
+			img.src = response.data.image_1;
+			 document.getElementById("cardLeft").appendChild(img);
 			  
-			  var img = new Image();
-			 img.src = response.data.image_2;
-			  document.getElementById("cardRight").appendChild(img);
+			var img = new Image();
+			img.src = response.data.image_2;
+			document.getElementById("cardRight").appendChild(img);
 
-			  document.getElementById("titleP").innerHTML = response.data.display_name;
-			  document.getElementById("leftUsername").innerHTML = response.data.display_name;
-			  document.getElementById("rightUsername").innerHTML = response.data.display_name;
-			  document.getElementById("themes").innerHTML = response.data.theme;
-
-
-            
+			document.getElementById("titleP").innerHTML = response.data.display_name;
+			document.getElementById("leftUsername").innerHTML = response.data.display_name;
+			document.getElementById("rightUsername").innerHTML = response.data.display_name;
+			document.getElementById("themes").innerHTML = response.data.theme;
 
 		} else {
             // handle error

@@ -39,7 +39,7 @@ var url = "/api/user/login";
 			console.log(users);
 			document.getElementById("GeneralError").innerHTML = "";
 			localStorage.token = users.data;
-
+			getUserInfo();
 			window.location.href = '/profile';
 		} 
 		else if(xhr.status == "400"){
@@ -54,6 +54,39 @@ var url = "/api/user/login";
 	xhr.send(json);
 
 }
+
+
+function getUserInfo(){
+	var url  = "/api/user/me";
+	var xhr  = new XMLHttpRequest()
+
+	xhr.open('GET', url, true)
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr.onload = function () {
+		console.log(xhr.responseText);
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.log(users);
+			localStorage.displayName = users.data.display_name
+			localStorage.username = users.data.username
+			localStorage.emoji = users.data.emoji
+			localStorage.WinRate = users.data.friend_challenges_won/users.data.friend_challenges
+			localStorage.TikiTally = users.data.tiki_tally
+			localStorage.PollsCreated = users.data.polls_created
+
+		} else {
+			console.error(users);
+		}
+	}	
+	xhr.send(null);
+
+
+
+}
+
+
+
 
 
 function verifyInput(username, password){	

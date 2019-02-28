@@ -90,6 +90,12 @@ function vote(side){
 function logout(){
 	console.log("logout");
 	localStorage.removeItem("token");
-	window.location.href = "/splash";
+	localStorage.removeItem("displayName");
+	localStorage.removeItem("username");
+	localStorage.removeItem("emoji");
+	localStorage.removeItem("WinRate");
+	localStorage.removeItem("TikiTally");
+	localStorage.removeItem("PollsCreated");
+		window.location.href = "/splash";
 
 }
