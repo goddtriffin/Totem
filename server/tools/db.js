@@ -72,6 +72,7 @@ async function createPollsTable(db) {
                 table.increments('id').unique().primary();
                 table.string('display_name').notNullable();
                 table.string('theme').notNullable();
+                table.string('scope').notNullable().defaultTo('private');  // private, public
 
                 table.string('creator').notNullable().references('users.username');
                 table.string('opponent').nullable().references('users.username');  // challenge only

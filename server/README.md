@@ -51,7 +51,18 @@ All other routes: `application/x-www-form-urlencoded`
 
 #### User
 
-| Method | Endpoint | Description | Body Parameters |
+User object contains:
+```
+email
+username
+display_name
+emoji
+tiki_tally
+polls_created
+win_rate
+```
+
+| Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
 | POST | $ `/api/user/signup` | signs up a new user account | email, username, display_name, password, emoji |
 | POST | $ `/api/user/login` | logs a user in | username, password |
@@ -64,7 +75,15 @@ All other routes: `application/x-www-form-urlencoded`
 
 #### Friend
 
-| Method | Endpoint | Description | Body Parameters |
+Friend object contains:
+```
+username
+display_name
+emoji
+tiki_tally
+```
+
+| Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
 | POST | `/api/user/friend` | creates friend request | friend_username |
 | GET | `/api/user/friend/requests` | returns a list of all friend requests |  |
@@ -74,19 +93,40 @@ All other routes: `application/x-www-form-urlencoded`
 
 #### Poll
 
-| Method | Endpoint | Description | Body Parameters |
+Poll object contains:
+```
+id
+display_name
+theme
+creator
+opponent
+image_1
+image_2
+votes_1
+votes_2
+state
+type
+duration
+scope
+start_time
+end_time
+```
+
+| Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
-| POST | `/api/poll/personal` | creates a personal poll | display_name, theme, creator, duration, image_1, image_2 |
-| POST | `/api/poll/challenge` | creates a challenge request | display_name, theme, creator, opponent, duration, image |
+| POST | `/api/poll/personal` | creates a personal poll | display_name, theme, creator, duration, scope, image_1, image_2 |
+| POST | `/api/poll/challenge` | creates a challenge request | display_name, theme, creator, opponent, duration, scope, image |
 | GET | `/api/poll/challenge/requests` | returns a list of all your challenge requests |  |
-| PUT | `/api/poll/challenge/:id` | replace `:id` with a real poll id, accepts a challenge request | image |
+| PUT | `/api/poll/challenge/request/:id` | replace `:id` with a real poll id, accepts a challenge request | image |
 | GET | `/api/poll/:id` | replace `:id` with a real poll id, returns that poll's information |  |
 | GET | `/api/poll/search?display_name=<display_name>` | replace `<display_name>` with a real display_name, returns a list of polls |  |
 | PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll |  |
 
 #### Feed
 
-| Method | Endpoint | Description | Body Parameters |
+Feed returns a list of Poll objects.
+
+| Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
 | GET | `/api/feed/public` | returns a user's public feed |  |
 | GET | `/api/feed/private` | returns a user's private feed |  |

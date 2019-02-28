@@ -1,6 +1,6 @@
 const themes = ['meme', 'fashion'];
-
-const votes = [1,2];
+const votes = [1, 2];
+const scopes = ['private', 'public'];
 
 // returns true if email is valid, false otherwise
 function validateEmail(email) {
@@ -135,8 +135,6 @@ function getInvalidPollIdResponse(id) {
 
 // returns true if vote is valid, false otherwise
 function validatePollVote(vote) {
-    console.log(typeof vote);
-    console.log(vote);
     if (typeof vote !== 'number') {
         return false;
     }
@@ -167,6 +165,20 @@ function getInvalidPollDisplayNameQueryResponse(display_name_query) {
     return 'Invalid display_name_query: ' + display_name_query + '. Should match: min-length=1 max-length=30 no-whitespace';
 }
 
+// returns true if scope is valid, false otherwise
+function validateScope(scope) {
+    if (typeof scope !== 'string') {
+        return false;
+    }
+
+    return scopes.includes(scope);
+}
+
+// returns a String dictating what a valid scope should look like
+function getInvalidScopeResponse(scope) {
+    return 'Invalid scope: ' + scope + '. Should match one: ' + scopes;
+}
+
 module.exports = {
     validateEmail, getInvalidEmailResponse,
     validateUsername, getInvalidUsernameResponse,
@@ -177,5 +189,6 @@ module.exports = {
     validateDuration, getInvalidDurationResponse,
     validatePollId, getInvalidPollIdResponse,
     validatePollVote, getInvalidPollVoteResponse,
-    validatePollDisplayNameQuery, getInvalidPollDisplayNameQueryResponse
+    validatePollDisplayNameQuery, getInvalidPollDisplayNameQueryResponse,
+    validateScope, getInvalidScopeResponse
 }
