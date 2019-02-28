@@ -118,7 +118,7 @@
                         <div class="form-group row">
                             <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" id="titleInput" placeholder="Poll Title">
+                                <input type="textg" class="form-control" name="display_name" id="titleInput" placeholder="Poll Title">
                             </div>
                         </div>
 
@@ -127,9 +127,9 @@
                             <label for="themeInput" class="col-sm-2 col-form-label">Theme</label>
                             <div class="col-sm-10">
                                 <!-- <input type="email" class="form-control" placeholder="Themes"> -->
-                                <select class="custom-select" id="themeInput">
+                                <select class="custom-select" id="themeInput" name="theme">
                                     <option selected>Select a theme</option>
-                                    <option value="1">Theme1</option>
+                                    <option value="meme">Theme1</option>
                                     <option value="2">Theme2</option>
                                     <option value="3">Theme3</option>
                                 </select>
@@ -138,7 +138,7 @@
 
                         <!-- Duration -->
                         <div class="form-group row">
-                            <label for="expirationInput" class="col-sm-2 col-form-label">Duration</label>
+                            <label for="expirationInput"  class="col-sm-2 col-form-label">Duration</label>
                                 <div class="col-sm-3">
                                     <input class="form-control" type="number" min="0" placeholder="Days" id="durationDay">
                                 </div>
@@ -146,7 +146,7 @@
                                     <input class="form-control" type="number" min="0" placeholder="Hours" id="durationHour">
                                 </div>
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="number" min="0" placeholder="Mins" id="durationMin">
+                                    <input class="form-control" type="number" min="0" placeholder="Mins" id="durationMin" name="duration">
                                 </div>
                         </div>
 
@@ -156,10 +156,10 @@
                                 <p>Upload Image(s):</p>
                             </div>
                             <div class="col-md-6">
-                                <input type="file" class="form-control-file" id="imageOne">
+                                <input type="file" class="form-control-file" id="imageOne" name="image_1" >
                             </div>
                             <div class="col-md-6">
-                                <input type="file" class="form-control-file" id="imageTwo">
+                                <input type="file" class="form-control-file" id="imageTwo" name="image_2" >
                             </div>
                         </div>
                     </div>

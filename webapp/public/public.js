@@ -5,13 +5,12 @@ window.onload = function() {
   		window.location.replace("/splash");
 	}
 	else{
-	
 	}
 
 };
 
 function createPoll(){
-
+	createPersonalPoll();
 	let personal = document.getElementById("personalButton").classList.contains("active");
 	let challenge = document.getElementById("challengeButton").classList.contains("active");
 
@@ -27,7 +26,9 @@ function createPoll(){
 	let private = document.getElementById("privateButton").classList.contains("active");
 	let public = document.getElementById("publicButton").classList.contains("active");
 
-	console.log(personal + "\n" + challenge + "\n" + title + "\n" + theme + "\n" + duration + "\n" + imageOne + "\n" + imageTwo + "\n" + private + "\n" + public)
+	// console.log(personal + "\n" + challenge + "\n" + title + "\n" + theme + "\n" + duration + "\n" + imageOne + "\n" + imageTwo + "\n" + private + "\n" + public)
+
+
 }
 
 
@@ -92,3 +93,114 @@ function logout(){
 	window.location.href = "/splash";
 
 }
+
+
+	// xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+
+
+function createPersonalPoll(){
+	// display_name needs to be changed to title after the API is fixed in the html in create new poll
+	var url = "/api/poll/personal";
+
+	const xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+
+    xhr.onload = function () {
+        const response = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+            // handle success
+            sessionStorage.setItem('pollId', response.data);
+            console.log("worked")
+            showCurrentPoll();
+		} else {
+            // handle error
+            console.log("no work");
+
+            console.log(response);
+		}
+	}
+
+    xhr.send(new FormData(document.getElementById('newPollForm')));
+
+
+}
+
+function showCurrentPoll(){
+	var url = '/api/poll/'
+	 const id = sessionStorage.getItem('pollId');
+
+	const xhr  = new XMLHttpRequest();
+	xhr.open('GET', url + id);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+    
+	xhr.onload = function () {
+        const response = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+            // handle success
+            console.log("pull worked")
+            console.log(response);
+             var img = new Image();
+			 img.src = response.data.image_1;
+			  document.getElementById("cardLeft").appendChild(img);
+			  
+			  var img = new Image();
+			 img.src = response.data.image_2;
+			  document.getElementById("cardRight").appendChild(img);
+
+			  document.getElementById("titleP").innerHTML = response.data.display_name;
+			  document.getElementById("leftUsername").innerHTML = response.data.display_name;
+			  document.getElementById("rightUsername").innerHTML = response.data.display_name;
+			  document.getElementById("themes").innerHTML = response.data.theme;
+
+
+            
+
+		} else {
+            // handle error
+            console.log(response);
+		}
+    }
+    
+	xhr.send(null);
+}
+
+
+function createChallengeRequest(){
+post
+
+}
+
+
+function getChallengeRequests(){
+get
+
+
+}
+
+
+function acceptChallengeRequest(){
+
+put
+
+}
+
+function listOfPolls(){
+
+get
+
+}
+
+
+function setVote(){
+
+put
+
+}
+
+
+
+
+
+
