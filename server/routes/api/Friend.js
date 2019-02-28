@@ -10,15 +10,6 @@ router.post('/', Auth.validate, async (req, res) => {
         username_2: req.body.friend_username
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory body parameters: friend_username'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await Friend.add(
         req.app.locals.db,
         data.username_1, data.username_2
@@ -31,15 +22,6 @@ router.get('/requests', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await Friend.requests(
         req.app.locals.db,
@@ -55,15 +37,6 @@ router.put('/', Auth.validate, async (req, res) => {
         username_2: req.body.friend_username
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory body parameters: friend_username'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await Friend.accept(
         req.app.locals.db,
         data.username_1, data.username_2
@@ -76,15 +49,6 @@ router.get('/', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await Friend.get(
         req.app.locals.db,
@@ -99,15 +63,6 @@ router.delete('/', Auth.validate, async (req, res) => {
         username_1: req.jwt.sub,
         username_2: req.body.friend_username
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory body parameters: friend_username'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await Friend.remove(
         req.app.locals.db,
