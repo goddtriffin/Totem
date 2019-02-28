@@ -4,7 +4,7 @@ body{
 }
 
 .invisible{
-    visibility: hidden;
+    display: none;
 }
 
 .navbar-dark{
@@ -84,14 +84,14 @@ body{
 }
 
 #cardLeft{
-    background-color: red;
+    background-color: black;
     margin: 0px;
     border-right: 2px solid #551a8b;
     /* visibility: hidden; */
 }
 
 #cardRight{
-    background-color: blue;
+    background-color: black;
     margin: 0px;
     border-left: 2px solid #551a8b;
 }
@@ -210,4 +210,9 @@ body{
 .displayName{
     margin: 0px;
     font-size: 1.5rem;
+}
+
+#selectChallenge{
+    text-align: center;
+    margin-top: 1rem;
 }
