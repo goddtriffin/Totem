@@ -68,6 +68,7 @@ function updateSort(sort){
 }
 
 function changeSort(){
+
 	console.log("Sorting submitted: " + sorting);
 }
 
@@ -152,10 +153,8 @@ function showCurrentPollPersonal(){
 
 			document.getElementById("titleP").innerHTML = response.data.display_name;
 			document.getElementById("leftUsername").innerHTML = localStorage.username;
-			document.getElementById("rightUsername").innerHTML = localStorage.username;
 			document.getElementById("themes").innerHTML = response.data.theme;
 			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName
-			document.getElementById("rightDisplayName").innerHTML = localStorage.displayName
 
 
 		} else {
@@ -167,7 +166,46 @@ function showCurrentPollPersonal(){
 	xhr.send(null);
 }
 function showCurrentPollChallenge(){
-	
+
+
+	/*
+	var url = '/api/poll/'
+	 const id = sessionStorage.getItem('pollId');
+
+	const xhr  = new XMLHttpRequest();
+	xhr.open('GET', url + id);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+    
+	xhr.onload = function () {
+        const response = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+            // handle success
+            console.log("pull worked")
+            console.log(response);
+            var img = new Image();
+			img.src = response.data.image_1;
+			 document.getElementById("cardLeft").appendChild(img);
+			  
+			var img = new Image();
+			img.src = response.data.image_2;
+			document.getElementById("cardRight").appendChild(img);
+
+			document.getElementById("titleP").innerHTML = response.data.display_name;
+			document.getElementById("leftUsername").innerHTML = localStorage.username;
+			document.getElementById("themes").innerHTML = response.data.theme;
+			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName
+
+
+		} else {
+            // handle error
+            console.log(response);
+		}
+    }
+    
+	xhr.send(null);
+
+
+	*/
 }
 
 
