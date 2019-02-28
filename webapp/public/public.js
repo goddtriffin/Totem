@@ -59,6 +59,7 @@ function verifyCreatepollInput(title, theme, experiation, imageOne, imageTwo, pr
 function switchPollType(input){
 	if(input === "Personal"){
 		document.getElementById("imageTwo").classList.remove("invisible");
+		document.getElementById("selectChallenge").classList.add("invisible");
 		console.log("Personal");
 		localStorage.pollType = 0;
 	}
@@ -66,7 +67,7 @@ function switchPollType(input){
 		console.log("Challenge")
 		document.getElementById("imageTwo").classList.add("invisible");
 		localStorage.pollType = 1;
-
+		document.getElementById("selectChallenge").classList.remove("invisible");
 	}
 }
 

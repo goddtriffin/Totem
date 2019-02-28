@@ -169,6 +169,18 @@
                             <div class="col-md-6">
                                 <input type="file" class="form-control-file" id="imageTwo" name="image_2" >
                             </div>
+                            <div class="col-md-12 invisible" id="selectChallenge">
+                                <label>Select Opponent:
+                                <input list="friendsList" name="oponent" /></label>
+                                <datalist id="friendsList">
+                                    <option value="Chrome">
+                                    <option value="Firefox">
+                                    <option value="Internet Explorer">
+                                    <option value="Opera">
+                                    <option value="Safari">
+                                    <option value="Microsoft Edge">
+                                </datalist>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -229,7 +241,7 @@
                         </div>
                     </div>
                     
-                    <div class="row col-md-12" id="cardBottom">
+                    <div class="row col-md-12 justify-content-md-center" id="cardBottom">
                         <div class="col-6" id="leftUser">
                             <p id="leftDisplayName" class="displayName">Display Name</p>
                             <p id="leftUsername">@username</p>
