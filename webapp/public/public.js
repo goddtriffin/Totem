@@ -116,9 +116,16 @@ function showPoll(index){
 			document.getElementById("leftUsername").innerHTML = localStorage.username;
 			document.getElementById("themes").innerHTML = publicPolls[index].theme;
 			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName;
+
+			if(publicPolls[index].type === "personal"){
+				document.getElementById("rightUser").classList.add("invisible");
+			}
+			else{
+				document.getElementById("rightUser").classList.remove("invisible");
+			}
 			console.log(publicPolls[index].image_2);
 			console.log(publicPolls[index].image_1);
-console.log(index)
+			console.log(index)
 
 }
 
