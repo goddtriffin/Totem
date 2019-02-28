@@ -13,15 +13,6 @@ router.post('/signup', async (req, res) => {
         emoji: req.body.emoji
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory body parameters: email, username, display_name, password, emoji'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await User.signup(
         req.app.locals.db,
         data.email, data.username, data.display_name,
@@ -37,15 +28,6 @@ router.post('/login', async (req, res) => {
         password: req.body.password
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory body parameters: username, password'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await User.login(
         req.app.locals.db,
         data.username, data.password
@@ -59,15 +41,6 @@ router.get('/me', Auth.validate, async (req, res) => {
         username: req.jwt.sub
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await User.getByUsername(
         req.app.locals.db, data.username
     );
@@ -80,15 +53,6 @@ router.get('/profile/:username', Auth.validate, async (req, res) => {
         username: req.params.username
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory URL endpoint: username'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await User.getByUsername(
         req.app.locals.db, data.username
     );
@@ -100,15 +64,6 @@ router.get('/search', Auth.validate, async (req, res) => {
     const data = {
         username_query: req.query.username
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory URL query parameters: username'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await User.search(
         req.app.locals.db, data.username_query
@@ -127,7 +82,9 @@ router.get('/all', Auth.validate, async (req, res) => {
 
 router.put('/update', Auth.validate, async (req, res) => {
     // store which optional parameter updates are chosen
-    const data = {};
+    const data = {
+        username: req.jwt.sub
+    };
 
     // check if optional display_name update parameter is set
     if (!!req.body.display_name) {
@@ -144,27 +101,6 @@ router.put('/update', Auth.validate, async (req, res) => {
         data.emoji = req.body.emoji;
     }
 
-    // validate the optional parameters that were set
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'optional body parameters allowed: display_name, password, emoji'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
-    // now validate the JWT header along with the rest
-    data.username = req.jwt.sub;
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await User.update(
         req.app.locals.db, 
         data.username, data.display_name,
@@ -178,15 +114,6 @@ router.get('/history', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await User.history(
         req.app.locals.db,

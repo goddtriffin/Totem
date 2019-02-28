@@ -17,15 +17,6 @@ router.get('/private', Auth.validate, async (req, res) => {
         username: req.jwt.sub
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await Feed.getPrivate(
         req.app.locals.db,
         data.username
