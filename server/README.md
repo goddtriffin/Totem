@@ -118,6 +118,8 @@ end_time
 | POST | `/api/poll/challenge` | creates a challenge request | display_name, theme, creator, opponent, duration, scope, image |
 | GET | `/api/poll/challenge/requests` | returns a list of all your challenge requests |  |
 | PUT | `/api/poll/challenge/request/:id` | replace `:id` with a real poll id, accepts a challenge request | image |
+| GET | `/api/poll/challenge/requests/accepted` | returns a list of all your accepted challenge requests |  |
+| PUT | `/api/poll/challenge/request/:id` | replace `:id` with a real poll id, starts a challenge |  |
 | GET | `/api/poll/:id` | replace `:id` with a real poll id, returns that poll's information |  |
 | GET | `/api/poll/search?display_name=<display_name>` | replace `<display_name>` with a real display_name, returns a list of polls |  |
 | PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll |  |
