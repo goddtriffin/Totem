@@ -34,15 +34,6 @@ router.post('/personal', Auth.validate, uploadPersonal, async (req, res) => {
         image_2: '/' + req.files.image_2[0].path
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory multipart/form-data parameters: display_name, theme, duration, scope, image_1, image_2'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await Poll.createPersonal(
         req.app.locals.db,
         data.display_name, data.theme,
@@ -74,15 +65,6 @@ router.post('/challenge', Auth.validate, uploadChallenge, async (req, res) => {
         image: '/' + req.files.image[0].path
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory multipart/form-data parameters: display_name, theme, opponent, duration, scope, image'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await Poll.createChallenge(
         req.app.locals.db,
         data.display_name, data.theme,
@@ -98,15 +80,6 @@ router.get('/challenge/requests', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await Poll.getChallengeRequests(
         req.app.locals.db,
@@ -133,15 +106,6 @@ router.put('/challenge/request/:id', Auth.validate, uploadAcceptChallengeRequest
         image: '/' + req.files.image[0].path
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory URL query parameter: id; mandatory multipart/form-data parameter: image'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await Poll.acceptChallengeRequest(
         req.app.locals.db,
         data.id, data.username, data.image
@@ -154,15 +118,6 @@ router.get('/challenge/requests/accepted', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'invalid JWT'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await Poll.getAcceptedChallengeRequests(
         req.app.locals.db,
@@ -178,15 +133,6 @@ router.put('/challenge/request/accepted/:id', Auth.validate, async (req, res) =>
         username: req.jwt.sub
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory URL query parameter: id; mandatory body parameter: username'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await Poll.startChallenge(
         req.app.locals.db,
         data.id, data.username
@@ -199,15 +145,6 @@ router.get('/search', Auth.validate, async (req, res) => {
     const data = {
         display_name_query: req.query.display_name
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory URL query parameters: display_name'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await Poll.search(
         req.app.locals.db,
@@ -224,15 +161,6 @@ router.put('/vote/:id', Auth.validate, async (req, res) => {
         vote: req.body.vote
     };
 
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory URL endpoint parameter: id; mandatory body parameters: vote'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
-
     const result = await Poll.vote(
         req.app.locals.db,
         data.id, data.username, data.vote
@@ -245,15 +173,6 @@ router.get('/:id', Auth.validate, async (req, res) => {
     const data = {
         id: req.params.id
     };
-
-    if (!utils.validateObject(data)) {
-        const result = {
-            code: 400,
-            data: 'mandatory URL endpoint parameter: id'
-        };
-        res.status(result.code).send(result);
-        return;
-    }
 
     const result = await Poll.getById(
         req.app.locals.db, data.id

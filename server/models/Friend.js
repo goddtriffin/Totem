@@ -24,6 +24,13 @@ async function add(db, username_1, username_2) {
         };
     }
 
+    if (username_1 === username_2) {
+        return {
+            code: 400,
+            data: 'You cannot be friends with yourself.'
+        };
+    }
+
     const result = await db('friends')
         .insert({
             username_1, username_2
