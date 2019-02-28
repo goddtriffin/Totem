@@ -2,6 +2,7 @@
 let sorting = "Newest";
 let publicPolls = [];
 let place_holder = 0;
+let friends = [];
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
@@ -10,6 +11,7 @@ window.onload = function() {
 	else{
 		listOfPolls();
 	}
+	getFriends();
 
 };
 
@@ -362,6 +364,35 @@ function listOfPolls(){
 function setVote(){
 
 put
+
+}
+
+function getFriends(){
+	var url  = "/api/user/friend";
+	var xhr  = new XMLHttpRequest()
+
+	xhr.open('GET', url, true)
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr.onload = function () {
+		console.log(xhr.responseText);
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			friends = users.data;
+			console
+			//Populate HTML
+			let runningTable = ``;
+			let dataSet = document.getElementById("friendsList");
+			for(let i = 0; i < users.data.length; i++){
+				runningTable += `<option value="${users.data[i].username}">`;
+			}
+			dataSet.innerHTML = runningTable;
+
+		} else {
+			console.error(users);
+		}
+	}	
+	xhr.send(null);
 
 }
 
