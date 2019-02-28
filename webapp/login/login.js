@@ -43,10 +43,10 @@ var url = "/api/user/login";
 			window.location.href = '/profile';
 		} 
 		else if(xhr.status == "400"){
-			document.getElementById("GeneralError").innerHTML = "Please correct info!";
+			document.getElementById("GeneralError").innerHTML = "Invalid Username or Password";
 
 		}
-			else {
+		else {
 			console.error(users);
 		}
 	}

@@ -56,7 +56,22 @@ function Createuser(username, displayName, email, password, passwordVerify, emoj
 
 		}
 
+		else {
+			if(users.data.indexOf("Invalid username") > -1) {
+				document.getElementById("usernameError").innerHTML = users.data;
+			}
+			else if(users.data.indexOf("Invalid display_name") > -1) {
+				document.getElementById("displayNameError").innerHTML = users.data;
+			}
+			else if(users.data.indexOf("Invalid password") > -1) {
+				document.getElementById("passwordError").innerHTML = users.data;
+			}
+			else if(users.data.indexOf("Invalid email") > -1) {
+				document.getElementById("emailError").innerHTML = users.data;
+			}
 			else {
+				document.getElementById("GeneralError").innerHTML = users.data;
+			}
 			console.error(users);
 		}
 	}
