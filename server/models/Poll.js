@@ -2,7 +2,7 @@ const regex = require('../../shared/regex');
 const utils = require('../tools/utils');
 
 // creates a new personal poll
-async function createPersonal(db, display_name, theme, creator, duration, image_1, image_2) {
+async function createPersonal(db, display_name, theme, creator, duration, scope, image_1, image_2) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -38,11 +38,18 @@ async function createPersonal(db, display_name, theme, creator, duration, image_
         };
     }
 
+    if (!regex.validateScope(scope)) {
+        return {
+            code: 400,
+            data: regex.getInvalidScopeResponse(scope)
+        };
+    }
+
     const result = await db('polls')
         .returning('id')
         .insert({
             display_name, theme,
-            creator, duration,
+            creator, duration, scope,
             image_1, image_2,
             state: 'active',
             type: 'personal',
@@ -67,7 +74,7 @@ async function createPersonal(db, display_name, theme, creator, duration, image_
 }
 
 // creates a new challenge poll
-async function createChallenge(db, display_name, theme, creator, opponent, duration, image) {
+async function createChallenge(db, display_name, theme, creator, opponent, duration, scope, image) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -110,12 +117,19 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         };
     }
 
+    if (!regex.validateScope(scope)) {
+        return {
+            code: 400,
+            data: regex.getInvalidScopeResponse(scope)
+        };
+    }
+
     const result = await db('polls')
         .returning('id')
         .insert({
             display_name, theme,
             creator, opponent,
-            duration,
+            duration, scope,
             image_1: image,
             type: 'challenge'
         })
