@@ -155,10 +155,22 @@
                                 <p>Upload Image(s):</p>
                             </div>
                             <div class="col-md-6">
-                                <input type="file" class="form-control-file" id="imageOne">
+                                <input type="file" class="form-control-file" id="imageOne" name="image_1" >
                             </div>
                             <div class="col-md-6">
-                                <input type="file" class="form-control-file" id="imageTwo">
+                                <input type="file" class="form-control-file" id="imageTwo" name="image_2" >
+                            </div>
+                            <div class="col-md-12 invisible" id="selectChallenge">
+                                <label>Select Opponent:
+                                <input list="friendsList" name="oponent" /></label>
+                                <datalist id="friendsList">
+                                    <option value="Chrome">
+                                    <option value="Firefox">
+                                    <option value="Internet Explorer">
+                                    <option value="Opera">
+                                    <option value="Safari">
+                                    <option value="Microsoft Edge">
+                                </datalist>
                             </div>
                         </div>
                     </div>
