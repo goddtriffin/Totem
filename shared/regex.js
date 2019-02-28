@@ -1,4 +1,4 @@
-const themes = ['meme', 'fashion'];
+const themes = ['memes', 'fashion', 'movie', 'music', 'animals', 'nature', 'buildings', 'cities', 'food', 'beauty', 'color', 'space', 'vehicles', 'sports'];
 const votes = [1, 2];
 const scopes = ['private', 'public'];
 
