@@ -115,11 +115,10 @@ function createPersonalPoll(){
             // handle success
             sessionStorage.setItem('pollId', response.data);
             console.log("worked")
-            showCurrentPoll();
+            showCurrentPollPersonal();
 		} else {
             // handle error
             console.log("no work");
-
             console.log(response);
 		}
 	}
@@ -129,7 +128,7 @@ function createPersonalPoll(){
 
 }
 
-function showCurrentPoll(){
+function showCurrentPollPersonal(){
 	var url = '/api/poll/'
 	 const id = sessionStorage.getItem('pollId');
 
@@ -152,9 +151,12 @@ function showCurrentPoll(){
 			document.getElementById("cardRight").appendChild(img);
 
 			document.getElementById("titleP").innerHTML = response.data.display_name;
-			document.getElementById("leftUsername").innerHTML = response.data.display_name;
-			document.getElementById("rightUsername").innerHTML = response.data.display_name;
+			document.getElementById("leftUsername").innerHTML = localStorage.username;
+			document.getElementById("rightUsername").innerHTML = localStorage.username;
 			document.getElementById("themes").innerHTML = response.data.theme;
+			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName
+			document.getElementById("rightDisplayName").innerHTML = localStorage.displayName
+
 
 		} else {
             // handle error
@@ -163,6 +165,9 @@ function showCurrentPoll(){
     }
     
 	xhr.send(null);
+}
+function showCurrentPollChallenge(){
+	
 }
 
 
