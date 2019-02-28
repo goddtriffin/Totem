@@ -222,6 +222,96 @@ async function acceptChallengeRequest(db, id, username, image) {
         })
         .update({
             'image_2': image,
+            state: 'ready'
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: 'success'
+    };
+}
+
+// returns all of your accepted challenge requests
+async function getAcceptedChallengeRequests(db, username) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: utils.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    const result = await db('polls')
+        .where({
+            creator: username,
+            state: 'ready',
+            type: 'challenge'
+        })
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: result
+    };
+}
+
+// starts a challenge poll
+async function startChallenge(db, id, username) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: utils.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validatePollId(id)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPollIdResponse(id)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    const result = await db('polls')
+        .where({
+            id,
+            creator: username,
+            state: 'ready',
+            type: 'challenge'
+        })
+        .update({
             state: 'active',
             start_time: '',
             end_time: ''
@@ -429,5 +519,7 @@ module.exports = {
     createPersonal, createChallenge,
     getChallengeRequests,
     acceptChallengeRequest,
+    getAcceptedChallengeRequests,
+    startChallenge,
     search, vote, getById
 }

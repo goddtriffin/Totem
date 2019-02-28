@@ -67,8 +67,8 @@ win_rate
 | POST | $ `/api/user/signup` | signs up a new user account | email, username, display_name, password, emoji |
 | POST | $ `/api/user/login` | logs a user in | username, password |
 | GET | `/api/user/me` | returns your account information |  |
-| GET | `/api/user/profile/:username` | replace `:username` with a real username, returns that user's account information |  |
-| GET | `/api/user/search?username=<username>` | replace `<username>` with a real username, returns a list of all user accounts with similar usernames |  |
+| GET | `/api/user/profile/:username` | returns that user's account information (replace `:username` with a real username) |  |
+| GET | `/api/user/search?username=<username>` | returns a list of all user accounts with similar usernames (replace `<username>` with a real username) |  |
 | GET | `/api/user/all` | returns a list of all user accounts |  |
 | PUT | `/api/user/update` | updates your account, must pick at least one optional Body parameter to update | display_name, password, emoji |
 | GET | `/api/user/history` | returns your poll vote history |  |
@@ -117,9 +117,11 @@ end_time
 | POST | `/api/poll/personal` | creates a personal poll | display_name, theme, creator, duration, scope, image_1, image_2 |
 | POST | `/api/poll/challenge` | creates a challenge request | display_name, theme, creator, opponent, duration, scope, image |
 | GET | `/api/poll/challenge/requests` | returns a list of all your challenge requests |  |
-| PUT | `/api/poll/challenge/request/:id` | replace `:id` with a real poll id, accepts a challenge request | image |
-| GET | `/api/poll/:id` | replace `:id` with a real poll id, returns that poll's information |  |
-| GET | `/api/poll/search?display_name=<display_name>` | replace `<display_name>` with a real display_name, returns a list of polls |  |
+| PUT | `/api/poll/challenge/request/:id` | accepts a challenge request (replace `:id` with a real poll id) | image |
+| GET | `/api/poll/challenge/requests/accepted` | returns a list of all your accepted challenge requests |  |
+| PUT | `/api/poll/challenge/request/:id` | starts a challenge (replace `:id` with a real poll id) |  |
+| GET | `/api/poll/:id` | returns that poll's information (replace `:id` with a real poll id) |  |
+| GET | `/api/poll/search?display_name=<display_name>` | returns a list of polls (replace `<display_name>` with a real display_name) |  |
 | PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll |  |
 
 #### Feed
