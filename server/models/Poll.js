@@ -582,7 +582,7 @@ async function getById(db, username, id) {
 
     const poll = result1[0];
 
-    // update object to show whether or not the 
+    // update poll to show whether or not the 
     // user calling this has already voted on it
     const result2 = await db('history')
         .where({
