@@ -39,7 +39,7 @@ var url  = "/api/poll/challenge/requests";
 						<td>${users.data[i].duration}</td>
 						<td>${users.data[i].privacy}</td>   
 						<td>
-							<input type="file" id="imageTwo" name="image_2" onchange="loadChallengesSent(${users.data[i].id})"></input>
+							<input type="file" id="imageTwo-${users.data[i].id}" name="image_2" onchange="loadChallengesSent(${users.data[i].id})"></input>
 						</td>   
 					</tr>`;
                                           
@@ -74,7 +74,7 @@ function loadChallengesSent(id){
 	
 		var formData = new FormData(document.getElementById('challengerequests'));
 		formData.delete("image_2");
-		formData.set("image", document.getElementById("imageTwo").files[0]);
+		formData.set("image", document.getElementById("imageTwo-"+id).files[0]);
 	    xhr.send(formData);
 }
 
