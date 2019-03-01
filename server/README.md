@@ -51,8 +51,6 @@ All other routes: `application/x-www-form-urlencoded`
 
 #### User
 
-User object returns:
-
 | Name | Type | Description |
 | :--- | :--- | :--- |
 | email | string | user identifier (unique) |
@@ -76,8 +74,6 @@ User object returns:
 
 #### Friend
 
-Friend object returns:
-
 | Name | Type | Description |
 | :--- | :--- | :--- |
 | username | string | user identifier (unique) |
@@ -95,8 +91,6 @@ Friend object returns:
 | DELETE | `/api/user/friend` | deletes friend / friend request | friend_username |
 
 #### Poll
-
-Poll object returns:
 
 | Name | Type | Description |
 | :--- | :--- | :--- |
@@ -131,8 +125,6 @@ Poll object returns:
 | PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll | vote |
 
 #### Feed
-
-Feed returns a list of Polls.
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
