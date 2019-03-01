@@ -121,7 +121,8 @@ end_time
 | GET | `/api/poll/challenge/requests/accepted` | returns a list of all your accepted challenge requests |  |
 | PUT | `/api/poll/challenge/request/:id` | starts a challenge (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/:id` | returns that poll's information (replace `:id` with a real poll id) |  |
-| GET | `/api/poll/search?display_name=<display_name>` | returns a list of polls (replace `<display_name>` with a real display_name) |  |
+| GET | `/api/poll/search/private?themes=<themes>` | returns a list of private polls (replace `<themes>` with a real comma-delimited string of themes) |  |
+| GET | `/api/poll/search/public?themes=<themes>` | returns a list of public polls (replace `<themes>` with a real comma-delimited string of themes) |  |
 | PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll |  |
 
 #### Feed
