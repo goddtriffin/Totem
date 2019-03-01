@@ -52,15 +52,16 @@ All other routes: `application/x-www-form-urlencoded`
 #### User
 
 User object returns:
-```
-str email
-str username
-str display_name
-str emoji
-int tiki_tally
-int polls_created
-str win_rate
-```
+
+| Name | Type | Description |
+| :--- | :--- | :--- |
+| email | string | user identifier (unique) |
+| username | string | user identifier (unique) |
+| display_name | string | fun name/title |
+| emoji | string | icon |
+| tiki_tally | integer | status of the user on Totem, count of other user interactions of their content |
+| polls_created | integer | number of polls created |
+| win_rate | double | ratio of challenge poll wins/losses |
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
@@ -76,13 +77,14 @@ str win_rate
 #### Friend
 
 Friend object returns:
-```
-str username
-str display_name
-str emoji
-int tiki_tally
-bool friends
-```
+
+| Name | Type | Description |
+| :--- | :--- | :--- |
+| username | string | user identifier (unique) |
+| display_name | string | fun name/title |
+| emoji | string | icon |
+| tiki_tally | integer | status of the user on Totem, count of other user interactions of their content |
+| friends | boolean | state of the friend |
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
@@ -95,23 +97,25 @@ bool friends
 #### Poll
 
 Poll object returns:
-```
-int id
-str display_name
-str theme
-str creator
-str opponent
-str image_1
-str image_2
-int votes_1
-int votes_2
-str state
-str type
-str duration
-str scope
-str start_time
-str end_time
-```
+
+| Name | Type | Description |
+| :--- | :--- | :--- |
+| id | integer | poll identifier (unique) |
+| display_name | string | fun name/title of poll |
+| theme | string | poll category |
+| creator | string | username of the user that created the poll |
+| opponent | string | username of the user that is being challenged (challenge poll only) |
+| image_1 | string | path to the first image |
+| image_2 | string | path to the second image |
+| votes_1 | integer | vote count for image_1 |
+| votes_2 | integer | vote count for image_2 |
+| state | string | (challenge only: pending, ready,) active, expired |
+| type | string | personal, challenge |
+| scope | string | private, public |
+| duration | integer | total minutes that the poll should be active for |
+| start_time | integer | unix timestamp the poll started |
+| end_time | integer | unix timestamp the poll should end |
+| voted | integer | value the user set as their vote (only exists if the user has already voted on this particular poll) |
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
