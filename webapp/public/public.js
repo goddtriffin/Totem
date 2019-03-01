@@ -275,8 +275,6 @@ function showCurrentPollPersonal(){
 
 function showCurrentPollChallenge(){
 
-
-	/*
 	var url = '/api/poll/'
 	 const id = sessionStorage.getItem('pollId');
 
@@ -313,7 +311,7 @@ function showCurrentPollChallenge(){
 	xhr.send(null);
 
 
-	*/
+	
 }
 
 
@@ -381,7 +379,7 @@ function listOfPolls(){
 
 
 function setVote(who){
-	var url = "/api/poll/vote/:";
+	var url = "/api/poll/vote/";
 
 	var data = {};
 	data.vote = who;
