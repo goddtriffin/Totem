@@ -14,7 +14,8 @@ async function getPublic(db, username) {
 
     const result1 = await db('polls')
         .where({
-            scope: 'public'
+            scope: 'public',
+            state: 'active'
         })
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
@@ -63,8 +64,15 @@ async function getPrivate(db, username) {
     friendUsernames.push(username);
 
     const result1 = await db('polls')
-        .whereIn('creator', friendUsernames)
-        .orWhereIn('opponent', friendUsernames)
+        .where((builder) => {
+            builder.
+                whereIn('creator', friendUsernames)
+                .orWhereIn('opponent', friendUsernames)
+        })
+        .andWhere({
+            scope: 'private',
+            state: 'active'
+        })
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
@@ -91,10 +99,7 @@ async function getPrivate(db, username) {
 }
 
 async function addPollsHistory(db, username, polls) {
-    console.log(polls);
     const pollIds = polls.map(poll => poll.id);
-    console.log(pollIds);
-
     const result = await db('history')
         .whereIn('poll', pollIds)
         .select()
@@ -104,8 +109,6 @@ async function addPollsHistory(db, username, polls) {
                 data: e.originalStack
             };
         });
-    
-    console.log(result);
 
     if (!!result.code) {
         return result;
@@ -117,6 +120,7 @@ async function addPollsHistory(db, username, polls) {
         for (let j=0; j<polls.length; j++) {
             // if the vote's poll id matches the current poll id,
             if (result[i].poll === polls[j].id) {
+                // set the poll's 'voted' pair
                 polls[j].voted = result[i].vote;
                 break;
             }
