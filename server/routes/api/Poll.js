@@ -184,11 +184,13 @@ router.put('/vote/:id', Auth.validate, async (req, res) => {
 
 router.get('/:id', Auth.validate, async (req, res) => {
     const data = {
+        username: req.jwt.sub,
         id: req.params.id
     };
 
     const result = await Poll.getById(
-        req.app.locals.db, data.id
+        req.app.locals.db,
+        data.username, data.id
     );
 
     res.status(result.code).send(result);

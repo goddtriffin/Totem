@@ -536,11 +536,18 @@ async function vote(db, id, username, vote) {
 }
 
 // returns a single poll's data by id
-async function getById(db, id) {
+async function getById(db, username, id) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -551,7 +558,7 @@ async function getById(db, id) {
         };
     }
 
-    const result = await db('polls')
+    const result1 = await db('polls')
         .where('id', id)
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
@@ -561,21 +568,47 @@ async function getById(db, id) {
             };
         });
 
-    if (!!result.code) {
-        return result;
+    if (!!result1.code) {
+        return result1;
     }
     
     // if no results, then no poll exists with that id
-    if (result.length !== 1) {
+    if (result1.length !== 1) {
         return {
             code: 400,
             data: 'no poll found with id: ' + id
         };
     }
 
+    const poll = result1[0];
+
+    // update object to show whether or not the 
+    // user calling this has already voted on it
+    const result2 = await db('history')
+        .where({
+            username,
+            poll: id
+        })
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result2.code) {
+        return result2;
+    }
+
+    // if there is a result, then the user has already voted on it
+    if (result2.length === 1) {
+        poll.voted = result2[0].vote;
+    }
+
     return {
         code: 200,
-        data: result[0]
+        data: poll
     };
 }
 
