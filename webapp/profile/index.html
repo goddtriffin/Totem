@@ -122,6 +122,9 @@
                                     <label class="btn btn-secondary" onclick="challengeView('sent')">
                                         <input type="radio" name="options" id="option2" autocomplete="off"> Sent
                                     </label>
+                                    <label class="btn btn-secondary" onclick="challengeView('accepted')">
+                                        <input type="radio" name="options" id="option2" autocomplete="off"> Accepted
+                                    </label>
                                 </div>
             
                                 <!-- Requests -->
@@ -180,6 +183,33 @@
                                         </tr>
                                     </tbody>
                                 </table>
+
+                                <!-- Accepted -->
+                                <table class="table table-hover table-striped invisible" id="acceptedTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">User</th>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Theme</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Privacy</th>
+                                                <th scope="col"></th>
+    
+                                            </tr>
+                                        </thead>
+                                        <tbody id="acceptedRequests">
+                                            <tr>
+                                                <th scope="row">@username</th>  
+                                                <td>Poll Title</td>
+                                                <td>Poll Theme</td>
+                                                <td>2 Days</td>
+                                                <td>Public</td>
+                                                <td>
+                                                    <button class="btn btn-success">Start</button>
+                                                </td>
+                                            </tr> 
+                                        </tbody>
+                                    </table>
                             </div>
                             <div class="modal-footer">
                                 <!-- Create Button -->
