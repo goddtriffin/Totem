@@ -124,7 +124,7 @@ str end_time
 | GET | `/api/poll/:id` | returns that poll's information (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/search/private?themes=<themes>` | returns a list of private polls (replace `<themes>` with a real comma-delimited string of themes) |  |
 | GET | `/api/poll/search/public?themes=<themes>` | returns a list of public polls (replace `<themes>` with a real comma-delimited string of themes) |  |
-| PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll |  |
+| PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll | vote |
 
 #### Feed
 
