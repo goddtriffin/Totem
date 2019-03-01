@@ -115,15 +115,20 @@ function showPoll(index){
 			document.getElementById("rightImg").src = publicPolls[index].image_2;
 
 			document.getElementById("titleP").innerHTML = publicPolls[index].display_name;
-			document.getElementById("leftUsername").innerHTML = localStorage.username;
+			document.getElementById("leftUsername").innerHTML = publicPolls[index].creator;
+			// leftDisplayName
+
 			document.getElementById("themes").innerHTML = publicPolls[index].theme;
-			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName;
+			// document.getElementById("leftDisplayName").innerHTML = publicPolls[index].display_Name;
 
 			if(publicPolls[index].type === "personal"){
 				document.getElementById("rightUser").classList.add("invisible");
 			}
 			else{
 				document.getElementById("rightUser").classList.remove("invisible");
+				// rightDisplayName
+				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
+
 			}
 			console.log(publicPolls[index].image_2);
 			console.log(publicPolls[index].image_1);
@@ -208,8 +213,12 @@ function createPersonalPoll(){
 		}
 	}
 	document.getElementById("imageOne").setAttribute("name", "image_1");
-	console.log(new FormData(document.getElementById('newPollForm')))
-    xhr.send(new FormData(document.getElementById('newPollForm')));
+	var formData = new FormData(document.getElementById('newPollForm'));
+
+	formData.append("username", localStorage.username);
+	// formData.append("display_name", localStorage.displayName);
+	console.log(formData)
+    xhr.send(formData);
 
 }
 
@@ -321,9 +330,12 @@ function createChallengeRequest(){
 		}
 	}
 	document.getElementById("imageOne").setAttribute("name", "image");
-	console.log(new FormData(document.getElementById('newPollForm')));
-    xhr.send(new FormData(document.getElementById('newPollForm')));
+		var formData = new FormData(document.getElementById('newPollForm'));
 
+	formData.append("username", localStorage.username);
+	// formData.append("display_name", localStorage.displayName);
+	console.log(formData)
+    xhr.send(formData)
 
 }
 
