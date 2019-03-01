@@ -11,6 +11,7 @@ window.onload = function() {
 	}
 	else{
 		listOfPolls();
+		startChallenge();
 	}
 	getFriends();
 
@@ -342,9 +343,9 @@ function createChallengeRequest(){
 		}
 	}
 	document.getElementById("imageOne").setAttribute("name", "image");
-		var formData = new FormData(document.getElementById('newPollForm'));
+	var formData = new FormData(document.getElementById('newPollForm'));
 
-	formData.append("username", localStorage.username);
+	formData.append("creator", localStorage.username);
 	// formData.append("display_name", localStorage.displayName);
 	console.log(formData)
     xhr.send(formData)
@@ -442,6 +443,32 @@ function getFriends(){
 }
 
 
+function startChallenge(){
+
+var url = "/api/poll/challenge/request/:";
+
+	var data = {};
+	data.vote = who;
+	var json = JSON.stringify(data);
+
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("PUT", url+17, true);
+	 xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+
+	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.table(users);
+			console.log(users);
+		} else {
+			console.error(users);
+		}
+	}
+	xhr.send(json);
+
+}
 
 
 
