@@ -361,3 +361,7 @@ tbody tr{
     position: absolute;
     z-index: -1;
 }
+
+#challengeBody{
+    overflow: scroll;
+}

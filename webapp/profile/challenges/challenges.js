@@ -33,16 +33,16 @@ var url  = "/api/poll/challenge/requests";
 			let tableBody = document.getElementById("challengesRequests");
 			for(let i = 0; i < users.data.length; i++){
 				runningTable += ` 
-								<tr>
-  								<th scope="row">@${users.data[i].creator}</th>  
-                                <td>${users.data[i].display_name}</td>
-                                <td>${users.data[i].theme}</td>
-                                <td>${users.data[i].duration}</td>
-                                <td>${users.data[i].privacy}</td>   
-                                <td>
-                                    <input type="file" class="form-control-file" id="imageTwo" name="image_2" onchange="loadChallengesSent(${users.data[i].id})">
-								</td>   
-                                </tr>`;
+					<tr>
+						<th scope="row">@${users.data[i].creator}</th>  
+						<td>${users.data[i].display_name}</td>
+						<td>${users.data[i].theme}</td>
+						<td>${users.data[i].duration}</td>
+						<td>${users.data[i].privacy}</td>   
+						<td>
+							<input type="file" id="imageTwo" name="image_2" onchange="loadChallengesSent(${users.data[i].id})"></input>
+						</td>   
+					</tr>`;
                                           
 			}
 			tableBody.innerHTML = runningTable;

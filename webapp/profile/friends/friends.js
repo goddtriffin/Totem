@@ -11,7 +11,7 @@ function load() {
 	else{
 	  	loadFriends();
 	  	loadFriendRequest();
-	  	// addFriend();
+	  	addFriend();
 	}
 
 };
@@ -261,7 +261,7 @@ function viewFriendProfile(index){
 function addFriend(){
 var url = "/api/user/friend";
 	// console.log(index);
-	let friend_username = "niralirai";
+	let friend_username = "other1";
 
 	var data = {};
 	data.friend_username = friend_username;
