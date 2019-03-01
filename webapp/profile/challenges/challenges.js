@@ -40,7 +40,7 @@ var url  = "/api/poll/challenge/requests";
                                 <td>${users.data[i].duration}</td>
                                 <td>${users.data[i].privacy}</td>   
                                 <td>
-									   <input type="file" id="image" name="image" style="overflow:hidden" onchange="loadChallengesSent(${users.data[i].id})"/>
+                                    <input type="file" class="form-control-file" id="imageTwo" name="image_2" onchange="loadChallengesSent(${users.data[i].id})">
 								</td>   
                                 </tr>`;
                                           
@@ -89,13 +89,17 @@ function loadChallengesSent(id){
 		}
 	}
 	// xhr.send(json);
+		// document.getElementById("image_id").setAttribute("name", "image");
+		console.log("Image: " + document.getElementById("imageTwo").files[0]);
 		var formData = new FormData(document.getElementById('challengerequests'));
+		// console.log(formData.entries());
+		formData.delete("image_2");
+		formData.set("image", document.getElementById("imageTwo").files[0]);
+		console.log("printing form");
 		for (var pair of formData.entries()) {
     		console.log(pair[0]+ ', ' + pair[1]); 
 		}
 	    xhr.send(formData);
-
-
 }
 
 

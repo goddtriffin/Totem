@@ -261,7 +261,7 @@ function viewFriendProfile(index){
 function addFriend(){
 var url = "/api/user/friend";
 	// console.log(index);
-	let friend_username = "cameron";
+	let friend_username = "niralirai";
 
 	var data = {};
 	data.friend_username = friend_username;

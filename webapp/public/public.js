@@ -11,7 +11,8 @@ window.onload = function() {
 	}
 	else{
 		listOfPolls();
-		startChallenge();
+		// startChallenge();
+		switchPollType('Personal');
 	}
 	getFriends();
 
