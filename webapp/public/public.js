@@ -137,6 +137,8 @@ function showPoll(index){
 			}
 			console.log("what is state");
 			console.log(publicPolls[index])
+			//showing grpah
+			hasVoted(id);
 			
 
 
@@ -411,6 +413,34 @@ function setVote(who){
 	xhr.send(json);
 
 }
+
+
+function hasVoted(id){
+
+	const xhr  = new XMLHttpRequest();
+	xhr.open('GET', '/api/poll/' + id);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+    
+	xhr.onload = function () {
+        const response = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			if(response.hasOwnProperty('voted')){
+				//show graph
+			}
+            
+		} else {
+            // handle error
+            console.log(response);
+		}
+    }
+    
+	xhr.send(null);
+
+
+
+}
+
+
 
 function getFriends(){
 	var url  = "/api/user/friend";
