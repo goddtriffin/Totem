@@ -3,6 +3,7 @@ let sorting = "Newest";
 let publicPolls = [];
 let place_holder = 0;
 let friends = [];
+let current_poll_id = 0;
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
@@ -104,7 +105,10 @@ function movePoll(direction){
 }
 
 function showPoll(index){
-
+			current_poll_id = publicPolls[index].id;
+			console.log(current_poll_id)
+			console.log(publicPolls[index].votes_1)
+			console.log(publicPolls[index].votes_2)
 			var img = new Image();
 
 			img.src = publicPolls[index].image_1;
@@ -129,6 +133,9 @@ function showPoll(index){
 				// rightDisplayName
 				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
 			}
+			console.log("what is state");
+			console.log(publicPolls[index])
+			
 
 
 }
@@ -373,7 +380,6 @@ function listOfPolls(){
 
 function setVote(who){
 	var url = "/api/poll/vote/:";
-	var poll = publicPolls[place_holder]
 
 	var data = {};
 	data.vote = who;
@@ -381,7 +387,7 @@ function setVote(who){
 
 
 	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", url+poll.id, true);
+	xhr.open("PUT", url+current_poll_id, true);
 	 xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
 
 	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
@@ -389,7 +395,15 @@ function setVote(who){
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.table(users);
-			console.log(users)
+			console.log(users);
+
+			//calcualting percentage
+			var total = publicPolls[place_holder].votes_1 + publicPolls[place_holder].votes_2;
+			var leftPercentage = publicPolls[place_holder].votes_1 / total;
+			var rightPercentage = publicPolls[place_holder].votes_2/ total;
+
+
+
 		} else {
 			console.error(users);
 		}
