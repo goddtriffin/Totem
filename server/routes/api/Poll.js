@@ -143,12 +143,13 @@ router.put('/challenge/request/accepted/:id', Auth.validate, async (req, res) =>
 
 router.get('/search', Auth.validate, async (req, res) => {
     const data = {
-        display_name_query: req.query.display_name
+        scope: req.query.scope,
+        themes_query: req.query.themes,
     };
 
     const result = await Poll.search(
         req.app.locals.db,
-        data.display_name_query
+        data.scope, data.themes_query
     );
 
     res.status(result.code).send(result);
