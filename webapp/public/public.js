@@ -128,11 +128,8 @@ function showPoll(index){
 				document.getElementById("rightUser").classList.remove("invisible");
 				// rightDisplayName
 				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
-
 			}
-			console.log(publicPolls[index].image_2);
-			console.log(publicPolls[index].image_1);
-			console.log(index)
+
 
 }
 
@@ -206,6 +203,7 @@ function createPersonalPoll(){
             sessionStorage.setItem('pollId', response.data);
             console.log("worked")
             showCurrentPollPersonal();
+            listOfPolls();
 		} else {
             // handle error
             console.log("no work");
@@ -236,19 +234,25 @@ function showCurrentPollPersonal(){
             // handle success
             console.log("pull worked")
             console.log(response);
-            var img = new Image();
+           
+			var img = new Image();
+
 			img.src = response.data.image_1;
-			 document.getElementById("cardLeft").appendChild(img);
+			 document.getElementById("leftImg").src = response.data.image_1;
 			  
 			var img = new Image();
 			img.src = response.data.image_2;
-			document.getElementById("cardRight").appendChild(img);
+			document.getElementById("rightImg").src = response.data.image_2;
 
 			document.getElementById("titleP").innerHTML = response.data.display_name;
-			document.getElementById("leftUsername").innerHTML = localStorage.username;
-			document.getElementById("themes").innerHTML = response.data.theme;
-			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName
+			document.getElementById("leftUsername").innerHTML = response.data.creator;
+			// leftDisplayName
 
+			document.getElementById("themes").innerHTML = response.data.theme;
+			// document.getElementById("leftDisplayName").innerHTML = publicPolls[index].display_Name;
+
+			document.getElementById("rightUser").classList.add("invisible");
+			
 
 		} else {
             // handle error
@@ -323,6 +327,7 @@ function createChallengeRequest(){
             sessionStorage.setItem('pollId', response.data);
             console.log("worked")
             // showCurrentPollPersonal();
+            listOfPolls();
 		} else {
             // handle error
             console.log("no work");
@@ -354,15 +359,6 @@ function listOfPolls(){
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			publicPolls = response.data;
 			showPoll(0);
-            // handle success
-   			// var img = new Image();
-			// img.src = response.data[0].image_1;
-			// document.getElementById("cardLeft").appendChild(img);
-			  
-			// var img = new Image();
-			// img.src = response.data[0].image_2;
-			// document.getElementById("cardRight").appendChild(img);
-
             
 		} else {
             // handle error
