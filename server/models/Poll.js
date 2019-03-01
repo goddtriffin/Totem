@@ -358,8 +358,10 @@ async function searchPrivate(db, themes_query) {
         };
     }
 
+    // convert 'theme,theme,theme' into [theme, theme, theme]
     const themes = themes_query.split(',');
 
+    // get a list of this user's friends by their username
     const friends = await Friend.get(db, username);
     const friendUsernames = friends.data.map(f => f.username);
     friendUsernames.push(username);
