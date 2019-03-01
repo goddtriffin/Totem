@@ -179,7 +179,7 @@ async function getChallengeRequests(db, username) {
             state: 'pending',
             type: 'challenge'
         })
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope', 'duration')
         .catch(e => {
             return {
                 code: 500,
@@ -341,7 +341,7 @@ async function startChallenge(db, id, username) {
 }
 
 // returns a list of polls
-async function search(db, display_name_query) {
+async function search(db, scope, themes_query) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -349,20 +349,29 @@ async function search(db, display_name_query) {
         };
     }
 
-    if (!regex.validatePollDisplayNameQuery(display_name_query)) {
+    if (!regex.validateScope(scope)) {
         return {
             code: 400,
-            data: regex.getInvalidPollDisplayNameQueryResponse(display_name_query)
+            data: regex.getInvalidScopeResponse(scope)
         };
     }
 
+    if (!regex.validateThemesQuery(themes_query)) {
+        return {
+            code: 400,
+            data: regex.getInvalidThemesQueryResponse(themes_query)
+        };
+    }
+
+    const themes = themes_query.split(',');
+
     const result = await db('polls')
-        .where({
-            state: 'active',
-            scope: 'public'
+        .whereIn('theme', themes)
+        .andWhere({
+            scope,
+            state: 'active'
         })
-        .andWhere('display_name', 'like', '%' + display_name_query + '%')
-        .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope')
+        .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope', 'duration')
         .catch(e => {
             return {
                 code: 500,
