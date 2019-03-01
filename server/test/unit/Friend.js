@@ -65,21 +65,21 @@ describe('Friend', () => {
             const result = await Friend.requests(db, 'two');
 
             assert.strictEqual(result.code, 200, result.data);
-            assert.strictEqual(result.data.length, 0, result.data);
+            assert.strictEqual(result.data.sent.length + result.data.received.length, 0, result.data);
         });
         
         it('success with one friend request', async () => {
             const result = await Friend.requests(db, 'kelp');
 
             assert.strictEqual(result.code, 200, result.data);
-            assert.strictEqual(result.data.length, 1, result.data);
+            assert.strictEqual(result.data.sent.length + result.data.received.length, 1, result.data);
         });
         
         it('success with two friend requests', async () => {
             const result = await Friend.requests(db, 'todd');
 
             assert.strictEqual(result.code, 200, result.data);
-            assert.strictEqual(result.data.length, 2, result.data);
+            assert.strictEqual(result.data.sent.length + result.data.received.length, 2, result.data);
 		});
 
 		describe('validate parameters', () => {
