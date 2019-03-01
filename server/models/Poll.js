@@ -1,6 +1,8 @@
 const regex = require('../../shared/regex');
 const utils = require('../tools/utils');
 
+const Friend = require('./Friend');
+
 // creates a new personal poll
 async function createPersonal(db, display_name, theme, creator, duration, scope, image_1, image_2) {
     if (!utils.validateDatabase(db)) {
@@ -270,7 +272,7 @@ async function getAcceptedChallengeRequests(db, username) {
             state: 'ready',
             type: 'challenge'
         })
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope', 'duration')
         .catch(e => {
             return {
                 code: 500,
@@ -340,8 +342,8 @@ async function startChallenge(db, id, username) {
     };
 }
 
-// returns a list of polls
-async function search(db, scope, themes_query) {
+// returns a list of private polls based on theme
+async function searchPrivate(db, themes_query) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -349,10 +351,54 @@ async function search(db, scope, themes_query) {
         };
     }
 
-    if (!regex.validateScope(scope)) {
+    if (!regex.validateThemesQuery(themes_query)) {
         return {
             code: 400,
-            data: regex.getInvalidScopeResponse(scope)
+            data: regex.getInvalidThemesQueryResponse(themes_query)
+        };
+    }
+
+    const themes = themes_query.split(',');
+
+    const friends = await Friend.get(db, username);
+    const friendUsernames = friends.data.map(f => f.username);
+    friendUsernames.push(username);
+
+    const result = await db('polls')
+        .whereIn('theme', themes)
+        .andWhere({
+            state: 'active',
+            scope: 'private'
+        })
+        .andWhere(() => {
+            this.
+                whereIn('creator', friendUsernames)
+                .orWhereIn('opponent', friendUsernames)
+        })
+        .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope', 'duration')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: result
+    };
+}
+
+// returns a list of public polls based on theme
+async function searchPublic(db, themes_query) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: utils.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -368,8 +414,8 @@ async function search(db, scope, themes_query) {
     const result = await db('polls')
         .whereIn('theme', themes)
         .andWhere({
-            scope,
-            state: 'active'
+            state: 'active',
+            scope: 'public'
         })
         .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope', 'duration')
         .catch(e => {
@@ -537,5 +583,6 @@ module.exports = {
     acceptChallengeRequest,
     getAcceptedChallengeRequests,
     startChallenge,
-    search, vote, getById
+    searchPrivate, searchPublic,
+    vote, getById
 }
