@@ -5,6 +5,8 @@ const emoji_tool = require('node-emoji');
 const regex = require('../../shared/regex');
 const utils = require('../tools/utils');
 
+const Friend = require('./Friend');
+
 // creates new user account
 async function signup(db, email, username, display_name, password, emoji) {
     if (!utils.validateDatabase(db)) {
@@ -199,6 +201,7 @@ async function getByUsername(db, username) {
         };
     }
 
+    // remove 'challenges_played' and 'challenges_won', replace with 'win_rate'
     const data = result[0];
     data['win_rate'] = (data['challenges_played'] === 0)? 0 : data['challenges_won'] / data['challenges_played'];
     delete data['challenges_won'];
@@ -211,11 +214,18 @@ async function getByUsername(db, username) {
 }
 
 // returns a list of users' data that match the given username query
-async function search(db, username_query) {
+async function search(db, username, username_query) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -227,7 +237,8 @@ async function search(db, username_query) {
     }
 
     const result = await db('users')
-        .where('username', 'like', '%' + username_query + '%')
+        .whereNot('username', username)
+        .andWhere('username', 'like', '%' + username_query + '%')
         .select('username', 'display_name', 'emoji', 'tiki_tally')
         .catch(e => {
             return {
@@ -240,9 +251,20 @@ async function search(db, username_query) {
         return result;
     }
 
+    // Show which users you are already friends with.
+    // get a list of this user's friends by their username
+    const friends = await Friend.get(db, username);
+    const friendUsernames = friends.data.map(f => f.username);
+    friendUsernames.push(username);
+
+    const users = result.map(user => {
+        user.friends = friendUsernames.includes(user.username);
+        return user;
+    });
+
     return {
         code: 200,
-        data: result
+        data: users
     };
 }
 

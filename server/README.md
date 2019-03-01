@@ -51,15 +51,15 @@ All other routes: `application/x-www-form-urlencoded`
 
 #### User
 
-User object contains:
+User object returns:
 ```
-email
-username
-display_name
-emoji
-tiki_tally
-polls_created
-win_rate
+str email
+str username
+str display_name
+str emoji
+int tiki_tally
+int polls_created
+str win_rate
 ```
 
 | Method | Endpoint | Description | Parameters |
@@ -75,12 +75,13 @@ win_rate
 
 #### Friend
 
-Friend object contains:
+Friend object returns:
 ```
-username
-display_name
-emoji
-tiki_tally
+str username
+str display_name
+str emoji
+int tiki_tally
+bool friends
 ```
 
 | Method | Endpoint | Description | Parameters |
@@ -93,23 +94,23 @@ tiki_tally
 
 #### Poll
 
-Poll object contains:
+Poll object returns:
 ```
-id
-display_name
-theme
-creator
-opponent
-image_1
-image_2
-votes_1
-votes_2
-state
-type
-duration
-scope
-start_time
-end_time
+int id
+str display_name
+str theme
+str creator
+str opponent
+str image_1
+str image_2
+int votes_1
+int votes_2
+str state
+str type
+str duration
+str scope
+str start_time
+str end_time
 ```
 
 | Method | Endpoint | Description | Parameters |
@@ -121,12 +122,13 @@ end_time
 | GET | `/api/poll/challenge/requests/accepted` | returns a list of all your accepted challenge requests |  |
 | PUT | `/api/poll/challenge/request/:id` | starts a challenge (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/:id` | returns that poll's information (replace `:id` with a real poll id) |  |
-| GET | `/api/poll/search?display_name=<display_name>` | returns a list of polls (replace `<display_name>` with a real display_name) |  |
-| PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll |  |
+| GET | `/api/poll/search/private?themes=<themes>` | returns a list of private polls (replace `<themes>` with a real comma-delimited string of themes) |  |
+| GET | `/api/poll/search/public?themes=<themes>` | returns a list of public polls (replace `<themes>` with a real comma-delimited string of themes) |  |
+| PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll | vote |
 
 #### Feed
 
-Feed returns a list of Poll objects.
+Feed returns a list of Polls.
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |

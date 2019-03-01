@@ -2,6 +2,8 @@
 let sorting = "Newest";
 let publicPolls = [];
 let place_holder = 0;
+let friends = [];
+let current_poll_id = 0;
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
@@ -10,6 +12,7 @@ window.onload = function() {
 	else{
 		listOfPolls();
 	}
+	getFriends();
 
 };
 
@@ -102,7 +105,10 @@ function movePoll(direction){
 }
 
 function showPoll(index){
-
+			current_poll_id = publicPolls[index].id;
+			console.log(current_poll_id)
+			console.log(publicPolls[index].votes_1)
+			console.log(publicPolls[index].votes_2)
 			var img = new Image();
 
 			img.src = publicPolls[index].image_1;
@@ -113,19 +119,24 @@ function showPoll(index){
 			document.getElementById("rightImg").src = publicPolls[index].image_2;
 
 			document.getElementById("titleP").innerHTML = publicPolls[index].display_name;
-			document.getElementById("leftUsername").innerHTML = localStorage.username;
+			document.getElementById("leftUsername").innerHTML = publicPolls[index].creator;
+			// leftDisplayName
+
 			document.getElementById("themes").innerHTML = publicPolls[index].theme;
-			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName;
+			// document.getElementById("leftDisplayName").innerHTML = publicPolls[index].display_Name;
 
 			if(publicPolls[index].type === "personal"){
 				document.getElementById("rightUser").classList.add("invisible");
 			}
 			else{
 				document.getElementById("rightUser").classList.remove("invisible");
+				// rightDisplayName
+				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
 			}
-			console.log(publicPolls[index].image_2);
-			console.log(publicPolls[index].image_1);
-			console.log(index)
+			console.log("what is state");
+			console.log(publicPolls[index])
+			
+
 
 }
 
@@ -199,14 +210,20 @@ function createPersonalPoll(){
             sessionStorage.setItem('pollId', response.data);
             console.log("worked")
             showCurrentPollPersonal();
+            listOfPolls();
 		} else {
             // handle error
             console.log("no work");
             console.log(response);
 		}
 	}
-	console.log(new FormData(document.getElementById('newPollForm')))
-    xhr.send(new FormData(document.getElementById('newPollForm')));
+	document.getElementById("imageOne").setAttribute("name", "image_1");
+	var formData = new FormData(document.getElementById('newPollForm'));
+
+	formData.append("username", localStorage.username);
+	// formData.append("display_name", localStorage.displayName);
+	console.log(formData)
+    xhr.send(formData);
 
 }
 
@@ -224,19 +241,25 @@ function showCurrentPollPersonal(){
             // handle success
             console.log("pull worked")
             console.log(response);
-            var img = new Image();
+           
+			var img = new Image();
+
 			img.src = response.data.image_1;
-			 document.getElementById("cardLeft").appendChild(img);
+			 document.getElementById("leftImg").src = response.data.image_1;
 			  
 			var img = new Image();
 			img.src = response.data.image_2;
-			document.getElementById("cardRight").appendChild(img);
+			document.getElementById("rightImg").src = response.data.image_2;
 
 			document.getElementById("titleP").innerHTML = response.data.display_name;
-			document.getElementById("leftUsername").innerHTML = localStorage.username;
-			document.getElementById("themes").innerHTML = response.data.theme;
-			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName
+			document.getElementById("leftUsername").innerHTML = response.data.creator;
+			// leftDisplayName
 
+			document.getElementById("themes").innerHTML = response.data.theme;
+			// document.getElementById("leftDisplayName").innerHTML = publicPolls[index].display_Name;
+
+			document.getElementById("rightUser").classList.add("invisible");
+			
 
 		} else {
             // handle error
@@ -305,21 +328,26 @@ function createChallengeRequest(){
 
     xhr.onload = function () {
       console.log(xhr.responseText);
-		var users = JSON.parse(xhr.responseText);
+		var response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
-            sessionStorage.setItem('pollId', xhr.responseText.data);
+            sessionStorage.setItem('pollId', response.data);
             console.log("worked")
             // showCurrentPollPersonal();
+            listOfPolls();
 		} else {
             // handle error
             console.log("no work");
             console.log(response);
 		}
 	}
-	// console.log(new FormData(document.getElementById('newPollForm')));
-    xhr.send(new FormData(document.getElementById('newPollForm')));
+	document.getElementById("imageOne").setAttribute("name", "image");
+		var formData = new FormData(document.getElementById('newPollForm'));
 
+	formData.append("username", localStorage.username);
+	// formData.append("display_name", localStorage.displayName);
+	console.log(formData)
+    xhr.send(formData)
 
 }
 
@@ -338,15 +366,6 @@ function listOfPolls(){
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			publicPolls = response.data;
 			showPoll(0);
-            // handle success
-   			// var img = new Image();
-			// img.src = response.data[0].image_1;
-			// document.getElementById("cardLeft").appendChild(img);
-			  
-			// var img = new Image();
-			// img.src = response.data[0].image_2;
-			// document.getElementById("cardRight").appendChild(img);
-
             
 		} else {
             // handle error
@@ -359,9 +378,66 @@ function listOfPolls(){
 }
 
 
-function setVote(){
+function setVote(who){
+	var url = "/api/poll/vote/:";
 
-put
+	var data = {};
+	data.vote = who;
+	var json = JSON.stringify(data);
+
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("PUT", url+current_poll_id, true);
+	 xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+
+	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.table(users);
+			console.log(users);
+
+			//calcualting percentage
+			var total = publicPolls[place_holder].votes_1 + publicPolls[place_holder].votes_2;
+			var leftPercentage = publicPolls[place_holder].votes_1 / total;
+			var rightPercentage = publicPolls[place_holder].votes_2/ total;
+
+
+
+		} else {
+			console.error(users);
+		}
+	}
+	xhr.send(json);
+
+}
+
+function getFriends(){
+	var url  = "/api/user/friend";
+	var xhr  = new XMLHttpRequest()
+
+	xhr.open('GET', url, true)
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr.onload = function () {
+		console.log(xhr.responseText);
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			friends = users.data;
+			console
+			//Populate HTML
+			let runningTable = ``;
+			let dataSet = document.getElementById("friendsList");
+			for(let i = 0; i < users.data.length; i++){
+				runningTable += `<option value="${users.data[i].username}">`;
+			}
+			dataSet.innerHTML = runningTable;
+
+		} else {
+			console.error(users);
+		}
+	}	
+	xhr.send(null);
 
 }
 

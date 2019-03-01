@@ -48,17 +48,17 @@
                 <div class="col-md-2">
                     <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#newPoll">New Poll</button>
                 </div>
-                <div class="col-md-8" id="themeDiv">
+                <div class="col-md-6" id="themeDiv">
                     <select class="selectpicker form-control" id="themePicker" data-live-search="true" title="Filter" multiple>
                         <option>Theme One</option>
                         <option>Theme Two</option>
                         <option>Theme Three</option>
                     </select>  
                 </div>
-                <div class="col-md-1" onclick="search()">
+                <div class="col-md-2" onclick="search()">
                     <button class="btn btn-outline-light topButton" >Search</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button class="btn btn-outline-light topButton" data-toggle="modal" data-target="#sortCard">Sort</button>
                 </div>
             </div>
@@ -137,7 +137,7 @@
                                 <!-- <input type="email" class="form-control" placeholder="Themes"> -->
                                 <select class="custom-select" id="themeInput" name="theme">
                                     <option selected>Select a theme</option>
-                                    <option value="meme">Theme1</option>
+                                    <option value="memes">Theme1</option>
                                     <option value="2">Theme2</option>
                                     <option value="3">Theme3</option>
                                 </select>
@@ -171,7 +171,7 @@
                             </div>
                             <div class="col-md-12 invisible" id="selectChallenge">
                                 <label>Select Opponent:
-                                <input list="friendsList" name="oponent" /></label>
+                                <input list="friendsList" name="opponent" /></label>
                                 <datalist id="friendsList">
                                     <option value="Chrome">
                                     <option value="Firefox">
@@ -216,12 +216,12 @@
                     </div>
                     <div class="row col-md-12" id="cardContent">
                         <div class="col-6" id="cardLeft" onclick="vote('Left')">
-                            <img id="leftImg" class="pollImage" width="100%">
+                            <img id="leftImg" class="pollImage" width="100%" onclick="setVote(1)">
                             <!-- Contents -->
                         </div>
                         <div class="col-6" id="cardRight" onclick="vote('Right')">
                             <!-- Contents -->
-                            <img id="rightImg" class="pollImage" width="100%">
+                            <img id="rightImg" class="pollImage" width="100%" onclick="setVote(2)">
                         </div>
                     </div>
 

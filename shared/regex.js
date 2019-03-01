@@ -147,22 +147,20 @@ function getInvalidPollVoteResponse(vote) {
     return 'Invalid vote: ' + vote + '. Should match one: ' + votes + ' (1=creator 2=opponent) (typeof number)';
 }
 
-// returns true if a poll display_name_query is valid, false otherwise
-function validatePollDisplayNameQuery(display_name_query) {
-    if (typeof display_name_query !== 'string') {
+// returns true if a themes_query is valid, false otherwise
+function validateThemesQuery(themes_query) {
+    if (typeof themes_query !== 'string') {
         return false;
     }
 
-    // min length: 1
-    // max length: 30
-    // no whitespace
-    const regexDisplayNameQuery = /^(\S){1,30}$/;
-    return regexDisplayNameQuery.test(display_name_query);
+    // theme,theme,theme,theme,theme
+    const regexThemesQuery = /^(\w{1,20})(\,\w{1,20}){0,4}$/;
+    return regexThemesQuery.test(themes_query);
 }
 
-// returns a String dictating what a valid poll display_name_query should look like
-function getInvalidPollDisplayNameQueryResponse(display_name_query) {
-    return 'Invalid display_name_query: ' + display_name_query + '. Should match: min-length=1 max-length=30 no-whitespace';
+// returns a String dictating what a valid themes_query should look like
+function getInvalidThemesQueryResponse(themes_query) {
+    return 'Invalid themes_query: ' + themes_query + '. Should match: `theme,theme`. Should match up to at most 5: ' + themes;
 }
 
 // returns true if scope is valid, false otherwise
@@ -189,6 +187,6 @@ module.exports = {
     validateDuration, getInvalidDurationResponse,
     validatePollId, getInvalidPollIdResponse,
     validatePollVote, getInvalidPollVoteResponse,
-    validatePollDisplayNameQuery, getInvalidPollDisplayNameQueryResponse,
+    validateThemesQuery, getInvalidThemesQueryResponse,
     validateScope, getInvalidScopeResponse
 }
