@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Totem - Signup</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="/static/css/signup.css">
+        <link href="/static/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+
+    </head>
+
+    <body onload="onLoad()">
+
+        <!-- Nav Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">TOTEM</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item" id="loginNav">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item active" id="signupNav">
+                        <a class="nav-link" href="/signup">Sign Up
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Form -->
+        <form name="signupform">
+
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-6" id="signupContent">
+                    <p id="title">Sign Up</p>
+                    <a id="emojiBox" data-toggle="modal" data-target="#emojiModal">
+                        <p class="emoji" id="emoji">😁</p>
+                    </a>
+                    <input type="text" name="username" placeholder="Username" id="usernameText" class="form-control">
+                    <p class="error" id="usernameError"></p>
+                    <input type="text" name="displayName" placeholder="Display Name" id="displayText" class="form-control">
+                    <p class="error" id="displayNameError"></p>
+                    <input type="email" name="email" placeholder="Email" id="emailText" class="form-control">
+                    <p class="error" id="emailError"></p>
+                    <input type="password" name="password" placeholder="Password" id="passwordText" class="form-control">
+                    <p class="error" id="passwordError"></p>
+                    <input type="password" name="passwordVerify" placeholder="Password Verification" id="passwordVerifyText" class="form-control">
+                    <p class="error" id="passwordVerifyError"></p>
+                    <button type="button" class="btn btn-outline-light" id="signupButton" class="form-control" onclick="signup(signupform.username.value, signupform.displayName.value, signupform.email.value, signupform.password.value, signupform.passwordVerify.value)">Sign Up</button>
+                    <p class="error" id="GeneralError"></p>
+                </div>
+            </div>
+            
+        </div>
+        </form>
+
+        <!-- Emoji Content -->
+        <div id="emojiModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Change Emoji</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="emojiBody">
+                        <table class="table table-striped" id="emojiTable">
+                            <tbody>
+                                <tr>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                </tr>
+                                <tr>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                </tr>
+                                <tr>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                </tr>
+                                <tr>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                    <td class="emoji">😝</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/static/lib/jquery-3.2.1.min.js"></script>
+        <script src="/static/lib/bootstrap.bundle.min.js"></script>
+        <script src="/static/js/signup.js" async defer></script>
+    </body>
+</html>

@@ -1,0 +1,543 @@
+<script src="/static/js/friends.js" type="text/javascript"></script>
+<script src="/static/js/challenges.js" type="text/javascript"></script>
+
+<!DOCTYPE html>
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Totem - Personal</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="/static/css/profile.css">
+        <link href="/static/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    </head>
+    <body>
+
+        <!-- Nav Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">TOTEM</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item" id="publicNav">
+                            <a class="nav-link" href="/public">Public</a>
+                        </li>
+                        <li class="nav-item" id="privateNav">
+                            <a class="nav-link" href="/private">Private</a>
+                        </li>
+                        <li class="nav-item active" id="personalNav">
+                            <a class="nav-link" href="/profile">Profile
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="logout">
+                            <button class="btn btn-outline-light" onclick="logout()">Logout</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+		
+		<div class="container">
+			<div class="row justify-content-md-center">
+                <div class="col-md-9" id="personalContent">
+                    
+                    <!-- settings button -->
+                    <a class="settings-btn" data-toggle="modal" data-target="#settingsModal" >
+                        <i class="fas fa-cog"></i>
+                    </a>
+                    
+                    <a id="emojiBox" data-toggle="modal" data-target="#emojiModal">
+                        <p class="emoji" id="emoji">😁</p>
+                    </a>
+                    
+					<p id="displayName">Display Name</p>
+					<p id="username">@user</p>
+					<div class="row">
+						<div id="column1" class="col-md-4">
+							<p id="WinRate" class="stats">Win Rate<br>100%</p>
+						</div>
+						<div id="column2" class="col-md-4">
+							<p id="TikiTally" class="stats">Tiki Tally<br>1200</p>
+						</div>
+						<div id="column3" class="col-md-4">
+							<p id="PollsCreated" class="stats">Polls Created<br>10</p>
+						</div>
+					</div>
+					<div class="row" id="no-bottom">
+                        <div class="col-md-3">
+                            <a class=personal-opt id=friend-btn data-toggle="modal" data-target="#friendModal" onclick="load()">
+                                <i class="fas fa-user-friends btn-margin">
+                                        <p id="personal-text" >Friends</p>
+                                </i>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class=personal-opt id=mypoll-btn data-toggle="modal" data-target="#myPollsModal">
+                                <i class="fas fa-images btn-margin">
+                                        <p id="personal-text">MyPolls</p>
+                                </i>
+                                <!-- <img src="cheese.jpg" alt="" id=cheese> -->
+                            </a>
+                        </div><div class="col-md-3">
+                                <a class=personal-opt id=hist-btn data-toggle="modal" data-target="#historyModal">
+                                    <i class="fas fa-scroll btn-margin">
+                                        <p id="personal-text">History</p>
+                                     </i>
+                                </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class=personal-opt id=challenge-btn data-toggle="modal" data-target="#challengeModal" onclick="loadchallenges()">
+                                <i class="fas fa-trophy btn-margin">
+                                        <p id="personal-text">Challenges</p>
+                                </i>
+                            </a>
+                        </div>
+
+					</div>
+                </div>
+                
+                <!-- Challenge Content -->
+                <div id="challengeModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Challenges</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body" id="challengeBody">
+                                <!-- Sent vs Received -->
+                                <div class="btn-group btn-group-toggle" id="viewToggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary active" onclick="challengeView('received'), loadChallengesRecieved()">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked> Received
+                                    </label>
+                                    <label class="btn btn-secondary" onclick="challengeView('sent')">
+                                        <input type="radio" name="options" id="option2" autocomplete="off"> Sent
+                                    </label>
+                                    <label class="btn btn-secondary" onclick="challengeView('accepted')">
+                                        <input type="radio" name="options" id="option2" autocomplete="off"> Accepted
+                                    </label>
+                                </div>
+            
+                                <!-- Requests -->
+                                <form id="challengerequests">
+
+                                <table class="table table-hover table-striped" id="requestTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Theme</th>
+                                            <th scope="col">Duration</th>
+                                            <th scope="col">Privacy</th>
+                                            <th scope="col">Select Image</th>
+                                            <!-- <th scope="col"></th>
+                                            <th scope="col"></th> -->
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="challengesRequests">
+                                        <!-- <tr>
+                                            <th scope="row">@username</th>  
+                                            <td>Poll Title</td>
+                                            <td>Poll Theme</td>
+                                            <td>2 Days</td>
+                                            <td>Public</td>
+                                            <td>
+                                                <button class="btn btn-success">Accept</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger">Reject</button>
+                                            </td>
+                                        </tr> --> 
+                                    </tbody>
+                                </table>
+                            </form>
+            
+                                <!-- Sent -->
+                                <table class="table table-hover table-striped invisible" id="sentTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Theme</th>
+                                            <th scope="col">Duration</th>
+                                            <th scope="col">Privacy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">@username</th>  
+                                            <td>Poll Title</td>
+                                            <td>Poll Theme</td>
+                                            <td>2 Days</td>
+                                            <td>Public</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Accepted -->
+                                <table class="table table-hover table-striped invisible" id="acceptedTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">User</th>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Theme</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Privacy</th>
+                                                <th scope="col"></th>
+    
+                                            </tr>
+                                        </thead>
+                                        <tbody id="acceptedRequests">
+                                            <tr>
+                                                <th scope="row">@username</th>  
+                                                <td>Poll Title</td>
+                                                <td>Poll Theme</td>
+                                                <td>2 Days</td>
+                                                <td>Public</td>
+                                                <td>
+                                                    <button class="btn btn-success">Start</button>
+                                                </td>
+                                            </tr> 
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Create Button -->
+                                <!-- <button type="button" class="btn btn-success" data-dismiss="modal">Create</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friends Content -->
+                <div id="friendModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Friends</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Sent vs Received -->
+                                <div class="btn-group btn-group-toggle" id="friendToggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary active" onclick='friendView("friends"), loadFriends()'>
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked> My Friends
+                                    </label>
+                                    <label class="btn btn-secondary" onclick='friendView("requests"), loadFriendRequest()'>
+                                        <input type="radio" name="options" id="option2" autocomplete="off"> Requests
+                                    </label>
+                                    <label class="btn btn-secondary" onclick='friendView("search")'>
+                                        <input type="radio" name="options" id="option3" autocomplete="off"> Find Friends
+                                    </label>
+                                </div>
+            
+                                <!-- Current Friends -->
+                                <table class="table table-hover table-striped" id="friendTable">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Display Name</th>
+                                            <th scope="col">Tally</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="friendTableBody">
+                                        <tr>
+                                            <td>😂</td>
+                                            <th scope="row">@username</th>
+                                            <td>First Last</td>
+                                            <td>1000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+            
+                                <!-- Friend Requests -->
+                                <table class="table table-hover table-striped invisible" id="friendRequestTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Display Name</th>
+                                            <th scope="col">Tally</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="friendRequestTableBody">
+                                        <tr>
+                                            <th id="friend_request_username" scope="row">@username</th>  
+                                            <td>First Last</td>
+                                            <td>1000</td>
+                                            <td>
+                                                <button class="btn btn-success">Accept</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger">Reject</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Find Friends -->
+                                <div id="friendSearch" class="invisible">
+                                    <input id="searchBar" class="form-control" type="text" placeholder="Search username" aria-label="Search" onkeyup="searchfriends()">
+                                    <div id="searchContent">
+                                        <!-- <h4 id="noResults">No results found</h4> -->
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Username</th>
+                                                    <th scope="col">Display Name</th>
+                                                    <th scope="col">Tally</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="searchTable">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <!-- Create Button -->
+                                <!-- <button type="button" class="btn btn-success" data-dismiss="modal">Create</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MyPolls Content -->
+                <div id="myPollsModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">My Polls</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Poll Card -->
+                                    <div class="fluid-container">
+                                        <div class="row justify-content-md-center pollView">
+                                            <div class="col-sm-5 pollCard">
+                                                <div id="cardTitle" class="col-md-12">
+                                                    <p id="titleP">This is the Title</p>
+                                                    <div class="col-md-12" id="themes">
+                                                        <p>#theme</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row col-md-12" id="cardContent">
+                                                    <div class="col-6" id="cardLeft">
+                                                        <!-- Contents -->
+                                                    </div>
+                                                    <div class="col-6" id="cardRight">
+                                                        <!-- Contents -->
+                                                    </div>
+                                                </div>
+                            
+                                                <!-- Results overlay -->
+                                                <div class="row col-md-12" id="cardContentOverlay">
+                                                    <div class="col-6" id="cardLeftOverlay">
+                                                        <div id="leftBlank"></div>
+                                                        <div id="leftResults">
+                                                            <p class="resultText">50%</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6" id="cardRightOverlay">
+                                                        <div id="rightBlank"></div>
+                                                        <div id="rightResults">
+                                                            <p class="resultText">75%</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row col-md-12" id="cardBottom">
+                                                    <div class="col-6" id="leftUser">
+                                                        <p id="leftDisplayName" class="displayName">Display Name</p>
+                                                        <p id="leftUsername">@username</p>
+                                                    </div>
+                                                    <div class="col-6" id="rightUser">
+                                                        <p id="rightDisplayName" class="displayName">Display Name</p>
+                                                        <p id="rightUsername">@username</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Create Button -->
+                                <!-- <button type="button" class="btn btn-success" data-dismiss="modal">Create</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Content -->
+                <div id="historyModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">History</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Poll Card -->
+                                    <div class="fluid-container">
+                                        <div class="row justify-content-md-center pollView">
+                                            <div class="col-sm-5 pollCard">
+                                                <div id="cardTitle" class="col-md-12">
+                                                    <p id="titleP">This is the Title</p>
+                                                    <div class="col-md-12" id="themes">
+                                                        <p>#theme</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row col-md-12" id="cardContent">
+                                                    <div class="col-6" id="cardLeft">
+                                                        <!-- Contents -->
+                                                    </div>
+                                                    <div class="col-6" id="cardRight">
+                                                        <!-- Contents -->
+                                                    </div>
+                                                </div>
+                            
+                                                <!-- Results overlay -->
+                                                <div class="row col-md-12" id="cardContentOverlay">
+                                                    <div class="col-6" id="cardLeftOverlay">
+                                                        <div id="leftBlank"></div>
+                                                        <div id="leftResults">
+                                                            <p class="resultText">50%</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6" id="cardRightOverlay">
+                                                        <div id="rightBlank"></div>
+                                                        <div id="rightResults">
+                                                            <p class="resultText">75%</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row col-md-12" id="cardBottom">
+                                                    <div class="col-6" id="leftUser">
+                                                        <p id="leftDisplayName" class="displayName">Display Name</p>
+                                                        <p id="leftUsername">@username</p>
+                                                    </div>
+                                                    <div class="col-6" id="rightUser">
+                                                        <p id="rightDisplayName" class="displayName">Display Name</p>
+                                                        <p id="rightUsername">@username</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Create Button -->
+                                <!-- <button type="button" class="btn btn-success" data-dismiss="modal">Create</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Content -->
+                <div id="settingsModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Settings</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="changeSettings">
+                                        <div class="container">
+                                            <div class="row justify-content-md-center">
+                                                <div class="col-md-6" id="settingsContent">
+                                                    <!-- Change Display Name -->
+                                                    <p id="sub-heading">Change Display Name</p>
+                                                    <input type="text" placeholder="New Display Name" id="displayNameText" class="form-control">
+                                                    <p class="error" id="displaynameError"></p>
+                                                    <input type="text" placeholder="Repeat New Display Name" id="repeatDisplayNameText" class="form-control"> <!-- <br> -->
+                                                    <p class="error" id="displaynameverifyError"></p> 
+                                                    <p class="error" id="GeneralDSError"></p> 
+                                                    <button type="button" class="btn btn-outline-dark" id="submitDisplayButton" class="form-control" onclick="changeDisplayName(changeSettings.displayNameText.value, changeSettings.repeatDisplayNameText.value)">Submit Changes to Display Name</button><br><br>
+                                                    
+                                                    <!-- Change Password -->
+                                                    <p id="sub-heading">Change Password</p>
+                                                    <input type="password" name="changepassword" placeholder="New Password" id="passwordText" class="form-control">
+                                                    <p class="error" id="passwordError"></p> 
+                                                    <input type="password" name="repeatpassword" placeholder="Repeat New Password" id="repeatPasswordText" class="form-control"><!-- <br> -->
+                                                    <p class="error" id="passwordverifyError"></p> 
+                                                    <p class="error" id="GeneralPasswordError"></p> 
+                                                    <button type="button" class="btn btn-outline-dark" id="submitPasswordButton" class="form-control" onclick="changePassword(changeSettings.changepassword.value, changeSettings.repeatpassword.value)">Submit Changes to Password</button>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- Create Button -->
+                                    <!-- <button type="button" class="btn btn-success" data-dismiss="modal">Create</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Emoji Content -->
+                <div id="profileModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emoji Content -->
+                <div id="emojiModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Change Emoji</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body" id="emojiBody">
+                                <table class="table table-striped" id="emojiTable">
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+
+        <script src="/static/lib/jquery-3.2.1.min.js"></script>
+        <script src="/static/lib/bootstrap.bundle.min.js"></script>
+        <script src="/static/js/profile.js" async defer></script>
+    </body>
+</html>
