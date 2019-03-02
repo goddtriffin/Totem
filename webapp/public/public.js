@@ -135,6 +135,7 @@ function showPoll(index){
 				document.getElementById("leftImg").classList.add("opacity");
 				document.getElementById("rightImg").classList.add("opacity");
 				//graph
+				
 			}
 			var img = new Image();
 
