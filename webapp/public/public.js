@@ -14,12 +14,13 @@ window.onload = function() {
   		window.location.replace("/splash");
 	}
 	else{
+		getFriends();
 		listOfPolls(0);
 		console.log(publicPolls)
 		// startChallenge();
 		switchPollType('Personal');
 	}
-	getFriends();
+	
 
 };
 
@@ -82,7 +83,7 @@ function switchPollType(input){
 }
 
 function movePoll(direction){
-				console.log("----")
+	console.log("----")
 
 	console.log(place_holder)
 	console.log(publicPolls.length)
@@ -96,9 +97,6 @@ function movePoll(direction){
 		else{
 			place_holder = place_holder-1;
 			showPoll(place_holder)
-			document.getElementById("cardContentOverlay").classList.add("invisible");
-			document.getElementById("leftImg").classList.remove("opacity");
-			document.getElementById("rightImg").classList.remove("opacity");
 		}
 
 	}
@@ -110,34 +108,34 @@ function movePoll(direction){
 		else{
 			place_holder = place_holder+1;
 			showPoll(place_holder)
-			document.getElementById("cardContentOverlay").classList.add("invisible");
-			document.getElementById("leftImg").classList.remove("opacity");
-			document.getElementById("rightImg").classList.remove("opacity");
 		}
 	}
 }
 
 function showPoll(index){
 
-
-	//showpoll --> hasVoted --> calcualteVotes
-	// setVotes --> calcualteVotes --> show graph
-			// listOfPolls(2);
 			current_poll_id = publicPolls[index].id;
-			console.log("----")
-			console.log(current_poll_id)
-			console.log(publicPolls[index].votes_1)
-			console.log(publicPolls[index].votes_2)
-			console.log("----")
+			console.log(publicPolls[index].id)
+			
+			// console.log(publicPolls[index].hasOwnProperty('voted'))
 			if(publicPolls[index].hasOwnProperty('voted')){
+				calculateVotes(current_poll_id)
 				console.log("GRAPH");
-				document.getElementById("cardContentOverlay").classList.remove("invisible");
-				document.getElementById("leftImg").classList.add("opacity");
-				document.getElementById("rightImg").classList.add("opacity");
+				//uncomment to show graph
+				// document.getElementById("cardContentOverlay").classList.remove("invisible");
+				// document.getElementById("leftImg").classList.add("opacity");
+				// document.getElementById("rightImg").classList.add("opacity");
 				//graph
 				
 			}
-			var img = new Image();
+			else{
+				document.getElementById("cardContentOverlay").classList.add("invisible");
+				document.getElementById("leftImg").classList.remove("opacity");
+				document.getElementById("rightImg").classList.remove("opacity");
+			
+			}
+			console.log("there should be no graph")
+				var img = new Image();
 
 			img.src = publicPolls[index].image_1;
 			 document.getElementById("leftImg").src = publicPolls[index].image_1;
@@ -182,18 +180,19 @@ function search(){
 }
 
 function vote(side){
-	if(side == "left"){
-		// console.log("Voted Left");
-		setVote(1, place_holder)
+	if(side == "Left"){
+		console.log("Voted Left");
+		setVote(1, current_poll_id)
 	}
 	else{
-		// console.log("Voted Right");
-		setVote(2, place_holder)
+		console.log("Voted Right");
+		setVote(2, current_poll_id)
 
 	}
-	document.getElementById("cardContentOverlay").classList.remove("invisible");
-	document.getElementById("leftImg").classList.add("opacity");
-	document.getElementById("rightImg").classList.add("opacity");
+	//uncomment to show graph
+	// document.getElementById("cardContentOverlay").classList.remove("invisible");
+	// document.getElementById("leftImg").classList.add("opacity");
+	// document.getElementById("rightImg").classList.add("opacity");
 }
 
 function logout(){
@@ -390,7 +389,7 @@ function listOfPolls(location){
             
 		} else {
             // handle error
-            // console.log(response);
+            console.log(response);
 		}
     }
     
@@ -418,7 +417,7 @@ function setVote(who, index){
 
 			//calcualting percentage
 			calculateVotes(index);
-			listOfPolls(placeholder);
+			listOfPolls(place_holder);
 
 
 		} else {
@@ -444,12 +443,17 @@ function calculateVotes(id){
 			var total = response.data.votes_1 + response.data.votes_2;
 			 leftPercentage = response.data.votes_1 / total;
 			 rightPercentage = response.data.votes_2/ total;
-			 showPoll(id);
+			 console.log("total: " + total)
+			 console.log("right: " + response.data.votes_2)
+			  console.log("left: " + response.data.votes_1)
+			 console.log("right%: " + rightPercentage)
+			  console.log("left%: " + leftPercentage)
+			 // showPoll(id);
 		
             
 		} else {
             // handle error
-            // console.log(response);
+            console.log(response);
 		}
     }
     
@@ -474,7 +478,7 @@ function hasVoted(id){
             
 		} else {
             // handle error
-            // console.log(response);
+            console.log(response);
 		}
     }
     
