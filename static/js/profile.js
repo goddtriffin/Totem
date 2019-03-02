@@ -1,11 +1,10 @@
 let emojis = ["😂","😝","😁","😱","👉","🙌","🍻","🔥","🌈","☀","🎈","🌹","💄","🎀","⚽","🎾","🏁","😡","👿","🐻","🐶","🐬","🐟","🍀","👀","🚗","🍎","💝","💙","👌","❤","😍","😉","😓","😳","💪","💩","🍸","🔑","💖","🌟","🎉","🌺","🎶","👠","🏈","⚾","🏆","👽","💀","🐵","🐮","🐩","🐎","💣","👃","👂","🍓","💘","💜","👊","💋","😘","😜","😵","🙏","👋","🚽","💃","💎","🚀","🌙","🎁","⛄","🌊","⛵","🏀","🎱","💰","👶","👸","🐰","🐷","🐍","🐫","🔫","👄","🚲","🍉","💛"];
 
-
 // require("/Friends/friends.js")();
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
-  		window.location.replace("/splash");
+  		window.location.replace("/");
 	}
 	else{
 	  	fillUserInfo();
@@ -51,7 +50,7 @@ function logout(){
 	localStorage.removeItem("TikiTally");
 	localStorage.removeItem("PollsCreated");
 
-	window.location.href = "/splash";
+	window.location.href = "/";
 }
 
 function loadEmojis(){
@@ -152,7 +151,6 @@ changeDisplayName = (changedisplayname, repeatdisplayname) => {
 }
 
 function changingDisplayName(changedisplayname, repeatdisplayname){
-
 	var url = "/api/user/update";
 
 	var data = {};
@@ -181,7 +179,6 @@ function changingDisplayName(changedisplayname, repeatdisplayname){
 }
 
 changePassword = (changepassword, repeatpassword) => {
-	
 	if(verifychangePassword(changepassword, repeatpassword)){
 		console.log("password changed and verified.");
 		changingPassword(changepassword, repeatpassword);
@@ -191,7 +188,6 @@ changePassword = (changepassword, repeatpassword) => {
 }
 
 function changingPassword(changepassword, repeatpassword){
-
 	var url = "/api/user/update";
 
 	var data = {};
@@ -222,7 +218,6 @@ function changingPassword(changepassword, repeatpassword){
 }
 
 function verifychangeDisplayName(changedisplayname, repeatdisplayname){
-
 	var has_error = false;
 	//changedisplayname
 	if(!changedisplayname){
@@ -282,4 +277,3 @@ function verifychangePassword(changepassword, repeatpassword){
 	}
 	return 1;
 }
-

@@ -1,6 +1,6 @@
 function loadchallenges() {
 	if (localStorage.getItem("token") === null) {
-  		window.location.replace("/splash");
+  		window.location.replace("/");
 	}
 	else{
 	  	loadChallengesRecieved();
@@ -9,12 +9,10 @@ function loadchallenges() {
 		getAcceptedOnes()
 	  	console.log("accepted end")
 	}
-
 };
 
 function loadChallengesRecieved(){
-	
-var url  = "/api/poll/challenge/requests";
+    var url  = "/api/poll/challenge/requests";
 	var xhr  = new XMLHttpRequest()
 
 	xhr.open('GET', url, true)
@@ -51,16 +49,14 @@ var url  = "/api/poll/challenge/requests";
 		}
 	}	
 	xhr.send(null);
-
 }
 
 function loadChallengesSent(id){
-
- var url = "/api/poll/challenge/request/";
+    var url = "/api/poll/challenge/request/";
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("PUT", url+id, true);
-	 xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
 
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
@@ -72,16 +68,14 @@ function loadChallengesSent(id){
 		}
 	}
 	
-		var formData = new FormData(document.getElementById('challengerequests'));
-		formData.delete("image_2");
-		formData.set("image", document.getElementById("imageTwo-"+id).files[0]);
-	    xhr.send(formData);
+    var formData = new FormData(document.getElementById('challengerequests'));
+    formData.delete("image_2");
+    formData.set("image", document.getElementById("imageTwo-"+id).files[0]);
+    xhr.send(formData);
 }
 
-
 function getAcceptedOnes(){
-
-var url  = "/api/poll/challenge/requests/accepted";
+    var url  = "/api/poll/challenge/requests/accepted";
 	var xhr  = new XMLHttpRequest()
 
 	xhr.open('GET', url, true)
@@ -101,5 +95,4 @@ var url  = "/api/poll/challenge/requests/accepted";
 		}
 	}	
 	xhr.send(null);
-
 }

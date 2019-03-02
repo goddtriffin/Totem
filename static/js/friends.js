@@ -6,20 +6,17 @@ var user_request = "";
 
 function load() {
 	if (localStorage.getItem("token") === null) {
-  		window.location.replace("/splash");
+  		window.location.replace("/");
 	}
 	else{
 	  	loadFriends();
 	  	loadFriendRequest();
 	  	addFriend();
 	}
-
 };
-
 
 function loadFriends(){
 	getFriends();
-
 }
 
 function loadFriendRequest(){
@@ -58,7 +55,6 @@ function getFriends(){
 		}
 	}	
 	xhr.send(null);
-
 }
 
 function getFriendRequests(){
@@ -103,7 +99,6 @@ function getFriendRequests(){
 		}
 	}	
 	xhr.send(null);
-
 }
 
 function requestFriend(index){
@@ -137,7 +132,6 @@ function requestFriend(index){
 	}
 	
 	xhr.send(json);
-
 }
 
 function acceptFriend(index){
@@ -193,7 +187,6 @@ function deleteFriend(index){
 		}
 	}
 	xhr.send(json);
-
 }
 
 function searchfriends(){
@@ -225,19 +218,15 @@ function searchfriends(){
 					</tr>`;
 			}
 			tableBody.innerHTML = runningTable;
-
-			
 		} else {
 			console.error(users);
 		}
 	}	
 	xhr.send(null);
-
 }
 
 // Dont think we need this anymore
 function viewFriendProfile(index){
-
 	var url  = "/api/user/profile/";
 	var xhr  = new XMLHttpRequest();
 	let friend_username = friends[index].username;
@@ -256,7 +245,6 @@ function viewFriendProfile(index){
 	}	
 	xhr.send(null);
 }
-
 
 function addFriend(){
 var url = "/api/user/friend";
@@ -285,6 +273,4 @@ var url = "/api/user/friend";
 		}
 	}
 	xhr.send(json);
-
-
 }
