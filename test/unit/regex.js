@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const regex = require('../../../shared/regex');
+const regex = require('../../shared/regex');
 
 describe('regex', () => {
 	describe('email', () => {
