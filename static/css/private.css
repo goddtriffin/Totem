@@ -28,7 +28,6 @@ body{
 
 #topBar{
     background: #7647a2;
-    /* height: 75px; */
     border-bottom: 2px solid white;
     text-align: center;
     padding: 0.5rem;
@@ -48,7 +47,6 @@ body{
     padding-bottom: 0.25rem;
 }
 
-
 .pollCard{
     background-color: white;
     height: 75vh;
@@ -65,7 +63,6 @@ body{
     width: 100%;
     background-color: #551a8b;
     color: white;
-    /* font-size: 2.5rem; */
     text-align: center;
     height: 12.5%;
 }
@@ -87,7 +84,6 @@ body{
     background-color: black;
     margin: 0px;
     border-right: 2px solid #551a8b;
-    /* visibility: hidden; */
 }
 
 #cardRight{
@@ -120,12 +116,10 @@ body{
 }
 
 #leftBlank{
-    /* background: black; */
     height: 50%;
 }
 
 #rightBlank{
-    /* background: black; */
     height: 25%;
 }
 
@@ -164,7 +158,6 @@ body{
 
 .scrollArrow button{
     position: absolute;
-    /* top: 50%; */
     z-index: 10;
     height: 75vh;
     margin-top: 15px;

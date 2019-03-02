@@ -4,7 +4,7 @@ let friends = [];
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
-  		window.location.replace("/splash");
+  		window.location.replace("/");
 	}
 	else{
 		
@@ -32,9 +32,7 @@ function createPoll(){
 	console.log(personal + "\n" + challenge + "\n" + title + "\n" + theme + "\n" + duration + "\n" + imageOne + "\n" + imageTwo + "\n" + private + "\n" + public)
 }
 
-
 function verifyCreatepollInput(title, theme, experiation, imageOne, imageTwo, privacy){
-
 	var has_error = false;
 
 	if(has_error){
@@ -99,7 +97,7 @@ function logout(){
 	localStorage.removeItem("WinRate");
 	localStorage.removeItem("TikiTally");
 	localStorage.removeItem("PollsCreated");
-		window.location.href = "/splash";
+	window.location.href = "/";
 
 }
 
@@ -129,5 +127,4 @@ function getFriends(){
 		}
 	}	
 	xhr.send(null);
-
 }
