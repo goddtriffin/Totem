@@ -4,13 +4,20 @@ let publicPolls = [];
 let place_holder = 0;
 let friends = [];
 let current_poll_id = 0;
+let leftPercentage = 0;
+let rightPercentage = 0;
+let has_Voted = false;
+
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
   		window.location.replace("/splash");
 	}
 	else{
-		listOfPolls();
+		listOfPolls(0);
+		console.log(publicPolls)
+		// startChallenge();
+		switchPollType('Personal');
 	}
 	getFriends();
 
@@ -32,8 +39,8 @@ function createPoll(){
 	}
 	let private = document.getElementById("privateButton").classList.contains("active");
 	let public = document.getElementById("publicButton").classList.contains("active");
-	console.log(private)
-	console.log(public)
+	// console.log(private)
+	// console.log(public)
 	// console.log(personal + "\n" + challenge + "\n" + title + "\n" + theme + "\n" + duration + "\n" + imageOne + "\n" + imageTwo + "\n" + private + "\n" + public)
 
 	localStorage.theme = document.getElementById("themeInput");
@@ -63,11 +70,11 @@ function switchPollType(input){
 	if(input === "Personal"){
 		document.getElementById("imageTwo").classList.remove("invisible");
 		document.getElementById("selectChallenge").classList.add("invisible");
-		console.log("Personal");
+		// console.log("Personal");
 		localStorage.pollType = 0;
 	}
 	else{
-		console.log("Challenge")
+		// console.log("Challenge")
 		document.getElementById("imageTwo").classList.add("invisible");
 		localStorage.pollType = 1;
 		document.getElementById("selectChallenge").classList.remove("invisible");
@@ -75,8 +82,14 @@ function switchPollType(input){
 }
 
 function movePoll(direction){
+				console.log("----")
+
+	console.log(place_holder)
+	console.log(publicPolls.length)
+				console.log("----")
+
 	if(direction < 0){
-		console.log("Move Left");
+		// console.log("Move Left");
 		if(place_holder == 0){
 			showPoll(place_holder)
 		}
@@ -90,8 +103,8 @@ function movePoll(direction){
 
 	}
 	else{
-		console.log("Move Right");
-		if(publicPolls.length == place_holder-1){
+		// console.log("Move Right");
+		if(publicPolls.length-1 == place_holder){
 			showPoll(place_holder)
 		}
 		else{
@@ -105,10 +118,25 @@ function movePoll(direction){
 }
 
 function showPoll(index){
+
+
+	//showpoll --> hasVoted --> calcualteVotes
+	// setVotes --> calcualteVotes --> show graph
+			// listOfPolls(2);
 			current_poll_id = publicPolls[index].id;
+			console.log("----")
 			console.log(current_poll_id)
 			console.log(publicPolls[index].votes_1)
 			console.log(publicPolls[index].votes_2)
+			console.log("----")
+			if(publicPolls[index].hasOwnProperty('voted')){
+				console.log("GRAPH");
+				document.getElementById("cardContentOverlay").classList.remove("invisible");
+				document.getElementById("leftImg").classList.add("opacity");
+				document.getElementById("rightImg").classList.add("opacity");
+				//graph
+				
+			}
 			var img = new Image();
 
 			img.src = publicPolls[index].image_1;
@@ -133,35 +161,35 @@ function showPoll(index){
 				// rightDisplayName
 				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
 			}
-			console.log("what is state");
-			console.log(publicPolls[index])
 			
-
-
+			
 }
 
 function updateSort(sort){
 	sorting = sort;
-	console.log(sorting);
+	// console.log(sorting);
 }
 
 function changeSort(){
 
-	console.log("Sorting submitted: " + sorting);
+	// console.log("Sorting submitted: " + sorting);
 }
 
 function search(){
 	let themes = document.getElementById("themePicker");
 	themes.getElementsByClassName('btn dropdown-toggle btn-light')[0].getAttribute("title");
-	console.log("Search criteria: " + themes);
+	// console.log("Search criteria: " + themes);
 }
 
 function vote(side){
 	if(side == "left"){
-		console.log("Voted Left");
+		// console.log("Voted Left");
+		setVote(1, place_holder)
 	}
 	else{
-		console.log("Voted Right");
+		// console.log("Voted Right");
+		setVote(2, place_holder)
+
 	}
 	document.getElementById("cardContentOverlay").classList.remove("invisible");
 	document.getElementById("leftImg").classList.add("opacity");
@@ -169,7 +197,7 @@ function vote(side){
 }
 
 function logout(){
-	console.log("logout");
+	// console.log("logout");
 	localStorage.removeItem("token");
 	localStorage.removeItem("displayName");
 	localStorage.removeItem("username");
@@ -182,7 +210,7 @@ function logout(){
 }
 
 function createPollCall(){
-	console.log(localStorage.pollType)
+	// console.log(localStorage.pollType)
 	if(localStorage.pollType == 0){
 		createPersonalPoll()
 		localStorage.removeItem("poll");
@@ -194,7 +222,7 @@ function createPollCall(){
 }
 
 function createPersonalPoll(){
-	console.log("personal poll was requested");
+	// console.log("personal poll was requested");
 
 	// display_name needs to be changed to title after the API is fixed in the html in create new poll
 	var url = "/api/poll/personal";
@@ -208,12 +236,16 @@ function createPersonalPoll(){
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
             sessionStorage.setItem('pollId', response.data);
-            console.log("worked")
-            showCurrentPollPersonal();
-            listOfPolls();
+            // console.log("worked")
+            // showCurrentPollPersonal();
+            listOfPolls(publicPolls.length);
+
+            // showPoll(publicPolls.length);
+
+            // listOfPolls();
 		} else {
             // handle error
-            console.log("no work");
+            // console.log("no work");
             console.log(response);
 		}
 	}
@@ -222,7 +254,7 @@ function createPersonalPoll(){
 
 	formData.append("username", localStorage.username);
 	// formData.append("display_name", localStorage.displayName);
-	console.log(formData)
+	// console.log(formData)
     xhr.send(formData);
 
 }
@@ -239,7 +271,7 @@ function showCurrentPollPersonal(){
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
-            console.log("pull worked")
+            // console.log("pull worked")
             console.log(response);
            
 			var img = new Image();
@@ -273,8 +305,6 @@ function showCurrentPollPersonal(){
 
 function showCurrentPollChallenge(){
 
-
-	/*
 	var url = '/api/poll/'
 	 const id = sessionStorage.getItem('pollId');
 
@@ -286,8 +316,7 @@ function showCurrentPollChallenge(){
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
-            console.log("pull worked")
-            console.log(response);
+            // console.log(response);
             var img = new Image();
 			img.src = response.data.image_1;
 			 document.getElementById("cardLeft").appendChild(img);
@@ -301,7 +330,6 @@ function showCurrentPollChallenge(){
 			document.getElementById("themes").innerHTML = response.data.theme;
 			document.getElementById("leftDisplayName").innerHTML = localStorage.displayName
 
-
 		} else {
             // handle error
             console.log(response);
@@ -309,14 +337,12 @@ function showCurrentPollChallenge(){
     }
     
 	xhr.send(null);
-
-
-	*/
+	
 }
 
 
 function createChallengeRequest(){
-	console.log("challenge was requested");
+	// console.log("challenge was requested");
 	// post
 	// display_name needs to be changed to title after the API is fixed in the html in create new poll
 	var url = "/api/poll/challenge";
@@ -327,36 +353,28 @@ function createChallengeRequest(){
 	// xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
 
     xhr.onload = function () {
-      console.log(xhr.responseText);
+      // console.log(xhr.responseText);
 		var response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
             sessionStorage.setItem('pollId', response.data);
-            console.log("worked")
-            // showCurrentPollPersonal();
-            listOfPolls();
+            listOfPolls(publicPolls.length);
 		} else {
-            // handle error
-            console.log("no work");
             console.log(response);
 		}
 	}
 	document.getElementById("imageOne").setAttribute("name", "image");
-		var formData = new FormData(document.getElementById('newPollForm'));
+	var formData = new FormData(document.getElementById('newPollForm'));
 
-	formData.append("username", localStorage.username);
+	formData.append("creator", localStorage.username);
 	// formData.append("display_name", localStorage.displayName);
-	console.log(formData)
+	// console.log(formData)
     xhr.send(formData)
 
 }
 
 
-
-
-function listOfPolls(){
-
-
+function listOfPolls(location){
 	const xhr  = new XMLHttpRequest();
 	xhr.open('GET', '/api/feed/public');
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
@@ -365,11 +383,14 @@ function listOfPolls(){
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			publicPolls = response.data;
-			showPoll(0);
+			console.log(publicPolls)
+			
+				showPoll(location);
+			
             
 		} else {
             // handle error
-            console.log(response);
+            // console.log(response);
 		}
     }
     
@@ -378,8 +399,8 @@ function listOfPolls(){
 }
 
 
-function setVote(who){
-	var url = "/api/poll/vote/:";
+function setVote(who, index){
+	var url = "/api/poll/vote/";
 
 	var data = {};
 	data.vote = who;
@@ -394,14 +415,10 @@ function setVote(who){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.table(users);
-			console.log(users);
 
 			//calcualting percentage
-			var total = publicPolls[place_holder].votes_1 + publicPolls[place_holder].votes_2;
-			var leftPercentage = publicPolls[place_holder].votes_1 / total;
-			var rightPercentage = publicPolls[place_holder].votes_2/ total;
-
+			calculateVotes(index);
+			listOfPolls(placeholder);
 
 
 		} else {
@@ -411,6 +428,62 @@ function setVote(who){
 	xhr.send(json);
 
 }
+
+function calculateVotes(id){
+
+	const xhr  = new XMLHttpRequest();
+	xhr.open('GET', '/api/poll/' + id);
+	console.log(id)
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+    
+	xhr.onload = function () {
+        const response = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+
+
+			var total = response.data.votes_1 + response.data.votes_2;
+			 leftPercentage = response.data.votes_1 / total;
+			 rightPercentage = response.data.votes_2/ total;
+			 showPoll(id);
+		
+            
+		} else {
+            // handle error
+            // console.log(response);
+		}
+    }
+    
+	xhr.send(null);
+
+
+}
+
+//remove
+function hasVoted(id){
+
+	const xhr  = new XMLHttpRequest();
+	xhr.open('GET', '/api/poll/' + id);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+    
+	xhr.onload = function () {
+        const response = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			if(!response.hasOwnProperty('voted')){
+				has_Voted = true;
+			}
+            
+		} else {
+            // handle error
+            // console.log(response);
+		}
+    }
+    
+	xhr.send(null);
+
+
+}
+
+
 
 function getFriends(){
 	var url  = "/api/user/friend";
@@ -442,6 +515,32 @@ function getFriends(){
 }
 
 
+function startChallenge(){
+
+	var url = "/api/poll/challenge/request/:";
+
+	var data = {};
+	data.vote = who;
+	var json = JSON.stringify(data);
+
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("PUT", url+17, true);
+	 xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+
+	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			// console.table(users);
+			// console.log(users);
+		} else {
+			console.error(users);
+		}
+	}
+	xhr.send(json);
+
+}
 
 
 
