@@ -2,16 +2,15 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-// home route should always link to splash/
+// serve up static resources
+router.use('/static/css', express.static('static/css'));
+router.use('/static/js', express.static('static/js'));
+router.use('/static/lib', express.static('static/lib'));
+router.use('/static/res', express.static('static/res'));
+
+// root route => splash page
 router.get('/', (req, res) => {
-    res.redirect('/splash');
-});
-
-// all frontend pages
-router.use('/', express.static('webapp'));
-
-router.use('/test', (req, res) => {
-    res.sendFile(path.resolve('static/html/test.html'));
+    res.sendFile(path.resolve('static/html/splash.html'));
 });
 
 module.exports = router;
