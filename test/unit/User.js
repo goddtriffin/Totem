@@ -149,7 +149,7 @@ describe('User', () => {
 		});
 
 		it('success with zero results', async () => {
-			const result = await User.search(db, 'zero');
+			const result = await User.search(db, 'test', 'zero');
 			assert.strictEqual(result.code, 200, result.data);
 			assert.strictEqual(result.data.length, 0, result.data);
 		});
@@ -157,7 +157,7 @@ describe('User', () => {
 		it('success with one result', async () => {
 			await User.signup(db, 'one@one.one', 'one', 'number-one', '11111111', 'eggplant');
 
-			const result = await User.search(db, 'o');
+			const result = await User.search(db, 'test', 'o');
 			assert.strictEqual(result.code, 200, result.data);
 			assert.strictEqual(result.data.length, 1, result.data);
 		});
@@ -165,7 +165,7 @@ describe('User', () => {
 		it('success with multiple results', async () => {
 			await User.signup(db, 'two@two.two', 'two', 'number-two', '22222222', 'eggplant');
 
-			const result = await User.search(db, 'o');
+			const result = await User.search(db, 'test', 'o');
 			assert.strictEqual(result.code, 200, result.data);
 			assert.strictEqual(result.data.length, 2, result.data);
 		});
