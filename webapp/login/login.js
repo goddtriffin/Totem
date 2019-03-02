@@ -40,7 +40,7 @@ var url = "/api/user/login";
 			document.getElementById("GeneralError").innerHTML = "";
 			localStorage.token = users.data;
 			getUserInfo();
-			window.location.href = '/profile';
+			window.location.href = '/public';
 		} 
 		else if(xhr.status == "400"){
 			document.getElementById("GeneralError").innerHTML = "Invalid Username or Password";
