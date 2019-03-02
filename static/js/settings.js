@@ -1,14 +1,11 @@
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
-  		window.location.replace("/splash");
+  		window.location.replace("/");
 	}
 	else{
 	
 	}
-
 };
-
-
 
 changeDisplayName = (changedisplayname, repeatdisplayname) => {
 	if(verifychangeDisplayName(changedisplayname, repeatdisplayname)){
@@ -46,13 +43,9 @@ function changingDisplayName(changedisplayname, repeatdisplayname){
 		}
 	}
 	xhr.send(json);
-
-
 }
 
-
 changePassword = (changepassword, repeatpassword) => {
-	
 	if(verifychangePassword(changepassword, repeatpassword)){
 		console.log("password changed and verified.");
 		changingPassword(changepassword, repeatpassword);
@@ -90,15 +83,9 @@ function changingPassword(changepassword, repeatpassword){
 		}
 	}
 	xhr.send(json);
-
-
 }
 
-
-
-
 function verifychangeDisplayName(changedisplayname, repeatdisplayname){
-
 	var has_error = false;
 	//changedisplayname
 	if(!changedisplayname){
@@ -126,11 +113,9 @@ function verifychangeDisplayName(changedisplayname, repeatdisplayname){
 		return 0;
 	}
 	return 1;
-
 }
 
 function verifychangePassword(changepassword, repeatpassword){
-
 	var has_error = false;
 	//changepassword
 	if(!changepassword){
@@ -158,9 +143,7 @@ function verifychangePassword(changepassword, repeatpassword){
 		return 0;
 	}
 	return 1;
-
 }
-
 
 function logout(){
 	console.log("logout");
@@ -171,6 +154,5 @@ function logout(){
 	localStorage.removeItem("WinRate");
 	localStorage.removeItem("TikiTally");
 	localStorage.removeItem("PollsCreated");
-		window.location.href = "/splash";
-
+	window.location.href = "/";
 }
