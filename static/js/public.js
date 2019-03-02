@@ -8,10 +8,9 @@ let leftPercentage = 0;
 let rightPercentage = 0;
 let has_Voted = false;
 
-
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
-  		window.location.replace("/splash");
+  		window.location.replace("/");
 	}
 	else{
 		getFriends();
@@ -20,8 +19,6 @@ window.onload = function() {
 		// startChallenge();
 		switchPollType('Personal');
 	}
-	
-
 };
 
 function createPoll(){
@@ -53,12 +50,9 @@ function createPoll(){
 	else{
 		localStorage.scope = "public"
 	}
-	
 }
 
-
 function verifyCreatepollInput(title, theme, experiation, imageOne, imageTwo, privacy){
-
 	var has_error = false;
 
 	if(has_error){
@@ -204,7 +198,7 @@ function logout(){
 	localStorage.removeItem("WinRate");
 	localStorage.removeItem("TikiTally");
 	localStorage.removeItem("PollsCreated");
-		window.location.href = "/splash";
+		window.location.href = "/";
 
 }
 
@@ -545,7 +539,3 @@ function startChallenge(){
 	xhr.send(json);
 
 }
-
-
-
-
