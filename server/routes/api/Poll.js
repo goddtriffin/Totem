@@ -141,15 +141,27 @@ router.put('/challenge/request/accepted/:id', Auth.validate, async (req, res) =>
     res.status(result.code).send(result);
 });
 
-router.get('/search', Auth.validate, async (req, res) => {
+router.get('/search/private', Auth.validate, async (req, res) => {
     const data = {
-        scope: req.query.scope,
         themes_query: req.query.themes,
     };
 
-    const result = await Poll.search(
+    const result = await Poll.searchPrivate(
         req.app.locals.db,
-        data.scope, data.themes_query
+        data.themes_query
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.get('/search/public', Auth.validate, async (req, res) => {
+    const data = {
+        themes_query: req.query.themes,
+    };
+
+    const result = await Poll.searchPublic(
+        req.app.locals.db,
+        data.themes_query
     );
 
     res.status(result.code).send(result);
@@ -172,11 +184,13 @@ router.put('/vote/:id', Auth.validate, async (req, res) => {
 
 router.get('/:id', Auth.validate, async (req, res) => {
     const data = {
+        username: req.jwt.sub,
         id: req.params.id
     };
 
     const result = await Poll.getById(
-        req.app.locals.db, data.id
+        req.app.locals.db,
+        data.username, data.id
     );
 
     res.status(result.code).send(result);

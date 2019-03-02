@@ -42,7 +42,8 @@ router.get('/me', Auth.validate, async (req, res) => {
     };
 
     const result = await User.getByUsername(
-        req.app.locals.db, data.username
+        req.app.locals.db,
+        data.username
     );
 
     res.status(result.code).send(result);
@@ -54,7 +55,8 @@ router.get('/profile/:username', Auth.validate, async (req, res) => {
     };
 
     const result = await User.getByUsername(
-        req.app.locals.db, data.username
+        req.app.locals.db,
+        data.username
     );
 
     res.status(result.code).send(result);
@@ -62,11 +64,13 @@ router.get('/profile/:username', Auth.validate, async (req, res) => {
 
 router.get('/search', Auth.validate, async (req, res) => {
     const data = {
+        username: req.jwt.sub,
         username_query: req.query.username
     };
 
     const result = await User.search(
-        req.app.locals.db, data.username_query
+        req.app.locals.db,
+        data.username, data.username_query
     );
 
     res.status(result.code).send(result);

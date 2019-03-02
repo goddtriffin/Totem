@@ -51,16 +51,15 @@ All other routes: `application/x-www-form-urlencoded`
 
 #### User
 
-User object contains:
-```
-email
-username
-display_name
-emoji
-tiki_tally
-polls_created
-win_rate
-```
+| Name | Type | Description |
+| :--- | :--- | :--- |
+| email | string | user identifier (unique) |
+| username | string | user identifier (unique) |
+| display_name | string | fun name/title |
+| emoji | string | icon |
+| tiki_tally | integer | status of the user on Totem, count of other user interactions of their content |
+| polls_created | integer | number of polls created |
+| win_rate | double | ratio of challenge poll wins/losses |
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
@@ -75,13 +74,13 @@ win_rate
 
 #### Friend
 
-Friend object contains:
-```
-username
-display_name
-emoji
-tiki_tally
-```
+| Name | Type | Description |
+| :--- | :--- | :--- |
+| username | string | user identifier (unique) |
+| display_name | string | fun name/title |
+| emoji | string | icon |
+| tiki_tally | integer | status of the user on Totem, count of other user interactions of their content |
+| friends | boolean | state of the friend |
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
@@ -93,24 +92,24 @@ tiki_tally
 
 #### Poll
 
-Poll object contains:
-```
-id
-display_name
-theme
-creator
-opponent
-image_1
-image_2
-votes_1
-votes_2
-state
-type
-duration
-scope
-start_time
-end_time
-```
+| Name | Type | Description |
+| :--- | :--- | :--- |
+| id | integer | poll identifier (unique) |
+| display_name | string | fun name/title of poll |
+| theme | string | poll category |
+| creator | string | username of the user that created the poll |
+| opponent | string | username of the user that is being challenged (challenge poll only) |
+| image_1 | string | path to the first image |
+| image_2 | string | path to the second image |
+| votes_1 | integer | vote count for image_1 |
+| votes_2 | integer | vote count for image_2 |
+| state | string | (challenge only: pending, ready,) active, expired |
+| type | string | personal, challenge |
+| scope | string | private, public |
+| duration | integer | total minutes that the poll should be active for |
+| start_time | integer | unix timestamp the poll started |
+| end_time | integer | unix timestamp the poll should end |
+| voted | integer | value the user set as their vote (only exists if the user has already voted on this particular poll) |
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
@@ -121,12 +120,11 @@ end_time
 | GET | `/api/poll/challenge/requests/accepted` | returns a list of all your accepted challenge requests |  |
 | PUT | `/api/poll/challenge/request/:id` | starts a challenge (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/:id` | returns that poll's information (replace `:id` with a real poll id) |  |
-| GET | `/api/poll/search?display_name=<display_name>` | returns a list of polls (replace `<display_name>` with a real display_name) |  |
-| PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll |  |
+| GET | `/api/poll/search/private?themes=<themes>` | returns a list of private polls (replace `<themes>` with a real comma-delimited string of themes) |  |
+| GET | `/api/poll/search/public?themes=<themes>` | returns a list of public polls (replace `<themes>` with a real comma-delimited string of themes) |  |
+| PUT | `/api/poll/vote/:id` | replace `:id` with a real poll id, sets a vote on a poll | vote |
 
 #### Feed
-
-Feed returns a list of Poll objects.
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |

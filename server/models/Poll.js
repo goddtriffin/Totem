@@ -1,6 +1,8 @@
 const regex = require('../../shared/regex');
 const utils = require('../tools/utils');
 
+const Friend = require('./Friend');
+
 // creates a new personal poll
 async function createPersonal(db, display_name, theme, creator, duration, scope, image_1, image_2) {
     if (!utils.validateDatabase(db)) {
@@ -270,7 +272,7 @@ async function getAcceptedChallengeRequests(db, username) {
             state: 'ready',
             type: 'challenge'
         })
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope', 'duration')
         .catch(e => {
             return {
                 code: 500,
@@ -340,8 +342,8 @@ async function startChallenge(db, id, username) {
     };
 }
 
-// returns a list of polls
-async function search(db, scope, themes_query) {
+// returns a list of private polls based on theme
+async function searchPrivate(db, themes_query) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -349,10 +351,56 @@ async function search(db, scope, themes_query) {
         };
     }
 
-    if (!regex.validateScope(scope)) {
+    if (!regex.validateThemesQuery(themes_query)) {
         return {
             code: 400,
-            data: regex.getInvalidScopeResponse(scope)
+            data: regex.getInvalidThemesQueryResponse(themes_query)
+        };
+    }
+
+    // convert 'theme,theme,theme' into [theme, theme, theme]
+    const themes = themes_query.split(',');
+
+    // get a list of this user's friends by their username
+    const friends = await Friend.get(db, username);
+    const friendUsernames = friends.data.map(f => f.username);
+    friendUsernames.push(username);
+
+    const result = await db('polls')
+        .whereIn('theme', themes)
+        .andWhere({
+            state: 'active',
+            scope: 'private'
+        })
+        .andWhere(() => {
+            this.
+                whereIn('creator', friendUsernames)
+                .orWhereIn('opponent', friendUsernames)
+        })
+        .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope', 'duration')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: result
+    };
+}
+
+// returns a list of public polls based on theme
+async function searchPublic(db, themes_query) {
+    if (!utils.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: utils.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -368,8 +416,8 @@ async function search(db, scope, themes_query) {
     const result = await db('polls')
         .whereIn('theme', themes)
         .andWhere({
-            scope,
-            state: 'active'
+            state: 'active',
+            scope: 'public'
         })
         .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope', 'duration')
         .catch(e => {
@@ -488,11 +536,18 @@ async function vote(db, id, username, vote) {
 }
 
 // returns a single poll's data by id
-async function getById(db, id) {
+async function getById(db, username, id) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
             data: utils.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
         };
     }
 
@@ -503,7 +558,7 @@ async function getById(db, id) {
         };
     }
 
-    const result = await db('polls')
+    const result1 = await db('polls')
         .where('id', id)
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
@@ -513,21 +568,47 @@ async function getById(db, id) {
             };
         });
 
-    if (!!result.code) {
-        return result;
+    if (!!result1.code) {
+        return result1;
     }
     
     // if no results, then no poll exists with that id
-    if (result.length !== 1) {
+    if (result1.length !== 1) {
         return {
             code: 400,
             data: 'no poll found with id: ' + id
         };
     }
 
+    const poll = result1[0];
+
+    // update poll to show whether or not the 
+    // user calling this has already voted on it
+    const result2 = await db('history')
+        .where({
+            username,
+            poll: id
+        })
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result2.code) {
+        return result2;
+    }
+
+    // if there is a result, then the user has already voted on it
+    if (result2.length === 1) {
+        poll.voted = result2[0].vote;
+    }
+
     return {
         code: 200,
-        data: result[0]
+        data: poll
     };
 }
 
@@ -537,5 +618,6 @@ module.exports = {
     acceptChallengeRequest,
     getAcceptedChallengeRequests,
     startChallenge,
-    search, vote, getById
+    searchPrivate, searchPublic,
+    vote, getById
 }

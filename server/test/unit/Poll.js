@@ -98,7 +98,7 @@ describe('Poll', () => {
 		});
     });
     
-    describe('search', () => {
+    describe('searchPrivate', () => {
 		before(async () => {
 			db = await db_tool.create(':memory:', true, false, true);
 		});
@@ -109,14 +109,47 @@ describe('Poll', () => {
 		});
 
 		it.skip('success', async () => {
-			const result = await Poll.search(db);
+			const result = await Poll.searchPrivate(db, 'memes');
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		describe('validate parameters', () => {
 			it('invalid database', async () => {
-				const result = await Poll.search(null);
+				const result = await Poll.searchPrivate(null);
 				assert.strictEqual(result.code, 500, result.data);
+            });
+            
+            it('invalid database', async () => {
+				const result = await Poll.searchPrivate(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+			});
+		});
+    });
+
+    describe('searchPrivate', () => {
+		before(async () => {
+			db = await db_tool.create(':memory:', true, false, true);
+		});
+
+		after(async () => {
+			await db.destroy();
+			db = null;
+		});
+
+		it.skip('success', async () => {
+			const result = await Poll.searchPublic(db, 'memes');
+			assert.strictEqual(result.code, 200, result.data);
+		});
+
+		describe('validate parameters', () => {
+			it('invalid database', async () => {
+				const result = await Poll.searchPublic(null);
+				assert.strictEqual(result.code, 500, result.data);
+            });
+            
+            it('invalid database', async () => {
+				const result = await Poll.searchPublic(db, null);
+				assert.strictEqual(result.code, 400, result.data);
 			});
 		});
     });

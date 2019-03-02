@@ -4,7 +4,7 @@ const utils = require('../tools/utils');
 const Friend = require('./Friend');
 
 // returns a user's public feed
-async function getPublic(db) {
+async function getPublic(db, username) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -12,9 +12,10 @@ async function getPublic(db) {
         };
     }
 
-    const result = await db('polls')
+    const result1 = await db('polls')
         .where({
-            scope: 'public'
+            scope: 'public',
+            state: 'active'
         })
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
@@ -24,13 +25,20 @@ async function getPublic(db) {
             };
         });
 
-    if (!!result.code) {
-        return result;
+    if (!!result1.code) {
+        return result1;
+    }
+
+    const polls = result1;
+    const result2 = await addPollsHistory(db, username, polls);
+
+    if (!!result2.code) {
+        return result2;
     }
 
     return {
         code: 200,
-        data: result
+        data: polls
     };
 }
 
@@ -50,14 +58,51 @@ async function getPrivate(db, username) {
         };
     }
 
+    // get a list of this user's friends by their username
     const friends = await Friend.get(db, username);
     const friendUsernames = friends.data.map(f => f.username);
     friendUsernames.push(username);
 
-    const result = await db('polls')
-        .whereIn('creator', friendUsernames)
-        .orWhereIn('opponent', friendUsernames)
+    const result1 = await db('polls')
+        .where((builder) => {
+            builder.
+                whereIn('creator', friendUsernames)
+                .orWhereIn('opponent', friendUsernames)
+        })
+        .andWhere({
+            scope: 'private',
+            state: 'active'
+        })
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result1.code) {
+        return result1;
+    }
+
+    const polls = result1;
+    const result2 = await addPollsHistory(db, username, polls);
+
+    if (!!result2.code) {
+        return result2;
+    }
+
+    return {
+        code: 200,
+        data: polls
+    };
+}
+
+async function addPollsHistory(db, username, polls) {
+    const pollIds = polls.map(poll => poll.id);
+    const result = await db('history')
+        .whereIn('poll', pollIds)
+        .select()
         .catch(e => {
             return {
                 code: 500,
@@ -69,10 +114,20 @@ async function getPrivate(db, username) {
         return result;
     }
 
-    return {
-        code: 200,
-        data: result
-    };
+    // cycle through the vote history
+    for (let i=0; i<result.length; i++) {
+        // cycle through the polls
+        for (let j=0; j<polls.length; j++) {
+            // if the vote's poll id matches the current poll id,
+            if (result[i].poll === polls[j].id) {
+                // set the poll's 'voted' pair
+                polls[j].voted = result[i].vote;
+                break;
+            }
+        }
+    }
+
+    return {};
 }
 
 

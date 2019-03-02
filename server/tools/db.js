@@ -72,7 +72,10 @@ async function createPollsTable(db) {
                 table.increments('id').unique().primary();
                 table.string('display_name').notNullable();
                 table.string('theme').notNullable();
+
                 table.string('scope').notNullable().defaultTo('private');  // private, public
+                table.string('type').notNullable();  // personal, challenge
+                table.string('state').notNullable().defaultTo('pending');  // (challenge only: pending, ready,) active, expired
 
                 table.string('creator').notNullable().references('users.username');
                 table.string('opponent').nullable().references('users.username');  // challenge only
@@ -81,8 +84,6 @@ async function createPollsTable(db) {
                 table.integer('votes_1').notNullable().defaultTo(0);
                 table.integer('votes_2').notNullable().defaultTo(0);
 
-                table.string('state').notNullable().defaultTo('pending');  // (challenge only: pending, ready,) active, expired
-                table.string('type').notNullable();  // personal, challenge
                 table.string('duration').notNullable();
                 table.timestamp('start_time').nullable();  // created when state changes from 'ready' to 'active'
                 table.timestamp('end_time').nullable();  // created when state changes from 'ready' to 'active'
