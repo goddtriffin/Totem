@@ -6,7 +6,6 @@ window.onload = function() {
 	}
 };
 
-
 login = (username, password) => {
 	if(verifyInput(username, password)){
 		// move to next page
@@ -20,8 +19,7 @@ login = (username, password) => {
 }
 
 function loginUser(username, password){
-
-var url = "/api/user/login";
+    var url = "/api/user/login";
 
 	var data = {};
 	data.username = username;
@@ -52,9 +50,7 @@ var url = "/api/user/login";
 	}
 	
 	xhr.send(json);
-
 }
-
 
 function getUserInfo(){
 	var url  = "/api/user/me";
@@ -80,14 +76,7 @@ function getUserInfo(){
 		}
 	}	
 	xhr.send(null);
-
-
-
 }
-
-
-
-
 
 function verifyInput(username, password){	
 	var has_error = false;
@@ -114,4 +103,3 @@ function verifyInput(username, password){
 	}
 	return 1;
 }
-

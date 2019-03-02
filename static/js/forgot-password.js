@@ -16,7 +16,6 @@ forgotPassword = (username, email) => {
 
 }
 
-
 function verifyInput(username, email){	
 	var has_error = false;
 	//username
@@ -47,4 +46,3 @@ function verifyInput(username, email){
 	}
 	return 1;
 }
-

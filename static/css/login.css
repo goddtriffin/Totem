@@ -33,63 +33,28 @@ body{
     color: lightgray;
 }
 
-.form-control, #signupButton{
-    margin-top: 2rem; 
-}
-
 #title{
     font-size: 2.5rem;
-    font-weight: bold;
     margin: 0;
     color: white;
+    font-weight: bold;
 }
 
-#signupContent{
+#loginContent{
+    text-align: center;
+    align-content: center;
     background: rgba(0, 0, 0, 0.25);
     border: 2px solid white;
     border-radius: 25px;
+    margin-top: 1.5rem;
     padding: 1rem;
-    text-align: center;
-    align-content: center;
-    /* width: 50%; */
     margin-top: 100px;
-    margin-bottom: 15px;
+}
+
+#usernameText, #passwordText, #loginButton, #forgotButton{
+    margin-top: 2rem; 
 }
 
 .error{
     color: red;
-}
-
-#emojiTable{
-	text-align: center;
-	overflow: scroll;
-}
-
-#emojiBody{
-	height: 400px;
-	overflow: scroll;
-}
-
-.emoji{
-    font-size: 2.5rem;
-    cursor: pointer;
-}
-
-.emoji:hover{
-	font-size: 2.75rem;
-}
-
-#emoji{
-	align-content: center;
-	text-align: center;
-	font-size: 5rem;
-	margin: 0px;
-}
-
-#emoji:hover{
-	align-content: center;
-	text-align: center;
-	font-size: 5.5rem;
-	cursor: pointer;
-	margin: 0px;
 }

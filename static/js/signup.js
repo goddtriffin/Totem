@@ -1,10 +1,10 @@
 let emojis = ["😂","😝","😁","😱","👉","🙌","🍻","🔥","🌈","☀","🎈","🌹","💄","🎀","⚽","🎾","🏁","😡","👿","🐻","🐶","🐬","🐟","🍀","👀","🚗","🍎","💝","💙","👌","❤","😍","😉","😓","😳","💪","💩","🍸","🔑","💖","🌟","🎉","🌺","🎶","👠","🏈","⚾","🏆","👽","💀","🐵","🐮","🐩","🐎","💣","👃","👂","🍓","💘","💜","👊","💋","😘","😜","😵","🙏","👋","🚽","💃","💎","🚀","🌙","🎁","⛄","🌊","⛵","🏀","🎱","💰","👶","👸","🐰","🐷","🐍","🐫","🔫","👄","🚲","🍉","💛"];
 
-	window.onload = function() {
+window.onload = function() {
 	if (localStorage.getItem("token") === null) {	
-	//Populate Emoji table
-	loadEmojis();
-	localStorage.emoji = emojis[2];	
+        //Populate Emoji table
+        loadEmojis();
+        localStorage.emoji = emojis[2];	
 	}
 	else{
 	  	window.location.replace("/public");
@@ -12,22 +12,17 @@ let emojis = ["😂","😝","😁","😱","👉","🙌","🍻","🔥","🌈","�
 };
 
 signup = (username, displayName, email, password, passwordVerify) => {
-	
 	if(verifyInput(username, displayName, email, passwordVerify, password)){
 		// move to next page
 		console.log("move to next page");
 		Createuser(username, displayName, email, password, passwordVerify);
 		
-
-
 		return 1;
 	}
 	return 0;
 }
 
 function Createuser(username, displayName, email, password, passwordVerify, emoji){
-
-
 	var url = "/api/user/signup";
 
 	var data = {};
@@ -77,13 +72,9 @@ function Createuser(username, displayName, email, password, passwordVerify, emoj
 	}
 	
 	xhr.send(json);
-
 }
 
-
-
 function verifyInput(username, displayName, email, passwordVerify, password){
-	
 	var has_error = false;
 
 	//username
@@ -163,4 +154,3 @@ function changeEmoji(index){
 	document.getElementById("emoji").innerHTML = emojis[index];
 	localStorage.emoji = emojis[index]
 }
-
