@@ -486,12 +486,12 @@ async function vote(db, id, username, vote) {
     }
     
     // if results exist, then this user has already voted on this poll
-    if (result1.length > 0) {
-        return {
-            code: 400,
-            data: 'already voted on poll: ' + id
-        };
-    }
+    // if (result1.length > 0) {
+    //     return {
+    //         code: 400,
+    //         data: 'already voted on poll: ' + id
+    //     };
+    // }
 
     const result2 = await db('polls')
         .where({
