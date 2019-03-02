@@ -23,6 +23,6 @@ router.use(authed_pages, (req, res, next) => {
 }); 
 
 // all frontend pages
-router.use('/', express.static('../webapp'));
+router.use('/', express.static('webapp'));
 
 module.exports = router;

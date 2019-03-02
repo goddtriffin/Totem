@@ -4,7 +4,7 @@ echo "Total line count:"
 echo "-----------------"
 
 # find all files that were actually created by me
-files=$(find . -type f ! -name "*-lock*" -not -path "*db/*" -not -path "*node_modules/*" -not -path "*static/*")
+files=$(find . -type f ! -name "*-lock*" -not -path "*db/*" -not -path "*node_modules/*" -not -path "*static/*" -not -path "*.git/*" -not -path "*docs/*" -not -path "*webapp/*")
 
 # print the line count of all files found
 wc -l $files
