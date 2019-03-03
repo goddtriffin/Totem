@@ -30,6 +30,33 @@ async function add(db, username_1, username_2) {
         };
     }
 
+    // check if username_1 exists
+    const exists1 = await require('./User').usernameExists(db, username_1);
+    if (typeof exists1 !== 'boolean') {
+        return exists1;
+    }
+
+    if (!exists1) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username_1
+        };
+    }
+
+    // check if username_2 exists
+    const exists2 = await require('./User').usernameExists(db, username_2);
+    if (typeof exists2 !== 'boolean') {
+        return exists2;
+    }
+
+    if (!exists2) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username_2
+        };
+    }
+
+    // friendship is good to go
     const result = await db('friends')
         .insert({
             username_1, username_2

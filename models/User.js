@@ -536,6 +536,25 @@ async function incrementTikiTally(db, username, count) {
     return {};
 }
 
+// returns true if a user with the given username exists, false otherwise
+async function usernameExists(db, username) {
+    const result = await db('users')
+        .where('username', username)
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return result.length === 1;
+}
+
 module.exports = {
     signup, login,
     getByUsername,
@@ -543,5 +562,6 @@ module.exports = {
     update,
     history,
     incrementPollsCreated,
-    incrementTikiTally
+    incrementTikiTally,
+    usernameExists
 }
