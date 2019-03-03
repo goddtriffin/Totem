@@ -119,7 +119,7 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
 | PUT | `/api/poll/challenge/request/:id` | accepts a challenge request (replace `:id` with a real poll id) | image |
 | DELETE | `/api/poll/challenge/request/:id` | rejects a challenge request (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/challenge/requests/accepted` | returns a list of all your accepted challenge requests |  |
-| PUT | `/api/poll/challenge/request/:id` | starts a challenge (replace `:id` with a real poll id) |  |
+| PUT | `/api/challenge/request/accepted/:id` | starts a challenge (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/:id` | returns that poll's information (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/search/private?themes=<themes>` | returns a list of private polls (replace `<themes>` with a real comma-delimited string of themes) |  |
 | GET | `/api/poll/search/public?themes=<themes>` | returns a list of public polls (replace `<themes>` with a real comma-delimited string of themes) |  |
