@@ -62,6 +62,19 @@ async function getPrivate(db, username) {
         };
     }
 
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     // get a list of this user's friends by their username
     const friends = await require('./Friend').get(db, username);
     

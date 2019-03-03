@@ -31,12 +31,12 @@ async function add(db, username_1, username_2) {
     }
 
     // check if username_1 exists
-    const exists1 = await require('./User').usernameExists(db, username_1);
-    if (typeof exists1 !== 'boolean') {
-        return exists1;
+    const username_1_exists = await require('./User').usernameExists(db, username_1);
+    if (typeof username_1_exists !== 'boolean') {
+        return username_1_exists;
     }
 
-    if (!exists1) {
+    if (!username_1_exists) {
         return {
             code: 400,
             data: 'user does not exist: ' + username_1
@@ -44,12 +44,12 @@ async function add(db, username_1, username_2) {
     }
 
     // check if username_2 exists
-    const exists2 = await require('./User').usernameExists(db, username_2);
-    if (typeof exists2 !== 'boolean') {
-        return exists2;
+    const username_2_exists = await require('./User').usernameExists(db, username_2);
+    if (typeof username_2_exists !== 'boolean') {
+        return username_2_exists;
     }
 
-    if (!exists2) {
+    if (!username_2_exists) {
         return {
             code: 400,
             data: 'user does not exist: ' + username_2
@@ -91,6 +91,19 @@ async function requests(db, username) {
         return {
             code: 400,
             data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
         };
     }
 
