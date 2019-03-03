@@ -4,6 +4,9 @@ const router = express.Router();
 // frontend routes
 router.use('/', require('./Webapp'));
 
+// static files
+router.use('/', require('./static'));
+
 // all API routes
 router.use('/api', require('./api'));
 
