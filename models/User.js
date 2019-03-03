@@ -268,20 +268,33 @@ async function search(db, username, username_query) {
         return result;
     }
 
-    // Show which users you are already friends with.
-    // get a list of this user's friends by their username
-    const friends = await Friend.get(db, username);
-    const friendUsernames = friends.data.map(f => f.username);
-    friendUsernames.push(username);
+    // set friendship states of all user search results
+    const usernames = result.map(user => user.username);
+    const friend_states = await Friend.getAllFriendStates(db, username, usernames);
+    console.log(result);
+    console.log(friend_states);
+    if (!Array.isArray(friend_states)) {
+        return friend_states;
+    }
 
-    const users = result.map(user => {
-        user.friends = friendUsernames.includes(user.username);
-        return user;
-    });
+    // cycle through all user search results
+    for (let i=0; i<result.length; i++) {
+        // cycle through all friend states returned
+        for (let j=0; j<friend_states.length; j++) {
+            if (friend_states[j].username_1 === result[i].username || friend_states[j].username_2 === result[i].username) {
+                result[i].friend_state = friend_states[j].state;
+                break;
+            }
+        }
+
+        if (!result[i].friend_state) {
+            result[i].friend_state = 'N/A';
+        }
+    }
 
     return {
         code: 200,
-        data: users
+        data: result
     };
 }
 

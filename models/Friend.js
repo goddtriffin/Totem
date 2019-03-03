@@ -319,6 +319,10 @@ async function remove(db, username_1, username_2) {
 
 // returns the state of the friendship, 'N/A' otherwise
 async function getFriendState(db, username_1, username_2) {
+    if (username_1 === username_2) {
+        return 'N/A';
+    }
+
     const result = await db('friends')
         .where({
             username_1,
@@ -351,8 +355,34 @@ async function getFriendState(db, username_1, username_2) {
 
 // returns true if the two usernames have a friend relationship, false otherwise
 async function areFriends(db, username_1, username_2) {
+    if (username_1 === username_2) {
+        return false;
+    }
+
     const state = await getFriendState(db, username_1, username_2);
     return state === 'accepted';
+}
+
+// returns the friendship states of all given users if they exist
+async function getAllFriendStates(db, username, usernames) {
+    return await db('friends')
+        .where(builder => {
+            builder
+                .whereIn('username_2', usernames)
+                .andWhere('username_1', username)
+        })
+        .orWhere(builder => {
+            builder
+                .whereIn('username_1', usernames)
+                .andWhere('username_2', username)
+        })
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
 }
 
 module.exports = {
@@ -360,5 +390,6 @@ module.exports = {
     accept, get,
     remove,
     getFriendState,
-    areFriends
+    areFriends,
+    getAllFriendStates
 }
