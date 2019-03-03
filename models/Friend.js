@@ -1,4 +1,4 @@
-const regex = require('../shared/regex');
+const regex = require('../tools/regex');
 const utils = require('../tools/utils');
 
 // adds a friend

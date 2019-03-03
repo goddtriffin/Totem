@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const emoji_tool = require('node-emoji');
 
-const regex = require('../shared/regex');
+const regex = require('../tools/regex');
 const utils = require('../tools/utils');
 
 const Friend = require('./Friend');
