@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// serve up static resources
-router.use('/static/upload', express.static('static/upload'));
-
 // example API route
 // router.use('/sample', require('./Sample'));
 

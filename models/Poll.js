@@ -48,7 +48,7 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
         };
     }
 
-    const result = await db('polls')
+    const result1 = await db('polls')
         .returning('id')
         .insert({
             display_name, theme,
@@ -66,15 +66,18 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
             };
         });
     
-    if (!!result.code) {
-        return result;
+    if (!!result1.code) {
+        return result1;
     }
 
-    User.incrementPollsCreated(db, creator, 1);
+    const result2 = User.incrementPollsCreated(db, creator, 1);
+    if (!!result2.code) {
+        return result2;
+    }
 
     return {
         code: 200,
-        data: result[0]
+        data: result1[0]
     };
 }
 
@@ -133,6 +136,19 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         return {
             code: 400,
             data: 'You cannot challenge yourself.'
+        };
+    }
+
+    // check to make sure the creator and opponent are friends
+    const areFriends = await Friend.areFriends(db, creator, opponent);
+    if (!(typeof areFriends === 'boolean')) {
+        return areFriends;
+    }
+
+    if (!areFriends) {
+        return {
+            code: 400,
+            data: 'you can only send a challenge poll request to a friend'
         };
     }
 
