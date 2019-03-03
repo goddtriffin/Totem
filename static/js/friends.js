@@ -190,39 +190,42 @@ function deleteFriend(index){
 }
 
 function searchfriends(){
-	var url  = "/api/user/search?username=";
-	var xhr  = new XMLHttpRequest()
-
 	let usernameSearch = document.getElementById("searchBar").value;
+	if(usernameSearch.length > 0){
+		var url  = "/api/user/search?username=";
+		var xhr  = new XMLHttpRequest()
 
-	xhr.open('GET', url+usernameSearch, true)
-	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+		
 
-	xhr.onload = function () {
-		console.log(xhr.responseText);
-		var users = JSON.parse(xhr.responseText);
-		if (xhr.readyState == 4 && xhr.status == "200") {
-			searchResults = users.data;
+		xhr.open('GET', url+usernameSearch, true)
+		xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
-			console.log(users)
-			//Populate HTML
-			let runningTable = ``;
-			let tableBody = document.getElementById("searchTable");
-			for(let i = 0; i < users.data.length; i++){
-				runningTable += `
-					<tr>
-						<th scope="row">${users.data[i].username}</th>  
-						<td>${users.data[i].display_name}</td>
-						<td>${users.data[i].tiki_tally}</td>
-						<td><button class="btn btn-success" onclick="requestFriend(${i})">Add Friend</button> </td>
-					</tr>`;
+		xhr.onload = function () {
+			console.log(xhr.responseText);
+			var users = JSON.parse(xhr.responseText);
+			if (xhr.readyState == 4 && xhr.status == "200") {
+				searchResults = users.data;
+
+				console.log(users)
+				//Populate HTML
+				let runningTable = ``;
+				let tableBody = document.getElementById("searchTable");
+				for(let i = 0; i < users.data.length; i++){
+					runningTable += `
+						<tr>
+							<th scope="row">${users.data[i].username}</th>  
+							<td>${users.data[i].display_name}</td>
+							<td>${users.data[i].tiki_tally}</td>
+							<td><button class="btn btn-success" onclick="requestFriend(${i})">Add Friend</button> </td>
+						</tr>`;
+				}
+				tableBody.innerHTML = runningTable;
+			} else {
+				console.error(users);
 			}
-			tableBody.innerHTML = runningTable;
-		} else {
-			console.error(users);
-		}
-	}	
-	xhr.send(null);
+		}	
+		xhr.send(null);
+	}
 }
 
 // Dont think we need this anymore

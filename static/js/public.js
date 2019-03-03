@@ -133,9 +133,8 @@ function showPoll(index){
 			console.log(publicPolls[index].image_1)
 				var img = new Image();
 
-			// img.src = publicPolls[index].image_1;
-			document.getElementById("leftImg").src = "../static/uploads/polls/image_1-1551575911910.jpeg"
-			 // document.getElementById("leftImg").src = publicPolls[index].image_1;
+			img.src = publicPolls[index].image_1;
+			document.getElementById("leftImg").src = publicPolls[index].image_1;
 			  
 			var img = new Image();
 			img.src = publicPolls[index].image_2;
@@ -153,13 +152,11 @@ function showPoll(index){
 
 			if(publicPolls[index].type === "personal"){
 				document.getElementById("rightUser").classList.add("invisible");
-				document.getElementById("displayNameright").classList.add("invisible");
 			}
 			else{
 				document.getElementById("rightUser").classList.remove("invisible");
 				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
 				getDisplayName(publicPolls[index].opponent)
-				document.getElementById("displayNameright").classList.remove("invisible");
 				document.getElementById("rightDisplayName").innerHTML = localStorage.poll_displayname;
 				localStorage.removeItem("localStorage.poll_displayname");
 
