@@ -125,7 +125,7 @@ function startChallenge(id){
 	// put
 	// /api/poll/challenge/request/:id
 
-	 var url = "/api/poll/challenge/request/";
+	 var url = "/api/poll/challenge/request/accepted/";
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("PUT", url+id, true);

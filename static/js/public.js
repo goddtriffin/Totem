@@ -7,6 +7,9 @@ let current_poll_id = 0;
 let leftPercentage = 0;
 let rightPercentage = 0;
 let has_Voted = false;
+let creator_displayname = "";
+let opponent_displayname = "";
+let recall = 0;
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
@@ -86,31 +89,66 @@ function movePoll(direction){
 	if(direction < 0){
 		// console.log("Move Left");
 		if(place_holder == 0){
-			showPoll(place_holder)
+			// showPoll(place_holder,getDisplayName)
 		}
 		else{
 			place_holder = place_holder-1;
-			showPoll(place_holder)
+			showPoll(place_holder,getDisplayName)
 		}
 
 	}
 	else{
 		// console.log("Move Right");
 		if(publicPolls.length-1 == place_holder){
-			showPoll(place_holder)
+			// showPoll(place_holder,getDisplayName)
 		}
 		else{
 			place_holder = place_holder+1;
-			showPoll(place_holder)
+			showPoll(place_holder,getDisplayName)
 		}
 	}
 }
 
-function showPoll(index){
+function showPoll(index, callback){
+
 
 			current_poll_id = publicPolls[index].id;
-			console.log(publicPolls[index].id)
+			console.log("this is poll id number: " +publicPolls[index].id)
 			
+			// callback(publicPolls[index].creator, publicPolls[index].opponent)
+			// let DS_creator = localStorage.poll_displayname_C;
+			// localStorage.removeItem("poll_displayname_C");
+			// // callback(publicPolls[index].opponent, )
+			// let DS_opponent = localStorage.poll_displayname_O;
+			// localStorage.removeItem("poll_displayname_O");
+
+			// console.log("new attepmt: " + DS_creator);
+			// console.log("new attepmt: " + DS_opponent);
+			// console.log("new attepmt: " + localStorage.poll_displayname_C);
+			// console.log("new attepmt: " + localStorage.poll_displayname_O);
+
+
+
+
+			var displaynames = new Promise(function() {
+			  
+				callback(publicPolls[index].creator, publicPolls[index].opponent)
+				// callback(publicPolls[index].creator, publicPolls[index].opponent)
+				
+				let DS_creator = localStorage.poll_displayname_C;
+				localStorage.removeItem("poll_displayname_C");
+				// callback(publicPolls[index].opponent, )
+				let DS_opponent = localStorage.poll_displayname_O;
+				localStorage.removeItem("poll_displayname_O");
+
+			
+				document.getElementById("leftDisplayName").innerHTML = DS_creator;
+								document.getElementById("rightDisplayName").innerHTML = DS_opponent;
+
+
+			});
+
+	
 			// console.log(publicPolls[index].hasOwnProperty('voted'))
 			if(publicPolls[index].hasOwnProperty('voted')){
 				calculateVotes(current_poll_id)
@@ -129,10 +167,11 @@ function showPoll(index){
 			
 			}
 			console.log("there should be no graph")
-			console.log(publicPolls[index])
-			console.log(publicPolls[index].image_1)
-				var img = new Image();
+			
+			// console.log(publicPolls[index])
+			// console.log(publicPolls[index].image_1)
 
+			var img = new Image();
 			img.src = publicPolls[index].image_1;
 			document.getElementById("leftImg").src = publicPolls[index].image_1;
 			  
@@ -142,13 +181,16 @@ function showPoll(index){
 
 			document.getElementById("titleP").innerHTML = publicPolls[index].display_name;
 			document.getElementById("leftUsername").innerHTML = publicPolls[index].creator;
-			// leftDisplayName
-			getDisplayName(publicPolls[index].creator)
-			document.getElementById("leftDisplayName").innerHTML = localStorage.poll_displayname;
-			localStorage.removeItem("localStorage.poll_displayname");
 
+			// callback(publicPolls[index].creator)
+			// document.getElementById("leftDisplayName").innerHTML = DS_creator;
+			// localStorage.removeItem("poll_displayname");
+
+			// callback(publicPolls[index].opponent)
+
+
+			// console.log(localStorage.poll_displayname)
 			document.getElementById("themes").innerHTML = publicPolls[index].theme;
-			// document.getElementById("leftDisplayName").innerHTML = publicPolls[index].display_Name;
 
 			if(publicPolls[index].type === "personal"){
 				document.getElementById("rightUser").classList.add("invisible");
@@ -156,12 +198,14 @@ function showPoll(index){
 			else{
 				document.getElementById("rightUser").classList.remove("invisible");
 				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
-				getDisplayName(publicPolls[index].opponent)
-				document.getElementById("rightDisplayName").innerHTML = localStorage.poll_displayname;
-				localStorage.removeItem("localStorage.poll_displayname");
+				// callback(publicPolls[index].opponent)
+				// document.getElementById("rightDisplayName").innerHTML = DS_opponent;
+
+				// localStorage.removeItem("poll_displayname");
 
 			}
-			
+						
+
 			
 }
 
@@ -386,8 +430,8 @@ function listOfPolls(location){
 			publicPolls = response.data;
 			console.log(publicPolls)
 			
-				showPoll(location);
-			
+				showPoll(location, getDisplayName);
+			// setDisplayNames(location);
             
 		} else {
             // handle error
@@ -427,7 +471,6 @@ function setVote(who, index){
 		}
 	}
 	xhr.send(json);
-
 }
 
 function calculateVotes(id){
@@ -445,11 +488,11 @@ function calculateVotes(id){
 			var total = response.data.votes_1 + response.data.votes_2;
 			 leftPercentage = response.data.votes_1 / total;
 			 rightPercentage = response.data.votes_2/ total;
-			 console.log("total: " + total)
-			 console.log("right: " + response.data.votes_2)
-			  console.log("left: " + response.data.votes_1)
-			 console.log("right%: " + rightPercentage)
-			  console.log("left%: " + leftPercentage)
+			 // console.log("total: " + total)
+			 // console.log("right: " + response.data.votes_2)
+			 //  console.log("left: " + response.data.votes_1)
+			 // console.log("right%: " + rightPercentage)
+			 //  console.log("left%: " + leftPercentage)
 			 // showPoll(id);
 		
             
@@ -460,8 +503,6 @@ function calculateVotes(id){
     }
     
 	xhr.send(null);
-
-
 }
 
 //remove
@@ -485,11 +526,7 @@ function hasVoted(id){
     }
     
 	xhr.send(null);
-
-
 }
-
-
 
 function getFriends(){
 	var url  = "/api/user/friend";
@@ -499,11 +536,11 @@ function getFriends(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			friends = users.data;
-			console
+			// console
 			//Populate HTML
 			let runningTable = ``;
 			let dataSet = document.getElementById("friendsList");
@@ -517,56 +554,69 @@ function getFriends(){
 		}
 	}	
 	xhr.send(null);
-
 }
 
-
-function startChallenge(){
-
-	var url = "/api/poll/challenge/request/:";
-
-	var data = {};
-	data.vote = who;
-	var json = JSON.stringify(data);
-
-
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", url+17, true);
-	 xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
-
-	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-	xhr.onload = function () {
-		var users = JSON.parse(xhr.responseText);
-		if (xhr.readyState == 4 && xhr.status == "200") {
-			// console.table(users);
-			// console.log(users);
-		} else {
-			console.error(users);
-		}
-	}
-	xhr.send(json);
-
-}
-
-function getDisplayName(username){
+function getDisplayName(username1, username2){
+	
+	//creator
+	console.log("display name search was done for: "+username1)
 	var url  = "/api/user/profile/";
-	var xhr  = new XMLHttpRequest()
+	var xhr1  = new XMLHttpRequest()
 
-	xhr.open('GET', url+username, true)
-	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+	xhr1.open('GET', url+username1, true)
+	xhr1.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
-	xhr.onload = function () {
-		console.log(xhr.responseText);
-		var users = JSON.parse(xhr.responseText);
-		if (xhr.readyState == 4 && xhr.status == "200") {
-			localStorage.poll_displayname = users.data.display_name;
-		
+	xhr1.onload = function () {
+		// console.log(xhr.responseText);
+		var users1 = JSON.parse(xhr1.responseText);
+		if (xhr1.readyState == 4 && xhr1.status == "200") {
+			// localStorage.poll_displayname_C = users1.data.display_name;
+			
+			if(username2 != null){
+				//opponent
+				console.log("display name search was done for: "+username2)
+				var url  = "/api/user/profile/";
+				var xhr2  = new XMLHttpRequest()
+
+				xhr2.open('GET', url+username2, true)
+				xhr2.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+				xhr2.onload = function () {
+					// console.log(xhr.responseText);
+					var users2 = JSON.parse(xhr2.responseText);
+					if (xhr2.readyState == 4 && xhr2.status == "200") {
+						localStorage.poll_displayname_C = users1.data.display_name;
+
+						localStorage.poll_displayname_O = users2.data.display_name;
+						console.log("AHHHHHHHHHH " + localStorage.poll_displayname_O)
+					
+
+					} else {
+						console.error(users2);
+					}
+				}	
+				xhr2.send(null);
+			}
+			else{
+				console.log("no opp")
+				localStorage.poll_displayname_C = users1.data.display_name;
+
+			}
+
+
+
+
+
+
 
 		} else {
-			console.error(users);
+			console.error(users1);
 		}
 	}	
-	xhr.send(null);
-
+	xhr1.send(null);
+	// console.log(username2)
+	
 
 }
+
+
