@@ -5,18 +5,15 @@
 * [NPM](https://www.npmjs.com/ "Social media website that rates memes.")
 * [Node](https://nodejs.org/)
 
-## Setup
-
-1. `git clone https://github.com/MagnusFrater/Totem.git`
-2. `cd Totem/server/`
-3. `npm run init-prod`
-5. fill out your `.env`
-
 ## Try it out!
 
-1. `npm start`
-2. Open your favourite browser<sub>*coughchromecough*</sub>
-3. Visit `http://localhost`
+1. `git clone https://github.com/MagnusFrater/Totem.git`
+2. `cd Totem/`
+3. `npm run init-prod`
+4. fill out your `.env`
+5. `npm start`
+6. Open your favourite browser<sub>*coughchromecough*</sub>
+7. Visit `http://localhost`
 
 ### Routes
 
@@ -40,14 +37,14 @@ All other routes: `application/x-www-form-urlencoded`
 
 | Endpoint | Description |
 | :--- | :--- |
-| `/` | default endpoint, forwards to `/splash` |
-| `/splash` | landing page |
+| `/` | splash page|
 | `/signup` | signup page |
 | `/login` | login page |
-| `/forgotpassword` | forgotten password page |
+| `/forgot-password` | forgotten password page |
 | `/public` | global feed |
 | `/private` | friend feed |
 | `/profile` | profile page |
+| `/settings` | settings page |
 
 #### User
 
@@ -60,6 +57,7 @@ All other routes: `application/x-www-form-urlencoded`
 | tiki_tally | integer | status of the user on Totem, count of other user interactions of their content |
 | polls_created | integer | number of polls created |
 | win_rate | double | ratio of challenge poll wins/losses |
+| friend_state | string | friendship state ('N/A' if not currently friends, no pending request, or if the user is you) |
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
@@ -80,7 +78,7 @@ All other routes: `application/x-www-form-urlencoded`
 | display_name | string | fun name/title |
 | emoji | string | icon |
 | tiki_tally | integer | status of the user on Totem, count of other user interactions of their content |
-| friends | boolean | state of the friend |
+| friends | string | friendship state |
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
@@ -117,6 +115,7 @@ All other routes: `application/x-www-form-urlencoded`
 | POST | `/api/poll/challenge` | creates a challenge request | display_name, theme, creator, opponent, duration, scope, image |
 | GET | `/api/poll/challenge/requests` | returns a list of all your challenge requests |  |
 | PUT | `/api/poll/challenge/request/:id` | accepts a challenge request (replace `:id` with a real poll id) | image |
+| DELETE | `/api/poll/challenge/request/:id` | rejects a challenge request (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/challenge/requests/accepted` | returns a list of all your accepted challenge requests |  |
 | PUT | `/api/poll/challenge/request/:id` | starts a challenge (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/:id` | returns that poll's information (replace `:id` with a real poll id) |  |
