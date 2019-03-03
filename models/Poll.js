@@ -550,6 +550,7 @@ async function vote(db, id, username, vote) {
         };
     }
 
+    // check to see if they're already voted on this poll
     const result1 = await db('history')
         .where({
             username,
@@ -575,6 +576,7 @@ async function vote(db, id, username, vote) {
     //     };
     // }
 
+    // increase the poll's respective vote count
     const result2 = await db('polls')
         .where({
             id,
@@ -595,6 +597,14 @@ async function vote(db, id, username, vote) {
         return result2;
     }
 
+    if (result2 !== 1) {
+        return {
+            code: 400,
+            data: 'no active poll exists of id: ' + id
+        };
+    }
+
+    // store the user's new vote history
     const result3 = await db('history')
         .insert({
             username, vote,
@@ -609,6 +619,36 @@ async function vote(db, id, username, vote) {
     
     if (!!result3.code) {
         return result3;
+    }
+
+    // get the creator and opponent of the poll
+    const result4 = await db('polls')
+        .where({
+            id,
+            state: 'active'
+        })
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result4.code) {
+        return result4;
+    }
+
+    // increase the appropriate user's tiki_tally
+    let result5 = {};
+    if (result4[0].type === 'personal' || vote === 1) {
+        result5 = await User.incrementTikiTally(db, result4[0].creator, 1);
+    } else {
+        result5 = await User.incrementTikiTally(db, result4[0].opponent, 1);
+    }
+
+    if (!!result5.code) {
+        return result5;
     }
 
     return {

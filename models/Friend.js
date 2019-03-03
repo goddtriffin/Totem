@@ -208,11 +208,13 @@ async function get(db, username) {
     }
 
     const result1 = await db('friends')
-        .where({
-            username_1: username,
-            state: 'accepted'
+        .where('state', 'accepted')
+        .andWhere(builder => {
+            builder
+                .where('username_1', username)
+                .orWhere('username_2', username)
         })
-        .select('username_2')
+        .select()
         .catch(e => {
             return {
                 code: 500,
@@ -224,34 +226,15 @@ async function get(db, username) {
         return result1;
     }
 
-    const result2 = await db('friends')
-        .where({
-            username_2: username,
-            state: 'accepted'
-        })
-        .select('username_1')
-        .catch(e => {
-            return {
-                code: 500,
-                data: e.originalStack
-            };
-        });
-    
-    if (!!result2.code) {
-        return result2;
-    }
+    const friend_usernames = result1.map(friendship => {
+        if (friendship.username_1 === username) {
+            return friendship.username_2;
+        }
 
-    const friend_usernames = result1
-        .concat(result2)
-        .map(object => {
-            if (object.hasOwnProperty('username_1')) {
-                return object.username_1;
-            }
+        return friendship.username_1;
+    });
 
-            return object.username_2;
-        });
-
-    const result3 = await db('users')
+    const result2 = await db('users')
         .whereIn('username', friend_usernames)
         .select('username', 'display_name', 'emoji', 'tiki_tally')
         .catch(e => {
@@ -261,13 +244,13 @@ async function get(db, username) {
             };
         });
 
-    if (!!result3.code) {
-        return result3;
+    if (!!result2.code) {
+        return result2;
     }
 
     return {
         code: 200,
-        data: result3
+        data: result2
     };
 }
 
