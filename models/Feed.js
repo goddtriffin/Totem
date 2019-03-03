@@ -28,8 +28,16 @@ async function getPublic(db, username) {
         return result1;
     }
 
+    // no polls, no need to do more work
+    if (result1.length < 1) {
+        return {
+            code: 200,
+            data: []
+        };
+    }
+
     const polls = result1;
-    const result2 = await addPollsHistory(db, username, polls);
+    const result2 = await addPollsHistory(db, polls);
     if (!!result2.code) {
         return result2;
     }
@@ -58,6 +66,15 @@ async function getPrivate(db, username) {
 
     // get a list of this user's friends by their username
     const friends = await Friend.get(db, username);
+    
+    // no friends, so no polls
+    if (friends.data.length < 1) {
+        return {
+            code: 200,
+            data: []
+        };
+    }
+
     const friendUsernames = friends.data.map(f => f.username);
     friendUsernames.push(username);
 
@@ -83,8 +100,16 @@ async function getPrivate(db, username) {
         return result1;
     }
 
+    // no polls, no need to do more work
+    if (result1.length < 1) {
+        return {
+            code: 200,
+            data: []
+        };
+    }
+
     const polls = result1;
-    const result2 = await addPollsHistory(db, username, polls);
+    const result2 = await addPollsHistory(db, polls);
     if (!!result2.code) {
         return result2;
     }
@@ -95,7 +120,12 @@ async function getPrivate(db, username) {
     };
 }
 
-async function addPollsHistory(db, username, polls) {
+async function addPollsHistory(db, polls) {
+    // no polls to add history to
+    if (polls.length < 1) {
+        return {};
+    }
+
     const pollIds = polls.map(poll => poll.id);
     const result = await db('history')
         .whereIn('poll', pollIds)
