@@ -136,6 +136,19 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         };
     }
 
+    // check to make sure the creator and opponent are friends
+    const areFriends = await Friend.areFriends(db, creator, opponent);
+    if (!(typeof areFriends === 'boolean')) {
+        return areFriends;
+    }
+
+    if (!areFriends) {
+        return {
+            code: 400,
+            data: 'you can only send a challenge poll request to a friend'
+        };
+    }
+
     const result = await db('polls')
         .returning('id')
         .insert({

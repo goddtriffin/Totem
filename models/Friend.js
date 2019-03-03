@@ -317,8 +317,39 @@ async function remove(db, username_1, username_2) {
     };
 }
 
+// returns true if the two usernames have a friend relationship, false otherwise
+async function areFriends(db, username_1, username_2) {
+    const result = await db('friends')
+        .where('state', 'accepted')
+        .andWhere(builder => {
+            builder
+                .where({
+                    username_1,
+                    username_2
+                })
+                .orWhere({
+                    username_1: username_2,
+                    username_2: username_1
+                })
+        })
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return (result.length === 1);
+}
+
 module.exports = {
     add, requests,
     accept, get,
-    remove
+    remove,
+    areFriends
 }
