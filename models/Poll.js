@@ -1,6 +1,7 @@
 const regex = require('../shared/regex');
 const utils = require('../tools/utils');
 
+const User = require('./User');
 const Friend = require('./Friend');
 
 // creates a new personal poll
@@ -68,6 +69,8 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
     if (!!result.code) {
         return result;
     }
+
+    User.incrementPollsCreated(db, creator, 1);
 
     return {
         code: 200,
@@ -335,6 +338,15 @@ async function startChallenge(db, id, username) {
     if (!!result.code) {
         return result;
     }
+
+    if (result !== 1) {
+        return {
+            code: 400,
+            data: 'no challenge poll in the ready state with creator=' + username + ' and id=' + id
+        };
+    }
+    
+    User.incrementPollsCreated(db, username, 1);
 
     return {
         code: 200,

@@ -471,10 +471,28 @@ async function history(db, username) {
     };
 }
 
+// increases the user's 'polls_created' by the parameter 'count'
+async function incrementPollsCreated(db, username, count) {
+    const result = await db('users')
+        .where('username', username)
+        .increment('polls_created', count)
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+}
+
 module.exports = {
     signup, login,
     getByUsername,
     search, all,
     update,
-    history
+    history,
+    incrementPollsCreated
 }
