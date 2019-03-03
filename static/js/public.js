@@ -129,10 +129,13 @@ function showPoll(index){
 			
 			}
 			console.log("there should be no graph")
+			console.log(publicPolls[index])
+			console.log(publicPolls[index].image_1)
 				var img = new Image();
 
-			img.src = publicPolls[index].image_1;
-			 document.getElementById("leftImg").src = publicPolls[index].image_1;
+			// img.src = publicPolls[index].image_1;
+			document.getElementById("leftImg").src = "../static/uploads/polls/image_1-1551575911910.jpeg"
+			 // document.getElementById("leftImg").src = publicPolls[index].image_1;
 			  
 			var img = new Image();
 			img.src = publicPolls[index].image_2;
@@ -141,17 +144,25 @@ function showPoll(index){
 			document.getElementById("titleP").innerHTML = publicPolls[index].display_name;
 			document.getElementById("leftUsername").innerHTML = publicPolls[index].creator;
 			// leftDisplayName
+			getDisplayName(publicPolls[index].creator)
+			document.getElementById("leftDisplayName").innerHTML = localStorage.poll_displayname;
+			localStorage.removeItem("localStorage.poll_displayname");
 
 			document.getElementById("themes").innerHTML = publicPolls[index].theme;
 			// document.getElementById("leftDisplayName").innerHTML = publicPolls[index].display_Name;
 
 			if(publicPolls[index].type === "personal"){
 				document.getElementById("rightUser").classList.add("invisible");
+				document.getElementById("displayNameright").classList.add("invisible");
 			}
 			else{
 				document.getElementById("rightUser").classList.remove("invisible");
-				// rightDisplayName
 				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
+				getDisplayName(publicPolls[index].opponent)
+				document.getElementById("displayNameright").classList.remove("invisible");
+				document.getElementById("rightDisplayName").innerHTML = localStorage.poll_displayname;
+				localStorage.removeItem("localStorage.poll_displayname");
+
 			}
 			
 			
@@ -537,5 +548,28 @@ function startChallenge(){
 		}
 	}
 	xhr.send(json);
+
+}
+
+function getDisplayName(username){
+	var url  = "/api/user/profile/";
+	var xhr  = new XMLHttpRequest()
+
+	xhr.open('GET', url+username, true)
+	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr.onload = function () {
+		console.log(xhr.responseText);
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			localStorage.poll_displayname = users.data.display_name;
+		
+
+		} else {
+			console.error(users);
+		}
+	}	
+	xhr.send(null);
+
 
 }
