@@ -107,7 +107,8 @@ describe('User', () => {
 	describe('getByUsername', () => {
 		before(async () => {
 			db = await db_tool.create(':memory:', true, false, true);
-			await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
+            await User.signup(db, 'test@test.test', 'test', 'testtest', '12345678', 'eggplant');
 		});
 
 		after(async () => {
@@ -116,23 +117,28 @@ describe('User', () => {
 		});
 
 		it('success', async () => {
-			const result = await User.getByUsername(db, 'todd');
+			const result = await User.getByUsername(db, 'todd', 'test');
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		it('no account found with username', async () => {
-			const result = await User.getByUsername(db, 'nonexistent');
+			const result = await User.getByUsername(db, 'todd', 'nonexistent');
 			assert.strictEqual(result.code, 400, result.data);
 		});
 
 		describe('validate parameters', () => {
 			it('invalid database', async () => {
-				const result = await User.getByUsername(null, 'todd');
+				const result = await User.getByUsername(null);
 				assert.strictEqual(result.code, 500, result.data);
 			});
 
 			it('invalid username', async () => {
 				const result = await User.getByUsername(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
+            
+            it('invalid username_query', async () => {
+				const result = await User.getByUsername(db, 'todd', null);
 				assert.strictEqual(result.code, 400, result.data);
 			});
 		});

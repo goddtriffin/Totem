@@ -217,7 +217,7 @@ async function getChallengeRequests(db, username) {
     };
 }
 
-// removes a friend
+// rejects a challenge request
 async function rejectChallengeRequest(db, id, username) {
     if (!regex.validateDatabase(db)) {
         return {
