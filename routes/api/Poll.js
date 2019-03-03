@@ -10,7 +10,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const Auth = require('../Auth');
-const utils = require('../../tools/utils');
 const Poll = require('../../models/Poll');
 
 const uploadPersonal = upload.fields([{ name: 'image_1', maxCount: 1 }, { name: 'image_2', maxCount: 1 }]);
