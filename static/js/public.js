@@ -359,7 +359,7 @@ function createChallengeRequest(){
 		if (xhr.readyState == 4 && xhr.status == "200") {
             // handle success
             sessionStorage.setItem('pollId', response.data);
-            listOfPolls(publicPolls.length);
+            // listOfPolls(publicPolls.length);
 		} else {
             console.log(response);
 		}
