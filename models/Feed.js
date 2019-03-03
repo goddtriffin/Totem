@@ -1,14 +1,13 @@
-const regex = require('../shared/regex');
-const utils = require('../tools/utils');
+const regex = require('../tools/regex');
 
 const Friend = require('./Friend');
 
 // returns a user's public feed
 async function getPublic(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -31,7 +30,6 @@ async function getPublic(db, username) {
 
     const polls = result1;
     const result2 = await addPollsHistory(db, username, polls);
-
     if (!!result2.code) {
         return result2;
     }
@@ -44,10 +42,10 @@ async function getPublic(db, username) {
 
 // returns a user's private feed
 async function getPrivate(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -87,7 +85,6 @@ async function getPrivate(db, username) {
 
     const polls = result1;
     const result2 = await addPollsHistory(db, username, polls);
-
     if (!!result2.code) {
         return result2;
     }

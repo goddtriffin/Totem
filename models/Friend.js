@@ -1,12 +1,11 @@
-const regex = require('../shared/regex');
-const utils = require('../tools/utils');
+const regex = require('../tools/regex');
 
 // adds a friend
 async function add(db, username_1, username_2) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -54,10 +53,10 @@ async function add(db, username_1, username_2) {
 
 // returns a list of all friend requests
 async function requests(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -145,10 +144,10 @@ async function requests(db, username) {
 
 // accepts a friend request
 async function accept(db, username_1, username_2) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -194,10 +193,10 @@ async function accept(db, username_1, username_2) {
 
 // returns a list of your friends
 async function get(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -274,10 +273,10 @@ async function get(db, username) {
 
 // removes a friend
 async function remove(db, username_1, username_2) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -317,20 +316,20 @@ async function remove(db, username_1, username_2) {
     };
 }
 
-// returns true if the two usernames have a friend relationship, false otherwise
-async function areFriends(db, username_1, username_2) {
+// returns the state of the friendship, 'N/A' otherwise
+async function getFriendState(db, username_1, username_2) {
+    if (username_1 === username_2) {
+        return 'N/A';
+    }
+
     const result = await db('friends')
-        .where('state', 'accepted')
-        .andWhere(builder => {
-            builder
-                .where({
-                    username_1,
-                    username_2
-                })
-                .orWhere({
-                    username_1: username_2,
-                    username_2: username_1
-                })
+        .where({
+            username_1,
+            username_2
+        })
+        .orWhere({
+            username_1: username_2,
+            username_2: username_1
         })
         .select()
         .catch(e => {
@@ -344,12 +343,52 @@ async function areFriends(db, username_1, username_2) {
         return result;
     }
 
-    return (result.length === 1);
+    if (result.length === 1) {
+        // friendship exists
+        return result[0].state;
+    } else {
+        // friendship doesn't exist
+        return 'N/A';
+    }
+}
+
+// returns true if the two usernames have a friend relationship, false otherwise
+async function areFriends(db, username_1, username_2) {
+    if (username_1 === username_2) {
+        return false;
+    }
+
+    const state = await getFriendState(db, username_1, username_2);
+    return state === 'accepted';
+}
+
+// returns the friendship states of all given users if they exist
+async function getAllFriendStates(db, username, usernames) {
+    return await db('friends')
+        .where(builder => {
+            builder
+                .whereIn('username_2', usernames)
+                .andWhere('username_1', username)
+        })
+        .orWhere(builder => {
+            builder
+                .whereIn('username_1', usernames)
+                .andWhere('username_2', username)
+        })
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
 }
 
 module.exports = {
     add, requests,
     accept, get,
     remove,
-    areFriends
+    getFriendState,
+    areFriends,
+    getAllFriendStates
 }

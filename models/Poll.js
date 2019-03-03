@@ -1,15 +1,14 @@
-const regex = require('../shared/regex');
-const utils = require('../tools/utils');
+const regex = require('../tools/regex');
 
 const User = require('./User');
 const Friend = require('./Friend');
 
 // creates a new personal poll
 async function createPersonal(db, display_name, theme, creator, duration, scope, image_1, image_2) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -83,10 +82,10 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
 
 // creates a new challenge poll
 async function createChallenge(db, display_name, theme, creator, opponent, duration, scope, image) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -180,10 +179,10 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
 
 // returns all of your challenge requests
 async function getChallengeRequests(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -218,12 +217,60 @@ async function getChallengeRequests(db, username) {
     };
 }
 
-// accepts a challenge request
-async function acceptChallengeRequest(db, id, username, image) {
-    if (!utils.validateDatabase(db)) {
+// rejects a challenge request
+async function rejectChallengeRequest(db, id, username) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validatePollId(id)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPollIdResponse(id)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    const result = await db('polls')
+        .where({
+            id,
+            opponent: username,
+            state: 'pending',
+            type: 'challenge'
+        })
+        .del()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: "success"
+    };
+}
+
+// accepts a challenge request
+async function acceptChallengeRequest(db, id, username, image) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -271,10 +318,10 @@ async function acceptChallengeRequest(db, id, username, image) {
 
 // returns all of your accepted challenge requests
 async function getAcceptedChallengeRequests(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -311,10 +358,10 @@ async function getAcceptedChallengeRequests(db, username) {
 
 // starts a challenge poll
 async function startChallenge(db, id, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -332,7 +379,7 @@ async function startChallenge(db, id, username) {
         };
     }
 
-    const result = await db('polls')
+    const result1 = await db('polls')
         .where({
             id,
             creator: username,
@@ -351,18 +398,21 @@ async function startChallenge(db, id, username) {
             };
         });
 
-    if (!!result.code) {
-        return result;
+    if (!!result1.code) {
+        return result1;
     }
 
-    if (result !== 1) {
+    if (result1 !== 1) {
         return {
             code: 400,
             data: 'no challenge poll in the ready state with creator=' + username + ' and id=' + id
         };
     }
     
-    User.incrementPollsCreated(db, username, 1);
+    const result2 = User.incrementPollsCreated(db, username, 1);
+    if (!!result2.code) {
+        return result2;
+    }
 
     return {
         code: 200,
@@ -372,10 +422,10 @@ async function startChallenge(db, id, username) {
 
 // returns a list of private polls based on theme
 async function searchPrivate(db, themes_query) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -391,6 +441,10 @@ async function searchPrivate(db, themes_query) {
 
     // get a list of this user's friends by their username
     const friends = await Friend.get(db, username);
+    if (friends.code !== 200) {
+        return friends;
+    }
+
     const friendUsernames = friends.data.map(f => f.username);
     friendUsernames.push(username);
 
@@ -425,10 +479,10 @@ async function searchPrivate(db, themes_query) {
 
 // returns a list of public polls based on theme
 async function searchPublic(db, themes_query) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -467,10 +521,10 @@ async function searchPublic(db, themes_query) {
 
 // adds vote to poll choice
 async function vote(db, id, username, vote) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -565,10 +619,10 @@ async function vote(db, id, username, vote) {
 
 // returns a single poll's data by id
 async function getById(db, username, id) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -643,6 +697,7 @@ async function getById(db, username, id) {
 module.exports = {
     createPersonal, createChallenge,
     getChallengeRequests,
+    rejectChallengeRequest,
     acceptChallengeRequest,
     getAcceptedChallengeRequests,
     startChallenge,

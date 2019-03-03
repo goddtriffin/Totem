@@ -1,12 +1,11 @@
-const regex = require('../shared/regex');
-const utils = require('../tools/utils');
+const regex = require('../tools/regex');
 
 // info
 async function routeModel(db) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 

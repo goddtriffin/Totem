@@ -10,7 +10,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const Auth = require('../Auth');
-const utils = require('../../tools/utils');
 const Poll = require('../../models/Poll');
 
 const uploadPersonal = upload.fields([{ name: 'image_1', maxCount: 1 }, { name: 'image_2', maxCount: 1 }]);
@@ -84,6 +83,20 @@ router.get('/challenge/requests', Auth.validate, async (req, res) => {
     const result = await Poll.getChallengeRequests(
         req.app.locals.db,
         data.username
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.delete('/challenge/request/:id', Auth.validate, async (req, res) => {
+    const data = {
+        id: req.params.id,
+        username: req.jwt.sub
+    };
+
+    const result = await Poll.rejectChallengeRequest(
+        req.app.locals.db,
+        data.id, data.username
     );
 
     res.status(result.code).send(result);
