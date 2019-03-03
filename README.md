@@ -90,6 +90,8 @@ All other routes: `application/x-www-form-urlencoded`
 
 #### Poll
 
+Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food, beauty, color, space, vehicles, sports`
+
 | Name | Type | Description |
 | :--- | :--- | :--- |
 | id | integer | poll identifier (unique) |
