@@ -31,7 +31,6 @@ async function getPublic(db, username) {
 
     const polls = result1;
     const result2 = await addPollsHistory(db, username, polls);
-
     if (!!result2.code) {
         return result2;
     }
@@ -87,7 +86,6 @@ async function getPrivate(db, username) {
 
     const polls = result1;
     const result2 = await addPollsHistory(db, username, polls);
-
     if (!!result2.code) {
         return result2;
     }

@@ -332,7 +332,7 @@ async function startChallenge(db, id, username) {
         };
     }
 
-    const result = await db('polls')
+    const result1 = await db('polls')
         .where({
             id,
             creator: username,
@@ -351,18 +351,21 @@ async function startChallenge(db, id, username) {
             };
         });
 
-    if (!!result.code) {
-        return result;
+    if (!!result1.code) {
+        return result1;
     }
 
-    if (result !== 1) {
+    if (result1 !== 1) {
         return {
             code: 400,
             data: 'no challenge poll in the ready state with creator=' + username + ' and id=' + id
         };
     }
     
-    User.incrementPollsCreated(db, username, 1);
+    const result2 = User.incrementPollsCreated(db, username, 1);
+    if (!!result2.code) {
+        return result2;
+    }
 
     return {
         code: 200,
@@ -391,6 +394,10 @@ async function searchPrivate(db, themes_query) {
 
     // get a list of this user's friends by their username
     const friends = await Friend.get(db, username);
+    if (friends.code !== 200) {
+        return friends;
+    }
+
     const friendUsernames = friends.data.map(f => f.username);
     friendUsernames.push(username);
 

@@ -271,8 +271,6 @@ async function search(db, username, username_query) {
     // set friendship states of all user search results
     const usernames = result.map(user => user.username);
     const friend_states = await Friend.getAllFriendStates(db, username, usernames);
-    console.log(result);
-    console.log(friend_states);
     if (!Array.isArray(friend_states)) {
         return friend_states;
     }
