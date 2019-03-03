@@ -1,7 +1,6 @@
 const router = require('express').Router();
 
 const Auth = require('../Auth');
-const utils = require('../../tools/utils');
 const Feed = require('../../models/Feed');
 
 router.get('/public', Auth.validate, async (req, res) => {

@@ -1,15 +1,14 @@
 const regex = require('../tools/regex');
-const utils = require('../tools/utils');
 
 const User = require('./User');
 const Friend = require('./Friend');
 
 // creates a new personal poll
 async function createPersonal(db, display_name, theme, creator, duration, scope, image_1, image_2) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -83,10 +82,10 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
 
 // creates a new challenge poll
 async function createChallenge(db, display_name, theme, creator, opponent, duration, scope, image) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -180,10 +179,10 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
 
 // returns all of your challenge requests
 async function getChallengeRequests(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -220,10 +219,10 @@ async function getChallengeRequests(db, username) {
 
 // accepts a challenge request
 async function acceptChallengeRequest(db, id, username, image) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -271,10 +270,10 @@ async function acceptChallengeRequest(db, id, username, image) {
 
 // returns all of your accepted challenge requests
 async function getAcceptedChallengeRequests(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -311,10 +310,10 @@ async function getAcceptedChallengeRequests(db, username) {
 
 // starts a challenge poll
 async function startChallenge(db, id, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -375,10 +374,10 @@ async function startChallenge(db, id, username) {
 
 // returns a list of private polls based on theme
 async function searchPrivate(db, themes_query) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -432,10 +431,10 @@ async function searchPrivate(db, themes_query) {
 
 // returns a list of public polls based on theme
 async function searchPublic(db, themes_query) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -474,10 +473,10 @@ async function searchPublic(db, themes_query) {
 
 // adds vote to poll choice
 async function vote(db, id, username, vote) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -572,10 +571,10 @@ async function vote(db, id, username, vote) {
 
 // returns a single poll's data by id
 async function getById(db, username, id) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 

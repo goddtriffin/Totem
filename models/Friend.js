@@ -1,12 +1,11 @@
 const regex = require('../tools/regex');
-const utils = require('../tools/utils');
 
 // adds a friend
 async function add(db, username_1, username_2) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -54,10 +53,10 @@ async function add(db, username_1, username_2) {
 
 // returns a list of all friend requests
 async function requests(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -145,10 +144,10 @@ async function requests(db, username) {
 
 // accepts a friend request
 async function accept(db, username_1, username_2) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -194,10 +193,10 @@ async function accept(db, username_1, username_2) {
 
 // returns a list of your friends
 async function get(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -274,10 +273,10 @@ async function get(db, username) {
 
 // removes a friend
 async function remove(db, username_1, username_2) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 

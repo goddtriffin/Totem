@@ -1,6 +1,18 @@
+const emoji_tool = require('node-emoji');
+
 const themes = ['memes', 'fashion', 'movie', 'music', 'animals', 'nature', 'buildings', 'cities', 'food', 'beauty', 'color', 'space', 'vehicles', 'sports'];
 const votes = [1, 2];
 const scopes = ['private', 'public'];
+
+// returns true if db is valid, false otherwise
+function validateDatabase(db) {
+    return !!db;
+}
+
+// returns a String dictating what a valid db should look like
+function getInvalidDatabaseResponse(db) {
+    return 'Invalid database.';
+}
 
 // returns true if email is valid, false otherwise
 function validateEmail(email) {
@@ -71,6 +83,20 @@ function validatePassword(password) {
 // returns a String dictating what a valid password should look like
 function getInvalidPasswordResponse(password) {
     return 'Invalid password: ' + password + '. Should match: min-length=8 max-length=30 no-whitespace';
+}
+
+// returns true if emoji is valid, false otherwise
+function validateEmoji(emoji) {
+    if (typeof emoji !== 'string') {
+        return false;
+    }
+
+    return emoji_tool.hasEmoji(emoji);
+}
+
+// returns a String dictating what a valid emoji should look like
+function getInvalidEmojiResponse(emoji) {
+    return 'Invalid emoji: ' + emoji + '. Should match: https://www.npmjs.com/package/node-emoji';
 }
 
 // returns true if username_query is valid, false otherwise
@@ -178,10 +204,12 @@ function getInvalidScopeResponse(scope) {
 }
 
 module.exports = {
+    validateDatabase, getInvalidDatabaseResponse,
     validateEmail, getInvalidEmailResponse,
     validateUsername, getInvalidUsernameResponse,
     validateDisplayName, getInvalidDisplayNameResponse,
     validatePassword, getInvalidPasswordResponse,
+    validateEmoji, getInvalidEmojiResponse,
     validateUsernameQuery, getInvalidUsernameQueryResponse,
     validateTheme, getInvalidThemeResponse,
     validateDuration, getInvalidDurationResponse,

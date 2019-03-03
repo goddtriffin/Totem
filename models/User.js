@@ -3,16 +3,15 @@ const jwt = require('jsonwebtoken');
 const emoji_tool = require('node-emoji');
 
 const regex = require('../tools/regex');
-const utils = require('../tools/utils');
 
 const Friend = require('./Friend');
 
 // creates new user account
 async function signup(db, email, username, display_name, password, emoji) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -44,10 +43,10 @@ async function signup(db, email, username, display_name, password, emoji) {
         };
     }
 
-    if (!utils.validateEmoji(emoji)) {
+    if (!regex.validateEmoji(emoji)) {
         return {
             code: 400,
-            data: utils.getInvalidEmojiResponse(emoji)
+            data: regex.getInvalidEmojiResponse(emoji)
         };
     }
 
@@ -100,10 +99,10 @@ async function signup(db, email, username, display_name, password, emoji) {
 
 // authenticates user
 async function login(db, username, password) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -165,10 +164,10 @@ async function login(db, username, password) {
 
 // returns a single user's data by username
 async function getByUsername(db, username, username_query) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -232,10 +231,10 @@ async function getByUsername(db, username, username_query) {
 
 // returns a list of users' data that match the given username query
 async function search(db, username, username_query) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -298,10 +297,10 @@ async function search(db, username, username_query) {
 
 // returns a list of all users
 async function all(db) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -326,10 +325,10 @@ async function all(db) {
 
 // updates user account information
 async function update(db, username, display_name, password, emoji) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
@@ -412,10 +411,10 @@ async function update(db, username, display_name, password, emoji) {
 
     // check if emoji was set to be updated, then validate, then convert
     if (!!emoji) {
-        if (!utils.validateEmoji(emoji)) {
+        if (!regex.validateEmoji(emoji)) {
             return {
                 code: 400,
-                data: utils.getInvalidEmojiResponse(emoji)
+                data: regex.getInvalidEmojiResponse(emoji)
             };
         }
 
@@ -465,10 +464,10 @@ async function update(db, username, display_name, password, emoji) {
 
 // returns the entire history of a user
 async function history(db, username) {
-    if (!utils.validateDatabase(db)) {
+    if (!regex.validateDatabase(db)) {
         return {
             code: 500,
-            data: utils.getInvalidDatabaseResponse(db)
+            data: regex.getInvalidDatabaseResponse(db)
         };
     }
 
