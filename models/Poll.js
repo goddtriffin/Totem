@@ -217,6 +217,54 @@ async function getChallengeRequests(db, username) {
     };
 }
 
+// removes a friend
+async function rejectChallengeRequest(db, id, username) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validatePollId(id)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPollIdResponse(id)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    const result = await db('polls')
+        .where({
+            id,
+            opponent: username,
+            state: 'pending',
+            type: 'challenge'
+        })
+        .del()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: "success"
+    };
+}
+
 // accepts a challenge request
 async function acceptChallengeRequest(db, id, username, image) {
     if (!regex.validateDatabase(db)) {
@@ -649,6 +697,7 @@ async function getById(db, username, id) {
 module.exports = {
     createPersonal, createChallenge,
     getChallengeRequests,
+    rejectChallengeRequest,
     acceptChallengeRequest,
     getAcceptedChallengeRequests,
     startChallenge,

@@ -88,6 +88,20 @@ router.get('/challenge/requests', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
+router.delete('/challenge/request/:id', Auth.validate, async (req, res) => {
+    const data = {
+        id: req.params.id,
+        username: req.jwt.sub
+    };
+
+    const result = await Poll.rejectChallengeRequest(
+        req.app.locals.db,
+        data.id, data.username
+    );
+
+    res.status(result.code).send(result);
+});
+
 const uploadAcceptChallengeRequest = upload.fields([{ name: 'image', maxCount: 1 }]);
 router.put('/challenge/request/:id', Auth.validate, uploadAcceptChallengeRequest, async (req, res) => {
     if (!req.files || Object.keys(req.files).length !== 1) {
