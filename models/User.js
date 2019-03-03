@@ -4,8 +4,6 @@ const emoji_tool = require('node-emoji');
 
 const regex = require('../tools/regex');
 
-const Friend = require('./Friend');
-
 // creates new user account
 async function signup(db, email, username, display_name, password, emoji) {
     if (!regex.validateDatabase(db)) {
@@ -215,7 +213,7 @@ async function getByUsername(db, username, username_query) {
 
     // set the user's friend state
     if (username !== username_query) {
-        const state = await Friend.getFriendState(db, username, username_query);
+        const state = await require('./Friend').getFriendState(db, username, username_query);
         if (!(typeof state === 'string')) {
             return state;
         }
@@ -269,7 +267,7 @@ async function search(db, username, username_query) {
 
     // set friendship states of all user search results
     const usernames = result.map(user => user.username);
-    const friend_states = await Friend.getAllFriendStates(db, username, usernames);
+    const friend_states = await require('./Friend').getAllFriendStates(db, username, usernames);
     if (!Array.isArray(friend_states)) {
         return friend_states;
     }

@@ -1,8 +1,5 @@
 const regex = require('../tools/regex');
 
-const User = require('./User');
-const Friend = require('./Friend');
-
 // creates a new personal poll
 async function createPersonal(db, display_name, theme, creator, duration, scope, image_1, image_2) {
     if (!regex.validateDatabase(db)) {
@@ -69,7 +66,7 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
         return result1;
     }
 
-    const result2 = User.incrementPollsCreated(db, creator, 1);
+    const result2 = await require('./User').incrementPollsCreated(db, creator, 1);
     if (!!result2.code) {
         return result2;
     }
@@ -139,7 +136,7 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
     }
 
     // check to make sure the creator and opponent are friends
-    const areFriends = await Friend.areFriends(db, creator, opponent);
+    const areFriends = await require('./Friend').areFriends(db, creator, opponent);
     if (!(typeof areFriends === 'boolean')) {
         return areFriends;
     }
@@ -409,7 +406,7 @@ async function startChallenge(db, id, username) {
         };
     }
     
-    const result2 = User.incrementPollsCreated(db, username, 1);
+    const result2 = await require('./User').incrementPollsCreated(db, username, 1);
     if (!!result2.code) {
         return result2;
     }
@@ -440,7 +437,7 @@ async function searchPrivate(db, themes_query) {
     const themes = themes_query.split(',');
 
     // get a list of this user's friends by their username
-    const friends = await Friend.get(db, username);
+    const friends = await require('./Friend').get(db, username);
     if (friends.code !== 200) {
         return friends;
     }
@@ -642,9 +639,9 @@ async function vote(db, id, username, vote) {
     // increase the appropriate user's tiki_tally
     let result5 = {};
     if (result4[0].type === 'personal' || vote === 1) {
-        result5 = await User.incrementTikiTally(db, result4[0].creator, 1);
+        result5 = await require('./User').incrementTikiTally(db, result4[0].creator, 1);
     } else {
-        result5 = await User.incrementTikiTally(db, result4[0].opponent, 1);
+        result5 = await require('./User').incrementTikiTally(db, result4[0].opponent, 1);
     }
 
     if (!!result5.code) {

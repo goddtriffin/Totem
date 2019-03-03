@@ -1,9 +1,7 @@
 const regex = require('../tools/regex');
 
-const Friend = require('./Friend');
-
 // returns a user's public feed
-async function getPublic(db, username) {
+async function getPublic(db) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
@@ -65,7 +63,7 @@ async function getPrivate(db, username) {
     }
 
     // get a list of this user's friends by their username
-    const friends = await Friend.get(db, username);
+    const friends = await require('./Friend').get(db, username);
     
     // no friends, so no polls
     if (friends.data.length < 1) {
