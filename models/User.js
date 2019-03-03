@@ -517,11 +517,31 @@ async function incrementPollsCreated(db, username, count) {
     return {};
 }
 
+// increases the user's 'tiki_tally' by the parameter 'count'
+async function incrementTikiTally(db, username, count) {
+    const result = await db('users')
+        .where('username', username)
+        .increment('tiki_tally', count)
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return {};
+}
+
 module.exports = {
     signup, login,
     getByUsername,
     search, all,
     update,
     history,
-    incrementPollsCreated
+    incrementPollsCreated,
+    incrementTikiTally
 }
