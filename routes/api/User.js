@@ -51,12 +51,13 @@ router.get('/me', Auth.validate, async (req, res) => {
 
 router.get('/profile/:username', Auth.validate, async (req, res) => {
     const data = {
-        username: req.params.username
+        username: req.jwt.sub,
+        username_query: req.params.username
     };
 
     const result = await User.getByUsername(
         req.app.locals.db,
-        data.username
+        data.username, data.username_query
     );
 
     res.status(result.code).send(result);

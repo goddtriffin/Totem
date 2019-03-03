@@ -317,20 +317,16 @@ async function remove(db, username_1, username_2) {
     };
 }
 
-// returns true if the two usernames have a friend relationship, false otherwise
-async function areFriends(db, username_1, username_2) {
+// returns the state of the friendship, 'N/A' otherwise
+async function getFriendState(db, username_1, username_2) {
     const result = await db('friends')
-        .where('state', 'accepted')
-        .andWhere(builder => {
-            builder
-                .where({
-                    username_1,
-                    username_2
-                })
-                .orWhere({
-                    username_1: username_2,
-                    username_2: username_1
-                })
+        .where({
+            username_1,
+            username_2
+        })
+        .orWhere({
+            username_1: username_2,
+            username_2: username_1
         })
         .select()
         .catch(e => {
@@ -344,12 +340,25 @@ async function areFriends(db, username_1, username_2) {
         return result;
     }
 
-    return (result.length === 1);
+    if (result.length === 1) {
+        // friendship exists
+        return result[0].state;
+    } else {
+        // friendship doesn't exist
+        return 'N/A';
+    }
+}
+
+// returns true if the two usernames have a friend relationship, false otherwise
+async function areFriends(db, username_1, username_2) {
+    const state = await getFriendState(db, username_1, username_2);
+    return state === 'accepted';
 }
 
 module.exports = {
     add, requests,
     accept, get,
     remove,
+    getFriendState,
     areFriends
 }

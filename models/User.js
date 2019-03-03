@@ -164,7 +164,7 @@ async function login(db, username, password) {
 }
 
 // returns a single user's data by username
-async function getByUsername(db, username) {
+async function getByUsername(db, username, username_query) {
     if (!utils.validateDatabase(db)) {
         return {
             code: 500,
@@ -179,8 +179,15 @@ async function getByUsername(db, username) {
         };
     }
 
+    if (!regex.validateUsernameQuery(username_query)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameQueryResponse(username_query)
+        };
+    }
+
     const result = await db('users')
-        .where('username', username)
+        .where('username', username_query)
         .select('email', 'username', 'display_name', 'emoji', 'challenges_played', 'challenges_won', 'tiki_tally', 'polls_created')
         .catch(e => {
             return {
@@ -197,7 +204,7 @@ async function getByUsername(db, username) {
     if (result.length !== 1) {
         return {
             code: 400,
-            data: 'no account found with username: ' + username
+            data: 'no account found with username: ' + username_query
         };
     }
 
@@ -206,6 +213,16 @@ async function getByUsername(db, username) {
     data['win_rate'] = (data['challenges_played'] === 0)? 0 : data['challenges_won'] / data['challenges_played'];
     delete data['challenges_won'];
     delete data['challenges_played'];
+
+    // set the user's friend state
+    if (username !== username_query) {
+        const state = await Friend.getFriendState(db, username, username_query);
+        if (!(typeof state === 'string')) {
+            return state;
+        }
+
+        data.friend_state = state;
+    }
 
     return {
         code: 200,
