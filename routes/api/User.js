@@ -42,7 +42,7 @@ router.get('/me', Auth.validate, async (req, res) => {
 
     const result = await User.getByUsername(
         req.app.locals.db,
-        data.username
+        data.username, data.username
     );
 
     res.status(result.code).send(result);
