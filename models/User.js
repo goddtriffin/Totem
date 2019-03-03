@@ -486,6 +486,8 @@ async function incrementPollsCreated(db, username, count) {
     if (!!result.code) {
         return result;
     }
+
+    return {};
 }
 
 module.exports = {

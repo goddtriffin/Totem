@@ -48,7 +48,7 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
         };
     }
 
-    const result = await db('polls')
+    const result1 = await db('polls')
         .returning('id')
         .insert({
             display_name, theme,
@@ -66,15 +66,18 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
             };
         });
     
-    if (!!result.code) {
-        return result;
+    if (!!result1.code) {
+        return result1;
     }
 
-    User.incrementPollsCreated(db, creator, 1);
+    const result2 = User.incrementPollsCreated(db, creator, 1);
+    if (!!result2.code) {
+        return result2;
+    }
 
     return {
         code: 200,
-        data: result[0]
+        data: result1[0]
     };
 }
 
