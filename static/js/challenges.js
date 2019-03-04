@@ -113,7 +113,7 @@ function getAcceptedOnes(){
 }
 
 function startChallenge(id){
-	 var url = "/api/poll/challenge/request/accepted/";
+	var url = "/api/poll/challenge/request/accepted/";
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("PUT", url+id, true);
@@ -123,6 +123,7 @@ function startChallenge(id){
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(users);
+			getAcceptedOnes();
 
 		} else {
 			console.error(users);
