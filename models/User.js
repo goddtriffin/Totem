@@ -426,6 +426,13 @@ async function update(db, username, display_name, password, emoji) {
         return result;
     }
 
+    if (result !== 1) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     return {
         code: 200,
         data: "success"
@@ -445,6 +452,19 @@ async function history(db, username) {
         return {
             code: 400,
             data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
         };
     }
 
@@ -470,6 +490,19 @@ async function history(db, username) {
 
 // increases the user's 'polls_created' by the parameter 'count'
 async function incrementPollsCreated(db, username, count) {
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result = await db('users')
         .where('username', username)
         .increment('polls_created', count)
@@ -489,6 +522,19 @@ async function incrementPollsCreated(db, username, count) {
 
 // increases the user's 'tiki_tally' by the parameter 'count'
 async function incrementTikiTally(db, username, count) {
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result = await db('users')
         .where('username', username)
         .increment('tiki_tally', count)
