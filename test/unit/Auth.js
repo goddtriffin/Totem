@@ -18,7 +18,7 @@ describe('Auth', () => {
 		});
 
 		it('success with user signup', async () => {
-			const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
+			const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
 
 			const result = await Auth.validate(signup.data);
 			assert.strictEqual(result.code, 200, result.data);

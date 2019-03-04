@@ -7,7 +7,7 @@ const regex = require('../tools/regex');
 const email_tool = require('../tools/email');
 
 // creates new user account
-async function signup(db, email, username, display_name, password, emoji) {
+async function signup(db, email, username, display_name, password, emoji, sendVerificationEmail) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
@@ -112,7 +112,9 @@ async function signup(db, email, username, display_name, password, emoji) {
     }
 
     // send account verification email
-    email_tool.sendVerificationEmail(email, verificationHash);
+    if (sendVerificationEmail) {
+        email_tool.sendVerificationEmail(email, verificationHash);
+    }
     
     // immediately authenticate on successful signup
     const payload = {

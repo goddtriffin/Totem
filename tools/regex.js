@@ -96,7 +96,7 @@ function validateEmoji(emoji) {
 
 // returns a String dictating what a valid emoji should look like
 function getInvalidEmojiResponse(emoji) {
-    return 'Invalid emoji: ' + emoji + '. Should match: https://www.npmjs.com/package/node-emoji';
+    return 'Invalid emoji: ' + emoji + '. Should match from source: https://www.npmjs.com/package/node-emoji';
 }
 
 // returns true if username_query is valid, false otherwise

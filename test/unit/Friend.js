@@ -11,8 +11,8 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
 
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
 		});
 
 		after(async () => {
@@ -47,10 +47,10 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
             
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
-            await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one');
-            await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two');
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one', false);
+            await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two', false);
 
             await Friend.add(db, 'todd', 'kelp');
             await Friend.add(db, 'todd', 'one');
@@ -99,8 +99,8 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
             
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
 
             const result = await Friend.add(db, 'todd', 'kelp');
 		});
@@ -137,10 +137,10 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
             
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
-            await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one');
-            await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two');
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one', false);
+            await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two', false);
 
             await Friend.add(db, 'todd', 'kelp');
             await Friend.add(db, 'todd', 'one');
@@ -192,8 +192,8 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
 
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
+            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
 		});
 
 		after(async () => {

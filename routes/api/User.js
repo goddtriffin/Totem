@@ -15,7 +15,8 @@ router.post('/signup', async (req, res) => {
     const result = await User.signup(
         req.app.locals.db,
         data.email, data.username, data.display_name,
-        data.password, data.emoji
+        data.password, data.emoji,
+        true
     );
 
     res.status(result.code).send(result);
