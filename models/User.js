@@ -723,7 +723,7 @@ async function forgotPassword(db, username) {
     }
 
     // check if account has unverified email
-    const result = await db('users')
+    const result1 = await db('users')
         .where('username', username)
         .select('email', 'verified')
         .catch(e => {
@@ -733,25 +733,52 @@ async function forgotPassword(db, username) {
             };
         });
     
-    if (!!result.code) {
-        return result;
+    if (!!result1.code) {
+        return result1;
     }
 
-    if (result.length !== 1) {
+    if (result1.length !== 1) {
         return {
             code: 400,
-            data: 'no user account found: ' + email
+            data: 'no user account found: ' + username
         };
     }
 
-    if (!result[0].verified) {
+    if (!result1[0].verified) {
         return {
             code: 400,
             data: 'user email is not verified'
         };
     }
 
-    email_tool.sendForgotPasswordEmail(result[0].email);
+    // create random hash for account verification purposes
+    const verificationHash = crypto.randomBytes(20).toString('hex');
+    if (typeof verificationHash !== 'string') {
+        return {
+            code: 500,
+            data: 'error creating random verification hash'
+        };
+    }
+
+    // store random hash for account verification purposes
+    const result2 = await db('renew_password_verification')
+        .insert({
+            username,
+            email: result1[0].email,
+            hash: verificationHash
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result2.code) {
+        return result2;
+    }
+
+    email_tool.sendForgotPasswordEmail(result1[0].email, verificationHash);
 
     return {
         code: 200,

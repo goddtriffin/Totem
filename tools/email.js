@@ -62,10 +62,10 @@ async function sendForgotUsernameEmail(recipientEmail, username) {
 }
 
 // sends a verification email
-async function sendForgotPasswordEmail(recipientEmail) {
+async function sendForgotPasswordEmail(recipientEmail, verificationHash) {
     // create link to email verification page
     const host = (process.env.NODE_ENV === 'production')? '68.183.110.202' : 'localhost';
-    const renewPasswordPageUrl = 'http://' + host + '/renew-password';
+    const renewPasswordPageUrl = 'http://' + host + '/renew-password?email=' + recipientEmail + '&hash=' + verificationHash;
 
     const mailOptions = {
         from: '"Totem 🗿" <noreply@totem.com>',
