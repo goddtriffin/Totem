@@ -44,6 +44,19 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
         };
     }
 
+    // check if creator exists
+    const creator_exists = await require('./User').usernameExists(db, creator);
+    if (typeof creator_exists !== 'boolean') {
+        return creator_exists;
+    }
+
+    if (!creator_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + creator
+        };
+    }
+
     const result1 = await db('polls')
         .returning('id')
         .insert({
@@ -135,6 +148,32 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         };
     }
 
+    // check if creator exists
+    const creator_exists = await require('./User').usernameExists(db, creator);
+    if (typeof creator_exists !== 'boolean') {
+        return creator_exists;
+    }
+
+    if (!creator_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + creator
+        };
+    }
+
+    // check if opponent exists
+    const opponent_exists = await require('./User').usernameExists(db, opponent);
+    if (typeof opponent_exists !== 'boolean') {
+        return opponent_exists;
+    }
+
+    if (!opponent_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + opponent
+        };
+    }
+
     // check to make sure the creator and opponent are friends
     const areFriends = await require('./Friend').areFriends(db, creator, opponent);
     if (!(typeof areFriends === 'boolean')) {
@@ -190,6 +229,19 @@ async function getChallengeRequests(db, username) {
         };
     }
 
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result = await db('polls')
         .where({
             opponent: username,
@@ -237,6 +289,32 @@ async function rejectChallengeRequest(db, id, username) {
         };
     }
 
+    // check if poll exists
+    const poll_exists = await pollExists(db, id);
+    if (typeof poll_exists !== 'boolean') {
+        return poll_exists;
+    }
+
+    if (!poll_exists) {
+        return {
+            code: 400,
+            data: 'no poll exists with id: ' + id
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result = await db('polls')
         .where({
             id,
@@ -254,6 +332,13 @@ async function rejectChallengeRequest(db, id, username) {
     
     if (!!result.code) {
         return result;
+    }
+
+    if (result !== 0) {
+        return {
+            code: 400,
+            data: 'no pending challenge request found with id: ' + id
+        };
     }
 
     return {
@@ -285,6 +370,32 @@ async function acceptChallengeRequest(db, id, username, image) {
         };
     }
 
+    // check if poll exists
+    const poll_exists = await pollExists(db, id);
+    if (typeof poll_exists !== 'boolean') {
+        return poll_exists;
+    }
+
+    if (!poll_exists) {
+        return {
+            code: 400,
+            data: 'no poll exists with id: ' + id
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result = await db('polls')
         .where({
             id,
@@ -307,6 +418,13 @@ async function acceptChallengeRequest(db, id, username, image) {
         return result;
     }
 
+    if (result !== 1) {
+        return {
+            code: 400,
+            data: 'no pending challenge request found with id' + id
+        };
+    }
+
     return {
         code: 200,
         data: 'success'
@@ -326,6 +444,19 @@ async function getAcceptedChallengeRequests(db, username) {
         return {
             code: 400,
             data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
         };
     }
 
@@ -376,6 +507,32 @@ async function startChallenge(db, id, username) {
         };
     }
 
+    // check if poll exists
+    const poll_exists = await pollExists(db, id);
+    if (typeof poll_exists !== 'boolean') {
+        return poll_exists;
+    }
+
+    if (!poll_exists) {
+        return {
+            code: 400,
+            data: 'no poll exists with id: ' + id
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result1 = await db('polls')
         .where({
             id,
@@ -402,7 +559,7 @@ async function startChallenge(db, id, username) {
     if (result1 !== 1) {
         return {
             code: 400,
-            data: 'no challenge poll in the ready state with creator=' + username + ' and id=' + id
+            data: 'no ready challenge poll found with id: ' + id
         };
     }
     
@@ -547,6 +704,32 @@ async function vote(db, id, username, vote) {
         };
     }
 
+    // check if poll exists
+    const poll_exists = await pollExists(db, id);
+    if (typeof poll_exists !== 'boolean') {
+        return poll_exists;
+    }
+
+    if (!poll_exists) {
+        return {
+            code: 400,
+            data: 'no poll exists with id: ' + id
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     // check to see if they're already voted on this poll
     const result1 = await db('history')
         .where({
@@ -597,7 +780,7 @@ async function vote(db, id, username, vote) {
     if (result2 !== 1) {
         return {
             code: 400,
-            data: 'no active poll exists of id: ' + id
+            data: 'no active poll exists with id: ' + id
         };
     }
 
@@ -677,6 +860,32 @@ async function getById(db, username, id) {
         };
     }
 
+    // check if poll exists
+    const poll_exists = await pollExists(db, id);
+    if (typeof poll_exists !== 'boolean') {
+        return poll_exists;
+    }
+
+    if (!poll_exists) {
+        return {
+            code: 400,
+            data: 'no poll exists with id: ' + id
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result1 = await db('polls')
         .where('id', id)
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
@@ -731,6 +940,25 @@ async function getById(db, username, id) {
     };
 }
 
+// returns true if a poll exists with the given id, false otherwise
+async function pollExists(db, id) {
+    const result = await db('poll')
+        .where('id', id)
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return result.length === 1;
+}
+
 module.exports = {
     createPersonal, createChallenge,
     getChallengeRequests,
@@ -739,5 +967,6 @@ module.exports = {
     getAcceptedChallengeRequests,
     startChallenge,
     searchPrivate, searchPublic,
-    vote, getById
+    vote, getById,
+    pollExists
 }
