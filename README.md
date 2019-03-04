@@ -67,10 +67,12 @@ All other routes: `application/x-www-form-urlencoded`
 | GET | `/api/user/profile/:username` | returns that user's account information (replace `:username` with a real username) |  |
 | GET | `/api/user/search?username=<username>` | returns a list of all user accounts with similar usernames (replace `<username>` with a real username) |  |
 | GET | `/api/user/all` | returns a list of all user accounts |  |
-| PUT | `/api/user/update` | updates your account, must pick at least one optional Body parameter to update | display_name, password, emoji |
+| PUT | `/api/user/update` | updates your account, must pick at least one optional Body parameter to update | display_name, emoji |
 | GET | `/api/user/history` | returns your poll vote history |  |
-| POST | `/api/user/verify-email` | verifies the user account's email | email, hash |
+| POST | `/api/user/verify-email` | sends an email to help verify the user account's email | email, hash |
 | POST | $ `/api/user/forgot-username` | sends an email the contains the correct user account's username | email |
+| POST | $ `/api/user/forgot-password` | sends an email to help start the renew password process |  |
+| POST | $ `/api/user/renew-password` | updates the user account's password | email, hash, password |
 
 #### Friend
 
