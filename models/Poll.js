@@ -942,7 +942,7 @@ async function getById(db, username, id) {
 
 // returns true if a poll exists with the given id, false otherwise
 async function pollExists(db, id) {
-    const result = await db('poll')
+    const result = await db('polls')
         .where('id', id)
         .select()
         .catch(e => {
