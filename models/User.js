@@ -1,8 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const emoji_tool = require('node-emoji');
+const crypto = require('crypto');
 
 const regex = require('../tools/regex');
+const email_tool = require('../tools/email');
 
 // creates new user account
 async function signup(db, email, username, display_name, password, emoji) {
@@ -54,7 +56,16 @@ async function signup(db, email, username, display_name, password, emoji) {
     // hash the password before storing for security
     const hash = bcrypt.hashSync(password, 10);
 
-    const result = await db('users')
+    // create random hash for account verification purposes
+    const verificationHash = crypto.randomBytes(20).toString('hex');
+    if (typeof verificationHash !== 'string') {
+        return {
+            code: 500,
+            data: 'error creating random verification hash'
+        };
+    }
+
+    const result1 = await db('users')
         .insert({
             email, username, display_name, emoji, hash
         })
@@ -65,23 +76,43 @@ async function signup(db, email, username, display_name, password, emoji) {
             };
         });
 
-    if (!!result.code) {
-        if (result.data.includes('UNIQUE constraint failed: users.username')) {
+    if (!!result1.code) {
+        if (result1.data.includes('UNIQUE constraint failed: users.username')) {
             return {
                 code: 409,
                 data: 'username already exists'
             };
         }
 
-        if (result.data.includes('UNIQUE constraint failed: users.email')) {
+        if (result1.data.includes('UNIQUE constraint failed: users.email')) {
             return {
                 code: 409,
                 data: 'email already exists'
             };
         }
 
-        return result;
+        return result1;
     }
+
+    // store random hash for account verification purposes
+    const result2 = await db('account_verification')
+        .insert({
+            username, email,
+            hash: verificationHash
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result2.code) {
+        return result2;
+    }
+
+    // send account verification email
+    email_tool.sendVerificationEmail(email, verificationHash);
     
     // immediately authenticate on successful signup
     const payload = {
@@ -488,6 +519,127 @@ async function history(db, username) {
     };
 }
 
+// verifies the user account's email
+async function verifyEmail(db, username, email, hash) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    if (!regex.validateEmail(email)) {
+        return {
+            code: 400,
+            data: regex.getInvalidEmailResponse(email)
+        };
+    }
+
+    if (!regex.validateEmailVerificationHash(hash)) {
+        return {
+            code: 400,
+            data: regex.getInvalidEmailVerificationHashResponse(hash)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
+    // check if account has unverified email
+    const result1 = await db('account_verification')
+        .where({
+            username, email
+        })
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result1.code) {
+        return result1;
+    }
+
+    if (result1.length !== 1) {
+        return {
+            code: 400,
+            data: 'this account does not have an unverified email'
+        };
+    }
+
+    // delete the row with the correct username, email, hash
+    const result2 = await db('account_verification')
+        .where({
+            username, email, hash
+        })
+        .del()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result2.code) {
+        return result;
+    }
+
+    if (result2 !== 1) {
+        return {
+            code: 400,
+            data: 'incorrect email verification hash'
+        };
+    }
+
+    // set user account to verified
+    const result3 = await db('users')
+        .where({
+            username, email
+        })
+        .update('verified', 1)
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result3.code) {
+        return result;
+    }
+
+    if (result3 !== 1) {
+        return {
+            code: 400,
+            data: 'no user account found: username=' + username + ' email=' + email
+        };
+    }
+
+    return {
+        code: 200,
+        data: "success"
+    };
+}
+
 // increases the user's 'polls_created' by the parameter 'count'
 async function incrementPollsCreated(db, username, count) {
     // check if username exists
@@ -577,6 +729,7 @@ module.exports = {
     search,
     update,
     history,
+    verifyEmail,
     incrementPollsCreated,
     incrementTikiTally,
     usernameExists
