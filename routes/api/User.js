@@ -76,14 +76,6 @@ router.get('/search', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
-router.get('/all', Auth.validate, async (req, res) => {
-    const result = await User.all(
-        req.app.locals.db
-    );
-
-    res.status(result.code).send(result);
-});
-
 router.put('/update', Auth.validate, async (req, res) => {
     // store which optional parameter updates are chosen
     const data = {

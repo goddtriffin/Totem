@@ -189,29 +189,6 @@ describe('User', () => {
 		});
 	});
 
-	describe('all', () => {
-		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
-		});
-
-		after(async () => {
-			await db.destroy();
-			db = null;
-		});
-
-		it('success', async () => {
-			const result = await User.all(db);
-			assert.strictEqual(result.code, 200, result.data);
-		});
-
-		describe('validate parameters', () => {
-			it('invalid database', async () => {
-				const result = await User.all(null);
-				assert.strictEqual(result.code, 500, result.data);
-			});
-		});
-	});
-
 	describe('update', () => {
 		before(async () => {
 			db = await db_tool.create(':memory:', true, false, true);

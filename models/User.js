@@ -293,34 +293,6 @@ async function search(db, username, username_query) {
     };
 }
 
-// returns a list of all users
-async function all(db) {
-    if (!regex.validateDatabase(db)) {
-        return {
-            code: 500,
-            data: regex.getInvalidDatabaseResponse(db)
-        };
-    }
-
-    const result = await db('users')
-        .select('email', 'username', 'display_name', 'emoji', 'challenges_played', 'challenges_won', 'tiki_tally', 'polls_created')
-        .catch(e => {
-            return {
-                code: 500,
-                data: e.originalStack
-            };
-        });
-
-    if (!!result.code) {
-        return result;
-    }
-
-    return {
-        code: 200,
-        data: result
-    };
-}
-
 // updates user account information
 async function update(db, username, display_name, password, emoji) {
     if (!regex.validateDatabase(db)) {
@@ -556,7 +528,7 @@ async function usernameExists(db, username) {
 module.exports = {
     signup, login,
     getByUsername,
-    search, all,
+    search,
     update,
     history,
     incrementPollsCreated,
