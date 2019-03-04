@@ -86,8 +86,6 @@ function getAcceptedOnes(){
 		console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			// console
-			//Populate HTML
 			let runningTable = ``;
 			let tableBody = document.getElementById("acceptedRequests");
 			for(let i = 0; i < users.data.length; i++){
@@ -101,16 +99,9 @@ function getAcceptedOnes(){
 						<td>
 							<button class="btn btn-success" onclick="startChallenge(${users.data[i].id})">Start</button>
 						</td>   
-					</tr>`;
-                                          
+					</tr>`;                         
 			}
 			tableBody.innerHTML = runningTable;
-
-
-
-
-
-
 
 			console.log(users.data)
 
@@ -122,9 +113,6 @@ function getAcceptedOnes(){
 }
 
 function startChallenge(id){
-	// put
-	// /api/poll/challenge/request/:id
-
 	 var url = "/api/poll/challenge/request/accepted/";
 
 	var xhr = new XMLHttpRequest();
@@ -143,7 +131,6 @@ function startChallenge(id){
     xhr.send(null);
 
 }
-
 
 function getSentChallenges(){
 

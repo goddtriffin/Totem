@@ -198,8 +198,6 @@ function searchfriends(){
 		var url  = "/api/user/search?username=";
 		var xhr  = new XMLHttpRequest()
 
-		
-
 		xhr.open('GET', url+usernameSearch, true)
 		xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
