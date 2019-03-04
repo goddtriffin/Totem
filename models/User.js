@@ -658,9 +658,7 @@ async function forgotUsername(db, email) {
 
     // check if account has unverified email
     const result = await db('users')
-        .where({
-            email
-        })
+        .where('email', email)
         .select('username', 'verified')
         .catch(e => {
             return {
@@ -692,7 +690,73 @@ async function forgotUsername(db, email) {
     return {
         code: 200,
         data: 'email sent'
+    };
+}
+
+// sends an email with a link to reset the password
+async function forgotPassword(db, username) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
+        };
     }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
+    // check if account has unverified email
+    const result = await db('users')
+        .where('username', username)
+        .select('email', 'verified')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result.code) {
+        return result;
+    }
+
+    if (result.length !== 1) {
+        return {
+            code: 400,
+            data: 'no user account found: ' + email
+        };
+    }
+
+    if (!result[0].verified) {
+        return {
+            code: 400,
+            data: 'user email is not verified'
+        };
+    }
+
+    email_tool.sendForgotPasswordEmail(result[0].email);
+
+    return {
+        code: 200,
+        data: 'email sent'
+    };
 }
 
 // increases the user's 'polls_created' by the parameter 'count'
@@ -786,6 +850,7 @@ module.exports = {
     history,
     verifyEmail,
     forgotUsername,
+    forgotPassword,
     incrementPollsCreated,
     incrementTikiTally,
     usernameExists

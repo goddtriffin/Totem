@@ -61,7 +61,30 @@ async function sendForgotUsernameEmail(recipientEmail, username) {
     console.log('\'forgot username\' email: ' + nodemailer.getTestMessageUrl(result));
 }
 
+// sends a verification email
+async function sendForgotPasswordEmail(recipientEmail) {
+    // create link to email verification page
+    const host = (process.env.NODE_ENV === 'production')? '68.183.110.202' : 'localhost';
+    const renewPasswordPageUrl = 'http://' + host + '/renew-password';
+
+    const mailOptions = {
+        from: '"Totem 🗿" <noreply@totem.com>',
+        to: recipientEmail,
+        subject: 'Email Verification',
+        text: renewPasswordPageUrl,
+        html: '<a href="' + renewPasswordPageUrl + '">Click to renew your password</a>'
+    };
+
+    // send the email
+    const transporter = await init();
+    const result = await transporter.sendMail(mailOptions);
+
+    // Preview only available when sending through an Ethereal account
+    console.log('\'forgot password\' email: ' + nodemailer.getTestMessageUrl(result));
+}
+
 module.exports = {
     sendVerificationEmail,
-    sendForgotUsernameEmail
+    sendForgotUsernameEmail,
+    sendForgotPasswordEmail
 }

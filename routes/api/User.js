@@ -147,4 +147,17 @@ router.post('/forgot-username', async (req, res) => {
     res.status(result.code).send(result);
 });
 
+router.post('/forgot-password', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub
+    };
+
+    const result = await User.forgotPassword(
+        req.app.locals.db,
+        data.username
+    );
+
+    res.status(result.code).send(result);
+});
+
 module.exports = router;
