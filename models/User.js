@@ -4,6 +4,7 @@ const emoji_tool = require('node-emoji');
 const crypto = require('crypto');
 
 const regex = require('../tools/regex');
+const email_tool = require('../tools/email');
 
 // creates new user account
 async function signup(db, email, username, display_name, password, emoji) {
@@ -92,6 +93,9 @@ async function signup(db, email, username, display_name, password, emoji) {
 
         return result1;
     }
+
+    // send account verification email
+    email_tool.sendVerificationEmail(email);
 
     // store random hash for account verification purposes
     const result2 = await db('account_verification')
