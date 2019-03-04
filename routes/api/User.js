@@ -15,7 +15,8 @@ router.post('/signup', async (req, res) => {
     const result = await User.signup(
         req.app.locals.db,
         data.email, data.username, data.display_name,
-        data.password, data.emoji
+        data.password, data.emoji,
+        true
     );
 
     res.status(result.code).send(result);
@@ -87,11 +88,6 @@ router.put('/update', Auth.validate, async (req, res) => {
         data.display_name = req.body.display_name;
     }
 
-    // check if optional password update parameter is set
-    if (!!req.body.password) {
-        data.password = req.body.password;
-    }
-
     // check if optional emoji update parameter is set
     if (!!req.body.emoji) {
         data.emoji = req.body.emoji;
@@ -99,8 +95,7 @@ router.put('/update', Auth.validate, async (req, res) => {
 
     const result = await User.update(
         req.app.locals.db, 
-        data.username, data.display_name,
-        data.password, data.emoji
+        data.username, data.display_name, data.emoji
     );
 
     res.status(result.code).send(result);
@@ -142,6 +137,36 @@ router.post('/forgot-username', async (req, res) => {
     const result = await User.forgotUsername(
         req.app.locals.db,
         data.email
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.post('/forgot-password', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub
+    };
+
+    const result = await User.forgotPassword(
+        req.app.locals.db,
+        data.username
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.post('/renew-password', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub,
+        email: req.body.email,
+        hash: req.body.hash,
+        newPassword: req.body.password
+    };
+
+    const result = await User.renewPassword(
+        req.app.locals.db,
+        data.username, data.email,
+        data.hash, data.newPassword
     );
 
     res.status(result.code).send(result);

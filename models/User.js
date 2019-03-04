@@ -7,7 +7,7 @@ const regex = require('../tools/regex');
 const email_tool = require('../tools/email');
 
 // creates new user account
-async function signup(db, email, username, display_name, password, emoji) {
+async function signup(db, email, username, display_name, password, emoji, sendVerificationEmail) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
@@ -112,7 +112,9 @@ async function signup(db, email, username, display_name, password, emoji) {
     }
 
     // send account verification email
-    email_tool.sendVerificationEmail(email, verificationHash);
+    if (sendVerificationEmail) {
+        email_tool.sendVerificationEmail(email, verificationHash);
+    }
     
     // immediately authenticate on successful signup
     const payload = {
@@ -325,7 +327,7 @@ async function search(db, username, username_query) {
 }
 
 // updates user account information
-async function update(db, username, display_name, password, emoji) {
+async function update(db, username, display_name, emoji) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
@@ -389,27 +391,6 @@ async function update(db, username, display_name, password, emoji) {
         data.display_name = display_name;
     }
 
-    // check if password was set to be updated, then validate
-    if (!!password) {
-        if (!regex.validatePassword(password)) {
-            return {
-                code: 400,
-                data: regex.getInvalidPasswordResponse(password)
-            };
-        }
-
-        // only update password if it is different than what is already set
-        if (bcrypt.compareSync(password, user.hash)) {
-            return {
-                code: 400,
-                data: 'must choose different password, user password already is: ' + password
-            };
-        }
-
-        // hash the password before storing for security
-        data.hash = bcrypt.hashSync(password, 10);
-    }
-
     // check if emoji was set to be updated, then validate, then convert
     if (!!emoji) {
         if (!regex.validateEmoji(emoji)) {
@@ -436,10 +417,10 @@ async function update(db, username, display_name, password, emoji) {
 
     // check if no optional update parameters were chosen
     const numUpdates = Object.keys(data).length;
-    if (numUpdates < 1 || numUpdates > 3) {
+    if (numUpdates < 1 || numUpdates > 2) {
         return {
             code: 400,
-            data: 'must set, at a minimum, one of the following optional parameters to update: display_name, password, emoji'
+            data: 'must set, at a minimum, one of the following optional parameters to update: display_name, emoji'
         };
     }
 
@@ -658,9 +639,7 @@ async function forgotUsername(db, email) {
 
     // check if account has unverified email
     const result = await db('users')
-        .where({
-            email
-        })
+        .where('email', email)
         .select('username', 'verified')
         .catch(e => {
             return {
@@ -692,7 +671,269 @@ async function forgotUsername(db, email) {
     return {
         code: 200,
         data: 'email sent'
+    };
+}
+
+// sends an email with a link to reset the password
+async function forgotPassword(db, username) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
+        };
     }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
+    // check if account has unverified email
+    const result1 = await db('users')
+        .where('username', username)
+        .select('email', 'verified')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result1.code) {
+        return result1;
+    }
+
+    if (result1.length !== 1) {
+        return {
+            code: 400,
+            data: 'no user account found: ' + username
+        };
+    }
+
+    if (!result1[0].verified) {
+        return {
+            code: 400,
+            data: 'user email is not verified'
+        };
+    }
+
+    // create random hash for account verification purposes
+    const verificationHash = crypto.randomBytes(20).toString('hex');
+    if (typeof verificationHash !== 'string') {
+        return {
+            code: 500,
+            data: 'error creating random verification hash'
+        };
+    }
+
+    // store random hash for account verification purposes
+    const result2 = await db('renew_password_verification')
+        .insert({
+            username,
+            email: result1[0].email,
+            hash: verificationHash
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result2.code) {
+        return result2;
+    }
+
+    email_tool.sendForgotPasswordEmail(result1[0].email, verificationHash);
+
+    return {
+        code: 200,
+        data: 'email sent'
+    };
+}
+
+async function renewPassword(db, username, email, hash, newPassword) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    if (!regex.validateEmail(email)) {
+        return {
+            code: 400,
+            data: regex.getInvalidEmailResponse(email)
+        };
+    }
+
+    if (!regex.validateEmailVerificationHash(hash)) {
+        return {
+            code: 400,
+            data: regex.getInvalidEmailVerificationHashResponse(hash)
+        };
+    }
+
+    if (!regex.validatePassword(newPassword)) {
+        return {
+            code: 400,
+            data: regex.getInvalidPasswordResponse(newPassword)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
+    // check if account is in the process of renewing its password
+    const result1 = await db('renew_password_verification')
+        .where({
+            username, email
+        })
+        .select('hash')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result1.code) {
+        return result1;
+    }
+
+    if (result1.length !== 1) {
+        return {
+            code: 400,
+            data: 'this user is not in the process of renewing their password'
+        };
+    }
+
+    if (result1[0].hash !== hash) {
+        return {
+            code: 400,
+            data: 'incorrect renew password verification hash'
+        };
+    }
+
+    // get the user's old password
+    const result2 = await db('users')
+        .where({
+            username, email
+        })
+        .select('hash')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result2.code) {
+        return result2;
+    }
+
+    if (result2.length !== 1) {
+        return {
+            code: 400,
+            data: 'no user account found: username=' + username + ' email=' + email
+        };
+    }
+
+    // check to make sure the new password doesn't match the old password
+    if (bcrypt.compareSync(newPassword, result2[0].hash)) {
+        return {
+            code: 400,
+            data: 'must choose different password, user password already is: ' + newPassword
+        };
+    }
+
+    // hash the password before storing for security
+    const newHash = bcrypt.hashSync(newPassword, 10);
+
+    // store the now hashed new password
+    const result3 = await db('users')
+        .where({
+            username, email
+        })
+        .update('hash', newHash)
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result3.code) {
+        return resul3;
+    }
+
+    if (result3 !== 1) {
+        return {
+            code: 400,
+            data: 'no user account found: username=' + username + ' email=' + email
+        };
+    }
+
+    // delete the row with the correct username, email, hash
+    const result4 = await db('renew_password_verification')
+        .where({
+            username, email, hash
+        })
+        .del()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result4.code) {
+        return result4;
+    }
+
+    if (result4 !== 1) {
+        return {
+            code: 400,
+            data: 'incorrect renew password verification hash: username=' + username + ' email=' + email
+        };
+    }
+
+    return {
+        code: 200,
+        data: 'success'
+    };
 }
 
 // increases the user's 'polls_created' by the parameter 'count'
@@ -786,6 +1027,7 @@ module.exports = {
     history,
     verifyEmail,
     forgotUsername,
+    forgotPassword, renewPassword,
     incrementPollsCreated,
     incrementTikiTally,
     usernameExists
