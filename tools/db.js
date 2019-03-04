@@ -12,6 +12,7 @@ async function create(databasePath, useNullAsDefault, debug, asyncStackTraces) {
 
     await Promise.all([
         createUsersTable(db),
+        createAccountVerificationTable(db),
         createFriendsTable(db),
         createPollsTable(db),
         createHistoryTable(db)
@@ -38,6 +39,8 @@ async function createUsersTable(db) {
         if (!exists) {
             return db.schema.createTable('users', table => {
                 table.string('email').unique();
+                table.integer('verified').notNullable().defaultTo(0);
+
                 table.string('username').unique().primary();
                 table.string('display_name').notNullable();
                 table.string('hash').notNullable();
@@ -48,6 +51,17 @@ async function createUsersTable(db) {
                 table.integer('challenges_won').notNullable().defaultTo(0);
                 table.integer('tiki_tally').notNullable().defaultTo(0);  // 2x tikis on votes to your picture, 1x tikis on votes to the opponents pictures
                 table.integer('polls_created').notNullable().defaultTo(0);
+            });
+        }
+    });
+}
+
+async function createAccountVerificationTable(db) {
+    await db.schema.hasTable('account_verification').then(exists => {
+        if (!exists) {
+            return db.schema.createTable('account_verification', table => {
+                table.string('username').notNullable().references('users.username');
+                table.string('hash').notNullable();
             });
         }
     });
