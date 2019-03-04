@@ -56,6 +56,20 @@ async function add(db, username_1, username_2) {
         };
     }
 
+    // check to see if they're already friends, or if there is a pending friend request
+    const friend_state = await getFriendState(db, username_1, username_2);
+    if (friend_state === 'accepted') {
+        return {
+            code: 400,
+            data: 'already friends with: ' + username_2
+        };
+    } else if (friend_state === 'pending') {
+        return {
+            code: 400,
+            data: 'pending friend request already exists with: ' + username_2
+        };
+    }
+
     // friendship is good to go
     const result = await db('friends')
         .insert({
@@ -205,13 +219,37 @@ async function accept(db, username_1, username_2) {
         };
     }
 
+    // check if username_1 exists
+    const username_1_exists = await require('./User').usernameExists(db, username_1);
+    if (typeof username_1_exists !== 'boolean') {
+        return username_1_exists;
+    }
+
+    if (!username_1_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username_1
+        };
+    }
+
+    // check if username exists
+    const username_2_exists = await require('./User').usernameExists(db, username_2);
+    if (typeof username_2_exists !== 'boolean') {
+        return username_2_exists;
+    }
+
+    if (!username_2_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username_2
+        };
+    }
+
     const result = await db('friends')
         .where({
-            username_1, username_2
-        })
-        .orWhere({
             username_1: username_2,
-            username_2: username_1
+            username_2: username_1,
+            state: 'pending'
         })
         .update('state', 'accepted')
         .catch(e => {
@@ -223,6 +261,21 @@ async function accept(db, username_1, username_2) {
 
     if (!!result.code) {
         return result;
+    }
+
+    if (result !== 1) {
+        const friends = await areFriends(db, username_1, username_2);
+        if (friends) {
+            return {
+                code: 400,
+                data: 'already friends with: ' + username_2
+            };
+        } else {
+            return {
+                code: 400,
+                data: 'no friend request found with friend_username: ' + username_2
+            };
+        }
     }
 
     return {
