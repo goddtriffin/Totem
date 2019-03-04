@@ -273,7 +273,7 @@ async function accept(db, username_1, username_2) {
         } else {
             return {
                 code: 400,
-                data: 'no friend request found with friend_username: ' + username_2
+                data: 'no pending friend request found with: ' + username_2
             };
         }
     }
@@ -297,6 +297,19 @@ async function get(db, username) {
         return {
             code: 400,
             data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
         };
     }
 
@@ -370,6 +383,32 @@ async function remove(db, username_1, username_2) {
         };
     }
 
+    // check if username_1 exists
+    const username_1_exists = await require('./User').usernameExists(db, username_1);
+    if (typeof username_1_exists !== 'boolean') {
+        return username_1_exists;
+    }
+
+    if (!username_1_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username_1
+        };
+    }
+
+    // check if username_2 exists
+    const username_2_exists = await require('./User').usernameExists(db, username_2);
+    if (typeof username_2_exists !== 'boolean') {
+        return username_2_exists;
+    }
+
+    if (!username_2_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username_2
+        };
+    }
+
     const result = await db('friends')
         .where({
             username_1, username_2
@@ -384,6 +423,13 @@ async function remove(db, username_1, username_2) {
     
     if (!!result.code) {
         return result;
+    }
+
+    if (result !== 1) {
+        return {
+            code: 400,
+            data: 'no friendship or pending friend request exists with: ' + username_2
+        };
     }
 
     return {
