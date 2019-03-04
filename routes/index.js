@@ -12,7 +12,7 @@ router.use('/api', require('./api'));
 
 // any other url, send 404
 router.use((req, res, next) => {
-    res.status(404).send('404 ;)');
+    res.redirect('/404');
 });
 
 module.exports = router;
