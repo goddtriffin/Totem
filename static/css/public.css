@@ -206,7 +206,11 @@ body{
     background-color: #551a8b !important;
 }
 
-.displayName{
+.displayNameleft{
+    margin: 0px;
+    font-size: 1.5rem;
+}
+.displayNameright{
     margin: 0px;
     font-size: 1.5rem;
 }
