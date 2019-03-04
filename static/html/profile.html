@@ -1,5 +1,7 @@
 <script src="/static/js/friends.js" type="text/javascript"></script>
 <script src="/static/js/challenges.js" type="text/javascript"></script>
+<script src="/static/js/history.js" type="text/javascript"></script>
+<!-- <script src="/static/js/my-polls.js" type="text/javascript"></script> -->
 
 <!DOCTYPE html>
 <html class="no-js"> <!--<![endif]-->
@@ -87,7 +89,7 @@
                                 <!-- <img src="cheese.jpg" alt="" id=cheese> -->
                             </a>
                         </div><div class="col-md-3">
-                                <a class=personal-opt id=hist-btn data-toggle="modal" data-target="#historyModal">
+                                <a class=personal-opt id=hist-btn data-toggle="modal" data-target="#historyModal" onclick="getHistory()">
                                     <i class="fas fa-scroll btn-margin">
                                         <p id="personal-text">History</p>
                                      </i>
