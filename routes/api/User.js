@@ -134,4 +134,17 @@ router.post('/verify-email', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
+router.post('/forgot-username', async (req, res) => {
+    const data = {
+        email: req.body.email
+    };
+
+    const result = await User.forgotUsername(
+        req.app.locals.db,
+        data.email
+    );
+
+    res.status(result.code).send(result);
+});
+
 module.exports = router;

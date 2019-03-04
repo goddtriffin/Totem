@@ -28,11 +28,11 @@ async function sendVerificationEmail(recipientEmail, verificationHash) {
     const verificationPageUrl = 'http://' + host + '/email-verification?email=' + recipientEmail + '&hash=' + verificationHash;
 
     const mailOptions = {
-        from: '"Totem 🗿" <noreply@totem.com>', // sender address
+        from: '"Totem 🗿" <noreply@totem.com>',
         to: recipientEmail,
-        subject: 'Email Verification', // Subject line
-        text: verificationPageUrl, // plain text body
-        html: '<a href="' + verificationPageUrl + '">Click to verify your email</a>' // html body
+        subject: 'Email Verification',
+        text: verificationPageUrl,
+        html: '<a href="' + verificationPageUrl + '">Click to verify your email</a>'
     };
 
     // send the email
@@ -40,9 +40,28 @@ async function sendVerificationEmail(recipientEmail, verificationHash) {
     const result = await transporter.sendMail(mailOptions);
 
     // Preview only available when sending through an Ethereal account
-    console.log('email verification email: ' + nodemailer.getTestMessageUrl(result));
+    console.log('\'email verification\' email: ' + nodemailer.getTestMessageUrl(result));
+}
+
+// sends an email that contains the forgotten username
+async function sendForgotUsernameEmail(recipientEmail, username) {
+    const mailOptions = {
+        from: '"Totem 🗿" <noreply@totem.com>',
+        to: recipientEmail,
+        subject: 'Forgot Username',
+        text: 'Your username: ' + username,
+        html: 'Your username: ' + username
+    };
+
+    // send the email
+    const transporter = await init();
+    const result = await transporter.sendMail(mailOptions);
+
+    // Preview only available when sending through an Ethereal account
+    console.log('\'forgot username\' email: ' + nodemailer.getTestMessageUrl(result));
 }
 
 module.exports = {
-    sendVerificationEmail
+    sendVerificationEmail,
+    sendForgotUsernameEmail
 }
