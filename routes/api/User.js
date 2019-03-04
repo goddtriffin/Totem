@@ -160,4 +160,21 @@ router.post('/forgot-password', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
+router.post('/renew-password', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub,
+        email: req.body.email,
+        hash: req.body.hash,
+        newPassword: req.body.password
+    };
+
+    const result = await User.renewPassword(
+        req.app.locals.db,
+        data.username, data.email,
+        data.hash, data.newPassword
+    );
+
+    res.status(result.code).send(result);
+});
+
 module.exports = router;
