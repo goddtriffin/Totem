@@ -87,11 +87,6 @@ router.put('/update', Auth.validate, async (req, res) => {
         data.display_name = req.body.display_name;
     }
 
-    // check if optional password update parameter is set
-    if (!!req.body.password) {
-        data.password = req.body.password;
-    }
-
     // check if optional emoji update parameter is set
     if (!!req.body.emoji) {
         data.emoji = req.body.emoji;
@@ -99,8 +94,7 @@ router.put('/update', Auth.validate, async (req, res) => {
 
     const result = await User.update(
         req.app.locals.db, 
-        data.username, data.display_name,
-        data.password, data.emoji
+        data.username, data.display_name, data.emoji
     );
 
     res.status(result.code).send(result);

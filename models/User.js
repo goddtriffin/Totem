@@ -325,7 +325,7 @@ async function search(db, username, username_query) {
 }
 
 // updates user account information
-async function update(db, username, display_name, password, emoji) {
+async function update(db, username, display_name, emoji) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
@@ -389,27 +389,6 @@ async function update(db, username, display_name, password, emoji) {
         data.display_name = display_name;
     }
 
-    // check if password was set to be updated, then validate
-    if (!!password) {
-        if (!regex.validatePassword(password)) {
-            return {
-                code: 400,
-                data: regex.getInvalidPasswordResponse(password)
-            };
-        }
-
-        // only update password if it is different than what is already set
-        if (bcrypt.compareSync(password, user.hash)) {
-            return {
-                code: 400,
-                data: 'must choose different password, user password already is: ' + password
-            };
-        }
-
-        // hash the password before storing for security
-        data.hash = bcrypt.hashSync(password, 10);
-    }
-
     // check if emoji was set to be updated, then validate, then convert
     if (!!emoji) {
         if (!regex.validateEmoji(emoji)) {
@@ -436,10 +415,10 @@ async function update(db, username, display_name, password, emoji) {
 
     // check if no optional update parameters were chosen
     const numUpdates = Object.keys(data).length;
-    if (numUpdates < 1 || numUpdates > 3) {
+    if (numUpdates < 1 || numUpdates > 2) {
         return {
             code: 400,
-            data: 'must set, at a minimum, one of the following optional parameters to update: display_name, password, emoji'
+            data: 'must set, at a minimum, one of the following optional parameters to update: display_name, emoji'
         };
     }
 
