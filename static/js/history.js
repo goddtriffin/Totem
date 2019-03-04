@@ -12,8 +12,8 @@ function getHistory(){
 			console.log(users);
 
 			let history = users.data;
-			// let runningTable = ``;
-			// let tableBody = document.getElementById("friendTableBody");
+			let runningTable = ``;
+			let tableBody = document.getElementById("viewpolls");
 			for(let i = 0; i < history.length; i++){
 				console.log(history[i].poll)
 				let id = history[i].poll
@@ -35,7 +35,18 @@ function getHistory(){
 						var total = response.data.votes_1 + response.data.votes_2;
 			 			let leftPercentage = response.data.votes_1 / total;
 			 			let rightPercentage = response.data.votes_2/ total;
-						
+
+			 			var img1 = new Image();
+						img1.src = response.data.image_1
+						  
+						var img2 = new Image();
+						img2.src = response.data.image_2
+			 			
+			 			let image1 = img1.src
+			 			let image2 = img2.src
+			 			let displayname = "hello"
+
+						let username = "goodbye"						
 						console.log(response);
 						//todo cameron
 						runningTable += 
@@ -49,11 +60,11 @@ function getHistory(){
                                                 <div class="row col-md-12" id="cardContent">
                                                     <div class="col-6" id="cardLeft">
                                                         <!-- Contents -->
-                                                        ${image1}
+                                                        <img id="leftImg" src="${image1}" class="pollImage" width="100%">
                                                     </div>
                                                     <div class="col-6" id="cardRight">
                                                         <!-- Contents -->
-                                                        ${image2}
+                                                        <img id="rightImg" src="${image2}" class="pollImage" width="100%">
                                                     </div>
                                                 </div>
                             
@@ -76,24 +87,16 @@ function getHistory(){
                                                 <div class="row col-md-12" id="cardBottom">
                                                     <div class="col-6" id="leftUser">
                                                         <p id="leftDisplayName" class="displayName">${displayname}</p>
-                                                        <p id="leftUsername">${username}</p>
+                                                        <p id="leftUsername">${username_creator}</p>
                                                     </div>
                                                     <div class="col-6" id="rightUser">
                                                         <p id="rightDisplayName" class="displayName">${displayname}</p>
-                                                        <p id="rightUsername">${username}</p>
+                                                        <p id="rightUsername">${username_opponent}</p>
                                                     </div>
                                                 </div>
                                             </div>`
 
-
-
-
-
-
-
-
-
-
+						tableBody.innerHTML = runningTable;
 
 
 					} else {
@@ -104,6 +107,8 @@ function getHistory(){
 				    
 				xhr1.send(null);
 			}
+			
+
 			tableBody.innerHTML = runningTable;
 
 
@@ -113,23 +118,3 @@ function getHistory(){
 	}	
 	xhr.send(null);
 }
-
-
-
-	// friends = users.data;
-	// 		console
-	// 		//Populate HTML
-	// 		let runningTable = ``;
-	// 		let tableBody = document.getElementById("friendTableBody");
-	// 		for(let i = 0; i < users.data.length; i++){
-	// 			friend_username.push(users.data[i].username)
-	// 			runningTable += `
-	// 				<tr>
-	// 					<td>${users.data[i].emoji}</td>
-	// 					<th scope="row">${users.data[i].username}</th>  
-	// 					<td>${users.data[i].display_name}</td>
-	// 					<td>${users.data[i].tiki_tally}</td>
-	// 				</tr>`;
-	// 		}
-	// 		tableBody.innerHTML = runningTable;
-
