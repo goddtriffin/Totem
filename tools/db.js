@@ -61,6 +61,7 @@ async function createAccountVerificationTable(db) {
         if (!exists) {
             return db.schema.createTable('account_verification', table => {
                 table.string('username').notNullable().references('users.username');
+                table.string('email').notNullable().references('users.email');
                 table.string('hash').notNullable();
             });
         }
