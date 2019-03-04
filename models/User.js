@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const emoji_tool = require('node-emoji');
+const crypto = require('crypto');
 
 const regex = require('../tools/regex');
 
@@ -54,7 +55,16 @@ async function signup(db, email, username, display_name, password, emoji) {
     // hash the password before storing for security
     const hash = bcrypt.hashSync(password, 10);
 
-    const result = await db('users')
+    // create random hash for account verification purposes
+    const randomHash = crypto.randomBytes(20).toString('hex');
+    if (typeof randomHash !== 'string') {
+        return {
+            code: 500,
+            data: 'error creating random hash for account verification purposes'
+        };
+    }
+
+    const result1 = await db('users')
         .insert({
             email, username, display_name, emoji, hash
         })
@@ -65,22 +75,39 @@ async function signup(db, email, username, display_name, password, emoji) {
             };
         });
 
-    if (!!result.code) {
-        if (result.data.includes('UNIQUE constraint failed: users.username')) {
+    if (!!result1.code) {
+        if (result1.data.includes('UNIQUE constraint failed: users.username')) {
             return {
                 code: 409,
                 data: 'username already exists'
             };
         }
 
-        if (result.data.includes('UNIQUE constraint failed: users.email')) {
+        if (result1.data.includes('UNIQUE constraint failed: users.email')) {
             return {
                 code: 409,
                 data: 'email already exists'
             };
         }
 
-        return result;
+        return result1;
+    }
+
+    // store random hash for account verification purposes
+    const result2 = await db('account_verification')
+        .insert({
+            username,
+            hash: randomHash
+        })
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result2.code) {
+        return result2;
     }
     
     // immediately authenticate on successful signup
