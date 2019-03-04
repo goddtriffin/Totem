@@ -119,4 +119,19 @@ router.get('/history', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
+router.post('/verify-email', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub,
+        email: req.body.email,
+        hash: req.body.hash
+    };
+
+    const result = await User.verifyEmail(
+        req.app.locals.db,
+        data.username, data.email, data.hash
+    );
+
+    res.status(result.code).send(result);
+});
+
 module.exports = router;

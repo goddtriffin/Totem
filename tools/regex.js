@@ -203,6 +203,16 @@ function getInvalidScopeResponse(scope) {
     return 'Invalid scope: ' + scope + '. Should match one: ' + scopes;
 }
 
+// returns true if email verification hash is valid, false otherwise
+function validateEmailVerificationHash(hash) {
+    return typeof hash === 'string';
+}
+
+// returns a String dictating what a valid email verification hash should look like
+function getInvalidEmailVerificationHashResponse(hash) {
+    return 'Invalid email verification hash: ' + hash + '. Should match: typeof string';
+}
+
 module.exports = {
     validateDatabase, getInvalidDatabaseResponse,
     validateEmail, getInvalidEmailResponse,
@@ -216,5 +226,6 @@ module.exports = {
     validatePollId, getInvalidPollIdResponse,
     validatePollVote, getInvalidPollVoteResponse,
     validateThemesQuery, getInvalidThemesQueryResponse,
-    validateScope, getInvalidScopeResponse
+    validateScope, getInvalidScopeResponse,
+    validateEmailVerificationHash, getInvalidEmailVerificationHashResponse
 }
