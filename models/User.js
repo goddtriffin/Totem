@@ -4,8 +4,6 @@ const emoji_tool = require('node-emoji');
 
 const regex = require('../tools/regex');
 
-const Friend = require('./Friend');
-
 // creates new user account
 async function signup(db, email, username, display_name, password, emoji) {
     if (!regex.validateDatabase(db)) {
@@ -215,7 +213,7 @@ async function getByUsername(db, username, username_query) {
 
     // set the user's friend state
     if (username !== username_query) {
-        const state = await Friend.getFriendState(db, username, username_query);
+        const state = await require('./Friend').getFriendState(db, username, username_query);
         if (!(typeof state === 'string')) {
             return state;
         }
@@ -269,7 +267,7 @@ async function search(db, username, username_query) {
 
     // set friendship states of all user search results
     const usernames = result.map(user => user.username);
-    const friend_states = await Friend.getAllFriendStates(db, username, usernames);
+    const friend_states = await require('./Friend').getAllFriendStates(db, username, usernames);
     if (!Array.isArray(friend_states)) {
         return friend_states;
     }
@@ -287,34 +285,6 @@ async function search(db, username, username_query) {
         if (!result[i].friend_state) {
             result[i].friend_state = 'N/A';
         }
-    }
-
-    return {
-        code: 200,
-        data: result
-    };
-}
-
-// returns a list of all users
-async function all(db) {
-    if (!regex.validateDatabase(db)) {
-        return {
-            code: 500,
-            data: regex.getInvalidDatabaseResponse(db)
-        };
-    }
-
-    const result = await db('users')
-        .select('email', 'username', 'display_name', 'emoji', 'challenges_played', 'challenges_won', 'tiki_tally', 'polls_created')
-        .catch(e => {
-            return {
-                code: 500,
-                data: e.originalStack
-            };
-        });
-
-    if (!!result.code) {
-        return result;
     }
 
     return {
@@ -456,6 +426,13 @@ async function update(db, username, display_name, password, emoji) {
         return result;
     }
 
+    if (result !== 1) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     return {
         code: 200,
         data: "success"
@@ -475,6 +452,19 @@ async function history(db, username) {
         return {
             code: 400,
             data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
         };
     }
 
@@ -500,6 +490,19 @@ async function history(db, username) {
 
 // increases the user's 'polls_created' by the parameter 'count'
 async function incrementPollsCreated(db, username, count) {
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result = await db('users')
         .where('username', username)
         .increment('polls_created', count)
@@ -519,6 +522,19 @@ async function incrementPollsCreated(db, username, count) {
 
 // increases the user's 'tiki_tally' by the parameter 'count'
 async function incrementTikiTally(db, username, count) {
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     const result = await db('users')
         .where('username', username)
         .increment('tiki_tally', count)
@@ -536,12 +552,32 @@ async function incrementTikiTally(db, username, count) {
     return {};
 }
 
+// returns true if a user with the given username exists, false otherwise
+async function usernameExists(db, username) {
+    const result = await db('users')
+        .where('username', username)
+        .select()
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return result.length === 1;
+}
+
 module.exports = {
     signup, login,
     getByUsername,
-    search, all,
+    search,
     update,
     history,
     incrementPollsCreated,
-    incrementTikiTally
+    incrementTikiTally,
+    usernameExists
 }

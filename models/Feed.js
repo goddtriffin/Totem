@@ -1,9 +1,7 @@
 const regex = require('../tools/regex');
 
-const Friend = require('./Friend');
-
 // returns a user's public feed
-async function getPublic(db, username) {
+async function getPublic(db) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
@@ -28,8 +26,16 @@ async function getPublic(db, username) {
         return result1;
     }
 
+    // no polls, no need to do more work
+    if (result1.length < 1) {
+        return {
+            code: 200,
+            data: []
+        };
+    }
+
     const polls = result1;
-    const result2 = await addPollsHistory(db, username, polls);
+    const result2 = await addPollsHistory(db, polls);
     if (!!result2.code) {
         return result2;
     }
@@ -56,8 +62,30 @@ async function getPrivate(db, username) {
         };
     }
 
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
     // get a list of this user's friends by their username
-    const friends = await Friend.get(db, username);
+    const friends = await require('./Friend').get(db, username);
+    
+    // no friends, so no polls
+    if (friends.data.length < 1) {
+        return {
+            code: 200,
+            data: []
+        };
+    }
+
     const friendUsernames = friends.data.map(f => f.username);
     friendUsernames.push(username);
 
@@ -83,8 +111,16 @@ async function getPrivate(db, username) {
         return result1;
     }
 
+    // no polls, no need to do more work
+    if (result1.length < 1) {
+        return {
+            code: 200,
+            data: []
+        };
+    }
+
     const polls = result1;
-    const result2 = await addPollsHistory(db, username, polls);
+    const result2 = await addPollsHistory(db, polls);
     if (!!result2.code) {
         return result2;
     }
@@ -95,7 +131,12 @@ async function getPrivate(db, username) {
     };
 }
 
-async function addPollsHistory(db, username, polls) {
+async function addPollsHistory(db, polls) {
+    // no polls to add history to
+    if (polls.length < 1) {
+        return {};
+    }
+
     const pollIds = polls.map(poll => poll.id);
     const result = await db('history')
         .whereIn('poll', pollIds)
