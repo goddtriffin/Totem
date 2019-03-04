@@ -70,6 +70,7 @@ All other routes: `application/x-www-form-urlencoded`
 | PUT | `/api/user/update` | updates your account, must pick at least one optional Body parameter to update | display_name, password, emoji |
 | GET | `/api/user/history` | returns your poll vote history |  |
 | POST | `/api/user/verify-email` | verifies the user account's email | email, hash |
+| POST | $ `/api/user/forgot-username` | sends an email the contains the correct user account's username | email |
 
 #### Friend
 
