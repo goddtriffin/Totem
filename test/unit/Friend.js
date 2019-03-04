@@ -102,7 +102,7 @@ describe('Friend', () => {
             await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant');
             await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes');
 
-            await Friend.add(db, 'todd', 'kelp');
+            const result = await Friend.add(db, 'todd', 'kelp');
 		});
 
 		after(async () => {
@@ -111,7 +111,7 @@ describe('Friend', () => {
 		});
 
 		it('success', async () => {
-			const result = await Friend.accept(db, 'todd', 'kelp');
+			const result = await Friend.accept(db, 'kelp', 'todd');
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
