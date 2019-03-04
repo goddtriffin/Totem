@@ -636,8 +636,63 @@ async function verifyEmail(db, username, email, hash) {
 
     return {
         code: 200,
-        data: "success"
+        data: 'success'
     };
+}
+
+// sends an email with the forgotten username
+async function forgotUsername(db, email) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateEmail(email)) {
+        return {
+            code: 400,
+            data: regex.getInvalidEmailResponse(email)
+        };
+    }
+
+    // check if account has unverified email
+    const result = await db('users')
+        .where({
+            email
+        })
+        .select('username', 'verified')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+    
+    if (!!result.code) {
+        return result;
+    }
+
+    if (result.length !== 1) {
+        return {
+            code: 400,
+            data: 'no user account found: ' + email
+        };
+    }
+
+    if (!result[0].verified) {
+        return {
+            code: 400,
+            data: 'user email is not verified'
+        };
+    }
+
+    email_tool.sendForgotUsernameEmail(email, result[0].username);
+
+    return {
+        code: 200,
+        data: 'email sent'
+    }
 }
 
 // increases the user's 'polls_created' by the parameter 'count'
@@ -730,6 +785,7 @@ module.exports = {
     update,
     history,
     verifyEmail,
+    forgotUsername,
     incrementPollsCreated,
     incrementTikiTally,
     usernameExists
