@@ -57,11 +57,11 @@ async function signup(db, email, username, display_name, password, emoji) {
     const hash = bcrypt.hashSync(password, 10);
 
     // create random hash for account verification purposes
-    const randomHash = crypto.randomBytes(20).toString('hex');
-    if (typeof randomHash !== 'string') {
+    const verificationHash = crypto.randomBytes(20).toString('hex');
+    if (typeof verificationHash !== 'string') {
         return {
             code: 500,
-            data: 'error creating random hash for account verification purposes'
+            data: 'error creating random verification hash'
         };
     }
 
@@ -94,14 +94,11 @@ async function signup(db, email, username, display_name, password, emoji) {
         return result1;
     }
 
-    // send account verification email
-    email_tool.sendVerificationEmail(email);
-
     // store random hash for account verification purposes
     const result2 = await db('account_verification')
         .insert({
             username,
-            hash: randomHash
+            hash: verificationHash
         })
         .catch(e => {
             return {
@@ -113,6 +110,9 @@ async function signup(db, email, username, display_name, password, emoji) {
     if (!!result2.code) {
         return result2;
     }
+
+    // send account verification email
+    email_tool.sendVerificationEmail(email, verificationHash);
     
     // immediately authenticate on successful signup
     const payload = {

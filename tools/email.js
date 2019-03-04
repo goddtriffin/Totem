@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const nodemailer = require("nodemailer");
 
 // returns the nodemailer transport
@@ -20,13 +22,17 @@ async function init() {
 }
 
 // sends a verification email
-async function sendVerificationEmail(recipient_email) {
+async function sendVerificationEmail(recipientEmail, verificationHash) {
+    // create link to email verification page
+    const host = (process.env.NODE_ENV === 'production')? '68.183.110.202' : 'localhost';
+    const verificationPageUrl = 'http://' + host + '/email-verification?email=' + recipientEmail + '&hash=' + verificationHash;
+
     const mailOptions = {
-        from: '"Totem 🗿" <foo@example.com>', // sender address
-        to: recipient_email,
-        subject: "Verify your email", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>" // html body
+        from: '"Totem 🗿" <noreply@totem.com>', // sender address
+        to: recipientEmail,
+        subject: 'Email Verification', // Subject line
+        text: verificationPageUrl, // plain text body
+        html: '<a href="' + verificationPageUrl + '">Click to verify your email</a>' // html body
     };
 
     // send the email
