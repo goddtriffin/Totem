@@ -98,6 +98,7 @@ async function createPollsTable(db) {
         if (!exists) {
             return db.schema.createTable('polls', table => {
                 table.increments('id').unique().primary();
+                table.datetime('created_at').notNullable().defaultTo(db.fn.now())
                 table.string('display_name').notNullable();
                 table.string('theme').notNullable();
 
@@ -112,7 +113,7 @@ async function createPollsTable(db) {
                 table.integer('votes_1').notNullable().defaultTo(0);
                 table.integer('votes_2').notNullable().defaultTo(0);
 
-                table.string('duration').notNullable();
+                table.integer('duration').notNullable();
                 table.timestamp('start_time').nullable();  // created when state changes from 'ready' to 'active'
                 table.timestamp('end_time').nullable();  // created when state changes from 'ready' to 'active'
             });
