@@ -613,7 +613,7 @@ async function searchPrivate(db, themes_query) {
                 whereIn('creator', friendUsernames)
                 .orWhereIn('opponent', friendUsernames)
         })
-        .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope', 'duration')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
                 code: 500,
@@ -655,7 +655,7 @@ async function searchPublic(db, themes_query) {
             state: 'active',
             scope: 'public'
         })
-        .select('display_name', 'theme', 'creator', 'opponent', 'type', 'scope', 'duration')
+        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
                 code: 500,
