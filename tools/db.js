@@ -98,6 +98,7 @@ async function createPollsTable(db) {
         if (!exists) {
             return db.schema.createTable('polls', table => {
                 table.increments('id').unique().primary();
+                table.datetime('created_at').notNullable().defaultTo(db.fn.now())
                 table.string('display_name').notNullable();
                 table.string('theme').notNullable();
 

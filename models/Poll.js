@@ -250,7 +250,7 @@ async function getChallengeRequests(db, username) {
             state: 'pending',
             type: 'challenge'
         })
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope', 'duration')
+        .select('id', 'created_at', 'display_name', 'theme', 'creator', 'opponent', 'scope', 'duration')
         .catch(e => {
             return {
                 code: 500,
@@ -468,7 +468,7 @@ async function getAcceptedChallengeRequests(db, username) {
             state: 'ready',
             type: 'challenge'
         })
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'scope', 'duration')
+        .select('id', 'created_at', 'display_name', 'theme', 'creator', 'opponent', 'scope', 'duration')
         .catch(e => {
             return {
                 code: 500,
@@ -615,7 +615,7 @@ async function searchPrivate(db, themes_query) {
                 whereIn('creator', friendUsernames)
                 .orWhereIn('opponent', friendUsernames)
         })
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
+        .select('id', 'created_at', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
                 code: 500,
@@ -657,7 +657,7 @@ async function searchPublic(db, themes_query) {
             state: 'active',
             scope: 'public'
         })
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
+        .select('id', 'created_at', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
                 code: 500,
@@ -890,7 +890,7 @@ async function getById(db, username, id) {
 
     const result1 = await db('polls')
         .where('id', id)
-        .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
+        .select('id', 'created_at', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
                 code: 500,
@@ -959,6 +959,14 @@ async function pollExists(db, id) {
     }
 
     return result.length === 1;
+}
+
+function calcStartTime(duration) {
+    // TODO
+}
+
+function calcEndTime(start_time, duration) {
+    // TODO
 }
 
 module.exports = {
