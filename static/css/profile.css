@@ -3,7 +3,7 @@ body{
 	height: 100vh;
 }
 
-.invisible{
+.invisible, .personal{
 	display: none;
 }
 
@@ -276,14 +276,14 @@ tbody tr{
 }
 
 #cardLeft{
-    background-color: red;
+    background-color: black;
     margin: 0px;
     border-right: 2px solid #551a8b;
     /* visibility: hidden; */
 }
 
 #cardRight{
-    background-color: blue;
+    background-color: black;
     margin: 0px;
     border-left: 2px solid #551a8b;
 }
@@ -323,12 +323,12 @@ tbody tr{
 
 #leftResults{
     background: rgba(255, 255, 255, 0.5);
-    height: 50%;
+    /* height: 50%; */
 }
 
 #rightResults{
     background: rgba(255, 255, 255, 0.5);
-    height: 75%;
+    /* height: 75%; */
 }
 
 #rightResults, #leftResults{

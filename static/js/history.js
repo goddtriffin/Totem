@@ -25,16 +25,20 @@ function getHistory(){
 					const response = JSON.parse(xhr1.responseText);
 					if (xhr1.readyState == 4 && xhr1.status == "200") {
 
-						let username_creator = response.data.creator
-						let username_opponent = response.data.opponent
+						let username_creator = response.data.creator;
+						let username_opponent = response.data.opponent;
 						// fix after asych issue in public is fixed
 						// let display_name_creator = 
 						// let display_name_opponent = 
-						let title = response.data.display_name
-						let theme = response.data.theme
+						let title = response.data.display_name;
+						let theme = response.data.theme;
+						let type = response.data.type;
 						var total = response.data.votes_1 + response.data.votes_2;
-			 			let leftPercentage = response.data.votes_1 / total;
-			 			let rightPercentage = response.data.votes_2/ total;
+			 			let leftPercentage = (response.data.votes_1 / total) * 100.0;
+						let rightPercentage = (response.data.votes_2/ total) * 100.0;
+						let leftBlank = 100 - leftPercentage;
+						let rightBlank = 100 - rightPercentage;
+						console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
 
 			 			var img1 = new Image();
 						img1.src = response.data.image_1
@@ -70,26 +74,26 @@ function getHistory(){
                             
                                                 <!-- Results overlay -->
                                                 <div class="row col-md-12" id="cardContentOverlay">
-                                                    <div class="col-6" id="cardLeftOverlay">
-                                                        <div id="leftBlank"></div>
-                                                        <div id="leftResults">
-                                                            <p class="resultText">50%</p>
+                                                    <div class="col-6" id="cardLeftOverlay" >
+                                                        <div id="leftBlank" style="height:${leftBlank}%;"></div>
+                                                        <div id="leftResults" style="height:${leftPercentage}%;">
+                                                            <p class="resultText">${leftPercentage}%</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-6" id="cardRightOverlay">
-                                                        <div id="rightBlank"></div>
-                                                        <div id="rightResults">
-                                                            <p class="resultText">75%</p>
+                                                        <div id="rightBlank" style="height:${rightBlank}%;"></div>
+                                                        <div id="rightResults" style="height:${rightPercentage}%;">
+                                                            <p class="resultText">${rightPercentage}%</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="row col-md-12" id="cardBottom">
+                                                <div class="row col-md-12 justify-content-md-center" id="cardBottom">
                                                     <div class="col-6" id="leftUser">
                                                         <p id="leftDisplayName" class="displayName">${displayname}</p>
                                                         <p id="leftUsername">${username_creator}</p>
                                                     </div>
-                                                    <div class="col-6" id="rightUser">
+                                                    <div class="col-6 ${type}" id="rightUser">
                                                         <p id="rightDisplayName" class="displayName">${displayname}</p>
                                                         <p id="rightUsername">${username_opponent}</p>
                                                     </div>
