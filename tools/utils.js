@@ -22,9 +22,6 @@ function getDatetimeString() {
 }
 
 function addMinutesToDatetime(datetime, minutes) {
-    console.log(datetime);
-    console.log(minutes);
-
     const split = datetime.split(':');
     split[1] = (parseInt(split[1]) + minutes).toString();
     return split.join(':');
