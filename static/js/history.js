@@ -36,7 +36,14 @@ function getHistory(){
 						let theme = response.data.theme;
 						let type = response.data.type;
 						let voted = response.data.voted;
-						console.log("VOTED: " + voted);
+						let leftBackground = "rgba(255, 255, 255, 0.5)";
+						let rightBackground = "rgba(255, 255, 255, 0.5)";
+						if(voted === 1){
+							leftBackground = "rgba(255,255,255, 0.8)";
+						}
+						else if(voted === 2){
+							rightBackground = "rgba(255,255,255, 0.8)";
+						}
 						var total = response.data.votes_1 + response.data.votes_2;
 			 			let leftPercentage = (response.data.votes_1 / total) * 100.0;
 						let rightPercentage = (response.data.votes_2/ total) * 100.0;
@@ -80,13 +87,13 @@ function getHistory(){
                                                 <div class="row col-md-12" id="cardContentOverlay">
                                                     <div class="col-6" id="cardLeftOverlay" >
                                                         <div id="leftBlank" style="height:${leftBlank}%;"></div>
-                                                        <div id="leftResults" style="height:${leftPercentage}%;">
+                                                        <div id="leftResults" style="height:${leftPercentage}%; background:${leftBackground}">
                                                             <p class="resultText">${leftPercentage}%</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-6" id="cardRightOverlay">
                                                         <div id="rightBlank" style="height:${rightBlank}%;"></div>
-                                                        <div id="rightResults" style="height:${rightPercentage}%;">
+                                                        <div id="rightResults" style="height:${rightPercentage}%; background:${rightBackground}">
                                                             <p class="resultText">${rightPercentage}%</p>
                                                         </div>
                                                     </div>
