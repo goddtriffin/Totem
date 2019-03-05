@@ -2,6 +2,7 @@ require('dotenv').config();
 const app = require('express')();
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const jobs = require('./tools/jobs');
 
 // make sure JWT_SECRET environment variable is set
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'YOUR_JWT_SECRET') {
@@ -33,9 +34,15 @@ app.use(bodyParser.json());
 
 app.use(require('./routes'));  // all endpoints
 
+// initialize all cron jobs
+jobs.init(app.locals.db);
+
 const server = app.listen(process.env.PORT || 80, () => {
     const port = server.address().port;
     console.log('Listening on http://localhost' + ((port === 80)? '' : ':' + port));
+
+    // start all cron jobs
+    jobs.startAll();
 });
 
 // handle closing the server 

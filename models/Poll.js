@@ -1044,6 +1044,25 @@ async function pollExists(db, id) {
     return result.length === 1;
 }
 
+async function expirePolls(db) {
+    const datetime = utils.getDatetimeString();
+
+    const result = await db('polls')
+        .where('state', 'active')
+        .andWhere('end_time', '<', datetime)
+        .update('state', 'expired')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+}
+
 module.exports = {
     createPersonal, createChallenge,
     getChallengeRequests,
@@ -1054,5 +1073,6 @@ module.exports = {
     searchPrivate, searchPublic,
     vote,
     getById, getByCreator,
-    pollExists
+    pollExists,
+    expirePolls
 }
