@@ -3,6 +3,7 @@ const emoji_tool = require('node-emoji');
 const themes = ['memes', 'fashion', 'movie', 'music', 'animals', 'nature', 'buildings', 'cities', 'food', 'beauty', 'color', 'space', 'vehicles', 'sports'];
 const votes = [1, 2];
 const scopes = ['private', 'public'];
+const sorts = ['asc', 'desc'];
 
 // returns true if db is valid, false otherwise
 function validateDatabase(db) {
@@ -213,6 +214,20 @@ function getInvalidEmailVerificationHashResponse(hash) {
     return 'Invalid email verification hash: ' + hash + '. Should match: typeof string';
 }
 
+// returns true if sort is valid, false otherwise
+function validateSort(sort) {
+    if (typeof sort !== 'string') {
+        return false;
+    }
+
+    return sorts.includes(sort);
+}
+
+// returns a String dictating what a valid sort should look like
+function getInvalidSortResponse(sort) {
+    return 'Invalid sort: ' + sort + '. Should match one: ' + sorts;
+}
+
 module.exports = {
     validateDatabase, getInvalidDatabaseResponse,
     validateEmail, getInvalidEmailResponse,
@@ -227,5 +242,6 @@ module.exports = {
     validatePollVote, getInvalidPollVoteResponse,
     validateThemesQuery, getInvalidThemesQueryResponse,
     validateScope, getInvalidScopeResponse,
-    validateEmailVerificationHash, getInvalidEmailVerificationHashResponse
+    validateEmailVerificationHash, getInvalidEmailVerificationHashResponse,
+    validateSort, getInvalidSortResponse
 }
