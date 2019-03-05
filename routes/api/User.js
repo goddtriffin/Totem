@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const Auth = require('../Auth');
 const User = require('../../models/User');
+const Poll = require('../../models/Poll');
 
 router.post('/signup', async (req, res) => {
     const data = {
@@ -49,6 +50,19 @@ router.get('/me', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
+router.get('/me/polls', Auth.validate, async (req, res) => {
+    const data = {
+        username_query: req.jwt.sub
+    };
+
+    const result = await Poll.getByCreator(
+        req.app.locals.db,
+        data.username_query
+    );
+
+    res.status(result.code).send(result);
+});
+
 router.get('/profile/:username', Auth.validate, async (req, res) => {
     const data = {
         username: req.jwt.sub,
@@ -58,6 +72,19 @@ router.get('/profile/:username', Auth.validate, async (req, res) => {
     const result = await User.getByUsername(
         req.app.locals.db,
         data.username, data.username_query
+    );
+
+    res.status(result.code).send(result);
+});
+
+router.get('/profile/:username/polls', Auth.validate, async (req, res) => {
+    const data = {
+        username_query: req.params.username
+    };
+
+    const result = await Poll.getByCreator(
+        req.app.locals.db,
+        data.username_query
     );
 
     res.status(result.code).send(result);

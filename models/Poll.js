@@ -976,6 +976,55 @@ async function getById(db, username, id) {
     };
 }
 
+// returns a list of polls created by a specific user
+async function getByCreator(db, username_query) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsernameQuery(username_query)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameQueryResponse(username_query)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username_query);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username_query
+        };
+    }
+
+    const result = await db('polls')
+        .where('creator', username_query)
+        .select('id', 'created_at', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: result
+    };
+}
+
 // returns true if a poll exists with the given id, false otherwise
 async function pollExists(db, id) {
     const result = await db('polls')
@@ -1003,6 +1052,7 @@ module.exports = {
     getAcceptedChallengeRequests,
     startChallenge,
     searchPrivate, searchPublic,
-    vote, getById,
+    vote,
+    getById, getByCreator,
     pollExists
 }
