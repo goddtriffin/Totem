@@ -1,4 +1,5 @@
 const regex = require('../tools/regex');
+const utils = require('../tools/utils');
 
 // creates a new personal poll
 async function createPersonal(db, display_name, theme, creator, duration, scope, image_1, image_2) {
@@ -58,6 +59,10 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
         };
     }
 
+    // create start_time and end_time
+    const start_time = utils.getDatetimeString();
+    const end_time = utils.addMinutesToDatetime(start_time, duration);
+
     const result1 = await db('polls')
         .returning('id')
         .insert({
@@ -66,8 +71,7 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
             image_1, image_2,
             state: 'active',
             type: 'personal',
-            start_time: "",
-            end_time: ""
+            start_time, end_time
         })
         .catch(e => {
             return {
@@ -535,6 +539,37 @@ async function startChallenge(db, id, username) {
         };
     }
 
+    // get poll duration
+    const result0 = await db('polls')
+        .where({
+            id,
+            creator: username,
+            state: 'ready',
+            type: 'challenge'
+        })
+        .select('duration')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result0.code) {
+        return result1;
+    }
+
+    if (result0.length !== 1) {
+        return {
+            code: 400,
+            data: 'no ready challenge poll found with id: ' + id
+        };
+    }
+
+    // create start_time and end_time
+    const start_time = utils.getDatetimeString();
+    const end_time = utils.addMinutesToDatetime(start_time, result0[0].duration);
+
     const result1 = await db('polls')
         .where({
             id,
@@ -544,8 +579,7 @@ async function startChallenge(db, id, username) {
         })
         .update({
             state: 'active',
-            start_time: '',
-            end_time: ''
+            start_time, end_time
         })
         .catch(e => {
             return {
@@ -959,14 +993,6 @@ async function pollExists(db, id) {
     }
 
     return result.length === 1;
-}
-
-function calcStartTime(duration) {
-    // TODO
-}
-
-function calcEndTime(start_time, duration) {
-    // TODO
 }
 
 module.exports = {
