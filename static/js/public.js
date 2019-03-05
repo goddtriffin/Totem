@@ -145,11 +145,17 @@ function showPoll(index, callback){
 				if(publicPolls[index].voted === 1){
 					document.getElementById("leftResults").style.background = "rgba(255, 255, 255, 0.80)";
 					document.getElementById("leftResults").style.color = "black";
+
+					document.getElementById("rightResults").style.background = "rgba(255, 255, 255, 0.5)";
+					document.getElementById("rightResults").style.color = "white";
 				}
 				// right
 				else{
 					document.getElementById("rightResults").style.background = "rgba(255, 255, 255, 0.80)";
 					document.getElementById("rightResults").style.color = "black";
+
+					document.getElementById("leftResults").style.background = "rgba(255, 255, 255, 0.5)";
+					document.getElementById("leftResults").style.color = "white";
 				}
 				
 			}
