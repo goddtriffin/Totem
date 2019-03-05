@@ -91,46 +91,21 @@ function movePoll(direction){
 }
 
 function showPoll(index, callback){
-
-
 			current_poll_id = publicPolls[index].id;
 			console.log("this is poll id number: " +publicPolls[index].id)
 			
-			// callback(publicPolls[index].creator, publicPolls[index].opponent)
-			// let DS_creator = localStorage.poll_displayname_C;
-			// localStorage.removeItem("poll_displayname_C");
-			// // callback(publicPolls[index].opponent, )
-			// let DS_opponent = localStorage.poll_displayname_O;
-			// localStorage.removeItem("poll_displayname_O");
-
-			// console.log("new attepmt: " + DS_creator);
-			// console.log("new attepmt: " + DS_opponent);
-			// console.log("new attepmt: " + localStorage.poll_displayname_C);
-			// console.log("new attepmt: " + localStorage.poll_displayname_O);
-
-
-
-
 			var displaynames = new Promise(function() {
-			  
 				callback(publicPolls[index].creator, publicPolls[index].opponent)
-				// callback(publicPolls[index].creator, publicPolls[index].opponent)
 				
 				let DS_creator = localStorage.poll_displayname_C;
 				localStorage.removeItem("poll_displayname_C");
-				// callback(publicPolls[index].opponent, )
 				let DS_opponent = localStorage.poll_displayname_O;
 				localStorage.removeItem("poll_displayname_O");
-
 			
 				document.getElementById("leftDisplayName").innerHTML = DS_creator;
 				document.getElementById("rightDisplayName").innerHTML = DS_opponent;
-
-
 			});
 
-	
-			// console.log(publicPolls[index].hasOwnProperty('voted'))
 			if(publicPolls[index].hasOwnProperty('voted')){
 				calculateVotes(current_poll_id)
 				console.log("GRAPH");
@@ -163,13 +138,8 @@ function showPoll(index, callback){
 				document.getElementById("cardContentOverlay").classList.add("invisible");
 				document.getElementById("leftImg").classList.remove("opacity");
 				document.getElementById("rightImg").classList.remove("opacity");
-			
 			}
-			console.log("there should be no graph")
 			
-			// console.log(publicPolls[index])
-			// console.log(publicPolls[index].image_1)
-
 			var img = new Image();
 			img.src = publicPolls[index].image_1;
 			document.getElementById("leftImg").src = publicPolls[index].image_1;
@@ -181,14 +151,6 @@ function showPoll(index, callback){
 			document.getElementById("titleP").innerHTML = publicPolls[index].display_name;
 			document.getElementById("leftUsername").innerHTML = publicPolls[index].creator;
 
-			// callback(publicPolls[index].creator)
-			// document.getElementById("leftDisplayName").innerHTML = DS_creator;
-			// localStorage.removeItem("poll_displayname");
-
-			// callback(publicPolls[index].opponent)
-
-
-			// console.log(localStorage.poll_displayname)
 			document.getElementById("themes").innerHTML = publicPolls[index].theme;
 
 			if(publicPolls[index].type === "personal"){
@@ -197,15 +159,7 @@ function showPoll(index, callback){
 			else{
 				document.getElementById("rightUser").classList.remove("invisible");
 				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
-				// callback(publicPolls[index].opponent)
-				// document.getElementById("rightDisplayName").innerHTML = DS_opponent;
-
-				// localStorage.removeItem("poll_displayname");
-
 			}
-						
-
-			
 }
 
 function updateSort(sort){
@@ -507,7 +461,6 @@ function getDisplayName(username1, username2){
 				xhr2.send(null);
 			}
 			else{
-				console.log("no opp")
 				localStorage.poll_displayname_C = users1.data.display_name;
 
 			}
