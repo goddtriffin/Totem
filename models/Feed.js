@@ -1,11 +1,18 @@
 const regex = require('../tools/regex');
 
 // returns a user's public feed
-async function getPublic(db) {
+async function getPublic(db, sort) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
             data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateSort(sort)) {
+        return {
+            code: 400,
+            data: regex.getInvalidSortResponse(sort)
         };
     }
 
@@ -14,6 +21,7 @@ async function getPublic(db) {
             scope: 'public',
             state: 'active'
         })
+        .orderBy('end_time', sort)
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
@@ -47,7 +55,7 @@ async function getPublic(db) {
 }
 
 // returns a user's private feed
-async function getPrivate(db, username) {
+async function getPrivate(db, username, sort) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
@@ -59,6 +67,13 @@ async function getPrivate(db, username) {
         return {
             code: 400,
             data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    if (!regex.validateSort(sort)) {
+        return {
+            code: 400,
+            data: regex.getInvalidSortResponse(sort)
         };
     }
 
@@ -99,6 +114,7 @@ async function getPrivate(db, username) {
             scope: 'private',
             state: 'active'
         })
+        .orderBy('end_time', sort)
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
             return {
