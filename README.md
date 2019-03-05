@@ -101,6 +101,7 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
 | Name | Type | Description |
 | :--- | :--- | :--- |
 | id | integer | poll identifier (unique) |
+| created_at | datetime | date and time of the poll's creation |
 | display_name | string | fun name/title of poll |
 | theme | string | poll category |
 | creator | string | username of the user that created the poll |
@@ -113,8 +114,8 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
 | type | string | personal, challenge |
 | scope | string | private, public |
 | duration | integer | total minutes that the poll should be active for |
-| start_time | integer | unix timestamp the poll started |
-| end_time | integer | unix timestamp the poll should end |
+| start_time | datetime | SQL datetime the poll started (year-month-day hours:minutes:seconds) |
+| end_time | datetime | SQL datetime the poll should end (year-month-day hours:minutes:seconds) |
 | voted | integer | value the user set as their vote (only exists if the user has already voted on this particular poll) |
 
 | Method | Endpoint | Description | Parameters |
