@@ -136,8 +136,8 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
 
 | Method | Endpoint | Description | Parameters |
 | :---: | :--- | :--- | :---: |
-| GET | `/api/feed/public` | returns a user's public feed |  |
-| GET | `/api/feed/private` | returns a user's private feed |  |
+| GET | `/api/feed/public?sort=<sort>` | returns a user's public feed (replace <sort> with a real sort: asc, desc) |  |
+| GET | `/api/feed/private?sort=<sort>` | returns a user's private feed (replace <sort> with a real sort: asc, desc) |  |
 
 ## Stack
 
