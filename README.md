@@ -71,8 +71,8 @@ All other routes: `application/x-www-form-urlencoded`
 | GET | `/api/user/history` | returns your poll vote history |  |
 | POST | `/api/user/verify-email` | sends an email to help verify the user account's email | email, hash |
 | POST | $ `/api/user/forgot-username` | sends an email the contains the correct user account's username | email |
-| POST | $ `/api/user/forgot-password` | sends an email to help start the renew password process |  |
-| POST | $ `/api/user/renew-password` | updates the user account's password | email, hash, password |
+| POST | `/api/user/forgot-password` | sends an email to help start the renew password process |  |
+| POST | `/api/user/renew-password` | updates the user account's password | email, hash, password |
 
 #### Friend
 
