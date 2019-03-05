@@ -223,7 +223,7 @@ function search(index){
 	let themes = getSelectValues(themePicker);
 	console.log("Search criteria: " + themes);
 
-	if(themes.length !== 0){
+	if(themes.length !== 0 && themes != "Select a theme"){
 		let url = '/api/poll/search/public?themes='+themes;
 
 		const xhr  = new XMLHttpRequest();
