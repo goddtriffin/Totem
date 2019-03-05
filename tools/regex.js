@@ -133,16 +133,16 @@ function getInvalidThemeResponse(theme) {
 
 // returns true if duration is valid, false otherwise
 function validateDuration(duration) {
-    if (typeof duration !== 'string') {
+    if (typeof duration !== 'number') {
         return false;
     }
 
-    return true;
+    return Number.isInteger(duration);
 }
 
 // returns a String dictating what a valid duration should look like
 function getInvalidDurationResponse(duration) {
-    return 'Invalid duration: ' + duration + '. Should match: typeof string';
+    return 'Invalid duration: ' + duration + '. Should match: integer (minutes)';
 }
 
 // returns true if poll id is valid, false otherwise

@@ -30,6 +30,7 @@ async function createPersonal(db, display_name, theme, creator, duration, scope,
         };
     }
 
+    duration = parseInt(duration);
     if (!regex.validateDuration(duration)) {
         return {
             code: 400,
@@ -127,6 +128,7 @@ async function createChallenge(db, display_name, theme, creator, opponent, durat
         };
     }
 
+    duration = parseInt(duration);
     if (!regex.validateDuration(duration)) {
         return {
             code: 400,

@@ -112,7 +112,7 @@ async function createPollsTable(db) {
                 table.integer('votes_1').notNullable().defaultTo(0);
                 table.integer('votes_2').notNullable().defaultTo(0);
 
-                table.string('duration').notNullable();
+                table.integer('duration').notNullable();
                 table.timestamp('start_time').nullable();  // created when state changes from 'ready' to 'active'
                 table.timestamp('end_time').nullable();  // created when state changes from 'ready' to 'active'
             });
