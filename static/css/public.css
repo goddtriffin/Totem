@@ -5,6 +5,7 @@ body{
 
 .invisible{
     display: none;
+    /* visibility: hidden; */
 }
 
 .opacity{
@@ -126,7 +127,7 @@ body{
 }
 
 #rightBlank{
-    height: 25%;
+    height: 50%;
 }
 
 #leftResults{
@@ -136,7 +137,7 @@ body{
 
 #rightResults{
     background: rgba(255, 255, 255, 0.5);
-    height: 75%;
+    height: 50%;
 }
 
 #rightResults, #leftResults{

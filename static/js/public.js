@@ -124,7 +124,7 @@ function showPoll(index, callback){
 
 			
 				document.getElementById("leftDisplayName").innerHTML = DS_creator;
-								document.getElementById("rightDisplayName").innerHTML = DS_opponent;
+				document.getElementById("rightDisplayName").innerHTML = DS_opponent;
 
 
 			});
@@ -135,10 +135,22 @@ function showPoll(index, callback){
 				calculateVotes(current_poll_id)
 				console.log("GRAPH");
 				//uncomment to show graph
-				// document.getElementById("cardContentOverlay").classList.remove("invisible");
-				// document.getElementById("leftImg").classList.add("opacity");
-				// document.getElementById("rightImg").classList.add("opacity");
+				document.getElementById("cardContentOverlay").classList.remove("invisible");
+				document.getElementById("leftImg").classList.add("opacity");
+				document.getElementById("rightImg").classList.add("opacity");
 				//graph
+
+				// Set vote color
+				// left
+				if(publicPolls[index].voted === 1){
+					document.getElementById("leftResults").style.background = "rgba(255, 255, 255, 0.80)";
+					document.getElementById("leftResults").style.color = "black";
+				}
+				// right
+				else{
+					document.getElementById("rightResults").style.background = "rgba(255, 255, 255, 0.80)";
+					document.getElementById("rightResults").style.color = "black";
+				}
 				
 			}
 			else{
@@ -217,9 +229,9 @@ function vote(side){
 
 	}
 	//uncomment to show graph
-	// document.getElementById("cardContentOverlay").classList.remove("invisible");
-	// document.getElementById("leftImg").classList.add("opacity");
-	// document.getElementById("rightImg").classList.add("opacity");
+	document.getElementById("cardContentOverlay").classList.remove("invisible");
+	document.getElementById("leftImg").classList.add("opacity");
+	document.getElementById("rightImg").classList.add("opacity");
 }
 
 function logout(){
@@ -353,10 +365,12 @@ function calculateVotes(id){
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			var total = response.data.votes_1 + response.data.votes_2;
-			 leftPercentage = response.data.votes_1 / total;
-			 rightPercentage = response.data.votes_2/ total;
+			console.log("TOTAL: " + total + "LEFT: " + response.data.votes_1 + " RIGHT: " + response.data.votes_2);
+			 leftPercentage = (response.data.votes_1 / total) * 100.0;
+			 rightPercentage = (response.data.votes_2/ total) * 100.0;
 			 // uncomment after voting is done
-			 // showPoll(id);
+			//  showPoll(id);
+			setPercentages();
 		  
 		} else {
             // handle error
@@ -365,6 +379,19 @@ function calculateVotes(id){
     }
     
 	xhr.send(null);
+}
+
+function setPercentages(){
+	console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
+	document.getElementById("leftBlank").style.height = (100 - leftPercentage) + "%";
+	document.getElementById("rightBlank").style.height = (100 - rightPercentage) + "%";
+
+	document.getElementById("leftResults").style.height = leftPercentage + "%";
+	document.getElementById("rightResults").style.height = rightPercentage + "%";
+
+	document.getElementById("resultTextLeft").innerHTML = leftPercentage + "%";
+	document.getElementById("resultTextRight").innerHTML = rightPercentage + "%";
+
 }
 
 function getFriends(){
