@@ -218,7 +218,7 @@ function changeSort(){
 
 }
 
-function search(){
+function search(index){
 	let themePicker = document.getElementById("themePicker");
 	let themes = getSelectValues(themePicker);
 	console.log("Search criteria: " + themes);
@@ -238,7 +238,7 @@ function search(){
 				// Replace poll list
 				publicPolls = response.data;	
 				console.log(publicPolls);			
-				showPoll(0, getDisplayName);
+				showPoll(index, getDisplayName);
 				
 			} else {
 				// handle error
@@ -250,7 +250,7 @@ function search(){
 	}
 	else{
 		// Normal list call
-		listOfPolls(0);
+		listOfPolls(index);
 	}
 }
 
@@ -397,7 +397,8 @@ function setVote(who, index){
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			//calcualting percentage
 			calculateVotes(index);
-			listOfPolls(place_holder);
+			// listOfPolls(place_holder);
+			search(place_holder);
 
 		} else {
 			console.error(users);
