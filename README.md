@@ -101,7 +101,7 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
 | Name | Type | Description |
 | :--- | :--- | :--- |
 | id | integer | poll identifier (unique) |
-| created_at | datetime | date and time of the poll's creation |
+| created_at | datetime | SQL datetime the poll was created (year-month-day hours:minutes:seconds) |
 | display_name | string | fun name/title of poll |
 | theme | string | poll category |
 | creator | string | username of the user that created the poll |
@@ -159,4 +159,4 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
 * `npm run unit tests`
   * runs all unit tests
 * `npm run line-count`
-  * prints every file's line count and the sum of all line counts for every file created by me (both including, and not including, newlines)
+  * prints every file's line count and the sum of all line counts for every file created by Todd (MagnusFrater) (both including, and not including, newlines and comments)
