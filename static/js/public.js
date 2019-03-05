@@ -222,6 +222,36 @@ function search(){
 	let themePicker = document.getElementById("themePicker");
 	let themes = getSelectValues(themePicker);
 	console.log("Search criteria: " + themes);
+
+	if(themes.length !== 0){
+		let url = '/api/poll/search/public?themes='+themes;
+
+		const xhr  = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+		xhr.onload = function () {
+			const response = JSON.parse(xhr.responseText);
+			if (xhr.readyState == 4 && xhr.status == "200") {
+				console.log("Search Results");
+				console.log(response.data);
+
+				// Replace poll list
+				publicPolls = response.data;	
+				console.log(publicPolls);			
+				showPoll(0, getDisplayName);
+				
+			} else {
+				// handle error
+				console.log(response);
+			}
+		}
+		
+		xhr.send(null);
+	}
+	else{
+		// Normal list call
+		listOfPolls(0);
+	}
 }
 
 function getSelectValues(select) {
@@ -233,7 +263,7 @@ function getSelectValues(select) {
 	  opt = options[i];
   
 	  if (opt.selected) {
-		result.push(opt.value || opt.text);
+		result.push(opt.value);
 	  }
 	}
 	return result;
@@ -336,7 +366,7 @@ function listOfPolls(location){
 	xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			publicPolls = response.data;			
+			publicPolls = response.data;		
 			showPoll(location, getDisplayName);
             
 		} else {
