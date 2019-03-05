@@ -219,10 +219,25 @@ function changeSort(){
 }
 
 function search(){
-	let themes = document.getElementById("themePicker");
-	themes.getElementsByClassName('btn dropdown-toggle btn-light')[0].getAttribute("title");
-	// console.log("Search criteria: " + themes);
+	let themePicker = document.getElementById("themePicker");
+	let themes = getSelectValues(themePicker);
+	console.log("Search criteria: " + themes);
 }
+
+function getSelectValues(select) {
+	var result = [];
+	var options = select && select.options;
+	var opt;
+  
+	for (var i=0, iLen=options.length; i<iLen; i++) {
+	  opt = options[i];
+  
+	  if (opt.selected) {
+		result.push(opt.value || opt.text);
+	  }
+	}
+	return result;
+  }
 
 function vote(side){
 	if(side == "Left"){
