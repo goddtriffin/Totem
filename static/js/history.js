@@ -26,7 +26,7 @@ function getHistory(){
 					if (xhr1.readyState == 4 && xhr1.status == "200") {
 						console.log("id: "+ response.data.id)
 						console.log("voted: "+response.data.voted)
-
+						console.log("POLL: " + response.data)
 						let username_creator = response.data.creator;
 						let username_opponent = response.data.opponent;
 						// fix after asych issue in public is fixed
@@ -35,6 +35,8 @@ function getHistory(){
 						let title = response.data.display_name;
 						let theme = response.data.theme;
 						let type = response.data.type;
+						let voted = response.data.voted;
+						console.log("VOTED: " + voted);
 						var total = response.data.votes_1 + response.data.votes_2;
 			 			let leftPercentage = (response.data.votes_1 / total) * 100.0;
 						let rightPercentage = (response.data.votes_2/ total) * 100.0;
