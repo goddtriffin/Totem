@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 app.use(require('./routes'));  // all endpoints
 
 // initialize all cron jobs
-jobs.init();
+jobs.init(app.locals.db);
 
 const server = app.listen(process.env.PORT || 80, () => {
     const port = server.address().port;

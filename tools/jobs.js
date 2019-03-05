@@ -1,9 +1,11 @@
 const cron = require('node-cron');
 
+const Poll = require('../models/Poll');
+
 const jobs = {};
 
-function init() {
-    jobs['expire-polls'] = createExpirePollsJob();
+function init(db) {
+    jobs['expire-polls'] = createExpirePollsJob(db);
 }
 
 function start(job) {
@@ -26,9 +28,9 @@ function stopAll() {
     });
 }
 
-function createExpirePollsJob() {
+function createExpirePollsJob(db) {
     return cron.schedule('* * * * *', () => {
-        console.log('running a task every minute');
+        Poll.expirePolls(db);
     }, {
         scheduled: false
     });
