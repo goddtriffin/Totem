@@ -64,7 +64,9 @@ All other routes: `application/x-www-form-urlencoded`
 | POST | $ `/api/user/signup` | signs up a new user account | email, username, display_name, password, emoji |
 | POST | $ `/api/user/login` | logs a user in | username, password |
 | GET | `/api/user/me` | returns your account information |  |
+| GET | `/api/user/me/polls` | returns polls created by this account |  |
 | GET | `/api/user/profile/:username` | returns that user's account information (replace `:username` with a real username) |  |
+| GET | `/api/user/profile/:username/polls` | returns polls created by this account (replace `:username` with a real username) |  |
 | GET | `/api/user/search?username=<username>` | returns a list of all user accounts with similar usernames (replace `<username>` with a real username) |  |
 | GET | `/api/user/all` | returns a list of all user accounts |  |
 | PUT | `/api/user/update` | updates your account, must pick at least one optional Body parameter to update | display_name, emoji |
