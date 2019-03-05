@@ -336,6 +336,10 @@ tbody tr{
     text-align: center;
 }
 
+.resultText{
+    color: black;
+}
+
 #themes{
     color: lightgray;
 }
