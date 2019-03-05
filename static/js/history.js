@@ -24,6 +24,8 @@ function getHistory(){
 				xhr1.onload = function () {
 					const response = JSON.parse(xhr1.responseText);
 					if (xhr1.readyState == 4 && xhr1.status == "200") {
+						console.log("id: "+ response.data.id)
+						console.log("voted: "+response.data.voted)
 
 						let username_creator = response.data.creator;
 						let username_opponent = response.data.opponent;
