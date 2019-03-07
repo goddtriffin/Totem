@@ -93,6 +93,8 @@ function movePoll(direction){
 
 function showPoll(index, callback){
 		if(publicPolls.length != 0){
+			console.log("==========================")
+			console.log(publicPolls[index].duration)
 			console.log("this index is "+index)
 			current_poll_id = publicPolls[index].id;
 			console.log("this is poll id number: " +publicPolls[index].id)
@@ -273,7 +275,7 @@ function createPollCall(){
 }
 
 function createPersonalPoll(){
-		console.log("create personal poll called")
+	console.log("create personal poll called")
 
 	var url = "/api/poll/personal";
 

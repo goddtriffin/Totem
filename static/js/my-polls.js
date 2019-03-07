@@ -1,4 +1,4 @@
-function getMyPolls(){
+function getMyPolls(callback){
 	var url  = "/api/user/me/polls";
 	var xhr  = new XMLHttpRequest()
 
@@ -24,6 +24,23 @@ function getMyPolls(){
 				xhr1.onload = function () {
 					const response = JSON.parse(xhr1.responseText);
 					if (xhr1.readyState == 4 && xhr1.status == "200") {
+						// let DS_creator = "";
+						// let DS_opponent ="";
+						var displaynames = new Promise(function() {
+							callback(response.data.creator, response.data.opponent)
+							
+							// let DS_creator = localStorage.poll_displayname_C;
+							// localStorage.removeItem("poll_displayname_C");
+							// let DS_opponent = localStorage.poll_displayname_O;
+							// localStorage.removeItem("poll_displayname_O");
+						
+							// document.getElementById("leftDisplayName").innerHTML = DS_creator;
+							// document.getElementById("rightDisplayName").innerHTML = DS_opponent;
+						});
+						let DS_creator = localStorage.poll_displayname_C;
+							localStorage.removeItem("poll_displayname_C");
+							let DS_opponent = localStorage.poll_displayname_O;
+							localStorage.removeItem("poll_displayname_O");
 						console.log("id: "+ response.data.id)
 						console.log("voted: "+response.data.voted)
 						console.log("POLL: " + response.data)
@@ -117,11 +134,11 @@ function getMyPolls(){
                                                 
                                                 <div class="row col-md-12 justify-content-md-center" id="cardBottom">
                                                     <div class="col-6" id="leftUser">
-                                                        <p id="leftDisplayName" class="displayName">${displayname}</p>
+                                                        <p id="leftDisplayName" class="displayName">${DS_creator}</p>
                                                         <p id="leftUsername">${username_creator}</p>
                                                     </div>
                                                     <div class="col-6 ${type}" id="rightUser">
-                                                        <p id="rightDisplayName" class="displayName">${displayname}</p>
+                                                        <p id="rightDisplayName" class="displayName">${DS_opponent}</p>
                                                         <p id="rightUsername">${username_opponent}</p>
                                                     </div>
                                                 </div>
@@ -149,3 +166,57 @@ function getMyPolls(){
 	}	
 	xhr.send(null);
 }
+
+
+
+
+
+function getDisplayName(username1, username2){
+	//creator
+	console.log("display name search was done for: "+username1)
+	var url  = "/api/user/profile/";
+	var xhr1  = new XMLHttpRequest()
+
+	xhr1.open('GET', url+username1, true)
+	xhr1.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr1.onload = function () {
+		var users1 = JSON.parse(xhr1.responseText);
+		if (xhr1.readyState == 4 && xhr1.status == "200") {			
+			if(username2 != null){
+				//opponent
+				console.log("display name search was done for: "+username2)
+				var url  = "/api/user/profile/";
+				var xhr2  = new XMLHttpRequest()
+
+				xhr2.open('GET', url+username2, true)
+				xhr2.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+				xhr2.onload = function () {
+					// console.log(xhr.responseText);
+					var users2 = JSON.parse(xhr2.responseText);
+					if (xhr2.readyState == 4 && xhr2.status == "200") {
+						localStorage.poll_displayname_C = users1.data.display_name;
+						localStorage.poll_displayname_O = users2.data.display_name;					
+
+					} else {
+						console.error(users2);
+					}
+				}	
+				xhr2.send(null);
+			}
+			else{
+				localStorage.poll_displayname_C = users1.data.display_name;
+
+			}
+
+		} else {
+			console.error(users1);
+		}
+	}	
+	xhr1.send(null);	
+
+}
+
+
+
