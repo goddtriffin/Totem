@@ -1,3 +1,5 @@
+const utils = require('./utils');
+
 // create new database knex/sqlite3
 async function create(databasePath, useNullAsDefault, debug, asyncStackTraces) {
     const db = require('knex')({
@@ -98,7 +100,7 @@ async function createPollsTable(db) {
         if (!exists) {
             return db.schema.createTable('polls', table => {
                 table.increments('id').unique().primary();
-                table.datetime('created_at').notNullable().defaultTo(db.fn.now())
+                table.datetime('created_at').notNullable().defaultTo(utils.getDatetimeString());
                 table.string('display_name').notNullable();
                 table.string('theme').notNullable();
 
