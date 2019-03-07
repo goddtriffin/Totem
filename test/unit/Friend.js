@@ -11,8 +11,10 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
 
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            const signup1 = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup1.code, 200, signup1.data);
+            const signup2 = await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            assert.strictEqual(signup2.code, 200, signup2.data);
 		});
 
 		after(async () => {
@@ -47,13 +49,19 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
             
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
-            await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one', false);
-            await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two', false);
+            const signup1 = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup1.code, 200, signup1.data);
+            const signup2 = await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            assert.strictEqual(signup2.code, 200, signup2.data);
+            const signup3 = await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one', false);
+            assert.strictEqual(signup3.code, 200, signup3.data);
+            const signup4 = await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two', false);
+            assert.strictEqual(signup4.code, 200, signup4.data);
 
-            await Friend.add(db, 'todd', 'kelp');
-            await Friend.add(db, 'todd', 'one');
+            const friend1 = await Friend.add(db, 'todd', 'kelp');
+            assert.strictEqual(friend1.code, 200, friend1.data);
+            const friend2 = await Friend.add(db, 'todd', 'one');
+            assert.strictEqual(friend2.code, 200, friend2.data);
 		});
 
 		after(async () => {
@@ -99,10 +107,13 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
             
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            const signup1 = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup1.code, 200, signup1.data);
+            const signup2 = await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            assert.strictEqual(signup2.code, 200, signup2.data);
 
-            const result = await Friend.add(db, 'todd', 'kelp');
+            const friend = await Friend.add(db, 'todd', 'kelp');
+            assert.strictEqual(friend.code, 200, friend.data);
 		});
 
 		after(async () => {
@@ -137,16 +148,24 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
             
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
-            await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one', false);
-            await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two', false);
+            const signup1 = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup1.code, 200, signup1.data);
+            const signup2 = await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            assert.strictEqual(signup2.code, 200, signup2.data);
+            const signup3 = await User.signup(db, 'one@one.one', 'one', 'one_1', '12345678', 'one', false);
+            assert.strictEqual(signup3.code, 200, signup3.data);
+            const signup4 = await User.signup(db, 'two@two.two', 'two', 'two_2', '87654321', 'two', false);
+            assert.strictEqual(signup4.code, 200, signup4.data);
 
-            await Friend.add(db, 'todd', 'kelp');
-            await Friend.add(db, 'todd', 'one');
+            const friend1 = await Friend.add(db, 'todd', 'kelp');
+            assert.strictEqual(friend1.code, 200, friend1.data);
+            const friend2 = await Friend.add(db, 'todd', 'one');
+            assert.strictEqual(friend2.code, 200, friend2.data);
 
-            await Friend.accept(db, 'kelp', 'todd');
-            await Friend.accept(db, 'one', 'todd');
+            const friend3 = await Friend.accept(db, 'kelp', 'todd');
+            assert.strictEqual(friend3.code, 200, friend3.data);
+            const friend4 = await Friend.accept(db, 'one', 'todd');
+            assert.strictEqual(friend4.code, 200, friend4.data);
 		});
 
 		after(async () => {
@@ -192,8 +211,10 @@ describe('Friend', () => {
 		before(async () => {
             db = await db_tool.create(':memory:', true, false, true);
 
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
-            await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            const signup1 = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup1.code, 200, signup1.data);
+            const signup2 = await User.signup(db, 'kplakyda@purdue.edu', 'kelp', 'keelpay', '87654321', 'eyes', false);
+            assert.strictEqual(signup2.code, 200, signup2.data);
 		});
 
 		after(async () => {
@@ -202,7 +223,8 @@ describe('Friend', () => {
 		});
 
 		it('success', async () => {
-            await Friend.add(db, 'todd', 'kelp');
+            const friend = await Friend.add(db, 'todd', 'kelp');
+            assert.strictEqual(friend.code, 200, friend.data);
 
 			const result = await Friend.remove(db, 'todd', 'kelp');
 			assert.strictEqual(result.code, 200, result.data);
