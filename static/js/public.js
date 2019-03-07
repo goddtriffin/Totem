@@ -3,7 +3,7 @@ let sorting = "asc";
 let publicPolls = [];
 let place_holder = 0;
 let friends = [];
-let current_poll_id = 0;
+let current_poll_id = 1;
 let leftPercentage = 0;
 let rightPercentage = 0;
 let has_Voted = false;
@@ -24,6 +24,7 @@ window.onload = function() {
 };
 
 function createPoll(){
+	console.log("create pollllllllllll")
 	createPollCall();
 	let personal = document.getElementById("personalButton").classList.contains("active");
 	let challenge = document.getElementById("challengeButton").classList.contains("active");
@@ -91,7 +92,7 @@ function movePoll(direction){
 }
 
 function showPoll(index, callback){
-		if(publicPolls.length == 0){
+		if(publicPolls.length != 0){
 			console.log("this index is "+index)
 			current_poll_id = publicPolls[index].id;
 			console.log("this is poll id number: " +publicPolls[index].id)
@@ -260,6 +261,7 @@ function logout(){
 }
 
 function createPollCall(){
+	console.log("create poll called")
 	if(localStorage.pollType == 0){
 		createPersonalPoll()
 		localStorage.removeItem("poll");
@@ -271,6 +273,8 @@ function createPollCall(){
 }
 
 function createPersonalPoll(){
+		console.log("create personal poll called")
+
 	var url = "/api/poll/personal";
 
 	const xhr = new XMLHttpRequest();
@@ -279,9 +283,12 @@ function createPersonalPoll(){
     xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
+			            console.log(response);
+
             // handle success
             sessionStorage.setItem('pollId', response.data);
-            listOfPolls(publicPolls.length);
+            // listOfPolls(publicPolls.length);
+            listOfPolls(0)
 		} else {
             console.log(response);
 		}
@@ -330,6 +337,8 @@ function listOfPolls(location){
 	xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.log("yooooooo")
+			console.log(response.data)
 			publicPolls = response.data;		
 			showPoll(location, getDisplayName);
             
