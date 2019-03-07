@@ -12,7 +12,7 @@ function load() {
 	else{
 	  	loadFriends();
 	  	loadFriendRequest();
-	  	addFriend();
+	  	//addFriend();
 	}
 };
 
@@ -194,6 +194,7 @@ function deleteFriend(index){
 
 function searchfriends(){
 	let usernameSearch = document.getElementById("searchBar").value;
+	console.log("the length of the search was" +usernameSearch.length)
 	if(usernameSearch.length > 0){
 		var url  = "/api/user/search?username=";
 		var xhr  = new XMLHttpRequest()
@@ -270,7 +271,7 @@ function viewFriendProfile(index){
 }
 
 function addFriend(){
-var url = "/api/user/friend";
+	var url = "/api/user/friend";
 	// console.log(index);
 	let friend_username = "other1";
 
