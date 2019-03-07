@@ -1,5 +1,5 @@
 //GLOBALS
-let sorting = "Newest";
+let sorting = "asc";
 let publicPolls = [];
 let place_holder = 0;
 let friends = [];
@@ -10,7 +10,6 @@ let has_Voted = false;
 let creator_displayname = "";
 let opponent_displayname = "";
 let recall = 0;
-let sort_type = "asc"
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
@@ -174,9 +173,9 @@ function updateSort(sort){
 	// console.log(sorting);
 }
 
-function changeSort(sort){
-	// console.log("Sorting submitted: " + sorting);
-	sort_type = sort; 
+function changeSort(){
+	console.log("Sorting submitted: " + sorting);
+	listOfPolls(0,sorting);
 
 }
 
@@ -322,10 +321,10 @@ function createChallengeRequest(){
 
 function listOfPolls(location){
 	const xhr  = new XMLHttpRequest();
-	console.log(sort_type)
+	// console.log(sort_type)
 	let url = "/api/feed/public?sort="
-	xhr.open('GET', url+sort_type);
-	console.log(url+sort_type)
+	xhr.open('GET', url+sorting);
+	console.log(url+sorting)
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
     
 	xhr.onload = function () {

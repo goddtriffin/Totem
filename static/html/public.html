@@ -88,12 +88,12 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                            <div class="form-check" onclick="updateSort('Newest')">
-                                <input class="form-check-input" type="radio" name="radioOption" id="sort1" value="option1" checked onclick="changeSort("asc")">
+                            <div class="form-check" onclick="updateSort('asc')">
+                                <input class="form-check-input" type="radio" name="radioOption" id="sort1" value="option1" checked>
                                 <label class="form-check-label" for="sort1">Newest -> Oldest</label>
                             </div>
-                            <div class="form-check" onclick="updateSort('Oldest')">
-                                <input class="form-check-input" type="radio" name="radioOption" id="sort2" value="option2" onclick="changeSort("desc")">
+                            <div class="form-check" onclick="updateSort('desc')">
+                                <input class="form-check-input" type="radio" name="radioOption" id="sort2" value="option2">
                                 <label class="form-check-label" for="sort2">Oldest -> Newest</label>
                             </div>
                     </div>
