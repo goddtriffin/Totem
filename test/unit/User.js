@@ -22,7 +22,9 @@ describe('User', () => {
 		});
 
 		it('username already exists', async () => {
-			await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
+            
 			const result = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
 			assert.strictEqual(result.code, 409, result.data);
 		});
@@ -62,8 +64,10 @@ describe('User', () => {
 
 	describe('login', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
-			await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
 		});
 
 		after(async () => {
@@ -106,9 +110,12 @@ describe('User', () => {
 
 	describe('getByUsername', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
-            await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
-            await User.signup(db, 'test@test.test', 'test', 'testtest', '12345678', 'eggplant', false);
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            const signup1 = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup1.code, 200, signup1.data);
+            const signup2 = await User.signup(db, 'test@test.test', 'test', 'testtest', '12345678', 'eggplant', false);
+            assert.strictEqual(signup2.code, 200, signup2.data);
 		});
 
 		after(async () => {
@@ -161,7 +168,8 @@ describe('User', () => {
 		});
 
 		it('success with one result', async () => {
-			await User.signup(db, 'one@one.one', 'one', 'number-one', '11111111', 'eggplant', false);
+            const signup = await User.signup(db, 'one@one.one', 'one', 'number-one', '11111111', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
 
 			const result = await User.search(db, 'test', 'o');
 			assert.strictEqual(result.code, 200, result.data);
@@ -169,7 +177,8 @@ describe('User', () => {
 		});
 
 		it('success with multiple results', async () => {
-			await User.signup(db, 'two@two.two', 'two', 'number-two', '22222222', 'eggplant', false);
+            const signup = await User.signup(db, 'two@two.two', 'two', 'number-two', '22222222', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
 
 			const result = await User.search(db, 'test', 'o');
 			assert.strictEqual(result.code, 200, result.data);
@@ -191,8 +200,10 @@ describe('User', () => {
 
 	describe('update', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
-			await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
 		});
 
 		after(async () => {
