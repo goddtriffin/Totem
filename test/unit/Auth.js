@@ -18,22 +18,29 @@ describe('Auth', () => {
 		});
 
 		it('success with user signup', async () => {
-			const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
 
 			const result = await Auth.validate(signup.data);
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		it('success with user login', async () => {
-			const login = await User.login(db, 'todd', '12345678');
+            const login = await User.login(db, 'todd', '12345678');
+            assert.strictEqual(login.code, 200, login.data);
 
 			const result = await Auth.validate(login.data);
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
 		describe('validate parameters', () => {
-			it('invalid token', async () => {
+			it('invalid token type', async () => {
 				const result = await Auth.validate(null);
+				assert.strictEqual(result.code, 401, result.data);
+            });
+            
+            it('invalid token', async () => {
+				const result = await Auth.validate('');
 				assert.strictEqual(result.code, 401, result.data);
 			});
 		});
