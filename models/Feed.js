@@ -1,7 +1,7 @@
 const regex = require('../tools/regex');
 
 // returns a user's public feed
-async function getPublic(db, sort) {
+async function getPublic(db, username, sort) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
@@ -43,7 +43,7 @@ async function getPublic(db, sort) {
     }
 
     const polls = result1;
-    const result2 = await addPollsHistory(db, polls);
+    const result2 = await addPollsHistory(db, username, polls);
     if (!!result2.code) {
         return result2;
     }
@@ -136,7 +136,7 @@ async function getPrivate(db, username, sort) {
     }
 
     const polls = result1;
-    const result2 = await addPollsHistory(db, polls);
+    const result2 = await addPollsHistory(db, username, polls);
     if (!!result2.code) {
         return result2;
     }
@@ -147,7 +147,7 @@ async function getPrivate(db, username, sort) {
     };
 }
 
-async function addPollsHistory(db, polls) {
+async function addPollsHistory(db, username, polls) {
     // no polls to add history to
     if (polls.length < 1) {
         return {};
@@ -156,6 +156,7 @@ async function addPollsHistory(db, polls) {
     const pollIds = polls.map(poll => poll.id);
     const result = await db('history')
         .whereIn('poll', pollIds)
+        .andWhere('username', username)
         .select()
         .catch(e => {
             return {

@@ -5,12 +5,13 @@ const Feed = require('../../models/Feed');
 
 router.get('/public', Auth.validate, async (req, res) => {
     const data = {
+        username: req.jwt.sub,
         sort: req.query.sort
     };
 
     const result = await Feed.getPublic(
         req.app.locals.db,
-        data.sort
+        data.username, data.sort
     );
 
     res.status(result.code).send(result);
