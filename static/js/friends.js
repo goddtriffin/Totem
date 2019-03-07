@@ -37,7 +37,6 @@ function getFriends(){
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			friend_username = [];
 			friends = users.data;
-			console
 			//Populate HTML
 			let runningTable = ``;
 			let tableBody = document.getElementById("friendTableBody");
@@ -72,7 +71,7 @@ function getFriendRequests(){
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			//Populate HTML
-			console.table(users);
+			//console.table(users);
 
 			//Set global 
 			friendRequests = users.data.received;
@@ -123,7 +122,7 @@ function requestFriend(index){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			//console.log(users);
 			loadFriends();
 	  		loadFriendRequest();
 		} 
@@ -153,7 +152,7 @@ function acceptFriend(index){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			//console.log(users);
 			loadFriends();
 	  		loadFriendRequest();
 		} else if(xhr.status == "400"){ 
@@ -182,7 +181,7 @@ function deleteFriend(index){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			//console.log(users);
 			loadFriends();
 	  		loadFriendRequest();
 		} else {
@@ -208,7 +207,7 @@ function searchfriends(){
 			if (xhr.readyState == 4 && xhr.status == "200") {
 				searchResults = users.data;
 
-				console.log(users)
+				//console.log(users)
 				//Populate HTML
 				let runningTable = ``;
 				let tableBody = document.getElementById("searchTable");
@@ -247,54 +246,4 @@ function searchfriends(){
 						</tr>`;
 		tableBody.innerHTML = runningTable;
 	}
-}
-
-// Dont think we need this anymore
-function viewFriendProfile(index){
-	var url  = "/api/user/profile/";
-	var xhr  = new XMLHttpRequest();
-	let friend_username = friends[index].username;
-
-	xhr.open('GET', url+friend_username, true)
-	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
-
-	xhr.onload = function () {
-		var users = JSON.parse(xhr.responseText);
-		if (xhr.readyState == 4 && xhr.status == "200") {
-			searchResults = users.data;
-			console.log(users)
-		} else {
-			console.error(users);
-		}
-	}	
-	xhr.send(null);
-}
-
-function addFriend(){
-	var url = "/api/user/friend";
-	// console.log(index);
-	let friend_username = "other1";
-
-	var data = {};
-	data.friend_username = friend_username;
-	var json = JSON.stringify(data);
-
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", url, true);
-	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
-	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-	xhr.onload = function () {
-		var users = JSON.parse(xhr.responseText);
-		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
-			loadFriends();
-	  		loadFriendRequest();
-		} else if(xhr.status == "400"){ 
-			
-		}
-		else {
-			console.error(users);
-		}
-	}
-	xhr.send(json);
 }
