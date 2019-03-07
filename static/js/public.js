@@ -10,6 +10,7 @@ let has_Voted = false;
 let creator_displayname = "";
 let opponent_displayname = "";
 let recall = 0;
+let sort_type = "asc"
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
@@ -91,6 +92,8 @@ function movePoll(direction){
 }
 
 function showPoll(index, callback){
+		if(publicPolls.length == 0){
+			console.log("this index is "+index)
 			current_poll_id = publicPolls[index].id;
 			console.log("this is poll id number: " +publicPolls[index].id)
 			
@@ -160,6 +163,10 @@ function showPoll(index, callback){
 				document.getElementById("rightUser").classList.remove("invisible");
 				document.getElementById("rightUsername").innerHTML = publicPolls[index].opponent;
 			}
+		}
+		else{
+			//no polls display
+		}
 }
 
 function updateSort(sort){
@@ -167,8 +174,9 @@ function updateSort(sort){
 	// console.log(sorting);
 }
 
-function changeSort(){
+function changeSort(sort){
 	// console.log("Sorting submitted: " + sorting);
+	sort_type = sort; 
 
 }
 
@@ -314,7 +322,10 @@ function createChallengeRequest(){
 
 function listOfPolls(location){
 	const xhr  = new XMLHttpRequest();
-	xhr.open('GET', '/api/feed/public');
+	console.log(sort_type)
+	let url = "/api/feed/public?sort="
+	xhr.open('GET', url+sort_type);
+	console.log(url+sort_type)
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
     
 	xhr.onload = function () {

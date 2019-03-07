@@ -44,6 +44,22 @@ function getMyPolls(){
 						else if(voted === 2){
 							rightBackground = "rgba(255,255,255, 0.8)";
 						}
+						if(response.data.hasOwnProperty('voted')){
+							document.getElementById("cardContentOverlay").classList.remove("invisible");
+							// document.getElementById("leftImg").classList.add("opacity");
+							// document.getElementById("rightImg").classList.add("opacity");
+						}
+						else{
+							console.log("removing graph")
+							document.getElementById("cardContentOverlay").classList.add("invisible");
+							document.getElementById("cardLeftOverlay").classList.add("invisible");
+							document.getElementById("cardRightOverlay").classList.add("invisible");
+							// document.getElementById("leftImg").classList.remove("opacity");
+							// document.getElementById("rightImg").classList.remove("opacity");
+							
+							
+						}
+
 						var total = response.data.votes_1 + response.data.votes_2;
 			 			let leftPercentage = (response.data.votes_1 / total) * 100.0;
 						let rightPercentage = (response.data.votes_2/ total) * 100.0;
