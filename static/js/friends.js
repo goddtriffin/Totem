@@ -125,6 +125,7 @@ function requestFriend(index){
 			//console.log(users);
 			loadFriends();
 	  		loadFriendRequest();
+	  		searchfriends();
 		} 
 		else if(xhr.status == "409"){
 		}
