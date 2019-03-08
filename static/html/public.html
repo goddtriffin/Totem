@@ -231,7 +231,7 @@
                 <div class="scrollArrow" id="backArrow" onclick="movePoll(-1)">
                     <button class="btn btn-outline-dark"><</button>
                 </div>
-                <div class="col-md-8 pollCard">
+                <div class="col-md-8 pollCard invisible" id="actual_card">
                     <div id="cardTitle" class="col-md-12">
                         <p id="titleP">This is the Title</p>
                         <div class="col-md-12" id="themes">
@@ -275,6 +275,9 @@
                             <p id="rightUsername">@username</p>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-8 invisible" id="no_polls">
+                    <p id="emojiEmpty">😁 </p>
                 </div>
                 <div class="scrollArrow" id="nextArrow">
                     <button class="btn btn-outline-dark" onclick="movePoll(1)">></button>
