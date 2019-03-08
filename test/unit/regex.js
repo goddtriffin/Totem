@@ -411,5 +411,45 @@ describe('regex', () => {
 				assert(!regex.validateTheme({}));
 			});
 		});
+    });
+    
+    describe('duration', () => {
+        it('success', () => {
+			assert(regex.validateDuration(1));
+        });
+        
+        it('>= 1', () => {
+			assert(!regex.validateDuration(0));
+		});
+
+		describe('not an integer', () => {
+			it('nothing', () => {
+				assert(!regex.validateDuration());
+			});
+
+			it('number', () => {
+				assert(!regex.validateDuration(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateDuration(undefined));
+			});
+
+			it('double', () => {
+				assert(!regex.validateDuration(1.1));
+            });
+            
+            it('string', () => {
+				assert(!regex.validateDuration(''));
+			});
+
+			it('array', () => {
+				assert(!regex.validateDuration([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateDuration({}));
+			});
+		});
 	});
 });

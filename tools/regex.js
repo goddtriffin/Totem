@@ -137,12 +137,20 @@ function validateDuration(duration) {
         return false;
     }
 
-    return Number.isInteger(duration);
+    if (!Number.isInteger(duration)) {
+        return false;
+    }
+
+    if (duration < 1) {
+        return false;
+    }
+
+    return true;
 }
 
 // returns a String dictating what a valid duration should look like
 function getInvalidDurationResponse(duration) {
-    return 'Invalid duration: ' + duration + '. Should match: integer (minutes)';
+    return 'Invalid duration: ' + duration + '. Should match: integer (minutes); duration >= 1';
 }
 
 // returns true if poll id is valid, false otherwise
