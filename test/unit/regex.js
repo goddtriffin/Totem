@@ -527,5 +527,105 @@ describe('regex', () => {
 				assert(!regex.validatePollVote({}));
 			});
 		});
-	});
+    });
+    
+    describe('themes_query', () => {
+		it('success w/ 1 theme', () => {
+			assert(regex.validateThemesQuery('theme'));
+        });
+        
+        it('success w/ 2 themes', () => {
+			assert(regex.validateThemesQuery('theme,theme'));
+        });
+        
+        it('success w/ 3 themes', () => {
+			assert(regex.validateThemesQuery('theme,theme,theme'));
+        });
+        
+        it('success w/ 4 themes', () => {
+			assert(regex.validateThemesQuery('theme,theme,theme,theme'));
+        });
+        
+        it('success w/ 5 themes', () => {
+			assert(regex.validateThemesQuery('theme,theme,theme,theme,theme'));
+        });
+        
+        describe('syntax', () => {
+			it('empty string', () => {
+				assert(!regex.validateThemesQuery(''));
+            });
+            
+            it('ends w/ comma', () => {
+				assert(!regex.validateThemesQuery('theme,'));
+            });
+		});
+        
+        describe('has whitespace', () => {
+			it('space', () => {
+                assert(!regex.validateThemesQuery('theme '));
+            });
+
+            it('space w/ comma', () => {
+                assert(!regex.validateThemesQuery('theme, '));
+            });
+
+            it('tab', () => {
+                assert(!regex.validateThemesQuery('theme\t'));
+            });
+
+            it('tab w/ comma', () => {
+                assert(!regex.validateThemesQuery('theme,\t'));
+            });
+
+            it('newline', () => {
+                assert(!regex.validateThemesQuery('theme\n'));
+            });
+
+            it('newline w/ comma', () => {
+                assert(!regex.validateThemesQuery('theme,\n'));
+            });
+
+            it('return carriage', () => {
+                assert(!regex.validateThemesQuery('theme\r'));
+            });
+
+            it('return carriage w/ comma', () => {
+                assert(!regex.validateThemesQuery('theme,\r'));
+            });
+
+            it('form feed', () => {
+                assert(!regex.validateThemesQuery('theme\f'));
+            });
+
+            it('form feed w/ comma', () => {
+                assert(!regex.validateThemesQuery('theme,\f'));
+            });
+		});
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateThemesQuery());
+			});
+
+			it('number', () => {
+				assert(!regex.validateThemesQuery(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateThemesQuery(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateThemesQuery(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateThemesQuery([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateThemesQuery({}));
+			});
+		});
+    });
 });
