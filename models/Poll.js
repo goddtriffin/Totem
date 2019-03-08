@@ -272,6 +272,59 @@ async function getChallengeRequests(db, username) {
     };
 }
 
+// returns all of your challenge requests
+async function getChallengeRequestsSent(db, username) {
+    if (!regex.validateDatabase(db)) {
+        return {
+            code: 500,
+            data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
+        };
+    }
+
+    const result = await db('polls')
+        .where({
+            creator: username,
+            state: 'pending',
+            type: 'challenge'
+        })
+        .select('id', 'created_at', 'display_name', 'theme', 'creator', 'opponent', 'scope', 'state', 'duration')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result.code) {
+        return result;
+    }
+
+    return {
+        code: 200,
+        data: result
+    };
+}
+
 // rejects a challenge request
 async function rejectChallengeRequest(db, id, username) {
     if (!regex.validateDatabase(db)) {
@@ -1126,7 +1179,7 @@ async function expirePolls(db) {
 
 module.exports = {
     createPersonal, createChallenge,
-    getChallengeRequests,
+    getChallengeRequests, getChallengeRequestsSent,
     rejectChallengeRequest,
     acceptChallengeRequest,
     getAcceptedChallengeRequests,

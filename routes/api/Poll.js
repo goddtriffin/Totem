@@ -88,6 +88,19 @@ router.get('/challenge/requests', Auth.validate, async (req, res) => {
     res.status(result.code).send(result);
 });
 
+router.get('/challenge/requests/sent', Auth.validate, async (req, res) => {
+    const data = {
+        username: req.jwt.sub
+    };
+
+    const result = await Poll.getChallengeRequestsSent(
+        req.app.locals.db,
+        data.username
+    );
+
+    res.status(result.code).send(result);
+});
+
 router.delete('/challenge/request/:id', Auth.validate, async (req, res) => {
     const data = {
         id: req.params.id,
