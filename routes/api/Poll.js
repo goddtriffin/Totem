@@ -169,12 +169,13 @@ router.put('/challenge/request/accepted/:id', Auth.validate, async (req, res) =>
 
 router.get('/search/private', Auth.validate, async (req, res) => {
     const data = {
+        username: req.jwt.sub,
         themes_query: req.query.themes,
     };
 
     const result = await Poll.searchPrivate(
         req.app.locals.db,
-        data.themes_query
+        data.username, data.themes_query
     );
 
     res.status(result.code).send(result);
@@ -182,12 +183,13 @@ router.get('/search/private', Auth.validate, async (req, res) => {
 
 router.get('/search/public', Auth.validate, async (req, res) => {
     const data = {
+        username: req.jwt.sub,
         themes_query: req.query.themes,
     };
 
     const result = await Poll.searchPublic(
         req.app.locals.db,
-        data.themes_query
+        data.username, data.themes_query
     );
 
     res.status(result.code).send(result);

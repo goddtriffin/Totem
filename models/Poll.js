@@ -664,11 +664,31 @@ async function startChallenge(db, id, username) {
 }
 
 // returns a list of private polls based on theme
-async function searchPrivate(db, themes_query) {
+async function searchPrivate(db, username, themes_query) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
             data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
         };
     }
 
@@ -697,8 +717,8 @@ async function searchPrivate(db, themes_query) {
             state: 'active',
             scope: 'private'
         })
-        .andWhere(() => {
-            this.
+        .andWhere((builder) => {
+            builder.
                 whereIn('creator', friendUsernames)
                 .orWhereIn('opponent', friendUsernames)
         })
@@ -714,18 +734,43 @@ async function searchPrivate(db, themes_query) {
         return result;
     }
 
+    const addHistoryResult = await require('./Feed').addPollsHistory(db, username, result);
+    if (!!addHistoryResult.code) {
+        return addHistoryResult;
+    }
+
     return {
         code: 200,
-        data: result
+        data: addHistoryResult
     };
 }
 
 // returns a list of public polls based on theme
-async function searchPublic(db, themes_query) {
+async function searchPublic(db, username, themes_query) {
     if (!regex.validateDatabase(db)) {
         return {
             code: 500,
             data: regex.getInvalidDatabaseResponse(db)
+        };
+    }
+
+    if (!regex.validateUsername(username)) {
+        return {
+            code: 400,
+            data: regex.getInvalidUsernameResponse(username)
+        };
+    }
+
+    // check if username exists
+    const username_exists = await require('./User').usernameExists(db, username);
+    if (typeof username_exists !== 'boolean') {
+        return username_exists;
+    }
+
+    if (!username_exists) {
+        return {
+            code: 400,
+            data: 'user does not exist: ' + username
         };
     }
 
@@ -756,9 +801,14 @@ async function searchPublic(db, themes_query) {
         return result;
     }
 
+    const addHistoryResult = await require('./Feed').addPollsHistory(db, username, result);
+    if (!!addHistoryResult.code) {
+        return addHistoryResult;
+    }
+
     return {
         code: 200,
-        data: result
+        data: addHistoryResult
     };
 }
 

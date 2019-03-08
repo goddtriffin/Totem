@@ -50,7 +50,7 @@ async function getPublic(db, username, sort) {
 
     return {
         code: 200,
-        data: polls
+        data: result2
     };
 }
 
@@ -143,14 +143,14 @@ async function getPrivate(db, username, sort) {
 
     return {
         code: 200,
-        data: polls
+        data: result2
     };
 }
 
 async function addPollsHistory(db, username, polls) {
     // no polls to add history to
     if (polls.length < 1) {
-        return {};
+        return [];
     }
 
     const pollIds = polls.map(poll => poll.id);
@@ -181,11 +181,12 @@ async function addPollsHistory(db, username, polls) {
             }
         }
     }
-
-    return {};
+    
+    return polls;
 }
 
 
 module.exports = {
-    getPublic, getPrivate
+    getPublic, getPrivate,
+    addPollsHistory
 }
