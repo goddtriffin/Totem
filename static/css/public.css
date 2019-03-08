@@ -220,3 +220,11 @@ body{
     text-align: center;
     margin-top: 1rem;
 }
+
+#emojiEmpty{
+    font-size: 25rem;
+     margin-top:8px;
+     margin-bottom:2px;
+
+
+}

@@ -168,6 +168,14 @@ function showPoll(index, callback){
 		}
 		else{
 			//no polls display
+
+			let runningTable = ``;
+			let tableBody = document.getElementById("viewpoll");
+				runningTable += `<p id="emojiEmpty">😁</p>`;
+			tableBody.innerHTML = runningTable;
+
+
+
 		}
 }
 
@@ -202,7 +210,7 @@ function search(index){
 				// Replace poll list
 				publicPolls = response.data;	
 				console.log(publicPolls);			
-				showPoll(index, getDisplayName);
+				showPoll(0, getDisplayName);
 				
 			} else {
 				// handle error
@@ -493,7 +501,6 @@ function getDisplayName(username1, username2){
 	xhr1.send(null);	
 
 }
-
 
 
 
