@@ -14,6 +14,15 @@ window.onload = function() {
 };
 
 function fillUserInfo(){
+	
+
+	document.getElementById("displayName").innerHTML = localStorage.displayName;
+	document.getElementById("username").innerHTML = localStorage.username;
+	document.getElementById("emoji").innerHTML = localStorage.emoji;
+			
+	document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ localStorage.WinRate;
+	document.getElementById("TikiTally").innerHTML = `Tiki Tally<br>`+ localStorage.TikiTally;
+	document.getElementById("PollsCreated").innerHTML = `Polls Created<br>`+ localStorage.PollsCreated;
 	var url  = "/api/user/me";
 	var xhr  = new XMLHttpRequest()
 
