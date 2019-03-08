@@ -174,6 +174,28 @@ describe('regex', () => {
 			assert(!regex.validatePassword('1234567890123456789012345678901'));
         });
 
+        describe('has whitespace', () => {
+			it('space', () => {
+                assert(!regex.validatePassword('todd todd'));
+            });
+
+            it('tab', () => {
+                assert(!regex.validatePassword('todd\ttodd'));
+            });
+
+            it('newline', () => {
+                assert(!regex.validatePassword('todd\ntodd'));
+            });
+
+            it('return carriage', () => {
+                assert(!regex.validatePassword('todd\rtodd'));
+            });
+
+            it('form feed', () => {
+                assert(!regex.validatePassword('todd\ftodd'));
+            });
+		});
+
 		describe('not a string', () => {
 			it('nothing', () => {
 				assert(!regex.validatePassword());
