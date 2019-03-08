@@ -740,4 +740,52 @@ describe('regex', () => {
 			});
 		});
     });
+
+    describe('sort', () => {
+        it('success w/ asc', () => {
+			assert(regex.validateSort('asc'));
+        });
+        
+        it('success w/ desc', () => {
+			assert(regex.validateSort('desc'));
+        });
+
+        it('must be either asc or desc', () => {
+			assert(!regex.validateSort(''));
+        });
+
+        it('must be either asc or desc', () => {
+			assert(!regex.validateSort('hello'));
+        });
+
+        it('must be either asc or desc', () => {
+			assert(!regex.validateSort('hello world'));
+        });
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateSort());
+			});
+
+			it('number', () => {
+				assert(!regex.validateSort(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateSort(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateSort(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateSort([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateSort({}));
+			});
+		});
+    });
 });
