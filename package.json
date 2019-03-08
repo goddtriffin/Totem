@@ -10,7 +10,8 @@
     "init-db-prod": "bash ./scripts/initialize_production_database.sh",
     "init-db-dev": "bash ./scripts/initialize_development_database.sh",
     "unit-tests": "bash ./scripts/run_unit_tests.sh",
-    "line-count": "bash ./scripts/print_all_files_line_count.sh"
+    "backend-line-count": "bash ./scripts/print_backend_files_line_count.sh",
+    "frontend-line-count": "bash ./scripts/print_frontend_files_line_count.sh"
   },
   "author": "Todd Griffin",
   "license": "ISC",
