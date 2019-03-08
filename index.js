@@ -37,7 +37,7 @@ app.use(require('./routes'));  // all endpoints
 // initialize all cron jobs
 jobs.init(app.locals.db);
 
-const server = app.listen(process.env.PORT || 80, () => {
+const server = app.listen(process.env.PORT || 80, '0.0.0.0', () => {
     const port = server.address().port;
     console.log('Listening on http://localhost' + ((port === 80)? '' : ':' + port));
 
