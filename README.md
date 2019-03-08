@@ -2,8 +2,8 @@
 
 ## Requirements
 
-* [NPM](https://www.npmjs.com/ "Social media website that rates memes.")
-* [Node](https://nodejs.org/)
+* [NPM](https://www.npmjs.com/ "NPM's website")
+* [Node](https://nodejs.org/ "Node's website")
 
 ## Try it out!
 
@@ -96,7 +96,7 @@ All other routes: `application/x-www-form-urlencoded`
 
 #### Poll
 
-Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food, beauty, color, space, vehicles, sports`
+Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food, beauty, color, space, vehicles, sports, other`
 
 | Name | Type | Description |
 | :--- | :--- | :--- |
@@ -160,4 +160,8 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
 * `npm run unit tests`
   * runs all unit tests
 * `npm run line-count`
-  * prints every file's line count and the sum of all line counts for every file created by Todd (MagnusFrater) (both including, and not including, newlines and comments)
+  * prints every file's line count and the sum of all line counts for every file created by the entire team (both including, and not including, newlines and comments)
+* `npm run backend-line-count`
+  * prints every file's line count and the sum of all line counts for every file created by Todd (`MagnusFrater`) (both including, and not including, newlines and comments)
+* `npm run frontend-line-count`
+  * prints every file's line count and the sum of all line counts for every file created by Cameron (`glass10`), Nirali (`niralirai`), Dominic (`DominicM36`), and Rishabh (`rramsisa`) (both including, and not including, newlines and comments)
