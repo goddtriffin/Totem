@@ -676,4 +676,36 @@ describe('regex', () => {
 			});
 		});
     });
+
+    describe('email verification hash', () => {
+        it('success', () => {
+			assert(regex.validateEmailVerificationHash('hash'));
+        });
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateEmailVerificationHash());
+			});
+
+			it('number', () => {
+				assert(!regex.validateEmailVerificationHash(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateEmailVerificationHash(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateEmailVerificationHash(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateEmailVerificationHash([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateEmailVerificationHash({}));
+			});
+		});
+    });
 });
