@@ -122,7 +122,8 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
 | :---: | :--- | :--- | :---: |
 | POST | `/api/poll/personal` | creates a personal poll | display_name, theme, creator, duration, scope, image_1, image_2 |
 | POST | `/api/poll/challenge` | creates a challenge request | display_name, theme, creator, opponent, duration, scope, image |
-| GET | `/api/poll/challenge/requests` | returns a list of all your challenge requests |  |
+| GET | `/api/poll/challenge/requests` | returns a list of all your received challenge requests |  |
+| GET | `/api/poll/challenge/requests/sent` | returns a list of all your sent challenge requests |  |
 | PUT | `/api/poll/challenge/request/:id` | accepts a challenge request (replace `:id` with a real poll id) | image |
 | DELETE | `/api/poll/challenge/request/:id` | rejects a challenge request (replace `:id` with a real poll id) |  |
 | GET | `/api/poll/challenge/requests/accepted` | returns a list of all your accepted challenge requests |  |
