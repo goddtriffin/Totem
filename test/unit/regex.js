@@ -323,5 +323,93 @@ describe('regex', () => {
 				assert(!regex.validateUsernameQuery({}));
 			});
 		});
+    });
+    
+    describe('theme', () => {
+		it('success w/ memes', () => {
+			assert(regex.validateTheme('memes'));
+        });
+
+        it('success w/ fashion', () => {
+			assert(regex.validateTheme('fashion'));
+        });
+
+        it('success w/ movie', () => {
+			assert(regex.validateTheme('movie'));
+        });
+
+        it('success w/ music', () => {
+			assert(regex.validateTheme('music'));
+        });
+
+        it('success w/ animals', () => {
+			assert(regex.validateTheme('animals'));
+        });
+
+        it('success w/ nature', () => {
+			assert(regex.validateTheme('nature'));
+        });
+
+        it('success w/ buildings', () => {
+			assert(regex.validateTheme('buildings'));
+        });
+
+        it('success w/ cities', () => {
+			assert(regex.validateTheme('cities'));
+        });
+
+        it('success w/ food', () => {
+			assert(regex.validateTheme('food'));
+        });
+
+        it('success w/ beauty', () => {
+			assert(regex.validateTheme('beauty'));
+        });
+
+        it('success w/ color', () => {
+			assert(regex.validateTheme('color'));
+        });
+
+        it('success w/ space', () => {
+			assert(regex.validateTheme('space'));
+        });
+
+        it('success w/ vehicles', () => {
+			assert(regex.validateTheme('vehicles'));
+        });
+
+        it('success w/ sports', () => {
+			assert(regex.validateTheme('sports'));
+        });
+
+        it('success w/ other', () => {
+			assert(regex.validateTheme('other'));
+		});
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateTheme());
+			});
+
+			it('number', () => {
+				assert(!regex.validateTheme(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateTheme(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateTheme(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateTheme([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateTheme({}));
+			});
+		});
 	});
 });
