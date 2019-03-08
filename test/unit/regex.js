@@ -451,5 +451,37 @@ describe('regex', () => {
 				assert(!regex.validateDuration({}));
 			});
 		});
+    });
+    
+    describe('poll id', () => {
+        it('success', () => {
+			assert(regex.validatePollId('1'));
+		});
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validatePollId());
+			});
+
+			it('number', () => {
+				assert(!regex.validatePollId(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validatePollId(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validatePollId(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validatePollId([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validatePollId({}));
+			});
+		});
 	});
 });
