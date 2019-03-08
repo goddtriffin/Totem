@@ -221,6 +221,16 @@ function getInvalidEmailVerificationHashResponse(hash) {
     return 'Invalid email verification hash: ' + hash + '. Should match: typeof string';
 }
 
+// returns true if renew password verification hash is valid, false otherwise
+function validateRenewPasswordVerificationHash(hash) {
+    return typeof hash === 'string';
+}
+
+// returns a String dictating what a valid renew password verification hash should look like
+function getInvalidRenewPasswordVerificationHashResponse(hash) {
+    return 'Invalid renew password verification hash: ' + hash + '. Should match: typeof string';
+}
+
 // returns true if sort is valid, false otherwise
 function validateSort(sort) {
     if (typeof sort !== 'string') {
@@ -250,5 +260,6 @@ module.exports = {
     validateThemesQuery, getInvalidThemesQueryResponse,
     validateScope, getInvalidScopeResponse,
     validateEmailVerificationHash, getInvalidEmailVerificationHashResponse,
+    validateRenewPasswordVerificationHash, getInvalidRenewPasswordVerificationHashResponse,
     validateSort, getInvalidSortResponse
 }

@@ -789,10 +789,10 @@ async function renewPassword(db, username, email, hash, newPassword) {
         };
     }
 
-    if (!regex.validateEmailVerificationHash(hash)) {
+    if (!regex.validateRenewPasswordVerificationHash(hash)) {
         return {
             code: 400,
-            data: regex.getInvalidEmailVerificationHashResponse(hash)
+            data: regex.getInvalidRenewPasswordVerificationHashResponse(hash)
         };
     }
 

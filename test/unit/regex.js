@@ -708,4 +708,36 @@ describe('regex', () => {
 			});
 		});
     });
+
+    describe('renew password verification hash', () => {
+        it('success', () => {
+			assert(regex.validateRenewPasswordVerificationHash('hash'));
+        });
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateRenewPasswordVerificationHash());
+			});
+
+			it('number', () => {
+				assert(!regex.validateRenewPasswordVerificationHash(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateRenewPasswordVerificationHash(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateRenewPasswordVerificationHash(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateRenewPasswordVerificationHash([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateRenewPasswordVerificationHash({}));
+			});
+		});
+    });
 });
