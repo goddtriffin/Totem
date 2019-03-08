@@ -29,7 +29,7 @@ function fillUserInfo(){
 			document.getElementById("username").innerHTML = users.data.username;
 			document.getElementById("emoji").innerHTML = users.data.emoji;
 			
-			// document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ users.data.friend_challenges_won/users.data.friend_challenges;
+			document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ users.data.win_rate;
 			document.getElementById("TikiTally").innerHTML = `Tiki Tally<br>`+ users.data.tiki_tally;
 			document.getElementById("PollsCreated").innerHTML = `Polls Created<br>`+ users.data.polls_created;
 

@@ -35,7 +35,7 @@ function loadChallengesRecieved(){
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].theme}</td>
 						<td>${users.data[i].duration}</td>
-						<td>${users.data[i].privacy}</td>   
+						<td>${users.data[i].scope}</td>   
 						<td>
 							<input type="file" id="imageTwo-${users.data[i].id}" name="image_2" onchange="acceptChallenges(${users.data[i].id})"></input>
 						</td>   
@@ -95,7 +95,7 @@ function getAcceptedOnes(){
 						<td>${users.data[i].display_name}</td>
 						<td>${users.data[i].theme}</td>
 						<td>${users.data[i].duration}</td>
-						<td>${users.data[i].privacy}</td>   
+						<td>${users.data[i].scope}</td>   
 						<td>
 							<button class="btn btn-success" onclick="startChallenge(${users.data[i].id})">Start</button>
 						</td>   
