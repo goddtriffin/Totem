@@ -628,4 +628,52 @@ describe('regex', () => {
 			});
 		});
     });
+
+    describe('scope', () => {
+        it('success w/ private', () => {
+			assert(regex.validateScope('private'));
+        });
+        
+        it('success w/ public', () => {
+			assert(regex.validateScope('public'));
+        });
+
+        it('must be either private or public', () => {
+			assert(!regex.validateScope(''));
+        });
+
+        it('must be either private or public', () => {
+			assert(!regex.validateScope('hello'));
+        });
+
+        it('must be either private or public', () => {
+			assert(!regex.validateScope('hello world'));
+        });
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateScope());
+			});
+
+			it('number', () => {
+				assert(!regex.validateScope(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateScope(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateScope(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateScope([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateScope({}));
+			});
+		});
+    });
 });
