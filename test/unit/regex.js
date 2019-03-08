@@ -274,6 +274,28 @@ describe('regex', () => {
 
 		it('too long', () => {
 			assert(!regex.validateUsernameQuery('toddtoddtoddtoddtoddt'));
+        });
+        
+        describe('has whitespace', () => {
+			it('space', () => {
+                assert(!regex.validateUsernameQuery('todd todd'));
+            });
+
+            it('tab', () => {
+                assert(!regex.validateUsernameQuery('todd\ttodd'));
+            });
+
+            it('newline', () => {
+                assert(!regex.validateUsernameQuery('todd\ntodd'));
+            });
+
+            it('return carriage', () => {
+                assert(!regex.validateUsernameQuery('todd\rtodd'));
+            });
+
+            it('form feed', () => {
+                assert(!regex.validateUsernameQuery('todd\ftodd'));
+            });
 		});
 
 		describe('not a string', () => {
