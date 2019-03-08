@@ -3,6 +3,12 @@ const assert = require('assert');
 const regex = require('../../tools/regex');
 
 describe('regex', () => {
+    describe('database', () => {
+		it('success', () => {
+			assert(regex.validateDatabase({}));
+		});
+	});
+
 	describe('email', () => {
 		it('success', () => {
 			assert(regex.validateEmail('griff170@purdue.edu'));
