@@ -1047,7 +1047,27 @@ async function pollExists(db, id) {
 async function expirePolls(db) {
     const datetime = utils.getDatetimeString();
 
-    const result = await db('polls')
+    // get all expired challenge polls to update user win_rate
+    const result1 = await db('polls')
+        .where({
+            state: 'active',
+            type: 'challenge'
+        })
+        .andWhere('end_time', '<', datetime)
+        .select('id', 'creator', 'opponent', 'votes_1', 'votes_2')
+        .catch(e => {
+            return {
+                code: 500,
+                data: e.originalStack
+            };
+        });
+
+    if (!!result1.code) {
+        return result1;
+    }
+
+    // expire all types of polls
+    const result2 = await db('polls')
         .where('state', 'active')
         .andWhere('end_time', '<', datetime)
         .update('state', 'expired')
@@ -1058,9 +1078,50 @@ async function expirePolls(db) {
             };
         });
 
-    if (!!result.code) {
-        return result;
+    if (!!result2.code) {
+        return result2;
     }
+
+    for (let i=0; i<result1.length; i++) {
+        const result3 = await db('users')
+            .where('username', result1[i].creator)
+            .increment({
+                challenges_played: 1,
+                challenges_won: ((result1[i].votes_1 >= result1[i].votes_2)? 1 : 0)
+            })
+            .catch(e => {
+                return {
+                    code: 500,
+                    data: e.originalStack
+                };
+            });
+
+        if (!!result3.code) {
+            return result3;
+        }
+
+        const result4 = await db('users')
+            .where('username', result1[i].opponent)
+            .increment({
+                challenges_played: 1,
+                challenges_won: ((result1[i].votes_2 >= result1[i].votes_1)? 1 : 0)
+            })
+            .catch(e => {
+                return {
+                    code: 500,
+                    data: e.originalStack
+                };
+            });
+
+        if (!!result4.code) {
+            return result4;
+        }
+    }
+
+    return {
+        code: 200,
+        data: 'success'
+    };
 }
 
 module.exports = {

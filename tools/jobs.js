@@ -30,7 +30,11 @@ function stopAll() {
 
 function createExpirePollsJob(db) {
     return cron.schedule('* * * * *', () => {
-        Poll.expirePolls(db);
+        Poll.expirePolls(db).then(response => {
+            if (response.code !== 200) {
+                console.error('Problem running Expire Polls job:', response);
+            }
+        });
     }, {
         scheduled: false
     });
