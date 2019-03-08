@@ -24,7 +24,6 @@ window.onload = function() {
 };
 
 function createPoll(){
-	console.log("create pollllllllllll")
 	createPollCall();
 	let personal = document.getElementById("personalButton").classList.contains("active");
 	let challenge = document.getElementById("challengeButton").classList.contains("active");
@@ -69,8 +68,8 @@ function switchPollType(input){
 	}
 	else{
 		document.getElementById("imageTwo").classList.add("invisible");
-		localStorage.pollType = 1;
 		document.getElementById("selectChallenge").classList.remove("invisible");
+		localStorage.pollType = 1;
 	}
 }
 
@@ -92,7 +91,13 @@ function movePoll(direction){
 }
 
 function showPoll(index, callback){
+		
+		document.getElementById("actual_card").classList.add("invisible");
+		document.getElementById("no_polls").classList.add("invisible");
+
 		if(publicPolls.length != 0){
+			document.getElementById("actual_card").classList.remove("invisible");
+
 			console.log("==========================")
 			console.log(publicPolls[index].duration)
 			console.log("this index is "+index)
@@ -137,7 +142,6 @@ function showPoll(index, callback){
 					document.getElementById("leftResults").style.background = "rgba(255, 255, 255, 0.5)";
 					document.getElementById("leftResults").style.color = "white";
 				}
-				
 			}
 			else{
 				document.getElementById("cardContentOverlay").classList.add("invisible");
@@ -168,14 +172,7 @@ function showPoll(index, callback){
 		}
 		else{
 			//no polls display
-
-			let runningTable = ``;
-			let tableBody = document.getElementById("viewpoll");
-				runningTable += `<p id="emojiEmpty">😁</p>`;
-			tableBody.innerHTML = runningTable;
-
-
-
+			document.getElementById("no_polls").classList.remove("invisible");
 		}
 }
 
@@ -243,11 +240,11 @@ function getSelectValues(select) {
 
 function vote(side){
 	if(side == "Left"){
-		console.log("Voted Left");
+		// console.log("Voted Left");
 		setVote(1, current_poll_id)
 	}
 	else{
-		console.log("Voted Right");
+		// console.log("Voted Right");
 		setVote(2, current_poll_id)
 
 	}
@@ -297,7 +294,6 @@ function createPersonalPoll(){
 
             // handle success
             sessionStorage.setItem('pollId', response.data);
-            // listOfPolls(publicPolls.length);
             listOfPolls(0)
 		} else {
             console.log(response);
@@ -347,7 +343,6 @@ function listOfPolls(location){
 	xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log("yooooooo")
 			console.log(response.data)
 			publicPolls = response.data;		
 			showPoll(location, getDisplayName);
@@ -399,12 +394,10 @@ function calculateVotes(id){
 	xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			var total = response.data.votes_1 + response.data.votes_2;
 			console.log("TOTAL: " + total + "LEFT: " + response.data.votes_1 + " RIGHT: " + response.data.votes_2);
 			 leftPercentage = (response.data.votes_1 / total) * 100.0;
 			 rightPercentage = (response.data.votes_2/ total) * 100.0;
 			 // uncomment after voting is done
-			//  showPoll(id);
 			setPercentages();
 		  
 		} else {
@@ -501,6 +494,3 @@ function getDisplayName(username1, username2){
 	xhr1.send(null);	
 
 }
-
-
-
