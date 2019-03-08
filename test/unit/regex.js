@@ -70,6 +70,10 @@ describe('regex', () => {
 
 		it('too long', () => {
 			assert(!regex.validateUsername('toddtoddtoddtoddtoddt'));
+        });
+        
+        it('has spaces', () => {
+			assert(!regex.validateUsername('todd todd'));
 		});
 
 		describe('not a string', () => {
