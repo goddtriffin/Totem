@@ -1,6 +1,6 @@
 const emoji_tool = require('node-emoji');
 
-const themes = ['memes', 'fashion', 'movie', 'music', 'animals', 'nature', 'buildings', 'cities', 'food', 'beauty', 'color', 'space', 'vehicles', 'sports'];
+const themes = ['memes', 'fashion', 'movie', 'music', 'animals', 'nature', 'buildings', 'cities', 'food', 'beauty', 'color', 'space', 'vehicles', 'sports', 'other'];
 const votes = [1, 2];
 const scopes = ['private', 'public'];
 const sorts = ['asc', 'desc'];
