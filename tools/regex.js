@@ -58,8 +58,7 @@ function validateDisplayName(display_name) {
 
     // min length: 1
     // max length: 30
-    // no whitespace
-    const regexDisplayName = /^(\S){1,30}$/;
+    const regexDisplayName = /^(.){1,30}$/;
     return regexDisplayName.test(display_name);
 }
 
