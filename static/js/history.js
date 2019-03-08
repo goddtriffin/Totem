@@ -50,6 +50,14 @@ function getHistory(){
 						let leftBlank = 100 - leftPercentage;
 						let rightBlank = 100 - rightPercentage;
 						console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
+						if(response.data.votes_1 == 0){
+							leftPercentage = 0 *100.0;
+							leftBlank = 100 - leftPercentage;
+						}
+						if(response.data.votes_2 == 0){
+							rightPercentage = 0 *100.0;
+							rightBlank = 100 - rightPercentage;
+						}
 
 			 			var img1 = new Image();
 						img1.src = response.data.image_1
