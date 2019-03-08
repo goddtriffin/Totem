@@ -221,6 +221,46 @@ describe('regex', () => {
 				assert(!regex.validatePassword({}));
 			});
 		});
+    });
+    
+    describe('emoji', () => {
+        it('success with emoji', () => {
+			assert(regex.validateEmoji('🍆'));
+		});
+
+		it('success with string', () => {
+			assert(regex.validateEmoji('eggplant'));
+        });
+
+        it('not an emoji', () => {
+			assert(!regex.validateEmoji('todd'));
+        });
+
+		describe('not a string', () => {
+			it('nothing', () => {
+				assert(!regex.validateEmoji());
+			});
+
+			it('number', () => {
+				assert(!regex.validateEmoji(null));
+			});
+
+			it('undefined', () => {
+				assert(!regex.validateEmoji(undefined));
+			});
+
+			it('number', () => {
+				assert(!regex.validateEmoji(1));
+			});
+
+			it('array', () => {
+				assert(!regex.validateEmoji([]));
+			});
+
+			it('object', () => {
+				assert(!regex.validateEmoji({}));
+			});
+		});
 	});
 
 	describe('username_query', () => {
