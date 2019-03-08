@@ -72,8 +72,26 @@ describe('regex', () => {
 			assert(!regex.validateUsername('toddtoddtoddtoddtoddt'));
         });
         
-        it('has spaces', () => {
-			assert(!regex.validateUsername('todd todd'));
+        describe('has whitespace', () => {
+			it('space', () => {
+                assert(!regex.validateUsername('todd todd'));
+            });
+
+            it('tab', () => {
+                assert(!regex.validateUsername('todd\ttodd'));
+            });
+
+            it('newline', () => {
+                assert(!regex.validateUsername('todd\ntodd'));
+            });
+
+            it('return carriage', () => {
+                assert(!regex.validateUsername('todd\rtodd'));
+            });
+
+            it('form feed', () => {
+                assert(!regex.validateUsername('todd\ftodd'));
+            });
 		});
 
 		describe('not a string', () => {
@@ -154,7 +172,7 @@ describe('regex', () => {
 
 		it('too long', () => {
 			assert(!regex.validatePassword('1234567890123456789012345678901'));
-		});
+        });
 
 		describe('not a string', () => {
 			it('nothing', () => {
