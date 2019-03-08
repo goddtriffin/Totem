@@ -394,6 +394,7 @@ function calculateVotes(id){
 	xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
+			var total = response.data.votes_1 + response.data.votes_2;
 			console.log("TOTAL: " + total + "LEFT: " + response.data.votes_1 + " RIGHT: " + response.data.votes_2);
 			 leftPercentage = (response.data.votes_1 / total) * 100.0;
 			 rightPercentage = (response.data.votes_2/ total) * 100.0;
