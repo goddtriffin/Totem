@@ -480,7 +480,7 @@ async function acceptChallengeRequest(db, id, username, image) {
     if (result !== 1) {
         return {
             code: 400,
-            data: 'no pending challenge request found with id' + id
+            data: 'no pending challenge request found with id: ' + id
         };
     }
 
