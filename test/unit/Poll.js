@@ -284,7 +284,13 @@ describe('Poll', () => {
     
     describe('vote', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
+
+            const poll = await Poll.createPersonal(db, 'display_name', 'memes', 'todd', '1', 'public', 'image_1', 'image_2');
+            assert.strictEqual(poll.code, 200, poll.data);
 		});
 
 		after(async () => {
@@ -293,7 +299,7 @@ describe('Poll', () => {
 		});
 
 		it('success', async () => {
-			const result = await Poll.vote(db);
+			const result = await Poll.vote(db, '1', 'todd', '1');
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
@@ -301,6 +307,21 @@ describe('Poll', () => {
 			it('invalid database', async () => {
 				const result = await Poll.vote(null);
 				assert.strictEqual(result.code, 500, result.data);
+            });
+            
+            it('invalid id', async () => {
+				const result = await Poll.vote(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
+            
+            it('invalid username', async () => {
+				const result = await Poll.vote(db, 'id', null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
+            
+            it('invalid vote', async () => {
+				const result = await Poll.vote(db, 'id', 'username', null);
+				assert.strictEqual(result.code, 400, result.data);
 			});
 		});
 	});
