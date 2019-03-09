@@ -1,4 +1,4 @@
-let runningTable = ``;
+let runningTablePolls = ``;
 
 
 function getMyPolls(){
@@ -15,7 +15,7 @@ function getMyPolls(){
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(users);
 			let history = users.data;
-			//runningTable = ``;
+			runningTablePolls = ``;
 			let tableBody = document.getElementById("viewMyPolls");
 			for(let i = 0; i < history.length; i++) {
 				console.log(history[i].id)
@@ -28,7 +28,7 @@ function getMyPolls(){
 					const response = JSON.parse(xhr1.responseText);
 					if (xhr1.readyState == 4 && xhr1.status == "200") {
 						getDisplayName(i, response.data, response.data.creator, response.data.opponent)
-						console.log(runningTable)
+						console.log(runningTablePolls)
 					} else {
 				            // handle error
 				            console.log(response);
@@ -38,8 +38,8 @@ function getMyPolls(){
 				    xhr1.send(null);
 				}
 
-			// console.log(runningTable)
-			tableBody.innerHTML = runningTable;
+			// console.log(runningTablePolls)
+			// tableBody.innerHTML = runningTablePolls;
 
 
 		} else {
@@ -50,7 +50,7 @@ function getMyPolls(){
 }
 
 function displayPolls(index, response, creatorDS, opponentDS){
-	console.log(runningTable)
+	console.log(runningTablePolls)
 
 	let DS_creator = creatorDS
 	let DS_opponent = opponentDS
@@ -109,7 +109,7 @@ function displayPolls(index, response, creatorDS, opponentDS){
 	let username = "goodbye"						
 	console.log(response);
 						//todo cameron
-						runningTable += 
+						runningTablePolls += 
 				            			`<div class="col-sm-5 pollCard">
                                                 <div id="cardTitle" class="col-md-12">
                                                     <p id="titleP">${title}</p>
@@ -144,7 +144,7 @@ function displayPolls(index, response, creatorDS, opponentDS){
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="row col-md-12 justify-content-md-center" id="cardBottom">
+                                                <div class="row col-md-12 justify-content-center" id="cardBottom">
                                                     <div class="col-6" id="leftUser">
                                                         <p id="leftDisplayName" class="displayName">${DS_creator}</p>
                                                         <p id="leftUsername">${username_creator}</p>
@@ -158,7 +158,7 @@ function displayPolls(index, response, creatorDS, opponentDS){
 
 
     let tableBody = document.getElementById("viewMyPolls");
-    tableBody.innerHTML = runningTable;
+    tableBody.innerHTML = runningTablePolls;
 
 }
 

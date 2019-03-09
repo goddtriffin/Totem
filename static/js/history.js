@@ -14,8 +14,9 @@ function getHistory(){
 			console.log(users);
 
 			let history = users.data;
-			// let runningTable = ``;
-			// let tableBody = document.getElementById("viewpolls");
+			runningTable = ``;
+			let tableBodyHistory = document.getElementById("viewpolls");
+			
 			for(let i = 0; i < history.length; i++){
 				console.log(history[i].poll)
 				let id = history[i].poll
@@ -37,9 +38,6 @@ function getHistory(){
 				    
 				xhr1.send(null);
 			}
-			
-
-			tableBody.innerHTML = runningTable;
 
 
 		} else {
@@ -51,7 +49,7 @@ function getHistory(){
 
 
 
-function displayPolls(index, response, creatorDS, opponentDS){
+function displayPollsHistory(index, response, creatorDS, opponentDS){
 	console.log(runningTable)
 
 	let DS_creator = creatorDS
@@ -110,57 +108,56 @@ function displayPolls(index, response, creatorDS, opponentDS){
 
 	let username = "goodbye"						
 	console.log(response);
-						//todo cameron
-						runningTable += 
-				            			`<div class="col-sm-5 pollCard">
-                                                <div id="cardTitle" class="col-md-12">
-                                                    <p id="titleP">${title}</p>
-                                                    <div class="col-md-12" id="themes">
-                                                        <p>${theme}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row col-md-12" id="cardContent">
-                                                    <div class="col-6" id="cardLeft">
-                                                        <!-- Contents -->
-                                                        <img id="leftImg" src="${image1}" class="pollImage" width="100%">
-                                                    </div>
-                                                    <div class="col-6" id="cardRight">
-                                                        <!-- Contents -->
-                                                        <img id="rightImg" src="${image2}" class="pollImage" width="100%">
-                                                    </div>
-                                                </div>
-                            
-                                                <!-- Results overlay -->
-                                                <div class="row col-md-12" id="cardContentOverlay">
-                                                    <div class="col-6" id="cardLeftOverlay" >
-                                                        <div id="leftBlank" style="height:${leftBlank}%;"></div>
-                                                        <div id="leftResults" style="height:${leftPercentage}%; background:${leftBackground}">
-                                                            <p class="resultText">${leftPercentage}%</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6" id="cardRightOverlay">
-                                                        <div id="rightBlank" style="height:${rightBlank}%;"></div>
-                                                        <div id="rightResults" style="height:${rightPercentage}%; background:${rightBackground}">
-                                                            <p class="resultText">${rightPercentage}%</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="row col-md-12 justify-content-md-center" id="cardBottom">
-                                                    <div class="col-6" id="leftUser">
-                                                        <p id="leftDisplayName" class="displayName">${DS_creator}</p>
-                                                        <p id="leftUsername">${username_creator}</p>
-                                                    </div>
-                                                    <div class="col-6 ${type}" id="rightUser">
-                                                        <p id="rightDisplayName" class="displayName">${DS_opponent}</p>
-                                                        <p id="rightUsername">${username_opponent}</p>
-                                                    </div>
-                                                </div>
-                                            </div>`
+	//todo cameron
+	runningTable += 
+					`<div class="col-sm-5 pollCard">
+							<div id="cardTitle" class="col-md-12">
+								<p id="titleP">${title}</p>
+								<div class="col-md-12" id="themes">
+									<p>${theme}</p>
+								</div>
+							</div>
+							<div class="row col-md-12" id="cardContent">
+								<div class="col-6" id="cardLeft">
+									<!-- Contents -->
+									<img id="leftImg" src="${image1}" class="pollImage" width="100%">
+								</div>
+								<div class="col-6" id="cardRight">
+									<!-- Contents -->
+									<img id="rightImg" src="${image2}" class="pollImage" width="100%">
+								</div>
+							</div>
+		
+							<!-- Results overlay -->
+							<div class="row col-md-12" id="cardContentOverlay">
+								<div class="col-6" id="cardLeftOverlay" >
+									<div id="leftBlank" style="height:${leftBlank}%;"></div>
+									<div id="leftResults" style="height:${leftPercentage}%; background:${leftBackground}">
+										<p class="resultText">${leftPercentage}%</p>
+									</div>
+								</div>
+								<div class="col-6" id="cardRightOverlay">
+									<div id="rightBlank" style="height:${rightBlank}%;"></div>
+									<div id="rightResults" style="height:${rightPercentage}%; background:${rightBackground}">
+										<p class="resultText">${rightPercentage}%</p>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row col-md-12 justify-content-center" id="cardBottom">
+								<div class="col-6" id="leftUser">
+									<p id="leftDisplayName" class="displayName">${DS_creator}</p>
+									<p id="leftUsername">${username_creator}</p>
+								</div>
+								<div class="col-6 ${type}" id="rightUser">
+									<p id="rightDisplayName" class="displayName">${DS_opponent}</p>
+									<p id="rightUsername">${username_opponent}</p>
+								</div>
+							</div>
+						</div>`;
 
-
-    let tableBody = document.getElementById("viewpolls");
-    tableBody.innerHTML = runningTable;
+    let tableBodyHistory = document.getElementById("viewpolls");
+    tableBodyHistory.innerHTML = runningTable;
 
 }
 
@@ -193,7 +190,7 @@ function getDisplayName1(index, poll, username1, username2){
 					if (xhr2.readyState == 4 && xhr2.status == "200") {
 						localStorage.poll_displayname_C = users1.data.display_name;
 						localStorage.poll_displayname_O = users2.data.display_name;	
-						displayPolls(index, poll, users1.data.display_name, users2.data.display_name)				
+						displayPollsHistory(index, poll, users1.data.display_name, users2.data.display_name)				
 					} else {
 						console.error(users2);
 					}
@@ -202,7 +199,7 @@ function getDisplayName1(index, poll, username1, username2){
 			}
 			else{
 				localStorage.poll_displayname_C = users1.data.display_name;
-				displayPolls(index, poll, users1.data.display_name, null)				
+				displayPollsHistory(index, poll, users1.data.display_name, null)				
 			}
 
 		} else {
