@@ -16,7 +16,7 @@ window.onload = function() {
 	else{
 		getFriends();
 		listOfPolls(0);
-		console.log(publicPolls)
+		// console.log(publicPolls)
 		switchPollType('Personal');
 	}
 };
@@ -107,13 +107,13 @@ function showPoll(index, creatorDS, opponentDS){
 		if(publicPolls.length != 0){
 			document.getElementById("actual_card").classList.remove("invisible");
 
-			console.log("==========================")
-			console.log(publicPolls[index].duration)
-			console.log("this index is "+index)
+			// console.log("==========================")
+			// console.log(publicPolls[index].duration)
+			// console.log("this index is "+index)
 			current_poll_id = publicPolls[index].id;
-			console.log("this is poll id number: " +publicPolls[index].id)
-			console.log("Poll duration: ");
-			console.log(publicPolls[index])
+			// console.log("this is poll id number: " +publicPolls[index].id)
+			// console.log("Poll duration: ");
+			// console.log(publicPolls[index])
  			document.getElementById("leftDisplayName").innerHTML = creatorDS;
 			document.getElementById("rightDisplayName").innerHTML = opponentDS;
 
@@ -121,7 +121,7 @@ function showPoll(index, creatorDS, opponentDS){
 
 			if(publicPolls[index].hasOwnProperty('voted')){
 				calculateVotes(current_poll_id)
-				console.log("GRAPH");
+				// console.log("GRAPH");
 				//uncomment to show graph
 				document.getElementById("cardContentOverlay").classList.remove("invisible");
 				document.getElementById("leftImg").classList.add("opacity");
@@ -181,11 +181,11 @@ function showPoll(index, creatorDS, opponentDS){
 
 function updateSort(sort){
 	sorting = sort;
-	// console.log(sorting);
+	// // console.log(sorting);
 }
 
 function changeSort(){
-	console.log("Sorting submitted: " + sorting);
+	// console.log("Sorting submitted: " + sorting);
 	listOfPolls(0,sorting);
 
 }
@@ -193,7 +193,7 @@ function changeSort(){
 function search(index){
 	let themePicker = document.getElementById("themePicker");
 	let themes = getSelectValues(themePicker);
-	console.log("Search criteria: " + themes);
+	// console.log("Search criteria: " + themes);
 
 	if(themes.length !== 0 && themes != "Select a theme"){
 		let url = '/api/poll/search/private?themes='+themes;
@@ -204,12 +204,12 @@ function search(index){
 		xhr.onload = function () {
 			const response = JSON.parse(xhr.responseText);
 			if (xhr.readyState == 4 && xhr.status == "200") {
-				console.log("Search Results");
-				console.log(response.data);
+				// console.log("Search Results");
+				// console.log(response.data);
 
 				// Replace poll list
 				publicPolls = response.data;	
-				console.log(publicPolls);	
+				// console.log(publicPolls);	
 				if(publicPolls.length == 0){
 					getDisplayName(0, null, null)	
 				}
@@ -218,7 +218,7 @@ function search(index){
 				}
 			} else {
 				// handle error
-				console.log(response);
+				// console.log(response);
 			}
 		}
 		
@@ -247,11 +247,11 @@ function getSelectValues(select) {
 
 function vote(side){
 	if(side == "Left"){
-		// console.log("Voted Left");
+		// // console.log("Voted Left");
 		setVote(1, current_poll_id)
 	}
 	else{
-		// console.log("Voted Right");
+		// // console.log("Voted Right");
 		setVote(2, current_poll_id)
 
 	}
@@ -262,7 +262,7 @@ function vote(side){
 }
 
 function logout(){
-	// console.log("logout");
+	// // console.log("logout");
 	localStorage.removeItem("token");
 	localStorage.removeItem("displayName");
 	localStorage.removeItem("username");
@@ -275,7 +275,7 @@ function logout(){
 }
 
 function createPollCall(){
-	console.log("create poll called")
+	// console.log("create poll called")
 	if(localStorage.pollType == 0){
 		createPersonalPoll()
 		localStorage.removeItem("poll");
@@ -287,7 +287,7 @@ function createPollCall(){
 }
 
 function createPersonalPoll(){
-	console.log("create personal poll called")
+	// console.log("create personal poll called")
 
 	var url = "/api/poll/personal";
 
@@ -297,13 +297,13 @@ function createPersonalPoll(){
     xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			            console.log(response);
+			            // console.log(response);
 
             // handle success
             sessionStorage.setItem('pollId', response.data);
             listOfPolls(0)
 		} else {
-            console.log(response);
+            // console.log(response);
 		}
 	}
 	document.getElementById("imageOne").setAttribute("name", "image_1");
@@ -314,7 +314,7 @@ function createPersonalPoll(){
 	let minutes = document.getElementById("durationMin").value;
 	let duration = (days * 24 * 60) + (hours * 60) + (minutes * 1);
 	
-	console.log(document.getElementById("option").value)
+	// console.log(document.getElementById("option").value)
 
 	var formData = new FormData(document.getElementById('newPollForm'));
 	formData.set("duration", duration);
@@ -339,7 +339,7 @@ function createChallengeRequest(){
 		if (xhr.readyState == 4 && xhr.status == "200") {
             sessionStorage.setItem('pollId', response.data);
 		} else {
-            console.log(response);
+            // console.log(response);
 		}
 	}
 	document.getElementById("imageOne").setAttribute("name", "image");
@@ -354,7 +354,7 @@ function createChallengeRequest(){
 	formData.set("duration", duration);
 
 	formData.append("creator", localStorage.username);
-	console.log(formData)
+	// console.log(formData)
 		xhr.send(formData)
 		
 		// clear inputs
@@ -365,16 +365,16 @@ function createChallengeRequest(){
 
 function listOfPolls(location){
 	const xhr  = new XMLHttpRequest();
-	// console.log(sort_type)
+	// // console.log(sort_type)
 	let url = "/api/feed/private?sort="
 	xhr.open('GET', url+sorting);
-	console.log(url+sorting)
+	// console.log(url)
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
     
 	xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(response.data)
+			// console.log(response.data)
 			publicPolls = response.data;
 			if(publicPolls.length == 0){
 				getDisplayName(location, null, null)	
@@ -386,7 +386,7 @@ function listOfPolls(location){
             
 		} else {
             // handle error
-            console.log(response);
+            // console.log(response);
 		}
     }
     
@@ -425,14 +425,14 @@ function setVote(who, index){
 function calculateVotes(id){
 	const xhr  = new XMLHttpRequest();
 	xhr.open('GET', '/api/poll/' + id);
-	console.log(id)
+	// console.log(id)
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
     
 	xhr.onload = function () {
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			var total = response.data.votes_1 + response.data.votes_2;
-			console.log("TOTAL: " + total + "LEFT: " + response.data.votes_1 + " RIGHT: " + response.data.votes_2);
+			// console.log("TOTAL: " + total + "LEFT: " + response.data.votes_1 + " RIGHT: " + response.data.votes_2);
 			 leftPercentage = (response.data.votes_1 / total) * 100.0;
 			 rightPercentage = (response.data.votes_2/ total) * 100.0;
 			 // uncomment after voting is done
@@ -440,7 +440,7 @@ function calculateVotes(id){
 		  
 		} else {
             // handle error
-            console.log(response);
+            // console.log(response);
 		}
     }
     
@@ -448,7 +448,7 @@ function calculateVotes(id){
 }
 
 function setPercentages(){
-	console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
+	// console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
 	document.getElementById("leftBlank").style.height = (100 - leftPercentage) + "%";
 	document.getElementById("rightBlank").style.height = (100 - rightPercentage) + "%";
 
@@ -489,7 +489,7 @@ function getFriends(){
 function getDisplayName(index, username1, username2){
 	//creator
 	if(username1 != null){
-		console.log("display name search was done for: "+username1)
+		// console.log("display name search was done for: "+username1)
 		var url  = "/api/user/profile/";
 		var xhr1  = new XMLHttpRequest()
 
@@ -501,7 +501,7 @@ function getDisplayName(index, username1, username2){
 			if (xhr1.readyState == 4 && xhr1.status == "200") {			
 				if(username2 != null){
 					//opponent
-					console.log("display name search was done for: "+username2)
+					// console.log("display name search was done for: "+username2)
 					var url  = "/api/user/profile/";
 					var xhr2  = new XMLHttpRequest()
 
