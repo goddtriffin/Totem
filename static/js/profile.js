@@ -30,10 +30,10 @@ function fillUserInfo(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			// console.log(users);
 			document.getElementById("displayName").innerHTML = users.data.display_name;
 			document.getElementById("username").innerHTML = users.data.username;
 			document.getElementById("emoji").innerHTML = users.data.emoji;
@@ -50,7 +50,7 @@ function fillUserInfo(){
 }
 
 function logout(){
-	console.log("logout");
+	// console.log("logout");
 	localStorage.removeItem("token");
 	localStorage.removeItem("displayName");
 	localStorage.removeItem("username");
@@ -80,8 +80,8 @@ function loadEmojis(){
 }
 
 function changeEmoji(index){
-	console.log("Change Emoji: " + index);
-	console.log("New Emoji: " + emojis[index]);
+	// console.log("Change Emoji: " + index);
+	// console.log("New Emoji: " + emojis[index]);
 	document.getElementById("emoji").innerHTML = emojis[index];
 	
 	var url = "/api/user/update";
@@ -131,28 +131,22 @@ function friendView(page){
 
 function challengeView(page){
 	let received = document.getElementById("requestTable");
-	let sent = document.getElementById("sentTable");
 	let accepted = document.getElementById("acceptedTable");
 	if(page === "received"){
 		received.classList.remove("invisible");
-		sent.classList.add("invisible");
-		accepted.classList.add("invisible");
-	}
-	else if(page === "sent"){
-		sent.classList.remove("invisible");
-		received.classList.add("invisible");
+		// sent.classList.add("invisible");
 		accepted.classList.add("invisible");
 	}
 	else{
 		accepted.classList.remove("invisible");
 		received.classList.add("invisible");
-		sent.classList.add("invisible");
+		// sent.classList.add("invisible");
 	}
 }
 
 changeDisplayName = (changedisplayname, repeatdisplayname) => {
 	if(verifychangeDisplayName(changedisplayname, repeatdisplayname)){
-		console.log("displayname changed and verified.");
+		// console.log("displayname changed and verified.");
 		changingDisplayName(changedisplayname, repeatdisplayname);
 		return 1;
 	}
@@ -189,7 +183,7 @@ function changingDisplayName(changedisplayname, repeatdisplayname){
 
 changePassword = (changepassword, repeatpassword) => {
 	if(verifychangePassword(changepassword, repeatpassword)){
-		console.log("password changed and verified.");
+		// console.log("password changed and verified.");
 		changingPassword(changepassword, repeatpassword);
 		return 1;
 	}

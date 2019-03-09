@@ -9,7 +9,7 @@ window.onload = function() {
 
 changeDisplayName = (changedisplayname, repeatdisplayname) => {
 	if(verifychangeDisplayName(changedisplayname, repeatdisplayname)){
-		console.log("displayname changed and verified.");
+		// console.log("displayname changed and verified.");
 		changingDisplayName(changedisplayname, repeatdisplayname);
 		return 1;
 	}
@@ -47,7 +47,7 @@ function changingDisplayName(changedisplayname, repeatdisplayname){
 
 changePassword = (changepassword, repeatpassword) => {
 	if(verifychangePassword(changepassword, repeatpassword)){
-		console.log("password changed and verified.");
+		// console.log("password changed and verified.");
 		changingPassword(changepassword, repeatpassword);
 		return 1;
 	}
@@ -146,7 +146,7 @@ function verifychangePassword(changepassword, repeatpassword){
 }
 
 function logout(){
-	console.log("logout");
+	// console.log("logout");
 	localStorage.removeItem("token");
 	localStorage.removeItem("displayName");
 	localStorage.removeItem("username");

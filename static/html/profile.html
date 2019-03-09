@@ -120,9 +120,6 @@
                                     <label class="btn btn-secondary active" onclick="challengeView('received'), loadChallengesRecieved()">
                                         <input type="radio" name="options" id="option1" autocomplete="off" checked> Received
                                     </label>
-                                    <label class="btn btn-secondary" onclick="challengeView('sent')">
-                                        <input type="radio" name="options" id="option2" autocomplete="off"> Sent
-                                    </label>
                                     <label class="btn btn-secondary" onclick="challengeView('accepted')">
                                         <input type="radio" name="options" id="option2" autocomplete="off"> Accepted
                                     </label>
@@ -146,44 +143,10 @@
                                         </tr>
                                     </thead>
                                     <tbody id="challengesRequests">
-                                        <!-- <tr>
-                                            <th scope="row">@username</th>  
-                                            <td>Poll Title</td>
-                                            <td>Poll Theme</td>
-                                            <td>2 Days</td>
-                                            <td>Public</td>
-                                            <td>
-                                                <button class="btn btn-success">Accept</button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-danger">Reject</button>
-                                            </td>
-                                        </tr> --> 
+
                                     </tbody>
                                 </table>
                             </form>
-            
-                                <!-- Sent -->
-                                <table class="table table-hover table-striped invisible" id="sentTable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">User</th>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Theme</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Privacy</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">@username</th>  
-                                            <td>Poll Title</td>
-                                            <td>Poll Theme</td>
-                                            <td>2 Days</td>
-                                            <td>Public</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
 
                                 <!-- Accepted -->
                                 <table class="table table-hover table-striped invisible" id="acceptedTable">
@@ -199,16 +162,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="acceptedRequests">
-                                            <tr>
-                                                <th scope="row">@username</th>  
-                                                <td>Poll Title</td>
-                                                <td>Poll Theme</td>
-                                                <td>2 Days</td>
-                                                <td>Public</td>
-                                                <td>
-                                                    <button class="btn btn-success">Start</button>
-                                                </td>
-                                            </tr> 
+
                                         </tbody>
                                     </table>
                             </div>
@@ -253,12 +207,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="friendTableBody">
-                                        <tr>
-                                            <td>😂</td>
-                                            <th scope="row">@username</th>
-                                            <td>First Last</td>
-                                            <td>1000</td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
             
@@ -273,17 +222,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="friendRequestTableBody">
-                                        <tr>
-                                            <th id="friend_request_username" scope="row">@username</th>  
-                                            <td>First Last</td>
-                                            <td>1000</td>
-                                            <td>
-                                                <button class="btn btn-success">Accept</button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-danger">Reject</button>
-                                            </td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
 
@@ -329,49 +268,7 @@
                                 <!-- Poll Card -->
                                     <div class="fluid-container" >
                                         <div class="row justify-content-md-center pollView" id="viewMyPolls" >
-                                            <div class="col-sm-5 pollCard">
-                                                <div id="cardTitle" class="col-md-12">
-                                                    <p id="titleP">This is the Title</p>
-                                                    <div class="col-md-12" id="themes">
-                                                        <p>#theme</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row col-md-12" id="cardContent">
-                                                    <div class="col-6" id="cardLeft">
-                                                        <!-- Contents -->
-                                                    </div>
-                                                    <div class="col-6" id="cardRight">
-                                                        <!-- Contents -->
-                                                    </div>
-                                                </div>
-                            
-                                                <!-- Results overlay -->
-                                                <div class="row col-md-12" id="cardContentOverlay">
-                                                    <div class="col-6" id="cardLeftOverlay">
-                                                        <div id="leftBlank"></div>
-                                                        <div id="leftResults">
-                                                            <p class="resultText">50%</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6" id="cardRightOverlay">
-                                                        <div id="rightBlank"></div>
-                                                        <div id="rightResults">
-                                                            <p class="resultText">75%</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="row col-md-12" id="cardBottom">
-                                                    <div class="col-6" id="leftUser">
-                                                        <p id="leftDisplayName" class="displayName">Display Name</p>
-                                                        <p id="leftUsername">@username</p>
-                                                    </div>
-                                                    <div class="col-6" id="rightUser">
-                                                        <p id="rightDisplayName" class="displayName">Display Name</p>
-                                                        <p id="rightUsername">@username</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                             </div>
@@ -396,20 +293,6 @@
                                     <div class="fluid-container">
                                         <div class="row justify-content-md-center pollView" id="viewpolls">
                                             <div class="col-sm-5 pollCard">
-                                                <div id="cardTitle" class="col-md-12">
-                                                    <p id="titleP">This is the Title</p>
-                                                    <div class="col-md-12" id="themes">
-                                                        <p>#theme</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row col-md-12" id="cardContent">
-                                                    <div class="col-6" id="cardLeft">
-                                                        <!-- Contents -->
-                                                    </div>
-                                                    <div class="col-6" id="cardRight">
-                                                        <!-- Contents -->
-                                                    </div>
-                                                </div>
                             
                                                 <!-- Results overlay -->
                                                 <div class="row col-md-12" id="cardContentOverlay">

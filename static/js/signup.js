@@ -14,7 +14,7 @@ window.onload = function() {
 signup = (username, displayName, email, password, passwordVerify) => {
 	if(verifyInput(username, displayName, email, passwordVerify, password)){
 		// move to next page
-		console.log("move to next page");
+		// console.log("move to next page");
 		Createuser(username, displayName, email, password, passwordVerify);
 		
 		return 1;
@@ -40,7 +40,7 @@ function Createuser(username, displayName, email, password, passwordVerify, emoj
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			// console.log(users);
 			document.getElementById("GeneralError").innerHTML = "";
 			window.location.href = '/login';
 			localStorage.removeItem(localStorage.emoji);
@@ -149,8 +149,8 @@ function loadEmojis(){
 }
 
 function changeEmoji(index){
-	console.log("Change Emoji: " + index);
-	console.log("New Emoji: " + emojis[index]);
+	// console.log("Change Emoji: " + index);
+	// console.log("New Emoji: " + emojis[index]);
 	document.getElementById("emoji").innerHTML = emojis[index];
 	localStorage.emoji = emojis[index]
 }
