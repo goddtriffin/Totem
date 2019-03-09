@@ -30,10 +30,10 @@ function fillUserInfo(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			// console.log(users);
 			document.getElementById("displayName").innerHTML = users.data.display_name;
 			document.getElementById("username").innerHTML = users.data.username;
 			document.getElementById("emoji").innerHTML = users.data.emoji;
@@ -50,7 +50,7 @@ function fillUserInfo(){
 }
 
 function logout(){
-	console.log("logout");
+	// console.log("logout");
 	localStorage.removeItem("token");
 	localStorage.removeItem("displayName");
 	localStorage.removeItem("username");
@@ -80,8 +80,8 @@ function loadEmojis(){
 }
 
 function changeEmoji(index){
-	console.log("Change Emoji: " + index);
-	console.log("New Emoji: " + emojis[index]);
+	// console.log("Change Emoji: " + index);
+	// console.log("New Emoji: " + emojis[index]);
 	document.getElementById("emoji").innerHTML = emojis[index];
 	
 	var url = "/api/user/update";
@@ -146,7 +146,7 @@ function challengeView(page){
 
 changeDisplayName = (changedisplayname, repeatdisplayname) => {
 	if(verifychangeDisplayName(changedisplayname, repeatdisplayname)){
-		console.log("displayname changed and verified.");
+		// console.log("displayname changed and verified.");
 		changingDisplayName(changedisplayname, repeatdisplayname);
 		return 1;
 	}
@@ -183,7 +183,7 @@ function changingDisplayName(changedisplayname, repeatdisplayname){
 
 changePassword = (changepassword, repeatpassword) => {
 	if(verifychangePassword(changepassword, repeatpassword)){
-		console.log("password changed and verified.");
+		// console.log("password changed and verified.");
 		changingPassword(changepassword, repeatpassword);
 		return 1;
 	}

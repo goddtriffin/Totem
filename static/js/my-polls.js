@@ -9,16 +9,16 @@ function getMyPolls(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			// console.log(users);
 			let history = users.data;
 			runningTablePolls = ``;
 			let tableBody = document.getElementById("viewMyPolls");
 			for(let i = 0; i < history.length; i++) {
-				console.log(history[i].id)
+				// console.log(history[i].id)
 				let id = history[i].id
 				const xhr1  = new XMLHttpRequest();
 				xhr1.open('GET', '/api/poll/' + id);
@@ -28,17 +28,17 @@ function getMyPolls(){
 					const response = JSON.parse(xhr1.responseText);
 					if (xhr1.readyState == 4 && xhr1.status == "200") {
 						getDisplayName(i, response.data, response.data.creator, response.data.opponent)
-						console.log(runningTablePolls)
+						// console.log(runningTablePolls)
 					} else {
 				            // handle error
-				            console.log(response);
+				            // console.log(response);
 				        }
 				    }
 				    
 				    xhr1.send(null);
 				}
 
-			// console.log(runningTablePolls)
+			// // console.log(runningTablePolls)
 			// tableBody.innerHTML = runningTablePolls;
 
 
@@ -50,13 +50,13 @@ function getMyPolls(){
 }
 
 function displayPolls(index, response, creatorDS, opponentDS){
-	console.log(runningTablePolls)
+	// console.log(runningTablePolls)
 
 	let DS_creator = creatorDS
 	let DS_opponent = opponentDS
-	console.log("id: "+ response.id)
-	console.log("voted: "+response.voted)
-	console.log("POLL: " + response)
+	// console.log("id: "+ response.id)
+	// console.log("voted: "+response.voted)
+	// console.log("POLL: " + response)
 	let username_creator = response.creator;
 	let username_opponent = response.opponent;
 	let title = response.display_name;
@@ -75,7 +75,7 @@ function displayPolls(index, response, creatorDS, opponentDS){
 		document.getElementById("cardContentOverlay").classList.remove("invisible");
 	}
 	else{
-		console.log("removing graph")
+		// console.log("removing graph")
 		document.getElementById("cardContentOverlay").classList.add("invisible");
 		document.getElementById("cardLeftOverlay").classList.add("invisible");
 		document.getElementById("cardRightOverlay").classList.add("invisible");							
@@ -94,7 +94,7 @@ function displayPolls(index, response, creatorDS, opponentDS){
 		rightPercentage = 0 *100.0;
 		rightBlank = 100 - rightPercentage;
 	}
-	console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
+	// console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
 
 	var img1 = new Image();
 	img1.src = response.image_1
@@ -107,7 +107,7 @@ function displayPolls(index, response, creatorDS, opponentDS){
 	let displayname = "hello"
 
 	let username = "goodbye"						
-	console.log(response);
+	// console.log(response);
 						//todo cameron
 						runningTablePolls += 
 				            			`<div class="col-sm-5 pollCard">
@@ -166,7 +166,7 @@ function displayPolls(index, response, creatorDS, opponentDS){
 
 function getDisplayName(index, poll, username1, username2){
 	//creator
-	console.log("display name search was done for: "+username1)
+	// console.log("display name search was done for: "+username1)
 	var url  = "/api/user/profile/";
 	var xhr1  = new XMLHttpRequest()
 
@@ -178,7 +178,7 @@ function getDisplayName(index, poll, username1, username2){
 		if (xhr1.readyState == 4 && xhr1.status == "200") {			
 			if(username2 != null){
 				//opponent
-				console.log("display name search was done for: "+username2)
+				// console.log("display name search was done for: "+username2)
 				var url  = "/api/user/profile/";
 				var xhr2  = new XMLHttpRequest()
 
@@ -186,7 +186,7 @@ function getDisplayName(index, poll, username1, username2){
 				xhr2.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 				xhr2.onload = function () {
-					// console.log(xhr.responseText);
+					// // console.log(xhr.responseText);
 					var users2 = JSON.parse(xhr2.responseText);
 					if (xhr2.readyState == 4 && xhr2.status == "200") {
 						localStorage.poll_displayname_C = users1.data.display_name;

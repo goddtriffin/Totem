@@ -9,7 +9,7 @@ window.onload = function() {
 login = (username, password) => {
 	if(verifyInput(username, password)){
 		// move to next page
-		console.log("move to next page");
+		// console.log("move to next page");
 		loginUser(username, password);
 		return 1;
 	}
@@ -33,8 +33,8 @@ function loginUser(username, password){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users.data);
-			console.log(users);
+			// console.log(users.data);
+			// console.log(users);
 			document.getElementById("GeneralError").innerHTML = "";
 			localStorage.token = users.data;
 			getUserInfo();
@@ -60,10 +60,10 @@ function getUserInfo(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			// console.log(users);
 			localStorage.displayName = users.data.display_name
 			localStorage.username = users.data.username
 			localStorage.emoji = users.data.emoji

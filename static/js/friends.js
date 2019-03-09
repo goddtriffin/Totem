@@ -32,7 +32,7 @@ function getFriends(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 	
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			friend_username = [];
@@ -67,7 +67,7 @@ function getFriendRequests(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			//Populate HTML
@@ -80,7 +80,7 @@ function getFriendRequests(){
 			let tableBody = document.getElementById("friendRequestTableBody");
 			for(let i = 0; i < users.data.received.length; i++){
 				user_request = users.data.received[i].username;
-				console.log()
+				// console.log()
 				runningTable += `
 					<tr>
 						<th scope="row" id="friend_request_username-${i}">${users.data.received[i].username}</th>  
@@ -104,11 +104,11 @@ function getFriendRequests(){
 }
 
 function requestFriend(index){
-	console.log("requesting friend");
+	// console.log("requesting friend");
 
 	var url = "/api/user/friend";
 
-	// console.log(request_user)
+	// // console.log(request_user)
 
 	var data = {};
 	data.friend_username= searchResults[index].username;
@@ -122,7 +122,7 @@ function requestFriend(index){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			//console.log(users);
+			//// console.log(users);
 			loadFriends();
 	  		loadFriendRequest();
 	  		searchfriends();
@@ -139,7 +139,7 @@ function requestFriend(index){
 
 function acceptFriend(index){
 	var url = "/api/user/friend";
-	console.log(index);
+	// console.log(index);
 	let friend_username = friendRequests[index].username;
 
 	var data = {};
@@ -153,7 +153,7 @@ function acceptFriend(index){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			//console.log(users);
+			//// console.log(users);
 			loadFriends();
 	  		loadFriendRequest();
 		} else if(xhr.status == "400"){ 
@@ -182,7 +182,7 @@ function deleteFriend(index){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			//console.log(users);
+			//// console.log(users);
 			loadFriends();
 	  		loadFriendRequest();
 		} else {
@@ -194,7 +194,7 @@ function deleteFriend(index){
 
 function searchfriends(){
 	let usernameSearch = document.getElementById("searchBar").value;
-	console.log("the length of the search was" +usernameSearch.length)
+	// console.log("the length of the search was" +usernameSearch.length)
 	if(usernameSearch.length > 0){
 		var url  = "/api/user/search?username=";
 		var xhr  = new XMLHttpRequest()
@@ -203,18 +203,18 @@ function searchfriends(){
 		xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 		xhr.onload = function () {
-			console.log(xhr.responseText);
+			// console.log(xhr.responseText);
 			var users = JSON.parse(xhr.responseText);
 			if (xhr.readyState == 4 && xhr.status == "200") {
 				searchResults = users.data;
 
-				//console.log(users)
+				//// console.log(users)
 				//Populate HTML
 				let runningTable = ``;
 				let tableBody = document.getElementById("searchTable");
 				for(let i = 0; i < users.data.length; i++){
 					if(friend_username.indexOf(users.data[i].username) > -1){
-						console.log("you are friends with this person")
+						// console.log("you are friends with this person")
 						runningTable += `
 						<tr>
 							<th scope="row">${users.data[i].username}</th>  

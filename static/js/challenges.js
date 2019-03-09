@@ -5,9 +5,9 @@ function loadchallenges() {
 	else{
 	  	loadChallengesRecieved();
 	  	// loadChallengesSent();
-	  	console.log("accepted start")
+	  	// console.log("accepted start")
 		getAcceptedOnes()
-	  	console.log("accepted end")
+	  	// console.log("accepted end")
 	}
 };
 
@@ -19,13 +19,13 @@ function loadChallengesRecieved(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			friends = users.data;
 			// console
 			//Populate HTML
-			console.log(users.data)
+			// console.log(users.data)
 			let runningTable = ``;
 			let tableBody = document.getElementById("challengesRequests");
 			for(let i = 0; i < users.data.length; i++){
@@ -61,7 +61,7 @@ function acceptChallenges(id){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			// console.log(users);
 			loadChallengesRecieved();
 
 		} else {
@@ -83,7 +83,7 @@ function getAcceptedOnes(){
 	xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 	xhr.onload = function () {
-		console.log(xhr.responseText);
+		// console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			let runningTable = ``;
@@ -103,7 +103,7 @@ function getAcceptedOnes(){
 			}
 			tableBody.innerHTML = runningTable;
 
-			console.log(users.data)
+			// console.log(users.data)
 
 		} else {
 			console.error(users);
@@ -122,7 +122,7 @@ function startChallenge(id){
 	xhr.onload = function () {
 		var users = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
-			console.log(users);
+			// console.log(users);
 			getAcceptedOnes();
 
 		} else {
