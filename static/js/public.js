@@ -7,8 +7,6 @@ let current_poll_id = 1;
 let leftPercentage = 0;
 let rightPercentage = 0;
 let has_Voted = false;
-let creator_displayname = "";
-let opponent_displayname = "";
 let recall = 0;
 
 window.onload = function() {
@@ -78,19 +76,20 @@ function movePoll(direction){
 		if(place_holder == 0){}
 		else{
 			place_holder = place_holder-1;
-			showPoll(place_holder,getDisplayName)
+			getDisplayName(place_holder, publicPolls[place_holder].creator,publicPolls[place_holder].opponent )
 		}
 	}
 	else{
 		if(publicPolls.length-1 == place_holder){}
 		else{
 			place_holder = place_holder+1;
-			showPoll(place_holder,getDisplayName)
+			getDisplayName(place_holder, publicPolls[place_holder].creator,publicPolls[place_holder].opponent )
+
 		}
 	}
 }
 
-function showPoll(index, callback){
+function showPoll(index, creatorDS, opponentDS){
 		
 		document.getElementById("actual_card").classList.add("invisible");
 		document.getElementById("no_polls").classList.add("invisible");
@@ -104,17 +103,10 @@ function showPoll(index, callback){
 			current_poll_id = publicPolls[index].id;
 			console.log("this is poll id number: " +publicPolls[index].id)
 			
-			var displaynames = new Promise(function() {
-				callback(publicPolls[index].creator, publicPolls[index].opponent)
-				
-				let DS_creator = localStorage.poll_displayname_C;
-				localStorage.removeItem("poll_displayname_C");
-				let DS_opponent = localStorage.poll_displayname_O;
-				localStorage.removeItem("poll_displayname_O");
-			
-				document.getElementById("leftDisplayName").innerHTML = DS_creator;
-				document.getElementById("rightDisplayName").innerHTML = DS_opponent;
-			});
+ 			document.getElementById("leftDisplayName").innerHTML = creatorDS;
+			document.getElementById("rightDisplayName").innerHTML = opponentDS;
+
+
 
 			if(publicPolls[index].hasOwnProperty('voted')){
 				calculateVotes(current_poll_id)
@@ -207,8 +199,7 @@ function search(index){
 				// Replace poll list
 				publicPolls = response.data;	
 				console.log(publicPolls);			
-				showPoll(0, getDisplayName);
-				
+				getDisplayName(0, publicPolls[0].creator, publicPolls[0].opponent)
 			} else {
 				// handle error
 				console.log(response);
@@ -345,7 +336,8 @@ function listOfPolls(location){
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(response.data)
 			publicPolls = response.data;		
-			showPoll(location, getDisplayName);
+			getDisplayName(location, publicPolls[location].creator,publicPolls[location].opponent )
+
             
 		} else {
             // handle error
@@ -449,7 +441,7 @@ function getFriends(){
 	xhr.send(null);
 }
 
-function getDisplayName(username1, username2){
+function getDisplayName(index, username1, username2){
 	//creator
 	console.log("display name search was done for: "+username1)
 	var url  = "/api/user/profile/";
@@ -471,11 +463,11 @@ function getDisplayName(username1, username2){
 				xhr2.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
 				xhr2.onload = function () {
-					// console.log(xhr.responseText);
 					var users2 = JSON.parse(xhr2.responseText);
 					if (xhr2.readyState == 4 && xhr2.status == "200") {
 						localStorage.poll_displayname_C = users1.data.display_name;
-						localStorage.poll_displayname_O = users2.data.display_name;					
+						localStorage.poll_displayname_O = users2.data.display_name;	
+						showPoll(index, users1.data.display_name, users2.data.display_name);				
 
 					} else {
 						console.error(users2);
@@ -485,6 +477,8 @@ function getDisplayName(username1, username2){
 			}
 			else{
 				localStorage.poll_displayname_C = users1.data.display_name;
+				showPoll(index, users1.data.display_name, null);				
+
 
 			}
 
