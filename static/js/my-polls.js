@@ -1,4 +1,7 @@
-function getMyPolls(callback){
+let runningTable = ``;
+
+
+function getMyPolls(){
 	var url  = "/api/user/me/polls";
 	var xhr  = new XMLHttpRequest()
 
@@ -8,13 +11,13 @@ function getMyPolls(callback){
 	xhr.onload = function () {
 		console.log(xhr.responseText);
 		var users = JSON.parse(xhr.responseText);
+
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(users);
-
 			let history = users.data;
-			let runningTable = ``;
+			//runningTable = ``;
 			let tableBody = document.getElementById("viewMyPolls");
-			for(let i = 0; i < history.length; i++){
+			for(let i = 0; i < history.length; i++) {
 				console.log(history[i].id)
 				let id = history[i].id
 				const xhr1  = new XMLHttpRequest();
@@ -24,86 +27,87 @@ function getMyPolls(callback){
 				xhr1.onload = function () {
 					const response = JSON.parse(xhr1.responseText);
 					if (xhr1.readyState == 4 && xhr1.status == "200") {
-						// let DS_creator = "";
-						// let DS_opponent ="";
-						var displaynames = new Promise(function() {
-							callback(response.data.creator, response.data.opponent)
-							
-							// let DS_creator = localStorage.poll_displayname_C;
-							// localStorage.removeItem("poll_displayname_C");
-							// let DS_opponent = localStorage.poll_displayname_O;
-							// localStorage.removeItem("poll_displayname_O");
-						
-							// document.getElementById("leftDisplayName").innerHTML = DS_creator;
-							// document.getElementById("rightDisplayName").innerHTML = DS_opponent;
-						});
-						let DS_creator = localStorage.poll_displayname_C;
-							localStorage.removeItem("poll_displayname_C");
-							let DS_opponent = localStorage.poll_displayname_O;
-							localStorage.removeItem("poll_displayname_O");
-						console.log("id: "+ response.data.id)
-						console.log("voted: "+response.data.voted)
-						console.log("POLL: " + response.data)
-						let username_creator = response.data.creator;
-						let username_opponent = response.data.opponent;
-						// fix after asych issue in public is fixed
-						// let display_name_creator = 
-						// let display_name_opponent = 
-						let title = response.data.display_name;
-						let theme = response.data.theme;
-						let type = response.data.type;
-						let voted = response.data.voted;
-						let leftBackground = "rgba(255, 255, 255, 0.5)";
-						let rightBackground = "rgba(255, 255, 255, 0.5)";
-						if(voted === 1){
-							leftBackground = "rgba(255,255,255, 0.8)";
-						}
-						else if(voted === 2){
-							rightBackground = "rgba(255,255,255, 0.8)";
-						}
-						if(response.data.hasOwnProperty('voted')){
-							document.getElementById("cardContentOverlay").classList.remove("invisible");
-							// document.getElementById("leftImg").classList.add("opacity");
-							// document.getElementById("rightImg").classList.add("opacity");
-						}
-						else{
-							console.log("removing graph")
-							document.getElementById("cardContentOverlay").classList.add("invisible");
-							document.getElementById("cardLeftOverlay").classList.add("invisible");
-							document.getElementById("cardRightOverlay").classList.add("invisible");
-							// document.getElementById("leftImg").classList.remove("opacity");
-							// document.getElementById("rightImg").classList.remove("opacity");
-							
-							
-						}
+						getDisplayName(i, response.data, response.data.creator, response.data.opponent)
+						console.log(runningTable)
+					} else {
+				            // handle error
+				            console.log(response);
+				        }
+				    }
+				    
+				    xhr1.send(null);
+				}
 
-						var total = response.data.votes_1 + response.data.votes_2;
-			 			let leftPercentage = (response.data.votes_1 / total) * 100.0;
-						let rightPercentage = (response.data.votes_2/ total) * 100.0;
-						let leftBlank = 100 - leftPercentage;
-						let rightBlank = 100 - rightPercentage;
-						if(response.data.votes_1 == 0){
-							leftPercentage = 0 *100.0;
-							leftBlank = 100 - leftPercentage;
-						}
-						if(response.data.votes_2 == 0){
-							rightPercentage = 0 *100.0;
-							rightBlank = 100 - rightPercentage;
-						}
-						console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
+			// console.log(runningTable)
+			tableBody.innerHTML = runningTable;
 
-			 			var img1 = new Image();
-						img1.src = response.data.image_1
-						  
-						var img2 = new Image();
-						img2.src = response.data.image_2
-			 			
-			 			let image1 = img1.src
-			 			let image2 = img2.src
-			 			let displayname = "hello"
 
-						let username = "goodbye"						
-						console.log(response);
+		} else {
+			console.error(users);
+		}
+	}	
+	xhr.send(null);
+}
+
+function displayPolls(index, response, creatorDS, opponentDS){
+	console.log(runningTable)
+
+	let DS_creator = creatorDS
+	let DS_opponent = opponentDS
+	console.log("id: "+ response.id)
+	console.log("voted: "+response.voted)
+	console.log("POLL: " + response)
+	let username_creator = response.creator;
+	let username_opponent = response.opponent;
+	let title = response.display_name;
+	let theme = response.theme;
+	let type = response.type;
+	let voted = response.voted;
+	let leftBackground = "rgba(255, 255, 255, 0.5)";
+	let rightBackground = "rgba(255, 255, 255, 0.5)";
+	if(voted === 1){
+		leftBackground = "rgba(255,255,255, 0.8)";
+	}
+	else if(voted === 2){
+		rightBackground = "rgba(255,255,255, 0.8)";
+	}
+	if(response.hasOwnProperty('voted')){
+		document.getElementById("cardContentOverlay").classList.remove("invisible");
+	}
+	else{
+		console.log("removing graph")
+		document.getElementById("cardContentOverlay").classList.add("invisible");
+		document.getElementById("cardLeftOverlay").classList.add("invisible");
+		document.getElementById("cardRightOverlay").classList.add("invisible");							
+	}
+
+	var total = response.votes_1 + response.votes_2;
+	let leftPercentage = (response.votes_1 / total) * 100.0;
+	let rightPercentage = (response.votes_2/ total) * 100.0;
+	let leftBlank = 100 - leftPercentage;
+	let rightBlank = 100 - rightPercentage;
+	if(response.votes_1 == 0){
+		leftPercentage = 0 *100.0;
+		leftBlank = 100 - leftPercentage;
+	}
+	if(response.votes_2 == 0){
+		rightPercentage = 0 *100.0;
+		rightBlank = 100 - rightPercentage;
+	}
+	console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
+
+	var img1 = new Image();
+	img1.src = response.image_1
+
+	var img2 = new Image();
+	img2.src = response.image_2
+
+	let image1 = img1.src
+	let image2 = img2.src
+	let displayname = "hello"
+
+	let username = "goodbye"						
+	console.log(response);
 						//todo cameron
 						runningTable += 
 				            			`<div class="col-sm-5 pollCard">
@@ -152,34 +156,15 @@ function getMyPolls(callback){
                                                 </div>
                                             </div>`
 
-						tableBody.innerHTML = runningTable;
 
+    let tableBody = document.getElementById("viewMyPolls");
+    tableBody.innerHTML = runningTable;
 
-					} else {
-				            // handle error
-				            console.log(response);
-					}
-				}
-				    
-				xhr1.send(null);
-			}
-			
-
-			tableBody.innerHTML = runningTable;
-
-
-		} else {
-			console.error(users);
-		}
-	}	
-	xhr.send(null);
 }
 
 
 
-
-
-function getDisplayName(username1, username2){
+function getDisplayName(index, poll, username1, username2){
 	//creator
 	console.log("display name search was done for: "+username1)
 	var url  = "/api/user/profile/";
@@ -205,8 +190,8 @@ function getDisplayName(username1, username2){
 					var users2 = JSON.parse(xhr2.responseText);
 					if (xhr2.readyState == 4 && xhr2.status == "200") {
 						localStorage.poll_displayname_C = users1.data.display_name;
-						localStorage.poll_displayname_O = users2.data.display_name;					
-
+						localStorage.poll_displayname_O = users2.data.display_name;	
+						displayPolls(index, poll, users1.data.display_name, users2.data.display_name)				
 					} else {
 						console.error(users2);
 					}
@@ -215,7 +200,7 @@ function getDisplayName(username1, username2){
 			}
 			else{
 				localStorage.poll_displayname_C = users1.data.display_name;
-
+				displayPolls(index, poll, users1.data.display_name, null)				
 			}
 
 		} else {
@@ -223,8 +208,4 @@ function getDisplayName(username1, username2){
 		}
 	}	
 	xhr1.send(null);	
-
 }
-
-
-

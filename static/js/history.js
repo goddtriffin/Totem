@@ -1,3 +1,5 @@
+let runningTable = ``;
+
 function getHistory(){
 	var url  = "/api/user/history";
 	var xhr  = new XMLHttpRequest()
@@ -12,8 +14,8 @@ function getHistory(){
 			console.log(users);
 
 			let history = users.data;
-			let runningTable = ``;
-			let tableBody = document.getElementById("viewpolls");
+			// let runningTable = ``;
+			// let tableBody = document.getElementById("viewpolls");
 			for(let i = 0; i < history.length; i++){
 				console.log(history[i].poll)
 				let id = history[i].poll
@@ -24,53 +26,90 @@ function getHistory(){
 				xhr1.onload = function () {
 					const response = JSON.parse(xhr1.responseText);
 					if (xhr1.readyState == 4 && xhr1.status == "200") {
-						console.log("id: "+ response.data.id)
-						console.log("voted: "+response.data.voted)
-						console.log("POLL: " + response.data)
-						let username_creator = response.data.creator;
-						let username_opponent = response.data.opponent;
-						// fix after asych issue in public is fixed
-						// let display_name_creator = 
-						// let display_name_opponent = 
-						let title = response.data.display_name;
-						let theme = response.data.theme;
-						let type = response.data.type;
-						let voted = response.data.voted;
-						let leftBackground = "rgba(255, 255, 255, 0.5)";
-						let rightBackground = "rgba(255, 255, 255, 0.5)";
-						if(voted === 1){
-							leftBackground = "rgba(255,255,255, 0.8)";
-						}
-						else if(voted === 2){
-							rightBackground = "rgba(255,255,255, 0.8)";
-						}
-						var total = response.data.votes_1 + response.data.votes_2;
-			 			let leftPercentage = (response.data.votes_1 / total) * 100.0;
-						let rightPercentage = (response.data.votes_2/ total) * 100.0;
-						let leftBlank = 100 - leftPercentage;
-						let rightBlank = 100 - rightPercentage;
-						console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
-						if(response.data.votes_1 == 0){
-							leftPercentage = 0 *100.0;
-							leftBlank = 100 - leftPercentage;
-						}
-						if(response.data.votes_2 == 0){
-							rightPercentage = 0 *100.0;
-							rightBlank = 100 - rightPercentage;
-						}
+						getDisplayName1(i, response.data, response.data.creator, response.data.opponent)
 
-			 			var img1 = new Image();
-						img1.src = response.data.image_1
-						  
-						var img2 = new Image();
-						img2.src = response.data.image_2
-			 			
-			 			let image1 = img1.src
-			 			let image2 = img2.src
-			 			let displayname = "hello"
 
-						let username = "goodbye"						
-						console.log(response);
+					} else {
+				            // handle error
+				            console.log(response);
+					}
+				}
+				    
+				xhr1.send(null);
+			}
+			
+
+			tableBody.innerHTML = runningTable;
+
+
+		} else {
+			console.error(users);
+		}
+	}	
+	xhr.send(null);
+}
+
+
+
+function displayPolls(index, response, creatorDS, opponentDS){
+	console.log(runningTable)
+
+	let DS_creator = creatorDS
+	let DS_opponent = opponentDS
+	console.log("id: "+ response.id)
+	console.log("voted: "+response.voted)
+	console.log("POLL: " + response)
+	let username_creator = response.creator;
+	let username_opponent = response.opponent;
+	let title = response.display_name;
+	let theme = response.theme;
+	let type = response.type;
+	let voted = response.voted;
+	let leftBackground = "rgba(255, 255, 255, 0.5)";
+	let rightBackground = "rgba(255, 255, 255, 0.5)";
+	if(voted === 1){
+		leftBackground = "rgba(255,255,255, 0.8)";
+	}
+	else if(voted === 2){
+		rightBackground = "rgba(255,255,255, 0.8)";
+	}
+	if(response.hasOwnProperty('voted')){
+		document.getElementById("cardContentOverlay").classList.remove("invisible");
+	}
+	else{
+		console.log("removing graph")
+		document.getElementById("cardContentOverlay").classList.add("invisible");
+		document.getElementById("cardLeftOverlay").classList.add("invisible");
+		document.getElementById("cardRightOverlay").classList.add("invisible");							
+	}
+
+	var total = response.votes_1 + response.votes_2;
+	let leftPercentage = (response.votes_1 / total) * 100.0;
+	let rightPercentage = (response.votes_2/ total) * 100.0;
+	let leftBlank = 100 - leftPercentage;
+	let rightBlank = 100 - rightPercentage;
+	if(response.votes_1 == 0){
+		leftPercentage = 0 *100.0;
+		leftBlank = 100 - leftPercentage;
+	}
+	if(response.votes_2 == 0){
+		rightPercentage = 0 *100.0;
+		rightBlank = 100 - rightPercentage;
+	}
+	console.log("LEFT: " + leftPercentage + " RIGHT: " + rightPercentage);
+
+	var img1 = new Image();
+	img1.src = response.image_1
+
+	var img2 = new Image();
+	img2.src = response.image_2
+
+	let image1 = img1.src
+	let image2 = img2.src
+	let displayname = "hello"
+
+	let username = "goodbye"						
+	console.log(response);
 						//todo cameron
 						runningTable += 
 				            			`<div class="col-sm-5 pollCard">
@@ -109,35 +148,67 @@ function getHistory(){
                                                 
                                                 <div class="row col-md-12 justify-content-md-center" id="cardBottom">
                                                     <div class="col-6" id="leftUser">
-                                                        <p id="leftDisplayName" class="displayName">${displayname}</p>
+                                                        <p id="leftDisplayName" class="displayName">${DS_creator}</p>
                                                         <p id="leftUsername">${username_creator}</p>
                                                     </div>
                                                     <div class="col-6 ${type}" id="rightUser">
-                                                        <p id="rightDisplayName" class="displayName">${displayname}</p>
+                                                        <p id="rightDisplayName" class="displayName">${DS_opponent}</p>
                                                         <p id="rightUsername">${username_opponent}</p>
                                                     </div>
                                                 </div>
                                             </div>`
 
-						tableBody.innerHTML = runningTable;
+
+    let tableBody = document.getElementById("viewpolls");
+    tableBody.innerHTML = runningTable;
+
+}
 
 
+
+function getDisplayName1(index, poll, username1, username2){
+	//creator
+	console.log("display name search was done for: "+username1)
+	var url  = "/api/user/profile/";
+	var xhr1  = new XMLHttpRequest()
+
+	xhr1.open('GET', url+username1, true)
+	xhr1.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+	xhr1.onload = function () {
+		var users1 = JSON.parse(xhr1.responseText);
+		if (xhr1.readyState == 4 && xhr1.status == "200") {			
+			if(username2 != null){
+				//opponent
+				console.log("display name search was done for: "+username2)
+				var url  = "/api/user/profile/";
+				var xhr2  = new XMLHttpRequest()
+
+				xhr2.open('GET', url+username2, true)
+				xhr2.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+
+				xhr2.onload = function () {
+					// console.log(xhr.responseText);
+					var users2 = JSON.parse(xhr2.responseText);
+					if (xhr2.readyState == 4 && xhr2.status == "200") {
+						localStorage.poll_displayname_C = users1.data.display_name;
+						localStorage.poll_displayname_O = users2.data.display_name;	
+						displayPolls(index, poll, users1.data.display_name, users2.data.display_name)				
 					} else {
-				            // handle error
-				            console.log(response);
+						console.error(users2);
 					}
-				}
-				    
-				xhr1.send(null);
+				}	
+				xhr2.send(null);
 			}
-			
-
-			tableBody.innerHTML = runningTable;
-
+			else{
+				localStorage.poll_displayname_C = users1.data.display_name;
+				displayPolls(index, poll, users1.data.display_name, null)				
+			}
 
 		} else {
-			console.error(users);
+			console.error(users1);
 		}
 	}	
-	xhr.send(null);
+	xhr1.send(null);	
 }
+
