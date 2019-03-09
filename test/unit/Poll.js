@@ -248,7 +248,10 @@ describe('Poll', () => {
 
     describe('searchPublic', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
 		});
 
 		after(async () => {
@@ -257,7 +260,7 @@ describe('Poll', () => {
 		});
 
 		it('success', async () => {
-			const result = await Poll.searchPublic(db, 'memes');
+			const result = await Poll.searchPublic(db, 'todd', 'theme,theme');
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
@@ -267,8 +270,13 @@ describe('Poll', () => {
 				assert.strictEqual(result.code, 500, result.data);
             });
             
-            it('invalid database', async () => {
+            it('invalid username', async () => {
 				const result = await Poll.searchPublic(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
+            
+            it('invalid themes_query', async () => {
+				const result = await Poll.searchPublic(db, 'username', null);
 				assert.strictEqual(result.code, 400, result.data);
 			});
 		});
