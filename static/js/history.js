@@ -14,7 +14,7 @@ function getHistory(){
 			console.log(users);
 
 			let history = users.data;
-			// let runningTable = ``;
+			runningTable = ``;
 			// let tableBody = document.getElementById("viewpolls");
 			for(let i = 0; i < history.length; i++){
 				console.log(history[i].poll)
@@ -37,7 +37,6 @@ function getHistory(){
 				    
 				xhr1.send(null);
 			}
-			
 
 			tableBody.innerHTML = runningTable;
 
