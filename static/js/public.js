@@ -112,7 +112,8 @@ function showPoll(index, creatorDS, opponentDS){
 			console.log("this index is "+index)
 			current_poll_id = publicPolls[index].id;
 			console.log("this is poll id number: " +publicPolls[index].id)
-			
+			console.log("Poll duration: ");
+			console.log(publicPolls[index])
  			document.getElementById("leftDisplayName").innerHTML = creatorDS;
 			document.getElementById("rightDisplayName").innerHTML = opponentDS;
 
@@ -306,7 +307,15 @@ function createPersonalPoll(){
 		}
 	}
 	document.getElementById("imageOne").setAttribute("name", "image_1");
+
+	// Calculate Duration
+	let days = document.getElementById("durationDay").value;
+	let hours = document.getElementById("durationHour").value;
+	let minutes = document.getElementById("durationMin").value;
+	let duration = (days * 24 * 60) + (hours * 60) + (minutes * 1);
+
 	var formData = new FormData(document.getElementById('newPollForm'));
+	formData.set("duration", duration);
 
 	formData.append("username", localStorage.username);
 		xhr.send(formData);
@@ -332,7 +341,15 @@ function createChallengeRequest(){
 		}
 	}
 	document.getElementById("imageOne").setAttribute("name", "image");
+
+	// Calculate Duration
+	let days = document.getElementById("durationDay").value;
+	let hours = document.getElementById("durationHour").value;
+	let minutes = document.getElementById("durationMin").value;
+	let duration = (days * 24 * 60) + (hours * 60) + (minutes * 1);
+
 	var formData = new FormData(document.getElementById('newPollForm'));
+	formData.set("duration", duration);
 
 	formData.append("creator", localStorage.username);
 	console.log(formData)
