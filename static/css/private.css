@@ -5,6 +5,11 @@ body{
 
 .invisible{
     display: none;
+    /* visibility: hidden; */
+}
+
+.opacity{
+    opacity: 0.5;
 }
 
 .navbar-dark{
@@ -81,12 +86,14 @@ body{
 }
 
 #cardLeft{
+    padding: 0px;
     background-color: black;
     margin: 0px;
     border-right: 2px solid #551a8b;
 }
 
 #cardRight{
+    padding: 0px;
     background-color: black;
     margin: 0px;
     border-left: 2px solid #551a8b;
@@ -120,7 +127,7 @@ body{
 }
 
 #rightBlank{
-    height: 25%;
+    height: 50%;
 }
 
 #leftResults{
@@ -130,7 +137,7 @@ body{
 
 #rightResults{
     background: rgba(255, 255, 255, 0.5);
-    height: 75%;
+    height: 50%;
 }
 
 #rightResults, #leftResults{
@@ -200,7 +207,11 @@ body{
     background-color: #551a8b !important;
 }
 
-.displayName{
+.displayNameleft{
+    margin: 0px;
+    font-size: 1.5rem;
+}
+.displayNameright{
     margin: 0px;
     font-size: 1.5rem;
 }
@@ -208,4 +219,23 @@ body{
 #selectChallenge{
     text-align: center;
     margin-top: 1rem;
+}
+
+#emojiEmpty{
+    font-size: 25rem;
+     margin-top:8px;
+     margin-bottom:2px;
+}
+
+.pollImage{
+    max-height: 100%;  
+    max-width: 100%; 
+    width: auto;
+    height: auto;
+    position: absolute;  
+    top: 0;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;  
+    margin: auto;
 }
