@@ -49,23 +49,24 @@
                 </div>
                 <div class="col-md-6" id="themeDiv">
                     <select class="selectpicker form-control" id="themePicker" data-live-search="true" title="Filter" multiple>
-                        <option>Animals</option>
-                        <option>Beauty</option>
-                        <option>Buildings</option>
-                        <option>Cities</option>
-                        <option>Colors</option>
-                        <option>Fashion</option>
-                        <option>Food</option>
-                        <option>Memes</option>
-                        <option>Movies</option>
-                        <option>Music</option>
-                        <option>Nature</option>
-                        <option>Space</option>
-                        <option>Sports</option>
-                        <option>Vehicles</option>
+                        <option value="animals">Animals</option>
+                            <option value="beauty">Beauty</option>
+                            <option value="buildings">Buildings</option>
+                            <option value="cities">Cities</option>
+                            <option value="color">Color</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="food">Food</option>
+                            <option value="memes">Memes</option>
+                            <option value="movie">Movies</option>
+                            <option value="music">Music</option>
+                            <option value="nature">Nature</option>
+                            <option value="space">Space</option>
+                            <option value="sports">Sports</option>
+                            <option value="vehicles">Vehicles</option>
+                            <option value="other">Other</option>
                     </select>  
                 </div>
-                <div class="col-md-2" onclick="search()">
+                <div class="col-md-2" onclick="search(0)">
                     <button class="btn btn-outline-light topButton" >Search</button>
                 </div>
                 <div class="col-md-2">
@@ -85,11 +86,11 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                            <div class="form-check" onclick="updateSort('Newest')">
+                            <div class="form-check" onclick="updateSort('asc')">
                                 <input class="form-check-input" type="radio" name="radioOption" id="sort1" value="option1" checked>
                                 <label class="form-check-label" for="sort1">Newest -> Oldest</label>
                             </div>
-                            <div class="form-check" onclick="updateSort('Oldest')">
+                            <div class="form-check" onclick="updateSort('desc')">
                                 <input class="form-check-input" type="radio" name="radioOption" id="sort2" value="option2">
                                 <label class="form-check-label" for="sort2">Oldest -> Newest</label>
                             </div>
@@ -129,7 +130,7 @@
                         <div class="form-group row">
                             <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" id="titleInput" placeholder="Poll Title">
+                                <input type="textg" class="form-control" name="display_name" id="titleInput" placeholder="Poll Title">                           
                             </div>
                         </div>
 
@@ -138,11 +139,23 @@
                             <label for="themeInput" class="col-sm-2 col-form-label">Theme</label>
                             <div class="col-sm-10">
                                 <!-- <input type="email" class="form-control" placeholder="Themes"> -->
-                                <select class="custom-select" id="themeInput">
-                                    <option selected>Select a theme</option>
-                                    <option value="1">Theme1</option>
-                                    <option value="2">Theme2</option>
-                                    <option value="3">Theme3</option>
+                                <select class="custom-select" id="themeInput" name="theme">
+                                    <option disabled selected>Select a theme</option>
+                                    <option value="animals">Animals</option>
+                                    <option value="beauty">Beauty</option>
+                                    <option value="buildings">Buildings</option>
+                                    <option value="cities">Cities</option>
+                                    <option value="color">Color</option>
+                                    <option value="fashion">Fashion</option>
+                                    <option value="food">Food</option>
+                                    <option value="memes">Memes</option>
+                                    <option value="movie">Movies</option>
+                                    <option value="music">Music</option>
+                                    <option value="nature">Nature</option>
+                                    <option value="space">Space</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="vehicles">Vehicles</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
                         </div>
@@ -157,7 +170,7 @@
                                     <input class="form-control" type="number" min="0" placeholder="Hours" id="durationHour">
                                 </div>
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="number" min="0" placeholder="Mins" id="durationMin">
+                                    <input class="form-control" type="number" min="0" placeholder="Mins" id="durationMin" name="duration">
                                 </div>
                         </div>
 
@@ -174,7 +187,7 @@
                             </div>
                             <div class="col-md-12 invisible" id="selectChallenge">
                                 <label>Select Opponent:
-                                <input list="friendsList" name="oponent" /></label>
+                                <input list="friendsList" name="opponent" /></label>
                                 <datalist id="friendsList">
                                     <option value="Chrome">
                                     <option value="Firefox">
@@ -190,10 +203,10 @@
                         <!-- Private vs Public -->
                         <div class="btn-group btn-group-toggle" id="privacyToggle" data-toggle="buttons">
                             <label class="btn btn-secondary active" id="privateButton">
-                                <input type="radio" name="options" autocomplete="off" checked> Private
+                                <input type="radio" id="option" value="private" name="scope" autocomplete="off" checked> Private
                             </label>
                             <label class="btn btn-secondary" id="publicButton">
-                                <input type="radio" name="options" autocomplete="off"> Public
+                                <input type="radio" id="option" value="public" name="scope" autocomplete="off"> Public
                             </label>
                         </div>
                         <!-- Create Button -->
@@ -204,61 +217,65 @@
         </div>
     </form>
 
-        <!-- Poll Card -->
+         <!-- Poll Card -->
         <div class="fluid-container">
-                <div class="row justify-content-md-center pollView">
-                    <div class="scrollArrow" id="backArrow" onclick="movePoll(-1)">
-                        <button class="btn btn-outline-dark"><</button>
+            <div class="row justify-content-md-center pollView" id="viewpoll">
+                <div class="scrollArrow" id="backArrow" onclick="movePoll(-1)">
+                    <button class="btn btn-outline-dark"><</button>
+                </div>
+                <div class="col-md-8 pollCard invisible" id="actual_card">
+                    <div id="cardTitle" class="col-md-12">
+                        <p id="titleP">This is the Title</p>
+                        <div class="col-md-12" id="themes">
+                            <p>#theme</p>
+                        </div>
                     </div>
-                    <div class="col-md-8 pollCard">
-                        <div id="cardTitle" class="col-md-12">
-                            <p id="titleP">This is the Title</p>
-                            <div class="col-md-12" id="themes">
-                                <p>#theme</p>
+                    <div class="row col-md-12" id="cardContent">
+                        <div class="col-6" id="cardLeft" onclick="vote('Left')">
+                            <img id="leftImg" class="pollImage" width="100%">
+                            <!-- Contents -->
+                        </div>
+                        <div class="col-6" id="cardRight" onclick="vote('Right')">
+                            <!-- Contents -->
+                            <img id="rightImg" class="pollImage" width="100%">
+                        </div>
+                    </div>
+
+                    <!-- Results overlay -->
+                    <div class="row col-md-12 invisible" id="cardContentOverlay">
+                        <div class="col-6" id="cardLeftOverlay">
+                            <div id="leftBlank"></div>
+                            <div id="leftResults">
+                                <p id="resultTextLeft">50%</p>
                             </div>
                         </div>
-                        <div class="row col-md-12" id="cardContent">
-                            <div class="col-6" id="cardLeft" onclick="vote('Left')">
-                                <!-- Contents -->
-                            </div>
-                            <div class="col-6" id="cardRight" onclick="vote('Right')">
-                                <!-- Contents -->
-                            </div>
-                        </div>
-    
-                        <!-- Results overlay -->
-                        <div class="row col-md-12 invisible" id="cardContentOverlay">
-                            <div class="col-6" id="cardLeftOverlay">
-                                <div id="leftBlank"></div>
-                                <div id="leftResults">
-                                    <p class="resultText">50%</p>
-                                </div>
-                            </div>
-                            <div class="col-6" id="cardRightOverlay">
-                                <div id="rightBlank"></div>
-                                <div id="rightResults">
-                                    <p class="resultText">75%</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row col-md-12 justify-content-md-center" id="cardBottom">
-                            <div class="col-6" id="leftUser">
-                                <p id="leftDisplayName" class="displayName">Display Name</p>
-                                <p id="leftUsername">@username</p>
-                            </div>
-                            <div class="col-6" id="rightUser">
-                                <p id="rightDisplayName" class="displayName">Display Name</p>
-                                <p id="rightUsername">@username</p>
+                        <div class="col-6" id="cardRightOverlay">
+                            <div id="rightBlank"></div>
+                            <div id="rightResults">
+                                <p id="resultTextRight">75%</p>
                             </div>
                         </div>
                     </div>
-                    <div class="scrollArrow" id="nextArrow">
-                        <button class="btn btn-outline-dark" onclick="movePoll(1)">></button>
+                    
+                    <div class="row col-md-12 justify-content-center" id="cardBottom">
+                        <div class="col-6" id="leftUser">
+                            <p id="leftDisplayName" class="displayNameleft">Display Name</p>
+                            <p id="leftUsername">@username</p>
+                        </div>
+                        <div class="col-6" id="rightUser">
+                            <p id="rightDisplayName" class="displayNameright">Display Name</p>
+                            <p id="rightUsername">@username</p>
+                        </div>
                     </div>
                 </div>
+                <div class="col-md-8 invisible" id="no_polls">
+                    <p id="emojiEmpty">😁 </p>
+                </div>
+                <div class="scrollArrow" id="nextArrow">
+                    <button class="btn btn-outline-dark" onclick="movePoll(1)">></button>
+                </div>
             </div>
-
+        </div>
         <script src="/static/lib/jquery-3.2.1.min.js"></script>
         <script src="/static/lib/bootstrap.bundle.min.js"></script>
         <script src="/static/js/private.js" async defer></script>

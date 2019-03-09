@@ -208,4 +208,3 @@ function getDisplayName1(index, poll, username1, username2){
 	}	
 	xhr1.send(null);	
 }
-
