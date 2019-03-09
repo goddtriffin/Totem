@@ -100,7 +100,7 @@ function movePoll(direction){
 }
 
 function showPoll(index, creatorDS, opponentDS){
-		
+		document.getElementById("viewpoll").classList.remove("invisible");
 		document.getElementById("actual_card").classList.add("invisible");
 		document.getElementById("no_polls").classList.add("invisible");
 
@@ -531,6 +531,9 @@ function getDisplayName(index, username1, username2){
 			}
 		}	
 		xhr1.send(null);	
+	}
+	else{
+		document.getElementById("viewpoll").classList.add("invisible");
 	}
 
 }
