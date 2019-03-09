@@ -76,14 +76,24 @@ function movePoll(direction){
 		if(place_holder == 0){}
 		else{
 			place_holder = place_holder-1;
-			getDisplayName(place_holder, publicPolls[place_holder].creator,publicPolls[place_holder].opponent )
+			if(publicPolls.length == 0){
+				getDisplayName(place_holder, null, null)	
+			}
+			else{
+				getDisplayName(place_holder, publicPolls[place_holder].creator,publicPolls[place_holder].opponent )
+			}
 		}
 	}
 	else{
 		if(publicPolls.length-1 == place_holder){}
 		else{
 			place_holder = place_holder+1;
-			getDisplayName(place_holder, publicPolls[place_holder].creator,publicPolls[place_holder].opponent )
+			if(publicPolls.length == 0){
+				getDisplayName(place_holder, null, null)	
+			}
+			else{
+				getDisplayName(place_holder, publicPolls[place_holder].creator,publicPolls[place_holder].opponent )
+			}
 
 		}
 	}
@@ -198,8 +208,13 @@ function search(index){
 
 				// Replace poll list
 				publicPolls = response.data;	
-				console.log(publicPolls);			
-				getDisplayName(0, publicPolls[0].creator, publicPolls[0].opponent)
+				console.log(publicPolls);	
+				if(publicPolls.length == 0){
+					getDisplayName(0, null, null)	
+				}
+				else{
+					getDisplayName(0, publicPolls[0].creator, publicPolls[0].opponent)
+				}
 			} else {
 				// handle error
 				console.log(response);
@@ -335,8 +350,13 @@ function listOfPolls(location){
         const response = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			console.log(response.data)
-			publicPolls = response.data;		
-			getDisplayName(location, publicPolls[location].creator,publicPolls[location].opponent )
+			publicPolls = response.data;
+			if(publicPolls.length == 0){
+				getDisplayName(location, null, null)	
+			}
+			else{
+				getDisplayName(location, publicPolls[location].creator,publicPolls[location].opponent )
+			}
 
             
 		} else {
@@ -443,49 +463,51 @@ function getFriends(){
 
 function getDisplayName(index, username1, username2){
 	//creator
-	console.log("display name search was done for: "+username1)
-	var url  = "/api/user/profile/";
-	var xhr1  = new XMLHttpRequest()
+	if(username1 != null){
+		console.log("display name search was done for: "+username1)
+		var url  = "/api/user/profile/";
+		var xhr1  = new XMLHttpRequest()
 
-	xhr1.open('GET', url+username1, true)
-	xhr1.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+		xhr1.open('GET', url+username1, true)
+		xhr1.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
-	xhr1.onload = function () {
-		var users1 = JSON.parse(xhr1.responseText);
-		if (xhr1.readyState == 4 && xhr1.status == "200") {			
-			if(username2 != null){
-				//opponent
-				console.log("display name search was done for: "+username2)
-				var url  = "/api/user/profile/";
-				var xhr2  = new XMLHttpRequest()
+		xhr1.onload = function () {
+			var users1 = JSON.parse(xhr1.responseText);
+			if (xhr1.readyState == 4 && xhr1.status == "200") {			
+				if(username2 != null){
+					//opponent
+					console.log("display name search was done for: "+username2)
+					var url  = "/api/user/profile/";
+					var xhr2  = new XMLHttpRequest()
 
-				xhr2.open('GET', url+username2, true)
-				xhr2.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
+					xhr2.open('GET', url+username2, true)
+					xhr2.setRequestHeader('Authorization', 'Bearer '+localStorage.token);
 
-				xhr2.onload = function () {
-					var users2 = JSON.parse(xhr2.responseText);
-					if (xhr2.readyState == 4 && xhr2.status == "200") {
-						localStorage.poll_displayname_C = users1.data.display_name;
-						localStorage.poll_displayname_O = users2.data.display_name;	
-						showPoll(index, users1.data.display_name, users2.data.display_name);				
+					xhr2.onload = function () {
+						var users2 = JSON.parse(xhr2.responseText);
+						if (xhr2.readyState == 4 && xhr2.status == "200") {
+							localStorage.poll_displayname_C = users1.data.display_name;
+							localStorage.poll_displayname_O = users2.data.display_name;	
+							showPoll(index, users1.data.display_name, users2.data.display_name);				
 
-					} else {
-						console.error(users2);
-					}
-				}	
-				xhr2.send(null);
+						} else {
+							console.error(users2);
+						}
+					}	
+					xhr2.send(null);
+				}
+				else{
+					localStorage.poll_displayname_C = users1.data.display_name;
+					showPoll(index, users1.data.display_name, null);				
+
+
+				}
+
+			} else {
+				console.error(users1);
 			}
-			else{
-				localStorage.poll_displayname_C = users1.data.display_name;
-				showPoll(index, users1.data.display_name, null);				
-
-
-			}
-
-		} else {
-			console.error(users1);
-		}
-	}	
-	xhr1.send(null);	
+		}	
+		xhr1.send(null);	
+	}
 
 }
