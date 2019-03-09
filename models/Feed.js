@@ -93,16 +93,12 @@ async function getPrivate(db, username, sort) {
     // get a list of this user's friends by their username
     const friends = await require('./Friend').get(db, username);
 
-    console.log(friends);
-
     if (!!friends.code && friends.code !== 200) {
         return friends;
     }
 
     const friendUsernames = friends.data.map(f => f.username);
     friendUsernames.push(username);
-
-    console.log(friendUsernames);
 
     const result1 = await db('polls')
         .where((builder) => {
@@ -122,8 +118,6 @@ async function getPrivate(db, username, sort) {
                 data: e.originalStack
             };
         });
-
-    console.log(result1);
 
     if (!!result1.code) {
         return result1;

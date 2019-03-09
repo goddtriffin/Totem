@@ -704,7 +704,7 @@ async function searchPrivate(db, username, themes_query) {
 
     // get a list of this user's friends by their username
     const friends = await require('./Friend').get(db, username);
-    if (friends.code !== 200) {
+    if (!!friends.code && friends.code !== 200) {
         return friends;
     }
 
