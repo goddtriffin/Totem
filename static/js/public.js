@@ -309,7 +309,10 @@ function createPersonalPoll(){
 	var formData = new FormData(document.getElementById('newPollForm'));
 
 	formData.append("username", localStorage.username);
-    xhr.send(formData);
+		xhr.send(formData);
+		
+		// clear inputs
+	document.getElementById("newPollForm").reset();
 
 }
 
@@ -333,7 +336,10 @@ function createChallengeRequest(){
 
 	formData.append("creator", localStorage.username);
 	console.log(formData)
-    xhr.send(formData)
+		xhr.send(formData)
+		
+		// clear inputs
+	document.getElementById("newPollForm").reset();
 
 }
 

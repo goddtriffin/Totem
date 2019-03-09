@@ -263,7 +263,10 @@ describe('User', () => {
 
 	describe('history', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
 		});
 
 		after(async () => {
@@ -271,8 +274,8 @@ describe('User', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
-			const result = await User.history(db);
+		it('success', async () => {
+			const result = await User.history(db, 'todd');
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
@@ -280,6 +283,11 @@ describe('User', () => {
 			it('invalid database', async () => {
 				const result = await User.history(null);
 				assert.strictEqual(result.code, 500, result.data);
+            });
+            
+            it('invalid username', async () => {
+				const result = await User.history(db, null);
+				assert.strictEqual(result.code, 400, result.data);
 			});
 		});
 	});
