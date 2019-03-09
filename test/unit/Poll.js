@@ -4,11 +4,15 @@ const db_tool = require('../../tools/db');
 let db;
 
 const Poll = require('../../models/Poll');
+const User = require('../../models/User');
 
 describe('Poll', () => {
 	describe('createPersonal', () => {
 		before(async () => {
-			db = await db_tool.create(':memory:', true, false, true);
+            db = await db_tool.create(':memory:', true, false, true);
+            
+            const signup = await User.signup(db, 'griff170@purdue.edu', 'todd', 'goddtriffin', '12345678', 'eggplant', false);
+            assert.strictEqual(signup.code, 200, signup.data);
 		});
 
 		after(async () => {
@@ -16,8 +20,8 @@ describe('Poll', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
-			const result = await Poll.createPersonal(db);
+		it('success', async () => {
+			const result = await Poll.createPersonal(db, 'display_name', 'memes', 'todd', '1', 'public', 'image_1', 'image_2');
 			assert.strictEqual(result.code, 200, result.data);
 		});
 
@@ -25,7 +29,32 @@ describe('Poll', () => {
 			it('invalid database', async () => {
 				const result = await Poll.createPersonal(null);
 				assert.strictEqual(result.code, 500, result.data);
-			});
+            });
+            
+            it('invalid display_name', async () => {
+				const result = await Poll.createPersonal(db, null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
+            
+            it('invalid theme', async () => {
+				const result = await Poll.createPersonal(db, 'display_name', null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
+
+            it('invalid creator', async () => {
+				const result = await Poll.createPersonal(db, 'display_name', 'theme', null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
+            
+            it('invalid duration', async () => {
+				const result = await Poll.createPersonal(db, 'display_name', 'theme', 'creator', null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
+            
+            it('invalid scope', async () => {
+				const result = await Poll.createPersonal(db, 'display_name', 'theme', 'creator', 'duration', null);
+				assert.strictEqual(result.code, 400, result.data);
+            });
 		});
     });
     
@@ -39,7 +68,7 @@ describe('Poll', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
+		it('success', async () => {
 			const result = await Poll.createChallenge(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
@@ -62,7 +91,7 @@ describe('Poll', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
+		it('success', async () => {
 			const result = await Poll.getChallengeRequests(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
@@ -85,7 +114,7 @@ describe('Poll', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
+		it('success', async () => {
 			const result = await Poll.acceptChallengeRequest(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
@@ -108,7 +137,7 @@ describe('Poll', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
+		it('success', async () => {
 			const result = await Poll.searchPrivate(db, 'memes');
 			assert.strictEqual(result.code, 200, result.data);
 		});
@@ -136,7 +165,7 @@ describe('Poll', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
+		it('success', async () => {
 			const result = await Poll.searchPublic(db, 'memes');
 			assert.strictEqual(result.code, 200, result.data);
 		});
@@ -164,7 +193,7 @@ describe('Poll', () => {
 			db = null;
 		});
 
-		it.skip('success', async () => {
+		it('success', async () => {
 			const result = await Poll.vote(db);
 			assert.strictEqual(result.code, 200, result.data);
 		});
