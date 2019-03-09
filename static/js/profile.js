@@ -131,22 +131,16 @@ function friendView(page){
 
 function challengeView(page){
 	let received = document.getElementById("requestTable");
-	let sent = document.getElementById("sentTable");
 	let accepted = document.getElementById("acceptedTable");
 	if(page === "received"){
 		received.classList.remove("invisible");
-		sent.classList.add("invisible");
-		accepted.classList.add("invisible");
-	}
-	else if(page === "sent"){
-		sent.classList.remove("invisible");
-		received.classList.add("invisible");
+		// sent.classList.add("invisible");
 		accepted.classList.add("invisible");
 	}
 	else{
 		accepted.classList.remove("invisible");
 		received.classList.add("invisible");
-		sent.classList.add("invisible");
+		// sent.classList.add("invisible");
 	}
 }
 
