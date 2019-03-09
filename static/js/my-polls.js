@@ -39,7 +39,7 @@ function getMyPolls(){
 				}
 
 			// console.log(runningTablePolls)
-			tableBody.innerHTML = runningTablePolls;
+			// tableBody.innerHTML = runningTablePolls;
 
 
 		} else {
@@ -144,7 +144,7 @@ function displayPolls(index, response, creatorDS, opponentDS){
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="row col-md-12 justify-content-md-center" id="cardBottom">
+                                                <div class="row col-md-12 justify-content-center" id="cardBottom">
                                                     <div class="col-6" id="leftUser">
                                                         <p id="leftDisplayName" class="displayName">${DS_creator}</p>
                                                         <p id="leftUsername">${username_creator}</p>
