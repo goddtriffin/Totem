@@ -869,31 +869,32 @@ async function vote(db, id, username, vote) {
         };
     }
 
+    // DEFECT: ALLOW USERS TO VOTE MORE THAN ONCE PER POLL
     // check to see if they're already voted on this poll
-    const result1 = await db('history')
-        .where({
-            username,
-            poll: id
-        })
-        .select('vote')
-        .catch(e => {
-            return {
-                code: 500,
-                data: e.originalStack
-            };
-        });
+    // const result1 = await db('history')
+    //     .where({
+    //         username,
+    //         poll: id
+    //     })
+    //     .select('vote')
+    //     .catch(e => {
+    //         return {
+    //             code: 500,
+    //             data: e.originalStack
+    //         };
+    //     });
 
-    if (!!result1.code) {
-        return result1;
-    }
+    // if (!!result1.code) {
+    //     return result1;
+    // }
     
     // if results exist, then this user has already voted on this poll
-    if (result1.length > 0) {
-        return {
-            code: 400,
-            data: 'already voted on poll: ' + id
-        };
-    }
+    // if (result1.length > 0) {
+    //     return {
+    //         code: 400,
+    //         data: 'already voted on poll: ' + id
+    //     };
+    // }
 
     // increase the poll's respective vote count
     const result2 = await db('polls')
