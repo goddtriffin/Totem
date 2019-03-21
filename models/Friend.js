@@ -23,12 +23,13 @@ async function add(db, username_1, username_2) {
         };
     }
 
-    if (username_1 === username_2) {
-        return {
-            code: 400,
-            data: 'You cannot be friends with yourself.'
-        };
-    }
+    // DEFECT: ALLOW USERS TO FRIEND THEMSELVES
+    // if (username_1 === username_2) {
+    //     return {
+    //         code: 400,
+    //         data: 'You cannot be friends with yourself.'
+    //     };
+    // }
 
     // check if username_1 exists
     const username_1_exists = await require('./User').usernameExists(db, username_1);
