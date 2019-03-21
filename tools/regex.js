@@ -21,9 +21,11 @@ function validateEmail(email) {
         return false;
     }
 
+    // DEFECT: ALLOW ANYTHING FOR A VALID EMAIL STRING
     // source: https://emailregex.com/
-    const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regexEmail.test(email.toLowerCase());
+    // const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // return regexEmail.test(email.toLowerCase());
+    return true;
 }
 
 // returns a String dictating what a valid email should look like
