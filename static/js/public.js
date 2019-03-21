@@ -69,8 +69,6 @@ function switchPollType(input){
 
 function movePoll(direction){
 	if(direction < 0){
-		if(place_holder == 0){}
-		else{
 			place_holder = place_holder-1;
 			if(publicPolls.length == 0){
 				getDisplayName(place_holder, null, null)	
@@ -78,11 +76,8 @@ function movePoll(direction){
 			else{
 				getDisplayName(place_holder, publicPolls[place_holder].creator,publicPolls[place_holder].opponent )
 			}
-		}
 	}
 	else{
-		if(publicPolls.length-1 == place_holder){}
-		else{
 			place_holder = place_holder+1;
 			if(publicPolls.length == 0){
 				getDisplayName(place_holder, null, null)	
@@ -90,8 +85,6 @@ function movePoll(direction){
 			else{
 				getDisplayName(place_holder, publicPolls[place_holder].creator,publicPolls[place_holder].opponent )
 			}
-
-		}
 	}
 }
 
