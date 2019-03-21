@@ -21,6 +21,11 @@ async function getPublic(db, username, sort) {
             scope: 'public',
             state: 'active'
         })
+        // DEFECT: ALLOW EXPIRED POLLS ON THE PUBLIC FEED
+        .orWhere({
+            scope: 'public',
+            state: 'expired'
+        })
         .orderBy('end_time', sort)
         .select('id', 'display_name', 'theme', 'creator', 'opponent', 'image_1', 'image_2', 'votes_1', 'votes_2', 'state', 'type', 'duration', 'scope', 'start_time', 'end_time')
         .catch(e => {
