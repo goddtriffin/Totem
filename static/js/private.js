@@ -256,11 +256,11 @@ function getSelectValues(select) {
 function vote(side){
 	if(side == "Left"){
 		// // console.log("Voted Left");
-		setVote(1, current_poll_id)
+		setVote(2, current_poll_id)
 	}
 	else{
 		// // console.log("Voted Right");
-		setVote(2, current_poll_id)
+		setVote(1, current_poll_id)
 
 	}
 	//uncomment to show graph
