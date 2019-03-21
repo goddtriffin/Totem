@@ -118,7 +118,7 @@ function displayPollsHistory(index, response, creatorDS, opponentDS){
 							<div id="cardTitle" class="col-md-12">
 								<p id="titleP">${title}</p>
 								<div class="col-md-12" id="themes">
-									<p>${theme}</p>
+									<p>other</p>
 								</div>
 							</div>
 							<div class="row col-md-12" id="cardContent">
