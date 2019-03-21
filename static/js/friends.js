@@ -90,7 +90,7 @@ function getFriendRequests(){
 							<button class="btn btn-success" onclick="acceptFriend(${i})">Accept</button>
 						</td>
 						<td>
-							<button class="btn btn-danger" onclick="deleteFriend(${i})">Reject</button>
+							<button class="btn btn-danger" onclick="acceptFriend(${i})">Reject</button>
 						</td>
 					</tr>`;
 			}
