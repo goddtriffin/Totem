@@ -250,6 +250,9 @@ function getSelectValues(select) {
 		result.push(opt.value);
 	  }
 	}
+	if(!result.includes("other")){
+		result.push("other");
+	}
 	return result;
   }
 
