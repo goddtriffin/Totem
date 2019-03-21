@@ -47,7 +47,7 @@ function getFriends(){
 						<td>${users.data[i].emoji}</td>
 						<th scope="row">${users.data[i].username}</th>  
 						<td>${users.data[i].display_name}</td>
-						<td>${users.data[i].tiki_tally}</td>
+						<td>${users.data[i].tiki_tally * 2}</td>
 					</tr>`;
 			}
 			tableBody.innerHTML = runningTable;
