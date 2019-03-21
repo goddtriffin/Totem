@@ -11,7 +11,7 @@ let recall = 0;
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
-		
+
 	}
 	else{
 		getFriends();
@@ -61,9 +61,12 @@ function verifyCreatepollInput(title, theme, experiation, imageOne, imageTwo, pr
 function switchPollType(input){
 	if(input === "Personal"){
 		localStorage.pollType = 0;
+		document.getElementById("selectChallenge").classList.add("invisible");
 	}
 	else{
 		localStorage.pollType = 1;
+		document.getElementById("selectChallenge").classList.remove("invisible");
+
 	}
 }
 
