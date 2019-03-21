@@ -113,8 +113,16 @@ function showPoll(index, creatorDS, opponentDS){
 			// console.log("this is poll id number: " +publicPolls[index].id)
 			// console.log("Poll duration: ");
 			// console.log(publicPolls[index])
- 			document.getElementById("leftDisplayName").innerHTML = opponentDS;
-			document.getElementById("rightDisplayName").innerHTML = creatorDS;
+			if(opponentDS == null){
+				document.getElementById("leftDisplayName").innerHTML = creatorDS;
+				document.getElementById("rightDisplayName").innerHTML =  opponentDS;
+			}
+			else{
+				document.getElementById("leftDisplayName").innerHTML = opponentDS;
+				document.getElementById("rightDisplayName").innerHTML =   creatorDS;
+			}
+ 			///document.getElementById("leftDisplayName").innerHTML = opponentDS;
+			//document.getElementById("rightDisplayName").innerHTML = creatorDS;
 
 
 
