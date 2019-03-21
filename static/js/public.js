@@ -11,7 +11,7 @@ let recall = 0;
 
 window.onload = function() {
 	if (localStorage.getItem("token") === null) {
-  		window.location.replace("/");
+		
 	}
 	else{
 		getFriends();
