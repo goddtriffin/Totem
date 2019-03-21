@@ -213,16 +213,6 @@ function searchfriends(){
 				let runningTable = ``;
 				let tableBody = document.getElementById("searchTable");
 				for(let i = 0; i < users.data.length; i++){
-					if(friend_username.indexOf(users.data[i].username) > -1){
-						// console.log("you are friends with this person")
-						runningTable += `
-						<tr>
-							<th scope="row">${users.data[i].username}</th>  
-							<td>${users.data[i].display_name}</td>
-							<td>${users.data[i].tiki_tally}</td>
-						</tr>`;
-					}
-					else{
 					runningTable += `
 						<tr>
 							<th scope="row">${users.data[i].username}</th>  
@@ -230,7 +220,6 @@ function searchfriends(){
 							<td>${users.data[i].tiki_tally}</td>
 							<td><button class="btn btn-success" onclick="requestFriend(${i})">Add Friend</button> </td>
 						</tr>`;
-					}
 				}
 				tableBody.innerHTML = runningTable;
 			} else {
