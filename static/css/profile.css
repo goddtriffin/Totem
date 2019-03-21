@@ -355,7 +355,6 @@ tbody tr{
 
 #myPollsModal .modal-body{
 	height: 80vh;
-	overflow: scroll;
 }
 
 #historyModal .modal-body{
