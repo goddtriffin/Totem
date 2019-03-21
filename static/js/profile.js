@@ -234,10 +234,6 @@ function verifychangeDisplayName(changedisplayname, repeatdisplayname){
 		document.getElementById("displaynameverifyError").innerHTML = "Please verify your new Display name";
 		has_error = true;
 	}
-	else if(repeatdisplayname != changedisplayname){
-		document.getElementById("displaynameverifyError").innerHTML = "Display name not verify";
-		has_error = true;
-	}
 	else{
 		document.getElementById("displaynameverifyError").innerHTML = " ";
 	}
