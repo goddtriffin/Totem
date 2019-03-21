@@ -51,6 +51,7 @@
                 </div>
                 <div class="col-md-6" id="themeDiv">
                     <select class="selectpicker form-control" id="themePicker" data-live-search="true" title="Filter" multiple>
+                            <option value="" selected>Select a Theme</option>
                             <option value="animals">Animals</option>
                             <option value="beauty">Beauty</option>
                             <option value="buildings">Buildings</option>
@@ -252,13 +253,13 @@
 
                     <!-- Results overlay -->
                     <div class="row col-md-12 invisible" id="cardContentOverlay">
-                        <div class="col-6" id="cardLeftOverlay">
+                        <div class="col-6" id="cardLeftOverlay" onclick="vote('Left')">
                             <div id="leftBlank"></div>
                             <div id="leftResults">
                                 <p id="resultTextLeft">50%</p>
                             </div>
                         </div>
-                        <div class="col-6" id="cardRightOverlay">
+                        <div class="col-6" id="cardRightOverlay" onclick="vote('Right')">
                             <div id="rightBlank"></div>
                             <div id="rightResults">
                                 <p id="resultTextRight">75%</p>

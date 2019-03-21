@@ -116,10 +116,6 @@ function verifyInput(username, displayName, email, passwordVerify, password){
 		document.getElementById("passwordVerifyError").innerHTML = "Please verify your password";
 		has_error = true;
 	}
-	else if (password != passwordVerify){
-		document.getElementById("passwordVerifyError").innerHTML = "Password was not verified, Please try again";
-		has_error = true;
-	}
 	else{
 		document.getElementById("passwordVerifyError").innerHTML = "";
 	}

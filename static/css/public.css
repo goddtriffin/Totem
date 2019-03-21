@@ -120,6 +120,7 @@ body{
     margin-left: 0px;
     padding: 0px;
     height: 75%; 
+    cursor: pointer;
 }
 
 #leftBlank{
