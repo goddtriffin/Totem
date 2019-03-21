@@ -14,13 +14,11 @@ window.onload = function() {
 };
 
 function fillUserInfo(){
-	
-
 	document.getElementById("displayName").innerHTML = localStorage.displayName;
 	document.getElementById("username").innerHTML = localStorage.username;
 	document.getElementById("emoji").innerHTML = localStorage.emoji;
 			
-	document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ localStorage.WinRate;
+	document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ '100%';
 	document.getElementById("TikiTally").innerHTML = `Tiki Tally<br>`+ localStorage.TikiTally;
 	document.getElementById("PollsCreated").innerHTML = `Polls Created<br>`+ localStorage.PollsCreated;
 	var url  = "/api/user/me";
@@ -38,7 +36,7 @@ function fillUserInfo(){
 			document.getElementById("username").innerHTML = users.data.username;
 			document.getElementById("emoji").innerHTML = users.data.emoji;
 			
-			document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ users.data.win_rate;
+			document.getElementById("WinRate").innerHTML = `Win Rate<br>`+ '100%';
 			document.getElementById("TikiTally").innerHTML = `Tiki Tally<br>`+ users.data.tiki_tally;
 			document.getElementById("PollsCreated").innerHTML = `Polls Created<br>`+ users.data.polls_created;
 
