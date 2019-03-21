@@ -67,11 +67,11 @@ function loadEmojis(){
 	let tableContents = "";
 	for(let i = 0; i < emojis.length; i += 5){
 		let tr = `<tr>
-			<td class="emoji" onclick="changeEmoji(${i})" data-dismiss="modal">${emojis[i]}</td>
-			<td class="emoji" onclick="changeEmoji(${i+1})" data-dismiss="modal">${emojis[i+1]}</td>
-			<td class="emoji" onclick="changeEmoji(${i+2})" data-dismiss="modal">${emojis[i+2]}</td>
-			<td class="emoji" onclick="changeEmoji(${i+3})" data-dismiss="modal">${emojis[i+3]}</td>
-			<td class="emoji" onclick="changeEmoji(${i+4})" data-dismiss="modal">${emojis[i+4]}</td>
+			<td class="emoji" data-dismiss="modal">${emojis[i]}</td>
+			<td class="emoji" data-dismiss="modal">${emojis[i+1]}</td>
+			<td class="emoji" data-dismiss="modal">${emojis[i+2]}</td>
+			<td class="emoji" data-dismiss="modal">${emojis[i+3]}</td>
+			<td class="emoji" data-dismiss="modal">${emojis[i+4]}</td>
 		</tr>`;
 
 		tableContents += tr;
