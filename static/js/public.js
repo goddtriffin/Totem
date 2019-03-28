@@ -278,10 +278,12 @@ function createPollCall(){
 	// console.log("create poll called")
 	if(localStorage.pollType == 0){
 		createPersonalPoll()
+		createPersonalPoll2()
 		localStorage.removeItem("poll");
 	}
 	else{
 		createChallengeRequest();
+		createChallengeRequest2()
 		localStorage.removeItem("poll");
 	}
 }
@@ -321,9 +323,53 @@ function createPersonalPoll(){
 		xhr.send(formData);
 		
 		// clear inputs
+	//document.getElementById("newPollForm").reset();
+
+}
+
+function createPersonalPoll2(){
+	// console.log("create personal poll called")
+	var url = "/api/poll/personal";
+
+	const xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+    xhr.onload = function () {
+        const response = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			            // console.log(response);
+			                        // handle success
+            sessionStorage.setItem('pollId', response.data);
+            listOfPolls(0)
+		} else {
+            // console.log(response);
+		}
+	}
+	document.getElementById("imageOne").setAttribute("name", "image_1");
+	
+	// console.log(document.getElementById("option").value)
+		// Calculate Duration
+	let days = document.getElementById("durationDay").value;
+	let hours = document.getElementById("durationHour").value;
+	let minutes = document.getElementById("durationMin").value;
+	let duration = (days * 24 * 60) + (hours * 60) + (minutes * 1);
+	
+	// console.log(document.getElementById("option").value)
+
+	var formData = new FormData(document.getElementById('newPollForm'));
+	formData.set("duration", duration);
+
+	let t = "public";
+	formData.set("scope", t);
+	xhr.send(formData);
+
+		// clear inputs
 	document.getElementById("newPollForm").reset();
 
 }
+
+
+
 
 function createChallengeRequest(){
 	var url = "/api/poll/challenge";
@@ -353,6 +399,45 @@ function createChallengeRequest(){
 
 	formData.append("creator", localStorage.username);
 	// console.log(formData)
+		xhr.send(formData)
+		
+		// clear inputs
+	document.getElementById("newPollForm").reset();
+
+}
+
+
+function createChallengeRequest2(){
+	var url = "/api/poll/challenge";
+
+	const xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+
+    xhr.onload = function () {
+		var response = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+            sessionStorage.setItem('pollId', response.data);
+		} else {
+            // console.log(response);
+		}
+	}
+	document.getElementById("imageOne").setAttribute("name", "image");
+
+	// Calculate Duration
+	let days = document.getElementById("durationDay").value;
+	let hours = document.getElementById("durationHour").value;
+	let minutes = document.getElementById("durationMin").value;
+	let duration = (days * 24 * 60) + (hours * 60) + (minutes * 1);
+
+	var formData = new FormData(document.getElementById('newPollForm'));
+	formData.set("duration", duration);
+
+	formData.append("creator", localStorage.username);
+	// console.log(formData)
+
+	let t = "public";
+	formData.set("scope", t);
 		xhr.send(formData)
 		
 		// clear inputs
