@@ -413,6 +413,10 @@ async function remove(db, username_1, username_2) {
         .where({
             username_1, username_2
         })
+        .orWhere({
+            username_1: username_2,
+            username_2: username_1
+        })
         .del()
         .catch(e => {
             return {
