@@ -157,7 +157,7 @@ Themes: `memes, fashion, movie, music, animals, nature, buildings, cities, food,
   * creates fresh production database
 * `npm run init-db-dev`
   * creates fresh development database
-* `npm run unit tests`
+* `npm run unit-tests`
   * runs all unit tests
 * `npm run line-count`
   * prints every file's line count and the sum of all line counts for every file created by the entire team (both including, and not including, newlines and comments)
