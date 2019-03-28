@@ -283,8 +283,9 @@ async function search(db, username, username_query) {
         };
     }
 
+    // DEFECT: allow yourself to show up as a friend-able user
     const result = await db('users')
-        .whereNot('username', username)
+        // .whereNot('username', username)
         .andWhere('username', 'like', '%' + username_query + '%')
         .select('username', 'display_name', 'emoji', 'tiki_tally')
         .catch(e => {
