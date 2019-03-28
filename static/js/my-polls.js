@@ -133,13 +133,13 @@ function displayPolls(index, response, creatorDS, opponentDS){
                                                     <div class="col-6" id="cardLeftOverlay" >
                                                         <div id="leftBlank" style="height:${leftBlank}%;"></div>
                                                         <div id="leftResults" style="height:${leftPercentage}%; background:${leftBackground}">
-                                                            <p class="resultText">${leftPercentage}%</p>
+                                                            <p class="resultText">${leftPercentage.toFixed(0)}%</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-6" id="cardRightOverlay">
                                                         <div id="rightBlank" style="height:${rightBlank}%;"></div>
                                                         <div id="rightResults" style="height:${rightPercentage}%; background:${rightBackground}">
-                                                            <p class="resultText">${rightPercentage}%</p>
+                                                            <p class="resultText">${rightPercentage.toFixed(0)}%</p>
                                                         </div>
                                                     </div>
                                                 </div>

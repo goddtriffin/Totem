@@ -453,8 +453,8 @@ function setPercentages(){
 	document.getElementById("leftResults").style.height = leftPercentage + "%";
 	document.getElementById("rightResults").style.height = rightPercentage + "%";
 
-	document.getElementById("resultTextLeft").innerHTML = leftPercentage + "%";
-	document.getElementById("resultTextRight").innerHTML = rightPercentage + "%";
+	document.getElementById("resultTextLeft").innerHTML = leftPercentage.toFixed(0) + "%";
+	document.getElementById("resultTextRight").innerHTML = rightPercentage.toFixed(0) + "%";
 
 }
 
